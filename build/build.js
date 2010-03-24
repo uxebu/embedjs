@@ -22,7 +22,7 @@ function _callback(data){
 }
 
 function resolveFeature(feature){
-	var parts = feature.split("-");
+	var parts = feature.split("-"),
 		ns = parts[0], // The namespace of the feature, like "oo" in "oo" or "oo-declare or "oo-extend".
 		f = parts.length>1 ? parts[1] : null, // The exact feature if given, like for "oo-declare".
 		ret = [],
@@ -36,6 +36,7 @@ function resolveFeature(feature){
 		for (var j=0, l=data[ns].length, file; j<l; j++){
 			file = data[ns][j];
 			if (file.indexOf(f)!=-1){
+				ret.push(file);
 				resolveDeps(file, function(files){
 					ret = ret.concat(files);
 				});
@@ -65,7 +66,7 @@ function resolveDeps(file, onSuccess){
 
 function _depsCallback(data){
 	var depsData = _depsDataStack.pop(),
-		dir = depsData.directory;
+		dir = depsData.directory,
 		file = depsData.file;
 	globals.dependencyData[dir] = data;
 	
@@ -75,21 +76,21 @@ function _depsCallback(data){
 		for (var i=0, l=data[file].length, feature; i<l; i++){
 			feature = data[file][i];
 			ret = ret.concat(resolveFeature(feature));
-console.log(file, feature, 'ret = ', ret);
 		}
 	}
-console.log(file, "RET");
 	depsData.onSuccess(ret);
 }
 
 
 
-
-console = {
-	log:function(){
-		print([].join.call(arguments, " "));
+if (typeof console=="undefined"){
+	console = {
+		log:function(){
+			print([].join.call(arguments, " "));
+		}
 	}
 }
+
 try{
 	load("profiles/app/"+target+".json");
 }catch(e){
