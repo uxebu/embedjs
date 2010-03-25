@@ -69,7 +69,7 @@ function _depsCallback(data){
 		dir = depsData.directory,
 		file = depsData.file;
 	globals.dependencyData[dir] = data;
-	
+
 	var ret = [];
 	if (typeof data[file]!="undefined"){
 		// Let's loop through the features required by the deps and resolve them.
@@ -92,10 +92,7 @@ if (typeof console=="undefined"){
 }
 
 try{
-	load("profiles/app/"+target+".js");
+	load(target);
 }catch(e){
 	print(e);
 }
-
-
-

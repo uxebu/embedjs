@@ -2,15 +2,19 @@
 # DIRECTORIES
 #
 ROOT_DIR := $(PWD)
+BUILD_DIR := $(ROOT_DIR)/build
 SOURCE_DIR := $(ROOT_DIR)/src
 DIST_DIR := $(ROOT_DIR)/dist
 TOOLS_DIR :=  $(ROOT_DIR)/tools
+PROFILES_DIR := $(BUILD_DIR)/profiles
 
 #
 # TOOLS
 #
 ##########add back in !!!!!
 MINIFIER := java -jar -Dfile.encoding=UTF8 $(TOOLS_DIR)/shrinksafe.jar -escape-unicode
+RHINO := java -jar $(TOOLS_DIR)/js.jar
+BUILD_JS := $(RHINO) $(TOOLS_DIR)/build.js
 
 #
 # JAVASCRIPT PROFILES
@@ -18,8 +22,8 @@ MINIFIER := java -jar -Dfile.encoding=UTF8 $(TOOLS_DIR)/shrinksafe.jar -escape-u
 #
 
 
-Android := ./build/build.sh Android ??? no idea how this works :)
-iPhone := ./build/build.sh iPhone
+Android = $(shell $(BUILD_JS) $(PROFILES_DIR)/app/Android.js)
+iPhone := $(shell $(BUILD_JS) $(PROFILES_DIR)/app/iPhone.js)
 opera := $(BASE_JS)
 wrt := $(BASE_JS)
 ie := $(BASE_JS)
