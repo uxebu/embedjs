@@ -1,0 +1,67 @@
+<html>
+	<body>
+		<div id="log"></div>
+		<script type="text/javascript">
+			function print(a){
+				document.getElementById("log").innerHTML = a;
+			}
+			function load(file){
+				if (file=="profiles/app/Android.json"){
+					_callback({
+		"base":[
+			"dojo.js"
+		],
+	
+		"array":[
+			"array/_base.js"
+		],
+		
+		"oo":[
+			"oo/_base.js",
+			"oo/delegate.js",
+			"oo/declare.js",
+			"oo/extend.js",
+		],
+		
+		"lang":[
+			"lang/clone.js",
+			"lang/hitch.js",
+			"lang/is.js",
+			"lang/string.js",
+		],
+		
+		"simple-fx":[
+			
+		],
+	
+		"fx":[
+			"fx/_base.js"
+		]
+	
+	})
+				} else if (file=="../src/oo/__deps__.js"){
+_depsCallback({
+	"declare.js":[
+		// Define the FEATURES that the file above depends on!
+		// (Dont specify the file here, since the features need to be resolved device dependent.)
+		"oo-delegate",
+		"oo-extend",
+		"lang-is",
+		"array"
+	]
+})
+				} else if(file=="../src/lang/__deps__.js"){
+_depsCallback({});
+				} else {
+					
+	console.log("load: ", arguments);
+				}
+				
+				
+			}
+			
+			arguments = ["Android", "oo-declare"];
+		</script>
+		<script src="build.js" type="text/javascript"></script>
+	</body>
+</html>

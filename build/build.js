@@ -92,7 +92,7 @@ if (typeof console=="undefined"){
 }
 
 try{
-	load("profiles/app/"+target+".json");
+	load("profiles/app/"+target+".js");
 }catch(e){
 	print(e);
 }
