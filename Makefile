@@ -24,29 +24,33 @@ BUILD_JS := $(RHINO) $(TOOLS_DIR)/build.js
 
 Android = $(shell $(BUILD_JS) $(PROFILES_DIR)/app/Android.js)
 iPhone := $(shell $(BUILD_JS) $(PROFILES_DIR)/app/iPhone.js)
-opera := $(BASE_JS)
-wrt := $(BASE_JS)
-ie := $(BASE_JS)
-web := $(COMPAT_JS) $(FX_JS)
-blackberry := $(BASE_JS)
+#opera := $(BASE_JS)
+#wrt := $(BASE_JS)
+#ie := $(BASE_JS)
+#web := $(COMPAT_JS) $(FX_JS)
+#blackberry := $(BASE_JS)
 
 all: .PHONY
 
 #
 # SPECIAL TARGETS
 #
-.PHONY: clean webkit common opera wrt ie web blackberry
+.PHONY: clean Android iPhone
+# webkit common opera wrt ie web blackberry
 
 #
 # ALIASES
 #
-common: $(DIST_DIR)/dojo-common.js
-webkit: $(DIST_DIR)/dojo-webkit.js
-opera: $(DIST_DIR)/dojo-opera.js
-wrt: $(DIST_DIR)/dojo-wrt.js
-ie: $(DIST_DIR)/dojo-ie.js
-web: $(DIST_DIR)/dojo-web.js
-blackberry: $(DIST_DIR)/dojo-blackberry.js
+Android: $(DIST_DIR)/dojo-Android.js
+iPhone: $(DIST_DIR)/dojo-iPhone.js
+
+#common: $(DIST_DIR)/dojo-common.js
+#webkit: $(DIST_DIR)/dojo-webkit.js
+#opera: $(DIST_DIR)/dojo-opera.js
+#wrt: $(DIST_DIR)/dojo-wrt.js
+#ie: $(DIST_DIR)/dojo-ie.js
+#web: $(DIST_DIR)/dojo-web.js
+#blackberry: $(DIST_DIR)/dojo-blackberry.js
 
 #
 # BUILD TARGETS
