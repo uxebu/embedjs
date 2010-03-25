@@ -18,7 +18,7 @@ function _callback(data){
 	for (var i=0, l=features.length, f, ret; i<l; i++){
 		allFiles = allFiles.concat(resolveFeature(features[i]));
 	}
-	print(allFiles);
+	print(allFiles.join(" "));
 }
 
 function resolveFeature(feature){
