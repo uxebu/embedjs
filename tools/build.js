@@ -4,7 +4,7 @@
 // And the files for "oo" and "fx" will be returned.
 var target = arguments[0];
 // Split the params and split the sub modules too (like "oo-mixin" => ["oo", "mixin"])
-var features = arguments[1].split(",");
+var features = arguments[1] ? arguments[1].split(",") : [];
 
 // We store some global information here, so we dont need to pass them around.
 var globals = {
@@ -15,9 +15,17 @@ var globals = {
 function _callback(data){
 	globals.profileData = data;
 	var allFiles = [];
+	if (features.length==0){ // If no features are given, build the kitchensink, means all features included.
+		for (var key in data){
+			features.push(key);
+		}
+	}
 	for (var i=0, l=features.length, f, ret; i<l; i++){
 		allFiles = allFiles.concat(resolveFeature(features[i]));
 	}
+	// Remove doubles but never the first occurence, since this would break the file order dependencies.
+	var allFiles = allFiles.map(function(item, index){ return (allFiles.slice(0, index).indexOf(item)!=-1) ? null : item; })
+							.filter(function(item){ return item==null ? false : true });
 	print(allFiles.join(" "));
 }
 
@@ -80,7 +88,6 @@ function _depsCallback(data){
 	}
 	depsData.onSuccess(ret);
 }
-
 
 
 if (typeof console=="undefined"){

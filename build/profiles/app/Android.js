@@ -21,10 +21,10 @@ _callback({
 		"lang/string.js",
 	],
 	
-	"simple-fx":[
-		
-	],
-
+	//"simple-fx":[
+	//	
+	//],
+	//
 	"fx":[
 		"fx/_base.js"
 	]

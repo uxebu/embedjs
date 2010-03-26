@@ -21,19 +21,20 @@ all: .PHONY
 #
 # SPECIAL TARGETS
 #
-.PHONY: clean Android iPhone
+.PHONY: clean app-Android app-iPhone
 
 #
 # ALIASES
 #
-Android: $(DIST_DIR)/dojo-Android.js
-iPhone: $(DIST_DIR)/dojo-iPhone.js
+app-Android: $(DIST_DIR)/dojo-app-Android.js
+app-iPhone: $(DIST_DIR)/dojo-app-iPhone.js
 
 #
 # BUILD TARGETS
 #
 $(DIST_DIR)/dojo-%.js: $(DIST_DIR)
-	$(MINIFIER) `$(BUILD_JS) $(PROFILES_DIR)/app/$(*).js` > $@
+	#$(MINIFIER) `$(BUILD_JS) $(PROFILES_DIR)/app/$(*).js` > $@
+	`$(BUILD_JS) $(PROFILES_DIR)/app/$(*).js` > $@
 
 #
 #
