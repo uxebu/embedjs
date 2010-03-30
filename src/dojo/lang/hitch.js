@@ -1,3 +1,9 @@
+require.def("dojo/lang/hitch", [
+	"require",
+	"dojo",
+	"dojo/lang"
+], function(require, dojo, dojoLang){
+
 dojo._hitchArgs = function(scope, method /*,...*/){
 	var pre = dojo._toArray(arguments, 2);
 	var named = dojo.isString(method);
@@ -47,3 +53,5 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 	}
 	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
 }
+
+return dojo.hitch; });

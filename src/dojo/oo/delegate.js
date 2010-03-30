@@ -1,3 +1,8 @@
+require.def("dojo/oo/delegate", [
+	"require",
+	"dojo",
+], function(require, dojo){
+
 dojo.delegate = dojo._delegate = (function(){
 	// boodman/crockford delegation w/ cornford optimization
 	function TMP(){}
@@ -11,3 +16,4 @@ dojo.delegate = dojo._delegate = (function(){
 		return tmp; // Object
 	}
 })();
+return dojo.delegate; });

@@ -1,3 +1,7 @@
+require.def("dojo/lang", [
+	"require",
+	"dojo",
+], function(require, dojo){
 /*=====
 dojo._toArray = function(obj, offset, startWith){
 	//	summary:
@@ -41,3 +45,5 @@ dojo._toArray = function(obj, offset, startWith){
 		efficient;
 
 })();
+
+return dojo._toArray; });

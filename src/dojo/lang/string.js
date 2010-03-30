@@ -1,3 +1,8 @@
+require.def("dojo/lang/string", [
+	"require",
+	"dojo"
+], function(require, dojo){
+
 /*=====
 dojo.trim = function(str){
 	//	summary:
@@ -20,3 +25,5 @@ dojo.trim = function(str){
 dojo.trim = String.prototype.trim ?
 	function(str){ return str.trim(); } :
 	function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+
+return dojo.trim; });

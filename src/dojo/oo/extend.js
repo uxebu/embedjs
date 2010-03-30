@@ -1,3 +1,8 @@
+require.def("dojo/oo/extend", [
+	"require",
+	"dojo",
+], function(require, dojo){
+
 dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 	// summary:
 	//		Adds all properties and methods of props to constructor's
@@ -8,3 +13,5 @@ dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 	}
 	return constructor; // Object
 }
+
+return dojo.extend; });

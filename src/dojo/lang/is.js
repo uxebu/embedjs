@@ -1,3 +1,8 @@
+require.def("dojo/lang/is", [
+	"require",
+	"dojo"
+], function(require, dojo){
+
 // Crockford (ish) functions
 
 dojo.isString = function(/*anything*/ it){
@@ -77,3 +82,5 @@ dojo.isNumeric = function(n){
 dojo.isNumber = function(n){
 	return typeof n == "number" || n instanceof Number;
 }
+
+return dojo; });

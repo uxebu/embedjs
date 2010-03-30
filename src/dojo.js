@@ -1,4 +1,6 @@
-var dojo = {};
+require.def("dojo", function(){
+
+window.dojo = {};
 
 dojo.global = window;
 
@@ -210,3 +212,4 @@ dojo.require = function(){};
 		}
 	}
 })(dojo);
+return dojo;});

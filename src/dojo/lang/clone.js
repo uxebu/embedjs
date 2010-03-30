@@ -1,3 +1,10 @@
+require.def("dojo/lang/clone", [
+	"require",
+	"dojo",
+	"dojo/array",
+	"dojo/lang/is"
+], function(require, dojo, dojoArray, dojoIs){
+
 dojo.clone = function(/*anything*/ o){
 	// summary:
 	//		Clones objects (including DOM nodes) and all children.
@@ -28,3 +35,5 @@ dojo.clone = function(/*anything*/ o){
 	}
 	return r; // Object
 }
+
+return dojo.clone; });

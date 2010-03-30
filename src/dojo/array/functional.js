@@ -1,3 +1,7 @@
+require.def("dojo/array", [
+	"require",
+	"dojo"
+], function(require, dojo, a){
 //
 //	Provide ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"] 
 //
@@ -248,3 +252,5 @@
 		}
 	});
 })();
+
+return dojo; });
