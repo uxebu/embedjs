@@ -1,6 +1,6 @@
 require.def("dojo", function(){
 
-window.dojo = {};
+dojo = {};
 
 dojo.global = window;
 

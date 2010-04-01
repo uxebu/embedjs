@@ -1,6 +1,6 @@
-require.def("dojo/array/functional_addon", [
-    "dojo",
-    "require"
-], function(dojo, require){
-    return {bla:"blubb"};
+require.modify("dojo/array", "dojo/array/functional_addon", [
+    "dojo/array"
+], function(arr){
+    // modify arr
+    return arr;
 });
