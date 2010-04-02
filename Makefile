@@ -2,48 +2,19 @@
 # DIRECTORIES
 #
 ROOT_DIR := $(PWD)
-BUILD_DIR := $(ROOT_DIR)/build
-SOURCE_DIR := $(ROOT_DIR)/src
-DIST_DIR := $(ROOT_DIR)/dist
-TOOLS_DIR :=  $(ROOT_DIR)/tools
-PROFILES_DIR := $(BUILD_DIR)/profiles
-
-#
-# TOOLS
-#
-##########add back in !!!!!
-MINIFIER := java -jar -Dfile.encoding=UTF8 $(TOOLS_DIR)/shrinksafe.jar -escape-unicode
-RHINO := java -jar $(TOOLS_DIR)/js.jar
-BUILD_JS := $(RHINO) $(TOOLS_DIR)/build.js
-
-all: .PHONY
-
-#
-# SPECIAL TARGETS
-#
-.PHONY: clean app-Android app-iPhone
-
-#
-# ALIASES
-#
-app-Android: $(DIST_DIR)/dojo-app-Android.js
-app-iPhone: $(DIST_DIR)/dojo-app-iPhone.js
+BUILD_TOOL_DIR := $(ROOT_DIR)/build
+BUILD_TOOL := $(BUILD_TOOL_DIR)/build.sh
+SRC_DIR := $(ROOT_DIR)/src
+DIST_DIR := $(ROOT_DIR)/src-build
+BUILD_PROFILE_DIR := $(SRC_DIR)/build
 
 #
 # BUILD TARGETS
 #
-$(DIST_DIR)/dojo-%.js: $(DIST_DIR)
-	#$(MINIFIER) `$(BUILD_JS) $(PROFILES_DIR)/app/$(*).js` > $@
-	`$(BUILD_JS) $(PROFILES_DIR)/app/$(*).js` > $@
+.PHONY: clean
 
-#
-#
-#
-$(DIST_DIR):
-	mkdir -p $(DIST_DIR) 2> /dev/null
-
-clean-%s:
-	rm $(DIST_DIR)/dojo-$*.js
+dojo-build:
+	$(BUILD_TOOL) $(BUILD_PROFILE_DIR)/dojo.build.js
 
 clean:
 	rm -rf $(DIST_DIR)

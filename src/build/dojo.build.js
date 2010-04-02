@@ -1,7 +1,7 @@
 ({
-    baseUrl: "../src",
-    dir: "../src-build",
-    requireUrl: "../src/require.js",
+    baseUrl: "./src",
+    dir: "./src-build",
+    requireUrl: "./src/require.js",
     // we need to execute the modules
     // to catch the require.modify / require.alter calls
     execModules: true,
