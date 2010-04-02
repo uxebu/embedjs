@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>require.js: Simple Test</title>
+    <title>require.js: Loading test</title>
     <script type="text/javascript" src="../src/require.js"></script>
-	<script type="text/javascript">
-		require(["platforms/WindowsMobile-v6.5-widget", "dojo_kitchen_sink"], function(a, b){
-        });
+    <script type="text/javascript">
+        // requiring changes of a specific platform and a feature-set
+        require(["platforms/WindowsMobile-v6.5-widget", "dojo_kitchen_sink"]);
     </script>
 </head>
 <body>

@@ -2,10 +2,8 @@
     baseUrl: "../src",
     dir: "../src-build",
     requireUrl: "../src/require.js",
-    //optimize: "none",
-    /*paths: {
-        "dojo/array": "dojo/array/functional"
-    },*/
+    // we need to execute the modules
+    // to catch the require.modify / require.alter calls
     execModules: true,
     /*alternatives:{
         "dojo/array":"dojo/array/functional"
@@ -13,13 +11,15 @@
     modifiers:{
         "dojo/array":"dojo/array/functional_addon"
     },*/
-    /*pragmas: {
-        requireExcludeModify: true,
-        requireExcludeAlter: true,
+    pragmas: {
         requireExcludePlugin: true,
         requireExcludePageLoad: true,
         requireExcludeContext: true
-    },*/
+        // we will use modify/alter to change the behaviour
+        // of our modules, so we need them after a build
+        //requireExcludeModify: true,
+        //requireExcludeAlter: true,
+    },
     modules: [
         {
             name: "build/dojo_WindowsMobile-v6.5",
