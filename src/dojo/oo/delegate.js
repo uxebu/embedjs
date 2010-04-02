@@ -1,6 +1,6 @@
 require.def("dojo/oo/delegate", [
 	"require",
-	"dojo",
+	"dojo"
 ], function(require, dojo){
 
 dojo.delegate = dojo._delegate = (function(){

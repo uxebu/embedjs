@@ -1,6 +1,6 @@
 require.def("dojo/lang", [
 	"require",
-	"dojo",
+	"dojo"
 ], function(require, dojo){
 /*=====
 dojo._toArray = function(obj, offset, startWith){
