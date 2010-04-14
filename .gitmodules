@@ -1,0 +1,3 @@
+[submodule "requirejs"]
+	path = requirejs
+	url = git@github.com:klipstein/requirejs.git
