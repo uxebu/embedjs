@@ -19,9 +19,16 @@
     modules: [
         {
             name: "build/dojo-windows-mobile-v6.5-widget",
-            includeRequire: true,
             include: [
                 "_platforms/windows-mobile-v6.5-widget",
+                "_features/dojo-kitchen-sink"
+            ]
+        },
+        {
+            // TODO: ignoring depedenceny on the first module!
+            name: "build/dojo-android-phonegap",
+            include: [
+                "_platforms/android-phonegap",
                 "_features/dojo-kitchen-sink"
             ]
         }
