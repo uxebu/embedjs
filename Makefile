@@ -2,11 +2,11 @@
 # DIRECTORIES
 #
 ROOT_DIR := $(PWD)
-BUILD_TOOL_DIR := $(ROOT_DIR)/build
+BUILD_TOOL_DIR := $(ROOT_DIR)/requirejs/build
 BUILD_TOOL := $(BUILD_TOOL_DIR)/build.sh
 SRC_DIR := $(ROOT_DIR)/src
-DIST_DIR := $(ROOT_DIR)/src-build
-BUILD_PROFILE_DIR := $(SRC_DIR)/build
+DIST_DIR := $(ROOT_DIR)/dist
+BUILD_PROFILE_DIR := $(ROOT_DIR)/build
 
 #
 # BUILD TARGETS
