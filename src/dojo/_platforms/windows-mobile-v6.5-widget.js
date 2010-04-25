@@ -1,4 +1,4 @@
-require.alter(
+require.replace(
     {"dojo/array":"dojo/array/functional"}
 );
 require.modify(
