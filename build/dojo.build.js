@@ -1,5 +1,4 @@
-(
-{
+({
     baseUrl: "./src",
     execModules: true,
     skipModuleInsertion:true,
