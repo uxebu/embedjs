@@ -1,0 +1,1 @@
+var require=function(){};require.modify=require.replace=function(){};require.def=function(){arguments.length==2&&Object.prototype.toString.call(arguments[1]).toLowerCase()=="[object function]"&&arguments[1]();arguments.length==3&&arguments[2]()};
