@@ -1,7 +1,7 @@
 require.def("dojo/lang/is", [
 	"require",
 	"dojo"
-], function(require, dojo){
+], function(){
 
 // Crockford (ish) functions
 
@@ -83,4 +83,4 @@ dojo.isNumber = function(n){
 	return typeof n == "number" || n instanceof Number;
 }
 
-return dojo; });
+});

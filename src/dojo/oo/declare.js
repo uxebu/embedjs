@@ -5,7 +5,7 @@ require.def("dojo/oo/declare", [
 	"dojo/oo/extend", 
 	"dojo/lang/is", 
 	"dojo/array"
-], function(require, dojo, ooDelegate, ooExtend, langIs, dojoArr){
+], function(){
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
@@ -246,5 +246,4 @@ dojo.mixin(dojo.declare, {
 		}
 	}
 });
-
-return dojo.declare; });
+});

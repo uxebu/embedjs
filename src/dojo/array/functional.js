@@ -1,7 +1,7 @@
 require.def("dojo/array", [
 	"require",
 	"dojo"
-], function(require, dojo, a){
+], function(){
 //
 //	Provide ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"] 
 //
@@ -253,4 +253,4 @@ require.def("dojo/array", [
 	});
 })();
 
-return dojo; });
+});

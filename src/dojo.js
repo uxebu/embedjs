@@ -1,10 +1,11 @@
+var dojo = {};
+var djConfig = dojo.config = {};
+
 require.def("dojo", function(){
 
-dojo = {};
+//dojo = {};
 
-dojo.global = window;
-
-var djConfig = dojo.config = {};
+//dojo.global = window;
 
 dojo.doc = document;
 dojo.body = function() {
@@ -212,4 +213,4 @@ dojo.require = function(){};
 		}
 	}
 })(dojo);
-return dojo;});
+});

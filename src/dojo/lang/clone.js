@@ -3,7 +3,7 @@ require.def("dojo/lang/clone", [
 	"dojo",
 	"dojo/array",
 	"dojo/lang/is"
-], function(require, dojo, dojoArray, dojoIs){
+], function(){
 
 dojo.clone = function(/*anything*/ o){
 	// summary:
@@ -34,6 +34,4 @@ dojo.clone = function(/*anything*/ o){
 		}
 	}
 	return r; // Object
-}
-
-return dojo.clone; });
+}});
