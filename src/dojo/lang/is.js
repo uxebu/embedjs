@@ -1,7 +1,4 @@
-require.def("dojo/lang/is", [
-	"require",
-	"dojo"
-], function(){
+require.def("dojo/lang/is", ["dojo"], function(){
 
 // Crockford (ish) functions
 

@@ -1,7 +1,4 @@
-require.def("dojo/oo/extend", [
-	"require",
-	"dojo"
-], function(){
+require.def("dojo/oo/extend", ["dojo"], function(){
 
 dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 	// summary:

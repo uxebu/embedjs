@@ -1,9 +1,4 @@
-require.def("dojo/lang/clone", [
-	"require",
-	"dojo",
-	"dojo/array",
-	"dojo/lang/is"
-], function(){
+require.def("dojo/lang/clone", ["dojo", "dojo/array", "dojo/lang/is"], function(){
 
 dojo.clone = function(/*anything*/ o){
 	// summary:
@@ -34,4 +29,6 @@ dojo.clone = function(/*anything*/ o){
 		}
 	}
 	return r; // Object
-}});
+}
+
+});

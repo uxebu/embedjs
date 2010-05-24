@@ -1,7 +1,4 @@
-require.def("dojo/array", [
-	"require",
-	"dojo"
-], function(){
+require.def("dojo/array", ["dojo"], function(){
 ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){

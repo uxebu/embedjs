@@ -1,0 +1,9 @@
+require({
+	paths:{
+		"dojo/array":"dojo/array/functional"
+	}
+});
+require.modify({
+	"dojo/html":"dojo/html/query-acme",
+	"dojo":"dojo/getProp_bb46_fix"
+});
