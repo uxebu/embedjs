@@ -1,1 +1,1 @@
-var require=function(){};require.modify=require.replace=function(){};require.def=function(){arguments.length==2&&Object.prototype.toString.call(arguments[1]).toLowerCase()=="[object function]"&&arguments[1]();arguments.length==3&&arguments[2]()};
+var require=function(){};require.replace=function(){};require.def=require.modify=function(){arguments.length==2&&Object.prototype.toString.call(arguments[1])=="[object Function]"&&arguments[1]();arguments.length==3&&arguments[2]();arguments.length==4&&arguments[3]()};
