@@ -1,6 +1,6 @@
 require({
-	paths:{}
+	paths:{
+		"dojo/fx":"dojo/fx/lowfi"
+	}
 });
-require.modify({
-	"dojo/fx":"dojo/fx/lowfi"
-});
+require.modify();

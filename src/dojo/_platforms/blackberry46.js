@@ -1,6 +1,7 @@
 require({
 	paths:{
-		"dojo/array":"dojo/array/functional"
+		"dojo/array":"dojo/array/functional",
+		"dojo/fx":"dojo/fx/lowfi"
 	}
 });
 require.modify({

@@ -1,4 +1,4 @@
-require.modify("dojo/fx", "dojo/fx/lowfi", ["dojo", "dojo/html"], function(){
+require.def("dojo/fx", ["dojo", "dojo/html"], function(){
 // A pseudo-animation module. Animations are simply skipped
 // document.body is hidden during the transition
 
