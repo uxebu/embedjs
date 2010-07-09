@@ -1,3 +1,6 @@
 [submodule "requirejs"]
 	path = requirejs
 	url = git://github.com/jrburke/requirejs.git
+[submodule "docs/doctor"]
+	path = libs/doctor
+	url = git@github.com:uxebu/doctor.git
