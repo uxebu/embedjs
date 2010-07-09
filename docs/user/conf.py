@@ -16,7 +16,7 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "libs", "docs", "extensions"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "libs", "doctor", "sphinx", "libs", "extensions"))
 
 # -- General configuration -----------------------------------------------------
 
@@ -68,7 +68,7 @@ html_theme = 'uxebu'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ["../../libs/docs/themes"]
+html_theme_path = ["../../libs/doctor/sphinx/libs/themes"]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
