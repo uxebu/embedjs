@@ -9,7 +9,7 @@
 embed.js
 ========
 
-* NOTE: The current state of the project is NOT stable and under heavy development, use at your own risk :) *
+*NOTE: The current state of the project is NOT stable and under heavy development, use at your own risk :)*
 
 embed.js is a super optimized JavaScript framework for embedded devices (mobile phones, TVs, etc.) and is based on the Dojo Toolkit.
 
