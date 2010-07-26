@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Test Runner</title>
+		<script type="text/javascript" src="../require.js"></script>
+		<style type="text/css">
+			#results {
+			}
+		</style>
+	</head>
+	<body>
+	    <script type="text/javascript">
+	        // requiring changes of a specific platform and a feature-set
+	        require(["dojo/_features/dojo-kitchen-sink","modules.js"]); // requiring tests/modules.js fails for some reason
+	    </script>
+	    <pre id="results"></pre>
+	</body>
+</html>
+
