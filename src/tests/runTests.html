@@ -10,9 +10,28 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-	        // requiring changes of a specific platform and a feature-set
-	        require(["dojo/_features/dojo-kitchen-sink","modules.js"]); // requiring tests/modules.js fails for some reason
+	    	function runTests(){
+				var select = document.getElementById('target-platform');
+				var target = select.options[select.selectedIndex].value;
+				var targetModule = "dojo/_platforms/" + target;
+
+				document.body.removeChild(document.getElementsByTagName('div')[0]);
+
+				require(["dojo/_features/dojo-kitchen-sink", targetModule, "modules.js"]);
+		    }
 	    </script>
+	    
+	    
+	    <div>
+		    <select id="target-platform">
+		    	<option value="webkit-mobile">WebKit</option>
+		    	<option value="opera">Opera</option>
+		    </select>
+		    <br />
+		    <button onclick="runTests();">run tests for selected platform</button>
+	    </div>
+	    
+	    
 	    <pre id="results"></pre>
 	</body>
 </html>
