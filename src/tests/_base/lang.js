@@ -74,7 +74,9 @@ tests.register("tests._base.lang",
 			t.assertFalse(dojo.isString({}));
 			t.assertFalse(dojo.isString([]));
 		},
-
+		
+		/* no partial in embed API
+		
 		function partial(t){
 			var scope = { foo: "bar" };
 			var scope2 = { foo: "baz" };
@@ -104,6 +106,8 @@ tests.register("tests._base.lang",
 			t.assertEqual("foo", st2()[0]);
 			t.assertEqual("thud", st2()[1]);
 		},
+		
+		*/
 
 		function hitch(t){
 			var scope = { foo: "bar" };
@@ -139,7 +143,9 @@ tests.register("tests._base.lang",
 			t.assertEqual("baz", st2()[0]);
 			t.assertEqual(2, st2()[1]);
 		},
-
+		
+		/* no partial
+		
 		function hitchAsPartial(t){
 			var scope = { foo: "bar" };
 			var scope2 = { foo: "baz" };
@@ -154,6 +160,8 @@ tests.register("tests._base.lang",
 			t.assertEqual("bar", st2()[2]);
 			var st3 = dojo.hitch(null, thinger, "foo", "bar");
 		},
+		
+		*/
 
 		function _toArray(t){
 			var obj1 = [ 'foo', 'bar', 'spam', 'ham' ];

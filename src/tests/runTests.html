@@ -6,6 +6,10 @@
 		<style type="text/css">
 			#results {
 			}
+			#testBoxContainer {
+				height: 0;
+				overflow: hidden;
+			}
 		</style>
 	</head>
 	<body>
@@ -15,14 +19,18 @@
 				var target = select.options[select.selectedIndex].value;
 				var targetModule = "dojo/_platforms/" + target;
 
-				document.body.removeChild(document.getElementsByTagName('div')[0]);
+				document.body.removeChild(document.getElementById('targetSelector'));
 
-				require(["dojo/_features/dojo-kitchen-sink", targetModule, "modules.js"]);
+				require(["dojo/_features/dojo-kitchen-sink", targetModule]);
+
+				require.ready(function(){
+					require(["modules.js"]);
+				});
 		    }
 	    </script>
 	    
 	    
-	    <div>
+	    <div id="targetSelector">
 		    <select id="target-platform">
 		    	<option value="webkit-mobile">WebKit</option>
 		    	<option value="opera">Opera</option>
@@ -31,8 +39,10 @@
 		    <button onclick="runTests();">run tests for selected platform</button>
 	    </div>
 	    
-	    
 	    <pre id="results"></pre>
+	    
+	    <div id="testBoxContainer"></div>
+	    
 	</body>
 </html>
 
