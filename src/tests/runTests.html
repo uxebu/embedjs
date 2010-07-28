@@ -4,15 +4,51 @@
 		<title>EmbedJS Test Runner</title>
 		<script type="text/javascript" src="../require.js"></script>
 		<style type="text/css">
-			#results {
+			#results h1 {
+				font-size: 14px;
+				margin: 0;
+				padding: 5px;
 			}
+			#results .groupResults {
+				border: solid 1px #808080;
+				margin-bottom: 10px;
+			}
+			#results .passed h1 {
+				background: #80FF9F;
+			}
+			#results .failed h1 {
+				background: #FF3F3F;
+			}
+			#results .inner {
+				padding: 5px 10px;
+			}
+			#results .groupResults .passed {
+				color: #077F00;
+			}
+			#results .groupResults .failed {
+				color: #FF3F3F;
+			}
+			
+			/* toggle details */
+			.inner {
+				display: none;
+			}
+			.showDetails .inner,
+			.summary .inner {
+				display: block;
+			}
+			.showDetails h1,
+			.summary h1 {
+				border-bottom: solid 1px #808080;
+			}
+			
 			#testBoxContainer {
 				height: 0;
 				overflow: hidden;
 			}
 		</style>
 	</head>
-	<body>
+	<body class="showDetails">
 	    <script type="text/javascript">
 	    	function runTests(){
 				var select = document.getElementById('target-platform');
@@ -27,6 +63,15 @@
 					require(["modules.js"]);
 				});
 		    }
+
+		    function runReadyTest(){
+				var select = document.getElementById('target-platform');
+				var target = select.options[select.selectedIndex].value;
+				var targetModule = "dojo/_platforms/" + target;
+
+				location.href = "./readyTest.html?platform="+targetModule;
+
+			}
 	    </script>
 	    
 	    
@@ -37,6 +82,7 @@
 		    </select>
 		    <br />
 		    <button onclick="runTests();">run tests for selected platform</button>
+		    <button onclick="runReadyTest();">run ready() test for selected platform</button>
 	    </div>
 	    
 	    <pre id="results"></pre>

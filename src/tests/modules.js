@@ -18,8 +18,50 @@ doh.debug = function(){
 		msg += arguments[i] + " ";
 	}
 	//console.log(msg);
-	doh.resultsNode.innerHTML += ( "<div>" + msg + "</div>" );
+	//doh.resultsNode.innerHTML += ( "<div>" + msg + "</div>" );
 };
+
+// group result logging
+doh._groupResultNodes = {};
+
+doh._groupStarted = function(group){
+	if(!doh._groupResultNodes[group]){
+		var node = document.createElement('div');
+		doh.resultsNode.appendChild(node);
+		node.innerHTML = '<h1>' + group + '</h1>';
+		node.className = 'groupResults'
+		var inner = document.createElement('div');
+		inner.className = "inner";
+		node.appendChild(inner);
+		doh._groupResultNodes[group] = { outer: node, inner: inner };
+	}
+}
+
+doh._groupFinished = function(group, success){
+	doh._groupResultNodes[group].outer.className += success ? ' passed' : ' failed';
+}
+
+doh._testStarted = function(group, fixture){
+}
+
+doh._testFinished = function(group, fixture, success){	
+	doh._groupResultNodes[group].inner.innerHTML += ( '<div class="' + (success ? 'passed' : 'failed') + '">' + fixture.name + ': ' + (success ? 'passed' : 'failed') + '</div>' );
+}
+
+// report
+
+doh._report = function(){
+	
+	group = "Tests finished. Summary:";
+	doh._groupStarted(group);
+	doh._groupResultNodes[group].outer.className += ' summary';
+	
+	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._testCount + ' tests in ' + this._groupCount + ' groups.</div>' );
+	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._errorCount + ' errors.</div>' );
+	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._failureCount + ' failures.</div>' );
+	
+	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
+}
 
 // test box setup
 
