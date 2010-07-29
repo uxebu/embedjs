@@ -24,7 +24,13 @@ tests.register("tests._base.array",
 			
 			t.assertEqual(-1, dojo.indexOf([45, 56, 85], 56, 2));
 			t.assertEqual(1, dojo.indexOf([45, 56, 85], 56, 1));
-			t.assertEqual(1, dojo.indexOf([45, 56, 85], 56, -1));
+			
+			//FIXME: This test is wrong!
+			//t.assertEqual(1, dojo.indexOf([45, 56, 85], 56, -1));
+			
+			t.assertEqual(-1, dojo.indexOf([45, 56, 85], 56, -1));
+			t.assertEqual(1, dojo.indexOf([45, 56, 85], 56, -2));
+			
 			// Make sure going out of bounds doesn't throw us in an infinite loop
 			t.assertEqual(-1, dojo.indexOf([45, 56, 85], 56, 3));
 		},
@@ -45,7 +51,12 @@ tests.register("tests._base.array",
 		function testLastIndexOfFromIndex(t){
 			t.assertEqual(1, dojo.lastIndexOf([45, 56, 85], 56, 1));
 			t.assertEqual(-1, dojo.lastIndexOf([45, 56, 85], 85, 1));
-			t.assertEqual(-1, dojo.lastIndexOf([45, 56, 85], 85, -1));
+			
+			//FIXME: This test is wrong!
+			//t.assertEqual(-1, dojo.lastIndexOf([45, 56, 85], 85, -1));
+			t.assertEqual(2, dojo.lastIndexOf([45, 56, 85], 85, -1));
+			t.assertEqual(-1, dojo.lastIndexOf([45, 56, 85], 85, -2));
+			
 			t.assertEqual(0, dojo.lastIndexOf([45, 56, 45], 45, 0));
 		},
 
