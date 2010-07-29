@@ -248,7 +248,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			}
 			return s;
 		}
-		return (l == 1) ? s : parseFloat(s[style] || n.style[style]); /* CSS2Properties||String||Number */
+		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
 	}
 
 	// =============================

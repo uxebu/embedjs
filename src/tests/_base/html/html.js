@@ -1,4 +1,7 @@
 require.def("tests/_base/html/html", [], function(){
+	
+	// TODO: dojo.style could use some more testing,
+	//	as we heavily modified dojo's style method.
 
 tests.register("tests._base.html.html", 
 	[
@@ -180,7 +183,9 @@ tests.register("tests._base.html.html",
 			dojo.style('sq100nopos', { 'opacity': 0.8 });
 			doh.is(0.8, dojo.style('sq100nopos', 'opacity'));
 		},
-		"doh.is('static', dojo.style('sq100nopos', 'position'));",
+		function defaultPosition(){
+			doh.is('static', dojo.style('sq100nopos', 'position'));
+		},
 		function getBgcolor(t){
 			var bgc = dojo.style('sq100nopos', 'backgroundColor');
 			doh.t((bgc == "rgb(0, 0, 0)")||(bgc == "black")||(bgc == "#000000"));
