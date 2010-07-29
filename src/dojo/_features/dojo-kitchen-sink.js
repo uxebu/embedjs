@@ -12,6 +12,7 @@ require.def("dojo_kitchen_sink", [
 	"dojo/lang/clone",
 	"dojo/lang/hitch",
 	"dojo/lang/string",
+	"dojo/json",
 	"dojo/oo/declare",
 	"dojo/xhr"
 ]);
