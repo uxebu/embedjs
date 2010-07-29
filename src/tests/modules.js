@@ -77,7 +77,7 @@ doh._testFinished = function(group, fixture, success){
 	}
 	html += '>' + fixture.name;
 	if(!success){
-		html += '</a><div class="messages" id="'+id+'">' + doh._testMessages[group][fixture.name].join('<br />') + '</div>';
+		html += '</a><div class="messages" id="'+id+'">' + doh._testMessages[group][fixture.name].join('<hr />') + '</div>';
 	}
 	html += '</div>';
 	doh._groupResultNodes[group].inner.innerHTML += html;
