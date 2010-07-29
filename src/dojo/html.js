@@ -520,6 +520,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		//		An object-hash of attributes to set on the newly created node.
 		//		Can be null, if you don't want to set any attributes/styles.
 		//		See: `dojo.attr` for a description of available attributes.
+		//		TODO: Clarify what attrs are allowed.
 		//
 		// refNode: String?|DomNode?
 		//		Optional reference node. Used by `dojo.place` to place the newly created
@@ -574,7 +575,18 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		if(typeof tag == "string"){ // inline'd type check
 			tag = doc.createElement(tag);
 		}
-		if(attrs){ d.attr(tag, attrs); }
+		if(attrs){
+			//d.attr(tag, attrs);
+			for(var prop in attrs){
+				switch(prop){
+					case 'class':
+						tag.className = attrs[prop];
+						break;
+					default:
+						tag[prop] = attrs[prop];
+				}
+			}
+		}
 		if(refNode){ d.place(tag, refNode, pos); }
 		return tag; // DomNode
 	}
