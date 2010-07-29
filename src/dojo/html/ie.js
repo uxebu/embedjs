@@ -55,5 +55,13 @@ require.modify("dojo/html", "dojo/html/ie", ["dojo"], function(){
 		//>>excludeEnd("webkitMobile");
 		return scrollLeft; // Integer
 	}
+	
+	d.empty = function(node){
+		node = d.byId(node);
+		for(var c; c = node.lastChild;){ // intentional assignment
+			d.destroy(c);
+		}
+	};
+	
 })(dojo);
 });

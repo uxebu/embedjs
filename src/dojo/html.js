@@ -430,7 +430,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		}
 	};
 
-	dojo.place = function(node, refNode, position){
+	d.place = function(node, refNode, position){
 		//	summary:
 		//		Attempt to insert node into the DOM, choosing from various positioning options.
 		//		Returns the first argument resolved to a DOM node.
@@ -514,7 +514,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		return node; // DomNode
 	};
 	
-	dojo.create = function(tag, attrs, refNode, pos){
+	d.create = function(tag, attrs, refNode, pos){
 		//	summary:
 		//		Create an element, allowing for optional attribute decoration
 		//		and placement.
@@ -607,7 +607,11 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		}
 		if(refNode){ d.place(tag, refNode, pos); }
 		return tag; // DomNode
-	}
+	};
+	
+	d.empty = function(node){
+		byId(node).innerHTML = "";
+	};
 
 })(dojo);
 
