@@ -72,7 +72,7 @@ doh._testFinished = function(group, fixture, success){
 	
 	html += 'class="' + resultString + '" ';
 	if(!success){
-		id = ( group + '-' + fixture.name ).replace(/'/g,"");
+		id = ( group + '-' + fixture.name ).replace(/'|"/g,"");
 		html += '><a href="javascript:showMessages(\''+ id +'\');"';
 	}
 	html += '>' + fixture.name;
@@ -97,6 +97,10 @@ doh._report = function(){
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._failureCount + ' failures.</div>' );
 	
 	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
+	
+	alert('Tests finished.');
+	dojo.body().innerHTML = "";
+	dojo.body().appendChild(doh.resultsNode);
 }
 
 // test box setup
@@ -104,9 +108,7 @@ doh._report = function(){
 doh._testBoxes = {};
 
 doh.showBox = function(id){
-	var parent = dojo.byId("testBoxContainer");
-	parent.innerHTML = doh._testBoxes[id];
-	
+	dojo.body().innerHTML = doh._testBoxes[id];
 };
 
 doh.registerTestBox = function(id, html){
@@ -115,14 +117,12 @@ doh.registerTestBox = function(id, html){
 
 
 require.ready(function(){
+	//doh.resultsNode = document.getElementById('results');
+	doh._docFragment = document.createDocumentFragment();
+	doh.resultsNode = document.createElement('pre');
+	doh.resultsNode.id = "results";
+	doh._docFragment.appendChild(doh.resultsNode);
 	
-	// We want the html tests to stay in our testBoxContainer.
-	doh.testNode = document.getElementById('testBoxContainer');
-	dojo.body = function(){
-		return doh.testNode;
-	};
-	
-	doh.resultsNode = document.getElementById('results');
 	doh.run();
 });
 	
