@@ -17,6 +17,7 @@ tests.register("tests._base.html.element",
 			doh.is("div", n.nodeName.toLowerCase());
 		},
 		
+		/* No attr() in API
 		function createAttrs(t){
 			// test attr creation, no placement
 			var n = dojo.create('div', {
@@ -33,6 +34,7 @@ tests.register("tests._base.html.element",
 			// need to test further in attr or document.
 			//doh.is(3, dojo.style(n, "padding"));
 		},
+		*/
 		
 		function createPlace(t){
 			// test only creation and placement, no attr
@@ -134,7 +136,8 @@ tests.register("tests._base.html.element",
 			doh.is(1, dojo.query(".restored").length);
 			dojo.destroy(n);
 		},
-
+		
+		/* No empty() in API
 		function emptyDiv(t){
 			var n = dojo.create("div", {
 				innerHTML: "1<span class='red'>2</span>3<em custom='x'>4</em>5"
@@ -158,6 +161,7 @@ tests.register("tests._base.html.element",
 			doh.is("", table.innerHTML);
 			dojo.destroy(table);
 		},
+		*/
 
 		function toDomSpans(t){
 			var n = dojo._toDom("<span>1</span><span>2</span>");
