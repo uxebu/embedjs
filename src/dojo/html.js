@@ -410,7 +410,25 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			(n=d.body(), { x:n.scrollLeft||0, y:n.scrollTop||0 }));
 	};
 
+	var _insertBefore = function(/*DomNode*/node, /*DomNode*/ref){
+		var parent = ref.parentNode;
+		if(parent){
+			parent.insertBefore(node, ref);
+		}
+	};
 
+	var _insertAfter = function(/*DomNode*/node, /*DomNode*/ref){
+		//	summary:
+		//		Try to insert node after ref
+		var parent = ref.parentNode;
+		if(parent){
+			if(parent.lastChild == ref){
+				parent.appendChild(node);
+			}else{
+				parent.insertBefore(node, ref.nextSibling);
+			}
+		}
+	};
 
 	dojo.place = function(node, refNode, position){
 		//	summary:
