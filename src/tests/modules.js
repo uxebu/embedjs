@@ -11,12 +11,30 @@ require.def("tests/modules", ["tests/runner-embed",
 	"tests/io/script"
 ], function(){
 
-
+// error reporting
+doh._testMessages = {};
 doh.debug = function(){
-	var msg = "";
+	if(!doh._currentTest){
+		return;
+	}
+	
+	//msg assembly
+	var msg = "", section;
 	for(var i = 0, m = arguments.length; i < m; i++){
 		msg += arguments[i] + " ";
 	}
+	
+	//section setup
+	if(!doh._testMessages[doh._currentGroup]){
+		doh._testMessages[doh._currentGroup] = {};
+	}
+	section = doh._testMessages[doh._currentGroup];
+	if(!section[doh._currentTestName]){
+		section[doh._currentTestName] = [];
+	}
+	section = section[doh._currentTestName];
+	section.push(msg);
+	
 	//console.log(msg);
 	//doh.resultsNode.innerHTML += ( "<div>" + msg + "</div>" );
 };
@@ -25,10 +43,12 @@ doh.debug = function(){
 doh._groupResultNodes = {};
 
 doh._groupStarted = function(group){
+	
 	if(!doh._groupResultNodes[group]){
 		var node = document.createElement('div');
+		node.id = group;
 		doh.resultsNode.appendChild(node);
-		node.innerHTML = '<h1>' + group + '</h1>';
+		node.innerHTML = '<h1><a href="javascript:toggleInner(\''+group+'\');">' + group + '</a></h1>';
 		node.className = 'groupResults'
 		var inner = document.createElement('div');
 		inner.className = "inner";
@@ -42,10 +62,26 @@ doh._groupFinished = function(group, success){
 }
 
 doh._testStarted = function(group, fixture){
+	doh._currentTestName = fixture.name;
 }
 
 doh._testFinished = function(group, fixture, success){	
-	doh._groupResultNodes[group].inner.innerHTML += ( '<div class="' + (success ? 'passed' : 'failed') + '">' + fixture.name + ': ' + (success ? 'passed' : 'failed') + '</div>' );
+	var html = '<div ';
+	var resultString = success ? 'passed' : 'failed';
+	var id = '';
+	
+	html += 'class="' + resultString + '" ';
+	if(!success){
+		id = group + '-' + fixture.name;
+		html += '><a href="javascript:showMessages(\''+ id +'\');"';
+	}
+	html += '>' + fixture.name;
+	if(!success){
+		html += '</a><div class="messages" id="'+id+'">' + doh._testMessages[group][fixture.name].join('<br />') + '</div>';
+	}
+	html += '</div>';
+	doh._groupResultNodes[group].inner.innerHTML += html;
+		//( '<div onclick="showMessages();" class="' + (success ? 'passed' : 'failed') + '">' + fixture.name + ': ' + (success ? 'passed' : 'failed') + '</div>' );
 }
 
 // report

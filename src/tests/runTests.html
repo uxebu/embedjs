@@ -4,10 +4,18 @@
 		<title>EmbedJS Test Runner</title>
 		<script type="text/javascript" src="../require.js"></script>
 		<style type="text/css">
+			a {
+				display: block;
+				color: #000000;
+			}
 			#results h1 {
 				font-size: 14px;
 				margin: 0;
+				padding: 0;
+			}
+			#results h1 a {
 				padding: 5px;
+				text-decoration: none;
 			}
 			#results .groupResults {
 				border: solid 1px #808080;
@@ -25,7 +33,7 @@
 			#results .groupResults .passed {
 				color: #077F00;
 			}
-			#results .groupResults .failed {
+			#results .groupResults .failed a {
 				color: #FF3F3F;
 			}
 			
@@ -42,13 +50,27 @@
 				border-bottom: solid 1px #808080;
 			}
 			
+			
+			/* messages */
+			#results .messages {
+				margin: 5px 3px;
+				border-left: dotted 2px #808080;
+				padding-left: 10px;
+				font-size: 10px;
+				color: #404040;
+				display: none;
+			}
+			#results .showMessages {
+				display: block;
+			}
+			
 			#testBoxContainer {
 				height: 0;
 				overflow: hidden;
 			}
 		</style>
 	</head>
-	<body class="showDetails">
+	<body>
 	    <script type="text/javascript">
 	    	function runTests(){
 				var select = document.getElementById('target-platform');
@@ -71,6 +93,14 @@
 
 				location.href = "./readyTest.html?platform="+targetModule;
 
+			}
+
+			function toggleInner(group){
+				dojo.toggleClass(group, 'showDetails');
+			}
+
+			function showMessages(id){
+				dojo.toggleClass(id, 'showMessages');
 			}
 	    </script>
 	    
