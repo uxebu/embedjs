@@ -77,7 +77,8 @@ tests.register("tests._base.html.element",
 			var q = dojo.query("#holder2 li");
 			doh.is(4, q.length);
 			
-			q.forEach(function(n, i){
+			// NOTE: dojo.query does not return a dojo.NodeList instance.
+			dojo.forEach(q, function(n, i){
 				doh.is(classes[i], n.className);
 			});
 			
