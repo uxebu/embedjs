@@ -72,7 +72,7 @@ doh._testFinished = function(group, fixture, success){
 	
 	html += 'class="' + resultString + '" ';
 	if(!success){
-		id = group + '-' + fixture.name;
+		id = ( group + '-' + fixture.name ).replace(/'/g,"");
 		html += '><a href="javascript:showMessages(\''+ id +'\');"';
 	}
 	html += '>' + fixture.name;
