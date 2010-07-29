@@ -213,7 +213,7 @@ tests.register("tests._base.html.element",
 			doh.is("3", n[3].innerHTML);
 			doh.is("4", n[4].innerHTML);
 			doh.is("<span>a</span>2<span>z</span>", n[2].innerHTML.toLowerCase());
-			n.forEach(dojo.destroy);
+			dojo.forEach(n,dojo.destroy);
 		},
 
 		function placeTable(t){
@@ -229,7 +229,7 @@ tests.register("tests._base.html.element",
 			doh.is("<td>2</td>", n[2].innerHTML.toLowerCase());
 			doh.is("<td>3</td>", n[3].innerHTML.toLowerCase());
 			doh.is("<td>4</td>", n[4].innerHTML.toLowerCase());
-			dojo.query("body > table.disposable").forEach(dojo.destroy);
+			dojo.forEach(dojo.query("body > table.disposable"), dojo.destroy);
 		},
 
 		function placeReplace(t){
@@ -240,7 +240,7 @@ tests.register("tests._base.html.element",
 			doh.is(2, n.length);
 			doh.is("0", n[0].innerHTML);
 			doh.is("1", n[1].innerHTML);
-			n.forEach(dojo.destroy);
+			dojo.forEach(n, dojo.destroy);
 		},
 
 		function placeOnly(t){
@@ -250,7 +250,7 @@ tests.register("tests._base.html.element",
 			n = dojo.query("body > .disposable");
 			doh.is(1, n.length);
 			doh.is("<span>42</span>99", n[0].innerHTML.toLowerCase());
-			n.forEach(dojo.destroy);
+			dojo.forEach(n, dojo.destroy);
 		},
 		
 		function placeNumber(t){
