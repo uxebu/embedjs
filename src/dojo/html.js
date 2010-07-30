@@ -9,13 +9,82 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 				return [];
 			}
 		}
-		
+
+		scope = scope || dojo.doc;
+
+		/*
+		QUERY NORMALIZATION:
+
+		`dojo.query` accepts selectors that start with combinators like "> *"
+		or "+ a". It accepts even queries that consist only of a combinator.
+		These queries throw errors with querySelectorAll.
+
+		Markup like
+				<div><p id="myP"><strong>foo</strong></p></div>
+		returns the "strong" element with
+				document.getElementById("myP").querySelectorAll("div strong");
+		Which is incompatible with dojo.query
+
+		For these reasons, the query is normalized before execution:
+		- When the query ends with a combinator (">", "+", "~"), append a universal selector ("*").
+		- When the root is document, and the query starts with a child combinator, return the appropriate element.
+		- When the root is document, and the query starts with an other combinator than ">", return an empty result.
+		- When the root element does not have an id, add a synthetic id.
+		- Prefix the query with the id of the root element.
+		- Execute the query with QSA.
+		- Remove the synthetic id, if added.
+		- Return the results.
+
+		*/
+
+		// Normalize selectors ending with a combinator
+		if (/[>+~]\s*$/.test(query)){
+			query += "*";
+		}
+
+		// check if scope is a document node
+		if(scope.nodeType == 9){
+			// if the query starts with a child combinator, set scope to the
+			// document element and shift the query one step.
+			// TODO: make selectors like ">a" fail.
+			if(/^\s*>\s*[*]/.test(query)){
+				scope = scope.documentElement;
+				query = query.replace(/^\s*>\s*[*]\s*/, "");
+
+				// if the remaining query is empty, return the document element (the new scope)
+				if(!query){
+					return scope;
+				}
+			}
+
+			// if the query starts with a ajdacent combinator or a general sibling combinator,
+			// return an empty array
+			else if(/^\s*[+~]/.test(query)){
+				return [];
+			}
+		}
+
+		// check if the root is an element node.
+		// We can't use an "else" branch here, because the scope might have changed
+		if(scope.nodeType == 1){
+			// we need to prefix the query with an id to make QSA work like
+			// expected. For details check http://ejohn.org/blog/thoughts-on-queryselectorall/
+			var originalId = scope.id;
+			var rootId = originalId;
+			if(!originalId){
+				rootId = scope.id = "----dojo-query-synthetic-id-" + new Date().getTime();
+				var syntheticIdSet = true;
+			}
+
+			query = "#" + rootId + " " + query;
+		}
+
 		// invalid queries:
 		// [">", "body >", "#t >", ".foo >", "> *", "> h3", ">", "> *", "> [qux]", "> [qux]", "> [qux]", ">", "> *", ">*", "+", "~", "#foo ~", "#foo~", "#t span.foo:not(span:first-child)"]
-		
-		var n = []
+
+		var n;
 		try{
-			n = (scope || document).querySelectorAll(query);
+			n = scope.querySelectorAll(query);
 		}catch(e){
 			//TODO: remove this as soon _query is stable
 			if(!doh.invalidQueries){
@@ -26,7 +95,13 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			//console.log(e);
 		}
 		//return (scope || document).querySelectorAll(query);
-		return n;
+
+		// Remove synthetic id from element if set before
+		if(syntheticIdSet){
+			scope.id = "";
+		}
+
+		return n || [];
 	};
 
 	var byId =
