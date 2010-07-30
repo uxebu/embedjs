@@ -35,6 +35,14 @@ tests.register("tests._base.html.query",
 
 		"doh.is(1, dojo.query('.fooBar').length);",
 
+		// test document based queries with combinators
+		"doh.is(1, (dojo.query('>')).length);",
+		"doh.is(0, (dojo.query('+')).length);",
+		"doh.is(0, (dojo.query('~')).length);",
+		"doh.is(1, (dojo.query('> html')).length);",
+		"doh.is(0, (dojo.query('> a')).length);",
+		"doh.is(1, (dojo.query('> html body')).length);",
+
 		// syntactic equivalents
 		"doh.is(12, (dojo.query('#t > *')).length);",
 		"doh.is(12, (dojo.query('#t >')).length);",
