@@ -3,4 +3,4 @@
 	url = git://github.com/jrburke/requirejs.git
 [submodule "libs/doctor"]
 	path = libs/doctor
-	url = git@github.com:uxebu/doctor.git
+	url = git://github.com/uxebu/doctor.git
