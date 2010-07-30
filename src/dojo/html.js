@@ -44,6 +44,8 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			query += "*";
 		}
 
+		var queryRoot = scope; // `querySelectorAll` will be called on this node.
+
 		// check if scope is a document node
 		if(scope.nodeType == 9){
 			// if the query starts with a child combinator, set scope to the
@@ -79,6 +81,10 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			}
 
 			query = "#" + rootId + " " + query;
+
+			// we need to start the query one element up the chain to make sibling
+			// and adjacent combinators work.
+			queryRoot = scope.parentNode;
 		}
 
 		// invalid queries:
@@ -86,7 +92,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 
 		var n;
 		try{
-			n = scope.querySelectorAll(query);
+			n = queryRoot.querySelectorAll(query);
 		}catch(e){
 			//TODO: remove this as soon _query is stable
 			if(!doh.invalidQueries){
