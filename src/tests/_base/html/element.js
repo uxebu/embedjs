@@ -102,7 +102,7 @@ tests.register("tests._base.html.element",
 			doh.is(q.length, es.length);
 			
 			// destroy this list:
-			q.forEach(dojo.destroy);
+			dojo.forEach(q, dojo.destroy);
 			q = dojo.query(">", "holder3");
 			doh.is(q.length, 0);
 			
@@ -115,7 +115,8 @@ tests.register("tests._base.html.element",
 					return !dojo.hasClass(n, "firebug");
 				})
 			}
-			c().forEach(dojo.destroy);
+			var n = c();
+			dojo.forEach(n, dojo.destroy);
 
 			// check for deepest embeeded id
 			doh.f(dojo.byId("ancFoo"));

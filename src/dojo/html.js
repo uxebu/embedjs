@@ -7,7 +7,21 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			scope = d.byId(scope);
 		}
 		
-		return (scope || document).querySelectorAll(query);
+		// invalid queries:
+		// [">", "body >", "#t >", ".foo >", "> *", "> h3", ">", "> *", "> [qux]", "> [qux]", "> [qux]", ">", "> *", ">*", "+", "~", "#foo ~", "#foo~", "#t span.foo:not(span:first-child)"]
+		
+		var n = []
+		try{
+			n = (scope || document).querySelectorAll(query);
+		}catch(e){
+			if(!doh.invalidQueries){
+				doh.invalidQueries = [];
+			}
+			doh.invalidQueries.push(query);
+			//console.error("Invalid query: ",query);
+			//console.log(e);
+		}
+		//return (scope || document).querySelectorAll(query);
 	};
 
 	var byId =
