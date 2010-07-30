@@ -1,4 +1,4 @@
-require.def("dojo/lang/clone", ["dojo", "dojo/array", "dojo/lang/is"], function(){
+require.def("dojo/lang/clone-ie", ["dojo", "dojo/array", "dojo/lang/is"], function(){
 
 dojo.clone = function(/*anything*/ o){
 	// summary:
@@ -45,6 +45,19 @@ dojo.clone = function(/*anything*/ o){
 			r[name] = dojo.clone(s);
 		}
 	}
+	
+	// IE doesn't recognize some custom functions in for..in
+	var extraNames = dojo._extraNames, extraLen = extraNames.length;
+	if(extraLen){
+		for(i = 0; i < extraLen; ++i){
+			name = extraNames[i];
+			s = o[name];
+			if(!(name in r) || (r[name] !== s && (!(name in empty) || empty[name] !== s))){
+				r[name] = s; // functions only, we don't clone them
+			}
+		}
+	}
+	
 	return r; // Object
 		
 }

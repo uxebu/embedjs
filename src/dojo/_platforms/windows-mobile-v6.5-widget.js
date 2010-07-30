@@ -2,7 +2,8 @@ require({
 	paths:{
 		"dojo/connect":"dojo/connect/ie",
 		"dojo/array":"dojo/array/functional",
-		"dojo/json":"dojo/json/dojo-json"
+		"dojo/json":"dojo/json/dojo-json",
+		"dojo/lang/clone":"dojo/lanf/clone-ie"
 	}
 });
 require.modify({
