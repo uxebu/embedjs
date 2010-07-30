@@ -111,7 +111,8 @@ tests.register("tests._base.html.element",
 		function destroyAll(t){
 			var c = function(){
 				// eg: don't destroy firebug lite in page
-				return dojo.query("body >").filter(function(n){
+				var l = dojo.query("body >");
+				return dojo.filter(l, function(n){
 					return !dojo.hasClass(n, "firebug");
 				})
 			}

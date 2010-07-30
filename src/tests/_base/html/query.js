@@ -82,7 +82,8 @@ tests.register("tests._base.html.query",
 		"doh.is(1, (dojo.query('[foo|=\"bar-baz\"]')).length);",
 		"doh.is(0, (dojo.query('[foo|=\"baz\"]')).length);",
 		"doh.is(dojo.byId('_foo'), dojo.query('.foo:nth-child(2)')[0]);",
-		"doh.is(dojo.query('style')[0], dojo.query(':nth-child(2)')[0]);",
+		// second child is <script> in our test.
+		"doh.is(dojo.query('script')[0], dojo.query(':nth-child(2)')[0]);",
 
 		// descendant selectors
 		"doh.is(3, dojo.query('>', 'container').length);",
@@ -129,7 +130,8 @@ tests.register("tests._base.html.query",
 		"doh.is(1, (dojo.query('#foo~')).length);",
 
 		// sub-selector parsing
-		"doh.is(1, dojo.query('#t span.foo:not(span:first-child)').length);",
+		// The first test is against spec: http://www.w3.org/TR/css3-selectors/#negation
+		//"doh.is(1, dojo.query('#t span.foo:not(span:first-child)').length);",
 		"doh.is(1, dojo.query('#t span.foo:not(:first-child)').length);",
 
 		// nth-child tests
