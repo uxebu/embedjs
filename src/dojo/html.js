@@ -5,6 +5,9 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		// scope normalization
 		if(typeof scope == "string"){
 			scope = d.byId(scope);
+			if(!scope){
+				return [];
+			}
 		}
 		
 		// invalid queries:
