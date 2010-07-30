@@ -48,12 +48,33 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 
 		// check if scope is a document node
 		if(scope.nodeType == 9){
-			// if the query starts with a child combinator, set scope to the
-			// document element and shift the query one step.
-			// TODO: make selectors like ">a" fail.
-			if(/^\s*>\s*[*]/.test(query)){
+			// if the query starts with a child combinator, try scope.querySelector()
+			// with the first segment _without_ leading child operator and check
+			// if it is scope.documentElement.
+			if(/^\s*>/.test(query)){
+				// split the query up into the selector that the documentElement must match
+				// and the rest of the query.
+				var queryParts = query.replace(/^\s*>/, "").match(/([^\s>+~]+)(.*)/);
+				if (!queryParts) {
+					return [];
+				}
+
+				var docElmQuery = queryParts[1];
+				query = queryParts[2];
+
+				// Check if the documentElement matches the first segment of the selector
+				if(scope.querySelector(docElmQuery) !== scope.documentElement){
+					return [];
+				}
+
+				// If documentElement matches the first segment of the selector,
+				// and the rest of the query is empty return documentElement.
+				if(!query){
+					return [scope.documentElement];
+				}
+
+				// execute the rest of the selector against scope.documentElement
 				scope = scope.documentElement;
-				query = query.replace(/^\s*>\s*[*]\s*/, "");
 
 				// if the remaining query is empty, return the document element (the new scope)
 				if(!query){
