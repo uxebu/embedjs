@@ -157,8 +157,6 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		//	TODO: 
 		//		Update the inline doc when we know if dojo.query "does" support
 		//		chaining.
-	
-		
 		
 		
 		// scope normalization
@@ -170,9 +168,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		}
 
 		scope = scope || dojo.doc;
-
-		var originalQuery = query; //TODO: remove together with the try/catch blog at the end
-
+		
 		/*
 		QUERY NORMALIZATION:
 
@@ -265,26 +261,13 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		// invalid queries:
 		// [">", "body >", "#t >", ".foo >", "> *", "> h3", ">", "> *", "> [qux]", "> [qux]", "> [qux]", ">", "> *", ">*", "+", "~", "#foo ~", "#foo~", "#t span.foo:not(span:first-child)"]
 
-		var n;
-		try{
-			n = queryRoot.querySelectorAll(query);
-		}catch(e){
-			//TODO: remove this as soon _query is stable
-			if(!doh.invalidQueries){
-				doh.invalidQueries = [];
-			}
-			doh.invalidQueries.push({query: originalQuery, normalizedQuery: query, error: e});
-			//console.error("Invalid query: ",query);
-			//console.log(e);
-		}
-		//return (scope || document).querySelectorAll(query);
+		var n = queryRoot.querySelectorAll(query);
 
 		// Remove synthetic id from element if set before
 		if(syntheticIdSet){
 			scope.id = "";
 		}
 		
-		console.log(query, n);
 		return n || [];
 	};
 
