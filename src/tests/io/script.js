@@ -41,7 +41,7 @@ tests.register("tests.io.script",
 		function ioScriptJsonp(t){
 			var d = new doh.Deferred();
 			var td = dojo.io.script.get({
-				url: "io/scriptJsonp.js",
+				url: "io/jsonp.php",
 				content: { foo: "bar" },
 				jsonp: "callback",
 				handle: function(res, ioArgs){
@@ -55,7 +55,7 @@ tests.register("tests.io.script",
 			});
 			return d;						
 		},
-		function ioScriptJsonpTimeout(t){
+		function ioScriptJsonpTimeoutHandle(t){
 			var d = new doh.Deferred();
 			var td = dojo.io.script.get({
 				url: "_base/html/timeout.php",
@@ -65,13 +65,42 @@ tests.register("tests.io.script",
 				handleAs: "json",
 				preventCache: true,
 				handle: function(response, ioArgs){
-					if(response instanceof Error && response.dojoType == "timeout"){
+					// No way...
+					//if(response instanceof Error && response.dojoType == "timeout"){
+					if(response === null){
 						console.debug("FOO OK TEST");
 						d.callback(true);
 					}else{
 						console.debug("FOO FAIL TEST");
 						d.errback(false);
 					}
+				}
+			});
+			return d;
+		},
+		function ioScriptJsonpTimeoutError(t){
+			var d = new doh.Deferred();
+			var td = dojo.io.script.get({
+				url: "_base/html/timeout.php",
+				jsonp: "callback",
+				content: {Foo: 'Bar'},
+				timeout: 500,
+				handleAs: "json",
+				preventCache: true,
+				error:function(response, ioArgs){
+					// No way...
+					//if(response instanceof Error && response.dojoType == "timeout"){
+					if(response === null){
+						console.debug("FOO OK TEST");
+						d.callback(true);
+					}else{
+						console.debug("FOO FAIL TEST");
+						d.errback(false);
+					}
+				},
+				load: function(response, ioArgs){
+						console.debug("FOO FAIL TEST");
+						d.errback(false);
 				}
 			});
 			return d;
