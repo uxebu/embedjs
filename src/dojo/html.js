@@ -14,6 +14,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 		try{
 			n = (scope || document).querySelectorAll(query);
 		}catch(e){
+			//TODO: remove this as soon _query is stable
 			if(!doh.invalidQueries){
 				doh.invalidQueries = [];
 			}
