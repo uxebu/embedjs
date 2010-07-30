@@ -12,6 +12,8 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 
 		scope = scope || dojo.doc;
 
+		var originalQuery = query; //TODO: remove together with the try/catch blog at the end
+
 		/*
 		QUERY NORMALIZATION:
 
@@ -90,7 +92,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			if(!doh.invalidQueries){
 				doh.invalidQueries = [];
 			}
-			doh.invalidQueries.push(query);
+			doh.invalidQueries.push({query: originalQuery, normalizedQuery: query, error: e});
 			//console.error("Invalid query: ",query);
 			//console.log(e);
 		}
