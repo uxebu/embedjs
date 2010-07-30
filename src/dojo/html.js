@@ -74,7 +74,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			var originalId = scope.id;
 			var rootId = originalId;
 			if(!originalId){
-				rootId = scope.id = "----dojo-query-synthetic-id-" + new Date().getTime();
+				rootId = scope.id =  "d---dojo-query-synthetic-id-" + new Date().getTime(); // is this "secure" enough?
 				var syntheticIdSet = true;
 			}
 
