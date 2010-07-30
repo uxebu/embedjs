@@ -114,6 +114,94 @@ dojo.require = function(){};
 		}
 		return obj; // Object
 	}
+	
+	// implementation of safe mixin function
+	dojo.safeMixin(target, source){
+		//	summary:
+		//		Mix in properties skipping a constructor and decorating functions
+		//		like it is done by dojo.declare.
+		//	target: Object
+		//		Target object to accept new properties.
+		//	source: Object
+		//		Source object for new properties.
+		//	description:
+		//		This function is used to mix in properties like dojo._mixin does,
+		//		but it skips a constructor property and decorates functions like
+		//		dojo.declare does.
+		//
+		//		It is meant to be used with classes and objects produced with
+		//		dojo.declare. Functions mixed in with dojo.safeMixin can use
+		//		this.inherited() like normal methods.
+		//
+		//		This function is used to implement extend() method of a constructor
+		//		produced with dojo.declare().
+		//
+		//	example:
+		//	|	var A = dojo.declare(null, {
+		//	|		m1: function(){
+		//	|			console.log("A.m1");
+		//	|		},
+		//	|		m2: function(){
+		//	|			console.log("A.m2");
+		//	|		}
+		//	|	});
+		//	|	var B = dojo.declare(A, {
+		//	|		m1: function(){
+		//	|			this.inherited(arguments);
+		//	|			console.log("B.m1");
+		//	|		}
+		//	|	});
+		//	|	B.extend({
+		//	|		m2: function(){
+		//	|			this.inherited(arguments);
+		//	|			console.log("B.m2");
+		//	|		}
+		//	|	});
+		//	|	var x = new B();
+		//	|	dojo.safeMixin(x, {
+		//	|		m1: function(){
+		//	|			this.inherited(arguments);
+		//	|			console.log("X.m1");
+		//	|		},
+		//	|		m2: function(){
+		//	|			this.inherited(arguments);
+		//	|			console.log("X.m2");
+		//	|		}
+		//	|	});
+		//	|	x.m2();
+		//	|	// prints:
+		//	|	// A.m1
+		//	|	// B.m1
+		//	|	// X.m1
+		var name, t, i = 0, l = d._extraNames.length;
+		var op = Object.prototype, opts = op.toString, cname = "constructor";
+		
+		// add props adding metadata for incoming functions skipping a constructor
+		for(name in source){
+			t = source[name];
+			if((t !== op[name] || !(name in op)) && name != cname){
+				if(opts.call(t) == "[object Function]"){
+					// non-trivial function method => attach its name
+					t.nom = name;
+				}
+				target[name] = t;
+			}
+		}
+		// process unenumerable methods on IE
+		//TODO: move unneeded iteration to ie branch?
+		for(; i < l; ++i){
+			name = d._extraNames[i];
+			t = source[name];
+			if((t !== op[name] || !(name in op)) && name != cname){
+				if(opts.call(t) == "[object Function]"){
+					// non-trivial function method => attach its name
+					t.nom = name;
+				}
+				target[name] = t;
+			}
+		}
+		return target;
+	}
 
 	d._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object*/context){
 		var obj=context || d.global;
