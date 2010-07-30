@@ -3,7 +3,7 @@ require({
 		"dojo/connect":"dojo/connect/ie",
 		"dojo/array":"dojo/array/functional",
 		"dojo/json":"dojo/json/dojo-json",
-		"dojo/lang/clone":"dojo/lanf/clone-ie"
+		"dojo/lang/clone":"dojo/lang/clone-ie"
 	}
 });
 require.modify({
