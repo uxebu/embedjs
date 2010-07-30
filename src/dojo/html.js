@@ -75,11 +75,6 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 
 				// execute the rest of the selector against scope.documentElement
 				scope = scope.documentElement;
-
-				// if the remaining query is empty, return the document element (the new scope)
-				if(!query){
-					return scope;
-				}
 			}
 
 			// if the query starts with a ajdacent combinator or a general sibling combinator,
