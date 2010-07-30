@@ -23,6 +23,7 @@ require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 			//console.log(e);
 		}
 		//return (scope || document).querySelectorAll(query);
+		return n;
 	};
 
 	var byId =
