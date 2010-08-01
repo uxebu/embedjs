@@ -1,5 +1,3 @@
-require.def("dojo/lang/clone", ["dojo", "dojo/array", "dojo/lang/is"], function(){
-
 dojo.clone = function(/*anything*/ o){
 	// summary:
 	//		Clones objects (including DOM nodes) and all children.
@@ -48,5 +46,3 @@ dojo.clone = function(/*anything*/ o){
 	return r; // Object
 		
 }
-
-});

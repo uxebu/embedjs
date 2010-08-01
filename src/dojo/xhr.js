@@ -1,5 +1,3 @@
-require.def("dojo/xhr", ["dojo"], function(){
-
 (function(d){
 	d._xhrObj = function(){
 		return new XMLHttpRequest();
@@ -45,5 +43,3 @@ require.def("dojo/xhr", ["dojo"], function(){
 		return http.responseText; // String
 	}
 }(dojo));
-
-});

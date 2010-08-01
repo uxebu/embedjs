@@ -1,4 +1,3 @@
-require.def("dojo/io/script", ["dojo"], function(){
 dojo.provide("dojo.io.script");
 
 dojo.io.script.attach = function(params){
@@ -155,4 +154,5 @@ dojo.io.script.get = function(/* dojo.io.script.__ioArgs */ args){
 	return doc.getElementsByTagName("head")[0].appendChild(element);
 };
 
-});
+// Move to dojo/jsonp.js???????!!!!!!!!!!!
+dojo.jsonp = dojo.io.script.get;
