@@ -17,7 +17,7 @@ dojo._toArray = function(obj, offset, startWith){
 }
 =====*/
 
-(function(){
+;(function(){
 	var efficient = function(obj, offset, startWith){
 		return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
 	};

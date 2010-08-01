@@ -1,4 +1,4 @@
-(function(d){
+;(function(d){
 
 	var fx = d.fx = {},
 		byId = d.byId,

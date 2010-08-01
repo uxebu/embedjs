@@ -1663,10 +1663,29 @@ dojo._toArray = function(obj, offset, startWith){
 }
 =====*/
 
-(function(){
-	dojo._toArray = function(obj, offset, startWith){
+;(function(){
+	var efficient = function(obj, offset, startWith){
 		return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
-	}
+	};
+
+	//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
+	var slow = function(obj, offset, startWith){
+		var arr = startWith||[];
+		for(var x = offset || 0; x < obj.length; x++){
+			arr.push(obj[x]);
+		}
+		return arr;
+	};
+	//>>excludeEnd("webkitMobile");
+
+	dojo._toArray =
+		//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
+		dojo.isIE ?  function(obj){
+			return ((obj.item) ? slow : efficient).apply(this, arguments);
+		} :
+		//>>excludeEnd("webkitMobile");
+		efficient;
+
 })();
 // Crockford (ish) functions
 
@@ -1796,7 +1815,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 	}
 	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
 }
-(function(d){
+;(function(d){
 
 	var fx = d.fx = {},
 		byId = d.byId,
