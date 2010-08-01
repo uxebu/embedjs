@@ -15,16 +15,12 @@
 			#results h1 a {
 				padding: 5px;
 				text-decoration: none;
+				background-color: #FF3F3F;
 			}
 			#results .groupResults {
 				border: solid 1px #808080;
 				margin-bottom: 10px;
-			}
-			#results .passed h1 {
 				background: #80FF9F;
-			}
-			#results .failed h1 {
-				background: #FF3F3F;
 			}
 			#results .inner {
 				padding: 5px 10px;
@@ -78,9 +74,12 @@
 			}
 		
 	    	function runTests(platform){
+				var infoNode = document.getElementById("statusInfo");
+				infoNode.innerHTML = "Loading tests ...";
 				addScript("../../dist/dojo-" + platform + "-kitchensink.js");
 				addScript("runner-embed.js");
 				addScript("modules.js");
+				infoNode.innerHTML = "Starting tests in a bit ...";
 		    }
 
 		//    function runReadyTest(){
@@ -116,6 +115,7 @@
 				<td><button onclick="runTests('opera-wrt');">run tests</button></td>
 			</tr>
 		</table>
+	    <pre id="statusInfo"></pre><br />
 	    <pre id="results"></pre>
 	    <div id="testBoxContainer"></div>
 	</body>
