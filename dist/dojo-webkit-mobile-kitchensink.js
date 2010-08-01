@@ -1643,7 +1643,7 @@ dojo.stopEvent = function(/*Event*/ evt){
 	evt.preventDefault();
 	evt.stopPropagation();
 	// NOTE: below, this method is overridden for IE
-}
+};
 /*=====
 dojo._toArray = function(obj, offset, startWith){
 	//	summary:
@@ -1664,29 +1664,89 @@ dojo._toArray = function(obj, offset, startWith){
 =====*/
 
 (function(){
-	var efficient = function(obj, offset, startWith){
+	dojo._toArray = function(obj, offset, startWith){
 		return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
-	};
-
-	//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-	var slow = function(obj, offset, startWith){
-		var arr = startWith||[];
-		for(var x = offset || 0; x < obj.length; x++){
-			arr.push(obj[x]);
-		}
-		return arr;
-	};
-	//>>excludeEnd("webkitMobile");
-
-	dojo._toArray =
-		//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-		dojo.isIE ?  function(obj){
-			return ((obj.item) ? slow : efficient).apply(this, arguments);
-		} :
-		//>>excludeEnd("webkitMobile");
-		efficient;
-
+	}
 })();
+// Crockford (ish) functions
+
+dojo.isString = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is a String
+	return (typeof it == "string" || it instanceof String); // Boolean
+}
+
+dojo.isArray = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is an Array
+	return it && (it instanceof Array || typeof it == "array"); // Boolean
+}
+
+/*=====
+dojo.isFunction = function(it){
+	// summary: Return true if it is a Function
+	// it: anything
+	return; // Boolean
+}
+=====*/
+
+dojo.isFunction = (function(){
+	var _isFunction = function(/*anything*/ it){
+		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
+		//Firefox thinks object HTML element is a function, so test for nodeType.
+		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
+	};
+
+	return dojo.isSafari ?
+		// only slow this down w/ gratuitious casting in Safari (not WebKit)
+		function(/*anything*/ it){
+			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
+			return _isFunction(it); // Boolean
+		} : _isFunction;
+})();
+
+dojo.isObject = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a JavaScript object (or an Array, a Function
+	//		or null)
+	return it !== undefined &&
+		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
+}
+
+dojo.isArrayLike = function(/*anything*/ it){
+	//	summary:
+	//		similar to dojo.isArray() but more permissive
+	//	description:
+	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
+	//		a string or number and has a length property". Arguments objects
+	//		and DOM collections will return true when passed to
+	//		dojo.isArrayLike(), but will return false when passed to
+	//		dojo.isArray().
+	//	returns:
+	//		If it walks like a duck and quacks like a duck, return `true`
+	var d = dojo;
+	return it && it !== undefined && // Boolean
+		// keep out built-in constructors (Number, String, ...) which have length
+		// properties
+		!d.isString(it) && !d.isFunction(it) &&
+		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
+		(d.isArray(it) || isFinite(it.length));
+}
+
+dojo.isAlien = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a built-in function or some other kind of
+	//		oddball that *should* report as a function but doesn't
+	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
+}
+
+dojo.isNumeric = function(n){
+	return n==parseFloat(n);
+}
+
+dojo.isNumber = function(n){
+	return typeof n == "number" || n instanceof Number;
+}
 dojo._hitchArgs = function(scope, method /*,...*/){
 	var pre = dojo._toArray(arguments, 2);
 	var named = dojo.isString(method);
@@ -1736,7 +1796,6 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 	}
 	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
 }
-require.def("dojo/fx", ["dojo", "dojo/html", "dojo/lang/hitch"], function(){
 (function(d){
 
 	var fx = d.fx = {},
@@ -1893,7 +1952,7 @@ require.def("dojo/fx", ["dojo", "dojo/html", "dojo/lang/hitch"], function(){
 		return {play:dojo.hitch(anim, "play")};
 	};
 })(dojo);
-});dojo.provide("dojo.io.script");
+dojo.provide("dojo.io.script");
 
 dojo.io.script.attach = function(params){
 	//	summary:

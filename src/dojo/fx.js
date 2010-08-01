@@ -1,4 +1,3 @@
-require.def("dojo/fx", ["dojo", "dojo/html", "dojo/lang/hitch"], function(){
 (function(d){
 
 	var fx = d.fx = {},
@@ -155,4 +154,3 @@ require.def("dojo/fx", ["dojo", "dojo/html", "dojo/lang/hitch"], function(){
 		return {play:dojo.hitch(anim, "play")};
 	};
 })(dojo);
-});

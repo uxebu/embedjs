@@ -29,6 +29,7 @@ cat \
 #			lang.js
 cat \
 	$DOJO_PATH/lang.js \
+	$DOJO_PATH/lang/is.js \
 	$DOJO_PATH/lang/hitch.js \
 	$DOJO_PATH/fx.js \
 	>> $DEST_FILE

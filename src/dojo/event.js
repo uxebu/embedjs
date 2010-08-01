@@ -7,4 +7,4 @@ dojo.stopEvent = function(/*Event*/ evt){
 	evt.preventDefault();
 	evt.stopPropagation();
 	// NOTE: below, this method is overridden for IE
-}
+};
