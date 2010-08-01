@@ -40,8 +40,19 @@ doh.debug = function(){
 // group result logging
 doh._groupResultNodes = {};
 
+// Lets store some stats in here.
+doh._stats = {
+	groups:[],
+	groupsByName:{} // Store refs to the group here.
+};
 doh._groupStarted = function(group){
+	if (typeof this._stats.groupsByName[group]=="undefined"){
+		var groupData = {name:group, numTests:0, numFailures:0};
+		this._stats.groups.push(groupData);
+		this._stats.groupsByName[group] = groupData;
+	}
 	
+	doh.infoNode.innerHTML = "Testing group " + this._stats.groups.length + "/" + this._groupCount + ": " + group;
 	if(!doh._groupResultNodes[group]){
 		var node = document.createElement('div');
 		node.id = group;
@@ -56,20 +67,28 @@ doh._groupStarted = function(group){
 }
 
 doh._groupFinished = function(group, success){
-	doh._groupResultNodes[group].outer.className += success ? ' passed' : ' failed';
+	var curGroup = this._stats.groupsByName[group];
+	var percentFailures = parseInt(curGroup.numFailures/curGroup.numTests*100, 10);
+	var link = doh._groupResultNodes[group].outer.getElementsByTagName("a");
+	if (link.length>0){
+		link[0].setAttribute("style", "width:" + percentFailures + "%");
+	}
 }
 
 doh._testStarted = function(group, fixture){
 	doh._currentTestName = fixture.name;
 }
 
-doh._testFinished = function(group, fixture, success){	
+doh._testFinished = function(group, fixture, success){
+	var curGroup = this._stats.groupsByName[group];
+	curGroup.numTests++;
 	var html = '<div ';
 	var resultString = success ? 'passed' : 'failed';
 	var id = '';
 	
 	html += 'class="' + resultString + '" ';
 	if(!success){
+		curGroup.numFailures++;
 		id = ( group + '-' + fixture.name ).replace(/'|"/g,"");
 		html += '><a href="javascript:showMessages(\''+ id +'\');"';
 	}
@@ -96,7 +115,7 @@ doh._report = function(){
 	
 	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
 	
-	alert('Tests finished.');
+	doh.infoNode.innerHTML = 'Tests finished.';
 	dojo.body().innerHTML = "";
 	dojo.body().appendChild(doh.resultsNode);
 }
@@ -120,6 +139,8 @@ setTimeout(function(){
 	doh.resultsNode = document.createElement('pre');
 	doh.resultsNode.id = "results";
 	doh._docFragment.appendChild(doh.resultsNode);
+	doh.infoNode = document.getElementById("statusInfo");
 	
 	doh.run();
-}, 1000);
+	doh.infoNode.innerHTML = "Running tests ...";
+}, 200); // Just to be sure ...
