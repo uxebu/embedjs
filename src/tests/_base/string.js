@@ -1,5 +1,3 @@
-require.def("tests/_base/string", [], function(){
-
 tests.register("tests._base.string",
 	[
 		
@@ -53,5 +51,3 @@ tests.register("tests._base.string",
 		}
 	]
 );
-
-});

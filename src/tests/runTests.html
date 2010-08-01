@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>EmbedJS Test Runner</title>
-		<script type="text/javascript" src="../require.js"></script>
 		<style type="text/css">
 			a {
 				display: block;
@@ -72,28 +71,26 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-	    	function runTests(){
-				var select = document.getElementById('target-platform');
-				var target = select.options[select.selectedIndex].value;
-				var targetModule = "dojo/_platforms/" + target;
-
-				document.body.removeChild(document.getElementById('targetSelector'));
-
-				require(["dojo/_features/dojo-kitchen-sink", targetModule]);
-
-				require.ready(function(){
-					require(["modules.js"]);
-				});
+			function addScript(src){
+				var tag = document.createElement("script");
+				tag.src = src;
+				document.body.appendChild(tag);
+			}
+		
+	    	function runTests(platform){
+				addScript("../../dist/dojo-" + platform + "-kitchensink.js");
+				addScript("runner-embed.js");
+				addScript("modules.js");
 		    }
 
-		    function runReadyTest(){
-				var select = document.getElementById('target-platform');
-				var target = select.options[select.selectedIndex].value;
-				var targetModule = "dojo/_platforms/" + target;
-
-				location.href = "./readyTest.html?platform="+targetModule;
-
-			}
+		//    function runReadyTest(){
+		//		var select = document.getElementById('target-platform');
+		//		var target = select.options[select.selectedIndex].value;
+		//		var targetModule = "dojo/_platforms/" + target;
+		//
+		//		location.href = "./readyTest.html?platform="+targetModule;
+		//
+		//	}
 
 			function toggleInner(group){
 				dojo.toggleClass(group, 'showDetails');
@@ -104,21 +101,23 @@
 			}
 	    </script>
 	    
-	    
-	    <div id="targetSelector">
-		    <select id="target-platform">
-		    	<option value="webkit-mobile">WebKit</option>
-		    	<option value="opera">Opera</option>
-		    </select>
-		    <br />
-		    <button onclick="runTests();">run tests for selected platform</button>
-		    <button onclick="runReadyTest();">run ready() test for selected platform</button>
-	    </div>
-	    
+		<table border="1">
+			<tr>
+				<th>Platform</th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr>
+				<td>WebKit</td>
+				<td><button onclick="runTests('webkit-mobile');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>Opera WRT</td>
+				<td><button onclick="runTests('opera-wrt');">run tests</button></td>
+			</tr>
+		</table>
 	    <pre id="results"></pre>
-	    
 	    <div id="testBoxContainer"></div>
-	    
 	</body>
 </html>
 

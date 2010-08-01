@@ -1,5 +1,3 @@
-require.def("tests/_base/array", [], function(){
-
 tests.register("tests._base.array", 
 	[
 		function testIndexOf(t){
@@ -312,5 +310,3 @@ tests.register("tests._base.array",
 		}
 	]
 );
-
-});

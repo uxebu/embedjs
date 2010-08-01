@@ -1,5 +1,3 @@
-require.def("tests/_base/deferred", [], function(){
-
 var delay = function(ms){
 	var d = new dojo.Deferred();
 	setTimeout(function(){
@@ -179,5 +177,3 @@ doh.register("tests._base.deferred",
 		}
 	]
 );
-
-});

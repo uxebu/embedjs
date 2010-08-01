@@ -1,15 +1,13 @@
-require.def("tests/modules", ["tests/runner-embed",
-	"tests/_base/object",
-	"tests/_base/declare",
-	"tests/_base/lang",
-	"tests/_base/html",
-	"tests/_base/string",
-	"tests/_base/deferred",
-	"tests/_base/array",
-	"tests/_base/connect",
-	"tests/_base/json",
-	"tests/io/script"
-], function(){
+addScript("_base/object.js");
+addScript("_base/declare.js");
+addScript("_base/lang.js");
+//addScript("_base/html.js");
+addScript("_base/string.js");
+addScript("_base/deferred.js");
+addScript("_base/array.js");
+addScript("_base/connect.js");
+addScript("_base/json.js");
+addScript("io/script.js");
 
 // error reporting
 doh._testMessages = {};
@@ -116,7 +114,7 @@ doh.registerTestBox = function(id, html){
 };
 
 
-require.ready(function(){
+setTimeout(function(){
 	//doh.resultsNode = document.getElementById('results');
 	doh._docFragment = document.createDocumentFragment();
 	doh.resultsNode = document.createElement('pre');
@@ -124,7 +122,4 @@ require.ready(function(){
 	doh._docFragment.appendChild(doh.resultsNode);
 	
 	doh.run();
-});
-	
-
-});
+}, 1000);

@@ -1,5 +1,3 @@
-require.def("tests/io/script", [], function(){
-
 tests.register("tests.io.script", 
 	[
 	 	/* load option not supported by API
@@ -107,5 +105,3 @@ tests.register("tests.io.script",
 		}
 	]
 );
-
-});

@@ -1,5 +1,3 @@
-require.def("tests/_base/json", [], function(){
-
 tests.register("tests._base.json", 
 	[
 		//Not testing dojo.toJson() on its own since Rhino will output the object properties in a different order.
@@ -30,5 +28,3 @@ tests.register("tests._base.json",
 		}
 	]
 );
-
-});

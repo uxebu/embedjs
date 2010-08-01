@@ -1,5 +1,3 @@
-require.def("tests/_base/connect", [], function(){
-
 hub = function(){
 }
 
@@ -221,5 +219,3 @@ tests.register("tests._base.connect",
 		}
 	]
 );
-
-});

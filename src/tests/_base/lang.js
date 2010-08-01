@@ -1,5 +1,3 @@
-require.def("tests/_base/lang", [], function(){
-
 tests.register("tests._base.lang", 
 	[
 		function mixin(t){
@@ -244,5 +242,3 @@ tests.register("tests._base.lang",
 		}
 	]
 );
-
-});

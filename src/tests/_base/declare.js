@@ -1,5 +1,3 @@
-require.def("tests/_base/declare", [], function(){
-
 tests.register("tests._base.declare",
 	[
 		function smokeTest(t){
@@ -406,5 +404,3 @@ tests.register("tests._base.declare",
 		//	- multi-level inheritance + L/R conflict checks
 	]
 );
-
-});

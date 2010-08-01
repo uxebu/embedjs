@@ -1,5 +1,3 @@
-require.def("tests/_base/object", [], function(){
-
 // setup the test object
 dojo.zoo = { a:1, c: { d:1 } };
 
@@ -40,5 +38,3 @@ tests.register("tests._base.object",
 
 	]
 );
-
-});

@@ -1,7 +1,3 @@
-require.def("tests/runner-embed", [], function(){
-
-
-
 doh = {};
 //dojo.require = function(){ throw("Illegal dojo.require call.");};
 
@@ -1366,5 +1362,3 @@ doh.average = function(/* Number [] */ a){
 }
 
 tests = doh;
-
-});
