@@ -95,9 +95,6 @@
 		//	timeout: Integer?
 		//		Milliseconds to wait for the response. If this time
 		//		passes, the then error callbacks are called.
-		//	form: DOMNode?
-		//		DOM node for a form. Used to extract the form values
-		//		and send to the server.
 		//	preventCache: Boolean?
 		//		Default is false. If true, then a
 		//		"dojo.preventCache" parameter is sent in the request
