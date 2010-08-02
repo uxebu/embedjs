@@ -79,11 +79,18 @@
 
 				document.body.removeChild(document.getElementById('targetSelector'));
 
-				require(["dojo/_features/dojo-kitchen-sink", targetModule]);
-
+				require(["dojo"]);
 				require.ready(function(){
-					require(["modules.js"]);
+					
+					require(["dojo/_features/dojo-kitchen-sink", targetModule]);
+
+					require.ready(function(){
+						require(["modules.js"]);
+					});
+
 				});
+
+
 		    }
 
 		    function runReadyTest(){
