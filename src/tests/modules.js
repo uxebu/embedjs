@@ -9,6 +9,23 @@ addScript("_base/connect.js");
 addScript("_base/json.js");
 addScript("io/script.js");
 
+// html tests
+addScript("_base/html/getHtml.php?id=html_id-test&file=id");
+addScript("_base/html/id.js");
+
+addScript("_base/html/getHtml.php?id=html_html-test&file=html");
+addScript("_base/html/html.js");
+
+addScript("_base/html/getHtml.php?id=html_element-test&file=element");
+addScript("_base/html/element.js");
+
+addScript("_base/html/getHtml.php?id=html_query-test&file=query");
+addScript("_base/html/query.js");
+
+addScript("_base/html/getHtml.php?id=html_xhr-test&file=xhr");
+addScript("_base/html/xhr.js");
+
+
 // error reporting
 doh._testMessages = {};
 doh.debug = function(){
@@ -131,6 +148,10 @@ doh.showBox = function(id){
 doh.registerTestBox = function(id, html){
 	doh._testBoxes[id] = html;
 };
+
+doh.fileLoaded = function(id, data){
+	doh.registerTestBox(id, data.html);
+}
 
 
 setTimeout(function(){

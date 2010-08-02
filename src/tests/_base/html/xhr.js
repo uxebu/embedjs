@@ -1,4 +1,3 @@
-require.def("tests/_base/html/xhr", [], function(){
 
 var f1NoValueObj = null;
 var f1NoValue2Obj = 'blah';
@@ -477,5 +476,3 @@ tests.register("tests._base.html.xhr",
 		}
 	]
 );
-
-});

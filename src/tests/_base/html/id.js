@@ -1,5 +1,3 @@
-require.def("tests/_base/html/id", [], function(){
-
 tests.register("tests._base.html.id", 
 	[
 		function byId(t){
@@ -33,5 +31,3 @@ tests.register("tests._base.html.id",
 		}
 	]
 );
-
-});

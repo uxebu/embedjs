@@ -1,5 +1,3 @@
-require.def("tests/_base/html/element", [], function(){
-
 tests.register("tests._base.html.element", 
 	[		
 	 	function _start(t){
@@ -274,5 +272,3 @@ tests.register("tests._base.html.element",
 		}
 	]
 );
-
-});

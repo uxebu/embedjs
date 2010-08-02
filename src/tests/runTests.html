@@ -69,7 +69,8 @@
 	    <script type="text/javascript">
 			function addScript(src){
 				var tag = document.createElement("script");
-				tag.src = src + "?nocache=" + new Date().getTime(); // prevent caching, FF caches hard
+				var connector = src.indexOf("?") == -1 ? "?" : "&";
+				tag.src = src + connector + "nocache=" + new Date().getTime(); // prevent caching, FF caches hard
 				document.body.appendChild(tag);
 			}
 		

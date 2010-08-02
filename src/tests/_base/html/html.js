@@ -1,4 +1,3 @@
-require.def("tests/_base/html/html", [], function(){
 	
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
@@ -533,5 +532,3 @@ tests.register("tests._base.html.html",
 		*/
 	]
 );
-
-});
