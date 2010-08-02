@@ -1,5 +1,3 @@
-require.def("dojo/oo/declare", ["dojo", "dojo/oo/delegate", "dojo/oo/extend", "dojo/lang/is", "dojo/array"], function(){
-
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
@@ -239,6 +237,4 @@ dojo.mixin(dojo.declare, {
 			return fn.apply(this, a);
 		}
 	}
-});
-
 });

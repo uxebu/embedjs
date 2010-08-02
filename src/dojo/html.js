@@ -1,4 +1,3 @@
-require.def("dojo/html", ["dojo", "dojo/lang/string"], function(){
 (function(d){
 
 	d._query = function(query, scope){
@@ -880,5 +879,3 @@ dojo.byId = dojo._byId;
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
 dojo.query = dojo._query;
-
-});

@@ -1,4 +1,3 @@
-require.def("dojo/array", ["dojo"], function(){
 //
 //	Provide ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"] 
 //
@@ -249,4 +248,3 @@ require.def("dojo/array", ["dojo"], function(){
 		}
 	});
 })();
-});

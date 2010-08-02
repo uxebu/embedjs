@@ -1,4 +1,3 @@
-require.def("dojo/destroy", ["dojo", "dojo/html"], function(){
 (function(d){
 
 	var _destroyContainer = null,
@@ -40,4 +39,3 @@ require.def("dojo/destroy", ["dojo", "dojo/html"], function(){
 		}
 	};
 })(dojo);
-});

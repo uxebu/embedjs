@@ -1,4 +1,3 @@
-require.def("dojo/connect", ["dojo"], function(){
 (function(d){
 /*
  	d.query = function(query, parentNode){
@@ -163,4 +162,3 @@ require.def("dojo/connect", ["dojo"], function(){
 		return handle;
 	};
 })(dojo);
-});

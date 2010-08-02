@@ -1,5 +1,3 @@
-require.def("dojo/lang", ["dojo"], function(){
-
 /*=====
 dojo._toArray = function(obj, offset, startWith){
 	//	summary:
@@ -43,5 +41,3 @@ dojo._toArray = function(obj, offset, startWith){
 		efficient;
 
 })();
-
-});

@@ -1,8 +1,6 @@
 var dojo = {};
 var djConfig = dojo.config = {};
 
-require.def("dojo", function(){
-
 dojo.global = window;
 
 dojo.doc = document;
@@ -444,5 +442,3 @@ dojo.require = function(){};
 	}
 	d.baseUrl = d.config.baseUrl;
 }(dojo));
-
-});

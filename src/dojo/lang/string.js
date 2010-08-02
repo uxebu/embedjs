@@ -1,5 +1,3 @@
-require.def("dojo/lang/string", ["dojo"], function(){
-
 /*=====
 dojo.trim = function(str){
 	//	summary:
@@ -97,5 +95,3 @@ dojo.replace = function(tmpl, map, pattern){
 	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
 		map : function(_, k){ return dojo.getObject(k, false, map); });
 };
-	
-});
