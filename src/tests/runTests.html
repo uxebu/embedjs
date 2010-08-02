@@ -64,6 +64,7 @@
 				overflow: hidden;
 			}
 		</style>
+		<script type="text/javascript" src="runner-embed.js"></script>
 	</head>
 	<body>
 	    <script type="text/javascript">
@@ -78,7 +79,6 @@
 				var infoNode = document.getElementById("statusInfo");
 				infoNode.innerHTML = "Loading tests ...";
 				addScript("../../dist/dojo-" + platform + "-kitchensink.js");
-				addScript("runner-embed.js");
 				addScript("modules.js");
 				infoNode.innerHTML = "Starting tests in a bit ...";
 		    }
