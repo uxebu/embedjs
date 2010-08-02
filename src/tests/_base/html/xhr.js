@@ -74,6 +74,8 @@ dojo.forEach(topics, function(topic){
 		
 	}
 });
+
+dojo.config.ioPublish = true;
 	
 tests.register("tests._base.html.xhr",
 	[
@@ -440,11 +442,12 @@ tests.register("tests._base.html.xhr",
 			//These numbers will look a bit odd at this point, since
 			//some of the topics publish after this test is run.
 			
+			// We have three less transports
 			t.is(1, topicCount["/dojo/io/start"]);
-			t.is(12, topicCount["/dojo/io/send"]);
-			t.is(9, topicCount["/dojo/io/load"]);
+			t.is(9, topicCount["/dojo/io/send"]);
+			t.is(6, topicCount["/dojo/io/load"]);
 			t.is(2, topicCount["/dojo/io/error"]);
-			t.is(11, topicCount["/dojo/io/done"]);
+			t.is(8, topicCount["/dojo/io/done"]);
 			t.is(0, topicCount["/dojo/io/stop"]);
 
 			/*
