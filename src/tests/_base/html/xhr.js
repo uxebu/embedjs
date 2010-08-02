@@ -136,7 +136,6 @@ tests.register("tests._base.html.xhr",
 			t.is(f2fo , dojo.formToObject("f2"));
 		},
 		*/
-		/* No objectToQuery in API
 		function objectToQuery(t){
 			t.is(f1foStr , dojo.objectToQuery(f1fo));
 			t.is(f5foStr , dojo.objectToQuery(f5fo));
@@ -144,7 +143,7 @@ tests.register("tests._base.html.xhr",
 		function objectToQueryArr(t){
 			t.is(f2foStr, dojo.objectToQuery(f2fo));
 		},
-		*/
+		
 		/* not in API, see above
 		function formToQuery(t){
 			t.is(f1foStr, dojo.formToQuery("f1"));
@@ -188,36 +187,9 @@ tests.register("tests._base.html.xhr",
 				})
 			);
 		},
-		function jsonCFContentHandler(t){
-			var jsonObj = {
-				foo: "bar",
-				baz: [
-					{ thonk: "blarg" },
-					"xyzzy!"
-				]
-			};
-			var e;
-			try{
-				dojo._contentHandlers["json-comment-filtered"]({
-					responseText: dojo.toJson(jsonObj)
-				})
-			}catch(ex){
-				e = ex;
-			}finally{
-				// did we fail closed?
-				t.is((typeof e), "object");
-			}
-			t.is(jsonObj,
-				dojo._contentHandlers["json-comment-filtered"]({
-					responseText: "\tblag\n/*"+dojo.toJson(jsonObj)+"*/\n\r\t\r"
-				})
-			);
-			t.is(jsonObj,
-				dojo._contentHandlers["json-comment-optional"]({
-					responseText: "\tblag\n/*"+dojo.toJson(jsonObj)+"*/\n\r\t\r"
-				})
-			);
-		},
+		/* No comment-filtered in content handlers
+		*/
+		/* No JS in content handlers
 		function jsContentHandler(t){
 			var jsonObj = {
 				foo: "bar",
@@ -240,6 +212,8 @@ tests.register("tests._base.html.xhr",
 				})
 			);
 		},
+		*/
+		/* No XML in content-handlers
 		function xmlContentHandler(t){
 			var fauxXhr = { responseText: "<foo><bar baz='thonk'>blarg</bar></foo>" };
 			if("DOMParser" in dojo.global){
@@ -249,10 +223,11 @@ tests.register("tests._base.html.xhr",
 			var xmlDoc = dojo._contentHandlers["xml"](fauxXhr);
 			t.is("foo", xmlDoc.documentElement.tagName);
 		},
+		*/
 		function xhrGet(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrGet({
-				url: "xhr.html", // self
+				url: "_base/html/xhr.html", // self
 				preventCache: true,
 				load: function(text, ioArgs){
 					t.is(4, ioArgs.xhr.readyState);
@@ -282,7 +257,7 @@ tests.register("tests._base.html.xhr",
 		function xhrGetContent(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrGet({
-				url: "xhr.html?color=blue",
+				url: "_base/html/xhr.html?color=blue",
 				content: {
 					foo: [ "bar", "baz" ],
 					thud: "thonk",
@@ -291,21 +266,22 @@ tests.register("tests._base.html.xhr",
 			});
 			td.addCallback(function(text){
 				// console.debug(td, td.xhr, td.args);
-				t.is("xhr.html?color=blue&foo=bar&foo=baz&thud=thonk&xyzzy=3", 
+				t.is("_base/html/xhr.html?color=blue&foo=bar&foo=baz&thud=thonk&xyzzy=3", 
 						td.ioArgs.url);
 				d.callback(true);
 			});
 			return d;
 		},
+		/* No form in API
 		function xhrGetForm(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrGet({
-				url: "xhr.html", // self
+				url: "_base/html/xhr.html", // self
 				form: "f3"
 			});
 			td.addCallback(function(xhr){
 				// console.debug(td.args.url);
-				t.is("xhr.html?spaces=string%20with%20spaces", td.ioArgs.url);
+				t.is("_base/html/xhr.html?spaces=string%20with%20spaces", td.ioArgs.url);
 				d.callback(true);
 			});
 			return d;
@@ -326,10 +302,11 @@ tests.register("tests._base.html.xhr",
 			});
 			return d;
 		},
+		*/
 		function xhrPost(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "xhr.html?foo=bar", // self
+				url: "_base/html/xhr.html?foo=bar", // self
 				content: { color: "blue"},
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -347,7 +324,7 @@ tests.register("tests._base.html.xhr",
 		function xhrPostWithContent(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "xhr.html",
+				url: "_base/html/xhr.html",
 				content: {
 					foo: [ "bar", "baz" ],
 					thud: "thonk",
@@ -367,6 +344,7 @@ tests.register("tests._base.html.xhr",
 			});
 			return d;
 		},
+		/* No form in API
 		function xhrPostForm(t){
 			var d = new doh.Deferred();
 			var form = dojo.byId("f4");
@@ -385,10 +363,11 @@ tests.register("tests._base.html.xhr",
 			// t.t(td instanceof dojo.Deferred);
 			return d;
 		},
+		*/
 		function rawXhrPost(t){
 			var d = new doh.Deferred();
 			var td = dojo.rawXhrPost({
-				url: "xhr.html", // self
+				url: "_base/html/xhr.html", // self
 				postData: "foo=bar&color=blue&height=average",
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -406,7 +385,7 @@ tests.register("tests._base.html.xhr",
 		function xhrPut(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPut({
-				url: "xhrDummyMethod.php?foo=bar", // self
+				url: "_base/html/xhrDummyMethod.php?foo=bar", // self
 				content: { color: "blue"},
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -424,7 +403,7 @@ tests.register("tests._base.html.xhr",
 		function xhrDelete(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrDelete({
-				url: "xhrDummyMethod.php", // self
+				url: "_base/html/xhrDummyMethod.php", // self
 				preventCache: true,
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -442,7 +421,7 @@ tests.register("tests._base.html.xhr",
 		function xhrCancel(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "xhrDummyMethod.php", // self
+				url: "_base/html/xhrDummyMethod.php", // self
 				handle: function(res, ioArgs){
 					if(res instanceof Error && res.dojoType == "cancel"){
 						d.callback(true);
