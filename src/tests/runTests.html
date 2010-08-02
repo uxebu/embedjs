@@ -70,6 +70,7 @@
 	    <script type="text/javascript">
 			function addScript(src){
 				var tag = document.createElement("script");
+				tag.setAttribute("charset","utf-8");
 				var connector = src.indexOf("?") == -1 ? "?" : "&";
 				tag.src = src + connector + "nocache=" + new Date().getTime(); // prevent caching, FF caches hard
 				document.body.appendChild(tag);
