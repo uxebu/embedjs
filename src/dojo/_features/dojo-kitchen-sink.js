@@ -14,5 +14,6 @@ require.def("dojo_kitchen_sink", [
 	"dojo/lang/string",
 	"dojo/json",
 	"dojo/oo/declare",
+	"dojo/deferred",
 	"dojo/xhr"
 ]);

@@ -116,7 +116,7 @@ dojo.require = function(){};
 	}
 	
 	// implementation of safe mixin function
-	dojo.safeMixin(target, source){
+	dojo.safeMixin = function(target, source){
 		//	summary:
 		//		Mix in properties skipping a constructor and decorating functions
 		//		like it is done by dojo.declare.
