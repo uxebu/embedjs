@@ -1,6 +1,4 @@
-require.def("dojo/deferred", ["dojo","dojo/lang"], function(){
-
-
+(function(d){
 
 (function(){
 	var mutator = function(){};		
@@ -331,4 +329,4 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	return callback(promiseOrValue);
 };
 
-});
+})(dojo);

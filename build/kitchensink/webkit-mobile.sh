@@ -65,7 +65,10 @@ cat \
 	$DOJO_PATH/oo/declare.js \
 	>> $DEST_FILE
 
+# Add deferred/xhr
+# deps: lang
 cat \
+	$DOJO_PATH/deferred.js \
 	$DOJO_PATH/xhr.js \
 	>> $DEST_FILE
 
