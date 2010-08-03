@@ -158,7 +158,7 @@ setTimeout(function(){
 	//doh.resultsNode = document.getElementById('results');
 	doh._docFragment = document.createDocumentFragment();
 	doh.resultsNode = document.createElement('pre');
-	doh.resultsNode.id = "results";
+	doh.resultsNode.id = "resultsNode";
 	doh._docFragment.appendChild(doh.resultsNode);
 	doh.infoNode = document.getElementById("statusInfo");
 	
