@@ -62,6 +62,13 @@ dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass
 	//	|			// someone called `new my.ComplexMix("something", "maybesomething");`
 	//	|		}
 	//	|	});
+	//	issues:
+	//		There are known issues with mutliple inheritance. In general, declare
+	//		works fine, but it may not be as precise as the full-blown declare
+	//		found in current dojo releases. This is a trade-off for a smaller
+	//		and better performance.
+	//	dojo-incompatibilities:
+	//		See ´issues´ above.
 
 	// process superclass argument
 	var dd = arguments.callee, mixins;

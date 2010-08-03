@@ -313,7 +313,10 @@ tests.register("tests._base.declare",
 			b.foo();
 			t.is([20, 21, 22, "INSIDE C"], stack);
 		},
-
+		
+		// Removing multiple inheritance Tests for now,
+		// until we're clear about the topic.
+		/*
 		function duplicatedBase(t){
 			var stack;
 			var A = dojo.declare(null, {
@@ -398,6 +401,7 @@ tests.register("tests._base.declare",
 			}
 			t.t(flag);
 		}
+		*/
 
 		// FIXME: there are still some permutations to test like:
 		//	- ctor arguments

@@ -2649,6 +2649,13 @@ dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass
 	//	|			// someone called `new my.ComplexMix("something", "maybesomething");`
 	//	|		}
 	//	|	});
+	//	issues:
+	//		There are known issues with mutliple inheritance. In general, declare
+	//		works fine, but it may not be as precise as the full-blown declare
+	//		found in current dojo releases. This is a trade-off for a smaller
+	//		and better performance.
+	//	dojo-incompatibilities:
+	//		See ´issues´ above.
 
 	// process superclass argument
 	var dd = arguments.callee, mixins;
@@ -3253,9 +3260,6 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 		//	timeout: Integer?
 		//		Milliseconds to wait for the response. If this time
 		//		passes, the then error callbacks are called.
-		//	form: DOMNode?
-		//		DOM node for a form. Used to extract the form values
-		//		and send to the server.
 		//	preventCache: Boolean?
 		//		Default is false. If true, then a
 		//		"dojo.preventCache" parameter is sent in the request
