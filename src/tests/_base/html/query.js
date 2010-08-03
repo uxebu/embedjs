@@ -223,7 +223,7 @@ tests.register("tests._base.html.query",
 			doh.is(foo, dojo.query(foo));
 		},
 		*/
-		/* No dojo._contentHandlers (yet)
+		/* No XML in dojo._contentHandlers
 		function xml(){
 			var doc = createDocument([
 				"<ResultSet>",
