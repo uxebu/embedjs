@@ -84,8 +84,8 @@ doh._groupStarted = function(group){
 }
 
 doh._groupFinished = function(group, success){
-	var curGroup = this._stats.groupsByName[group];
-	var percentFailures = parseInt(curGroup.numFailures/curGroup.numTests*100, 10);
+	var cg = doh._groups[group];
+	var percentFailures = cg.failures / cg.length * 100;
 	var link = doh._groupResultNodes[group].outer.getElementsByTagName("a");
 	if (link.length>0){
 		link[0].setAttribute("style", "width:" + percentFailures + "%");
