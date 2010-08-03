@@ -64,7 +64,7 @@ doh._stats = {
 };
 doh._groupStarted = function(group){
 	if (typeof this._stats.groupsByName[group]=="undefined"){
-		var groupData = {name:group, numTests:0, numFailures:0};
+		var groupData = {name:group, numTests:0, numFailures:0, startTime: (new Date()).getTime()};
 		this._stats.groups.push(groupData);
 		this._stats.groupsByName[group] = groupData;
 	}
@@ -84,11 +84,18 @@ doh._groupStarted = function(group){
 }
 
 doh._groupFinished = function(group, success){
+	if(typeof this._stats.groupsByName[group].endTime != 'undefined'){ // this gets called twice
+		return;
+	}
+	var end = (new Date()).getTime();
+	this._stats.groupsByName[group].endTime = end;
+	this._stats.groupsByName[group].elapsed = end - this._stats.groupsByName[group].startTime;
 	var cg = doh._groups[group];
 	var percentFailures = cg.failures / cg.length * 100;
 	var link = doh._groupResultNodes[group].outer.getElementsByTagName("a");
 	if (link.length>0){
 		link[0].setAttribute("style", "width:" + percentFailures + "%");
+		link[0].innerHTML += " <span>(Passed "+ ( cg.length - cg.failures ) + " tests of " + cg.length + ", elapsed time: " + this._stats.groupsByName[group].elapsed + "ms)</span>"
 	}
 }
 
@@ -97,6 +104,9 @@ doh._testStarted = function(group, fixture){
 }
 
 doh._testFinished = function(group, fixture, success){
+	if(fixture.name == '_start'){
+		return;
+	}
 	var curGroup = this._stats.groupsByName[group];
 	curGroup.numTests++;
 	var html = '<div ';
@@ -129,6 +139,10 @@ doh._report = function(){
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._testCount + ' tests in ' + this._groupCount + ' groups.</div>' );
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._errorCount + ' errors.</div>' );
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._failureCount + ' failures.</div>' );
+	
+	var totalTime = 0;
+	dojo.forEach(this._stats.groups, function(g){ g.elapsed && ( totalTime += g.elapsed); });
+	doh._groupResultNodes[group].inner.innerHTML += ( '<div>Time: ' + totalTime + 'ms.</div>' );
 	
 	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
 	
