@@ -1,0 +1,7 @@
+{
+	"declare.js":[
+		"oo-extend",
+		"lang-is",
+		"array",
+	]
+}
