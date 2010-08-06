@@ -4,7 +4,7 @@ if (typeof console=="undefined"){
 			var out = [];
 			for (var i=0, l=arguments.length, arg; i<l; i++){
 				arg = arguments[i];
-				if (typeof arg.length!="undefined"){
+				if (arg && typeof arg["length"]!="undefined"){
 					out.push(""+arg);
 				} else if (typeof arg=="object"){
 					for (var key in arg){
@@ -19,7 +19,7 @@ if (typeof console=="undefined"){
 	}
 }
 
-var SRC_DIR = "../src/";
+var SRC_DIR = "src/";
 
 //
 //	Input parameters passed to the script.
@@ -29,8 +29,8 @@ var target = arguments[0];
 var features = arguments[1] ? arguments[1].split(",") : [];
 
 
-console.log('target = ', target);
-console.log('features = ', features);
+//console.log('target = ', target);
+//console.log('features = ', features);
 
 // We store some global information here, so we dont need to pass them around.
 var globals = {
@@ -70,23 +70,22 @@ function main(){
 			globals.modulesAdded[m] = true;
 		}
 	} else {
-//????????
-//console.log('files = ', files.join(" .... "));
 		for (var i=0, l=features.length, f; i<l; i++){
+			if (typeof modules[features[i]]=="undefined"){
+				console.log("ERROR: Feature '" + features[i] + "' not defined in '" + target + "'. ");
+				console.log("Make sure (or create) the feature exists or you may have a typo in the feature name.");
+				console.log("Giving up :(");
+				quit();
+			}
 			var moduleFiles = modules[features[i]].map(resolveDeps);
 			console.log("Adding module:", features[i], moduleFiles.length ? ("- " + moduleFiles.join(", ")) : "");
-//console.log('files = ', files.join(" .... "), files.length);
-//console.log('moduleFiles = ', moduleFiles.join(";;;"), moduleFiles.length);
 			files = files.concat(moduleFiles);
-//console.log('DANACH files = ', files.join(" .... "));
 		}
 	}
 	// Remove doubles but never the first occurence, since this would break the file order dependencies.
-	var files = files.map(function(item, index){console.log(item, index); return (files.slice(0, index).indexOf(item)!=-1) ? null : item; })
+	var files = files.map(function(item, index){ return (files.slice(0, index).indexOf(item)!=-1) ? null : item; })
 					//.filter(function(item){ return item==null ? false : true });
-							
-	print("\n\n");
-	print(files);
+	print("\n"+files);
 };
 
 function resolveFeature(feature){
@@ -129,13 +128,13 @@ function resolveDeps(file){
 	// summary:
 	// 		Resolve the dependencies of file (e.g. array/_default.js).
 	// description:
-	// 		If a __deps__.json file exists in the path where the js file is in, e.g. "array",
+	// 		If a dependencies.json file exists in the path where the js file is in, e.g. "array",
 	// 		then we load all according files again (which are namely features, which need to be
 	// 		mapped to files again, resolveFeature() does that).
 	if (typeof globals.dependencyData[file]=="undefined"){
 		var path = file.split("/");
-		var f = path.pop(); // The filename e.g. "_default.js"
-		var deps = _loadJsonFile(SRC_DIR + path + "/dependencies.json", false);
+		var f = path.pop(); // The filename e.g. "declare.js"
+		var deps = _loadJsonFile(SRC_DIR + path.join("/") + "/dependencies.json", false);
 		//globals.dependencyData[file] = (typeof deps[f]!="undefined" ? deps[f] : []).map(resolveFeature);
 		globals.dependencyData[file] = (deps && typeof deps[f]!="undefined" ? deps[f] : [])
 										.map(resolveFeature) // Resolve the features
