@@ -1,0 +1,54 @@
+{
+	// The absolut base that is required for ALL kinds of builds anyway,
+	// this sets up the dojo NS, etc.
+	"base":[ 
+		"dojo.js"
+	],
+
+	"array":[
+		"dojo/array.js"
+	],
+	
+	"connect":[
+		"dojo/connect/connect.js",
+		"dojo/connect/event.js",
+	],
+	
+	"deferred":[
+		"dojo/deferred.js"
+	],
+	
+	"destroy":[
+		"dojo/destroy.js"
+	],
+	
+	"fx":[
+		"dojo/fx.js"
+	],
+	
+	"html":[
+		"dojo/html.js"
+	],
+	
+	"json":[
+		"dojo/json.js"
+	],
+	
+	"lang":[
+		"dojo/lang.js",
+		"dojo/lang/clone.js",
+		"dojo/lang/hitch.js",
+		"dojo/lang/is.js",
+		"dojo/lang/string.js",
+	],
+	
+	"xhr":[
+		"dojo/xhr.js"
+	],
+	
+	"oo":[
+		"dojo/oo/declare.js",
+		"dojo/oo/delegate.js",
+		"dojo/oo/extend.js",
+	]
+}
