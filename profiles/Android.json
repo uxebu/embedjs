@@ -1,7 +1,7 @@
 {
 	// The absolut base that is required for ALL kinds of builds anyway,
 	// this sets up the dojo NS, etc.
-	"base":[ 
+	"base":[
 		"dojo.js"
 	],
 
@@ -42,6 +42,10 @@
 		"dojo/lang/string.js",
 	],
 	
+	"lang-is":[
+		"dojo/lang.js",
+	],
+	
 	"xhr":[
 		"dojo/xhr.js"
 	],
@@ -50,5 +54,17 @@
 		"dojo/oo/declare.js",
 		"dojo/oo/delegate.js",
 		"dojo/oo/extend.js",
-	]
+	],
+	
+	"oo-declare":[
+		"dojo/oo/declare.js",
+	],
+	
+	"oo-extend":[
+		"dojo/oo/extend.js",
+	],
+	
+	"oo-delegate":[
+		"dojo/oo/delegate.js",
+	],
 }
