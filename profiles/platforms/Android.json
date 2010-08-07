@@ -22,16 +22,17 @@
 		"dojo/destroy/destroy.js"
 	],
 	
-	"fx":[
-		"dojo/fx.js"
-	],
+	//"fx":[
+	//	"dojo/fx.js"
+	//],
 	
 	"html":[
 		"dojo/html.js"
 	],
 	
 	"json":[
-		"dojo/json/json/.js"
+		"dojo/json/json.js",
+		"dojo/json/json.js"
 	],
 	
 	"jsonp":[
