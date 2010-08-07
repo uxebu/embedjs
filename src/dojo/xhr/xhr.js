@@ -1,4 +1,4 @@
-(function(_d){
+;(function(_d){
 	var cfg = _d.config;
 	
 	
