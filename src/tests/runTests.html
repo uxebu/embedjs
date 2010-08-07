@@ -83,7 +83,7 @@
 	    	function runTests(platform){
 				var infoNode = document.getElementById("statusInfo");
 				infoNode.innerHTML = "Loading tests ...";
-				addScript("../../build/embed-kitchensink-" + platform + ".uncompressed.js");
+				addScript("../../build/embed-kitchensink-" + platform + ".js");
 				addScript("modules.js");
 				infoNode.innerHTML = "Starting tests in a bit ...";
 		    }
@@ -131,6 +131,10 @@
 			<tr>
 				<td>iPhone</td>
 				<td><button onclick="runTests('iPhone');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>Blackberry 4.6</td>
+				<td><button onclick="runTests('BlackBerry46');">run tests</button></td>
 			</tr>
 			<tr>
 				<td>Opera WRT</td>
