@@ -1,5 +1,3 @@
-require.def("dojo/json", ["dojo"], function(){
-
 dojo.fromJson = function(/*String*/ json){
 	// summary:
 	// 		Parses a [JSON](http://json.org) string to return a JavaScript object.
@@ -141,5 +139,3 @@ dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _ind
 	}
 	return "{" + output.join("," + sep) + newLine + _indentStr + "}"; // String
 };
-
-});
