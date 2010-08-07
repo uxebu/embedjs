@@ -28,7 +28,8 @@
 	//],
 	
 	"html":[
-		"html.js"
+		"html/html.js",
+		"html/computedStyle.js"
 	],
 	
 	"json":[
@@ -41,7 +42,7 @@
 	],
 	
 	"lang":[
-		"lang.js",
+		"lang/to-array.js",
 		"lang/clone.js",
 		"lang/hitch.js",
 		"lang/is.js",
@@ -53,11 +54,15 @@
 	],
 	
 	"lang-is":[
-		"lang.js",
+		"lang/lang.js",
 	],
 	
 	"xhr":[
 		"xhr/xhr.js"
+	],
+	
+	"query": [
+		"query/qsa-preprocessor.js"
 	],
 	
 	"oo":[
