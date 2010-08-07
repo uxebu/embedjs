@@ -1,4 +1,4 @@
-require.modify("dojo/html", "dojo/html/webkit", ["dojo"], function(){
+
 dojo.getComputedStyle = function(/*DomNode*/node){
 	var s;
 	if(node.nodeType == 1){
@@ -11,5 +11,3 @@ dojo.getComputedStyle = function(/*DomNode*/node){
 	}
 	return s || {};
 };
-});
-

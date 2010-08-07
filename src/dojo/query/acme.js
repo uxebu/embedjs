@@ -1,4 +1,3 @@
-require.modify("dojo/html", "dojo/html/query-acme", ["dojo"], function(){
 // Adapted version for the dojo mobile build of uxebu.
 //
 // acme, the self-contained version of dojo.query is being used here to avoid
@@ -1581,4 +1580,3 @@ require.modify("dojo/html", "dojo/html/query-acme", ["dojo"], function(){
 dojo.query = dojo._query = acme.query;
 
 })();
-});

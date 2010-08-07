@@ -1,4 +1,3 @@
-require.def("dojo/lang/clone-ie", ["dojo", "dojo/array", "dojo/lang/is"], function(){
 
 dojo.clone = function(/*anything*/ o){
 	// summary:
@@ -61,5 +60,3 @@ dojo.clone = function(/*anything*/ o){
 	return r; // Object
 		
 }
-
-});

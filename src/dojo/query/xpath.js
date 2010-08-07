@@ -1,4 +1,4 @@
-require.modify("dojo/html", "dojo/html/query-evaluate", ["dojo"], function(){
+
 (function(d) {
 	/** css2xpath - generic CSS to XPath selector transformer
 	 * @author 	 Andrea Giammarchi
@@ -103,4 +103,3 @@ require.modify("dojo/html", "dojo/html/query-evaluate", ["dojo"], function(){
 
 
 })(dojo);
-});

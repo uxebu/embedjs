@@ -1,4 +1,4 @@
-require.modify("dojo/html", "dojo/html/ie", ["dojo"], function(){
+
 (function(d){
 	d._getComputedStyle = d.getComputedStyle = function(node){
 		// IE (as of 7) doesn't expose Element like sane browsers
@@ -64,4 +64,3 @@ require.modify("dojo/html", "dojo/html/ie", ["dojo"], function(){
 	};
 	
 })(dojo);
-});
