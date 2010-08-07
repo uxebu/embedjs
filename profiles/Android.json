@@ -6,7 +6,7 @@
 	],
 
 	"array":[
-		"dojo/array.js"
+		"dojo/array/array.js"
 	],
 	
 	"connect":[
@@ -15,11 +15,11 @@
 	],
 	
 	"deferred":[
-		"dojo/deferred.js"
+		"dojo/deferred/deferred.js"
 	],
 	
 	"destroy":[
-		"dojo/destroy.js"
+		"dojo/destroy/destroy.js"
 	],
 	
 	"fx":[
@@ -31,7 +31,11 @@
 	],
 	
 	"json":[
-		"dojo/json.js"
+		"dojo/json/json/.js"
+	],
+	
+	"jsonp":[
+		"dojo/jsonp/jsonp.js"
 	],
 	
 	"lang":[
@@ -42,12 +46,16 @@
 		"dojo/lang/string.js",
 	],
 	
+	"lang-hitch":[
+		"dojo/lang/hitch.js",
+	],
+	
 	"lang-is":[
 		"dojo/lang.js",
 	],
 	
 	"xhr":[
-		"dojo/xhr.js"
+		"dojo/xhr/xhr.js"
 	],
 	
 	"oo":[
@@ -66,5 +74,9 @@
 	
 	"oo-delegate":[
 		"dojo/oo/delegate.js",
+	],
+	
+	"uri":[
+		"dojo/uri/objectToQuery.js",
 	],
 }
