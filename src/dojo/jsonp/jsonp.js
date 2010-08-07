@@ -1,3 +1,4 @@
+dojo.jsonp = {};
 dojo.jsonp.attach = function(params){
 	//	summary:
 	//		creates a new <script> tag pointing to the specified URL and
