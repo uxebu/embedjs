@@ -16,6 +16,7 @@ for P in $PLATFORMS; do
 	PLATFORM_NAME=`basename "$P" .json`
 	FILES=$(java -jar tools/js.jar tools/getFiles.js "$P" `cat profiles/$1.definition`)
 	cd src
-	java -jar ../tools/shrinksafe.jar $FILES > ../build/dojo-$1-$PLATFORM_NAME.js
-	echo "created `du -h ../build/dojo-$1-$PLATFORM_NAME.js`"
+	DEST_FILE=../build/embed-$1-$PLATFORM_NAME.js
+	java -jar ../tools/shrinksafe.jar $FILES > $DEST_FILE
+	echo "created `du -h $DEST_FILE`"
 done
