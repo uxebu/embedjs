@@ -40,7 +40,7 @@
 	],
 	
 	"lang":[
-		"lang/to-array.js"
+		"lang/to-array.js",
 		"lang/clone.js",
 		"lang/hitch.js",
 		"lang/is.js",
