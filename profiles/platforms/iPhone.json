@@ -27,11 +27,11 @@
 	//],
 	
 	"html":[
-		"html.js"
+		"html.js",
+		"style.js"
 	],
 	
 	"json":[
-		"json/json.js",
 		"json/json.js"
 	],
 	
