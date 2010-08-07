@@ -16,7 +16,7 @@ dojo.provide = function(resourceName){
 
 dojo.require = function(){};
 
-(function(d){
+;(function(d){
 	var empty = {}, extraNames;
 	for(var i in {toString: 1}){ extraNames = []; break; }
 	dojo._extraNames = extraNames = extraNames || ["hasOwnProperty", "valueOf", "isPrototypeOf",
