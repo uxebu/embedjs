@@ -1,4 +1,4 @@
-(function(d){
+;(function(d){
 
 	var _destroyContainer = null,
 		_destroyDoc;
