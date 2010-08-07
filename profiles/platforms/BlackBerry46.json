@@ -2,7 +2,8 @@
 	// The absolut base that is required for ALL kinds of builds anyway,
 	// this sets up the dojo NS, etc.
 	"base":[
-		"dojo.js"
+		"dojo.js",
+        "getProp_bb46_fix.js"
 	],
 
 	"array":[
