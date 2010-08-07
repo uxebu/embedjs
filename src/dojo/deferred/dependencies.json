@@ -1,5 +1,6 @@
 {
 	"deferred.js":[
-		"lang-hitch"
+		"oo-extend",
+		"lang-hitch",
 	]
 }
