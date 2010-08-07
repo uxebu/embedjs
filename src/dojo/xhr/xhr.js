@@ -313,22 +313,24 @@
 
 		//Plug in topic publishing, if dojo.publish is loaded.
 		// TODO: What is this? Do we want it?
-		if(cfg.ioPublish && _d.publish && ioArgs.args.ioPublish !== false){
-			d.addCallbacks(
-				function(res){
-					_d.publish("/dojo/io/load", [d, res]);
-					return res;
-				},
-				function(res){
-					_d.publish("/dojo/io/error", [d, res]);
-					return res;
-				}
-			);
-			d.addBoth(function(res){
-				_d.publish("/dojo/io/done", [d, res]);
-				return res;
-			});
-		}
+// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+// should be moved into a separate 
+		//if(cfg.ioPublish && _d.publish && ioArgs.args.ioPublish !== false){
+		//	d.addCallbacks(
+		//		function(res){
+		//			_d.publish("/dojo/io/load", [d, res]);
+		//			return res;
+		//		},
+		//		function(res){
+		//			_d.publish("/dojo/io/error", [d, res]);
+		//			return res;
+		//		}
+		//	);
+		//	d.addBoth(function(res){
+		//		_d.publish("/dojo/io/done", [d, res]);
+		//		return res;
+		//	});
+		//}
 
 		d.ioArgs = ioArgs;
 	
@@ -383,9 +385,10 @@
 	var _checkPubCount = function(dfd){
 		if(_pubCount <= 0){
 			_pubCount = 0;
-			if(cfg.ioPublish && _d.publish && (!dfd || dfd && dfd.ioArgs.args.ioPublish !== false)){
-				_d.publish("/dojo/io/stop");
-			}
+// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+			//if(cfg.ioPublish && _d.publish && (!dfd || dfd && dfd.ioArgs.args.ioPublish !== false)){
+			//	_d.publish("/dojo/io/stop");
+			//}
 		}
 	};
 
@@ -465,13 +468,14 @@
 		// description:
 		// 		Used by IO transports. An IO transport should
 		// 		call this method before making the network connection.
-		if(cfg.ioPublish && _d.publish && dfd.ioArgs.args.ioPublish !== false){
-			if(!_pubCount){
-				_d.publish("/dojo/io/start");
-			}
-			_pubCount += 1;
-			_d.publish("/dojo/io/send", [dfd]);
-		}
+// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+		//if(cfg.ioPublish && _d.publish && dfd.ioArgs.args.ioPublish !== false){
+		//	if(!_pubCount){
+		//		_d.publish("/dojo/io/start");
+		//	}
+		//	_pubCount += 1;
+		//	_d.publish("/dojo/io/send", [dfd]);
+		//}
 	}
 
 	_d._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
