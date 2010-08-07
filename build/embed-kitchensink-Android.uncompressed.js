@@ -16,7 +16,7 @@ dojo.provide = function(resourceName){
 
 dojo.require = function(){};
 
-(function(d){
+;(function(d){
 	var empty = {}, extraNames;
 	for(var i in {toString: 1}){ extraNames = []; break; }
 	dojo._extraNames = extraNames = extraNames || ["hasOwnProperty", "valueOf", "isPrototypeOf",
@@ -446,7 +446,7 @@ dojo.require = function(){};
 
 })(dojo);
 
-(function(d){
+;(function(d){
 
 	// grab the node we were loaded from
 	if(document && document.getElementsByTagName){
@@ -858,154 +858,213 @@ var del = (dojo._event_listener = {
 	};
 
 	
-})();(function(d){
+})();dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
+	// summary:
+	//		Adds all properties and methods of props to constructor's
+	//		prototype, making them available to all instances created with
+	//		constructor.
+	for(var i=1, l=arguments.length; i<l; i++){
+		dojo._mixin(constructor.prototype, arguments[i]);
+	}
+	return constructor; // Object
+}
+dojo._hitchArgs = function(scope, method /*,...*/){
+	var pre = dojo._toArray(arguments, 2);
+	var named = dojo.isString(method);
+	return function(){
+		// arrayify arguments
+		var args = dojo._toArray(arguments);
+		// locate our method
+		var f = named ? (scope||dojo.global)[method] : method;
+		// invoke with collected args
+		return f && f.apply(scope || this, pre.concat(args)); // mixed
+ 	} // Function
+}
+
+dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
+	//	summary:
+	//		Returns a function that will only ever execute in the a given scope.
+	//		This allows for easy use of object member functions
+	//		in callbacks and other places in which the "this" keyword may
+	//		otherwise not reference the expected scope.
+	//		Any number of default positional arguments may be passed as parameters
+	//		beyond "method".
+	//		Each of these values will be used to "placehold" (similar to curry)
+	//		for the hitched function.
+	//	scope:
+	//		The scope to use when method executes. If method is a string,
+	//		scope is also the object containing method.
+	//	method:
+	//		A function to be hitched to scope, or the name of the method in
+	//		scope to be hitched.
+	//	example:
+	//	|	dojo.hitch(foo, "bar")();
+	//		runs foo.bar() in the scope of foo
+	//	example:
+	//	|	dojo.hitch(foo, myFunction);
+	//		returns a function that runs myFunction in the scope of foo
+	if(arguments.length > 2){
+		return dojo._hitchArgs.apply(dojo, arguments); // Function
+	}
+	if(!method){
+		method = scope;
+		scope = null;
+	}
+	if(dojo.isString(method)){
+		scope = scope || dojo.global;
+		if(!scope[method]){ throw(['dojo.hitch: scope["', method, '"] is null (scope="', scope, '")'].join('')); }
+		return function(){ return scope[method].apply(scope, arguments || []); }; // Function
+	}
+	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
+}
+;(function(d){
 
 (function(){
 	var mutator = function(){};		
 	var freeze = Object.freeze || function(){};
 	// A deferred provides an API for creating and resolving a promise.
 	dojo.Deferred = function(/*Function?*/canceller){
-	// summary:
-	//		Deferreds provide a generic means for encapsulating an asynchronous
-	// 		operation and notifying users of the completion and result of the operation. 
-	// description:
-	//		The dojo.Deferred API is based on the concept of promises that provide a
-	//		generic interface into the eventual completion of an asynchronous action.
-	//		The motivation for promises fundamentally is about creating a 
-	//		separation of concerns that allows one to achieve the same type of 
-	//		call patterns and logical data flow in asynchronous code as can be 
-	//		achieved in synchronous code. Promises allows one 
-	//		to be able to call a function purely with arguments needed for 
-	//		execution, without conflating the call with concerns of whether it is 
-	//		sync or async. One shouldn't need to alter a call's arguments if the 
-	//		implementation switches from sync to async (or vice versa). By having 
-	//		async functions return promises, the concerns of making the call are 
-	//		separated from the concerns of asynchronous interaction (which are 
-	//		handled by the promise).
-	// 
-	//  	The dojo.Deferred is a type of promise that provides methods for fulfilling the 
-	// 		promise with a successful result or an error. The most important method for 
-	// 		working with Dojo's promises is the then() method, which follows the 
-	// 		CommonJS proposed promise API. An example of using a Dojo promise:
-	//		
-	//		| 	var resultingPromise = someAsyncOperation.then(function(result){
-	//		|		... handle result ...
-	//		|	},
-	//		|	function(error){
-	//		|		... handle error ...
-	//		|	});
-	//	
-	//		The .then() call returns a new promise that represents the result of the 
-	// 		execution of the callback. The callbacks will never affect the original promises value.
-	//
-	//		The dojo.Deferred instances also provide the following functions for backwards compatibility:
-	//
-	//			* addCallback(handler)
-	//			* addErrback(handler)
-	//			* callback(result)
-	//			* errback(result)
-	//
-	//		Callbacks are allowed to return promisesthemselves, so
-	//		you can build complicated sequences of events with ease.
-	//
-	//		The creator of the Deferred may specify a canceller.  The canceller
-	//		is a function that will be called if Deferred.cancel is called
-	//		before the Deferred fires. You can use this to implement clean
-	//		aborting of an XMLHttpRequest, etc. Note that cancel will fire the
-	//		deferred with a CancelledError (unless your canceller returns
-	//		another kind of error), so the errbacks should be prepared to
-	//		handle that error for cancellable Deferreds.
-	// example:
-	//	|	var deferred = new dojo.Deferred();
-	//	|	setTimeout(function(){ deferred.callback({success: true}); }, 1000);
-	//	|	return deferred;
-	// example:
-	//		Deferred objects are often used when making code asynchronous. It
-	//		may be easiest to write functions in a synchronous manner and then
-	//		split code using a deferred to trigger a response to a long-lived
-	//		operation. For example, instead of register a callback function to
-	//		denote when a rendering operation completes, the function can
-	//		simply return a deferred:
-	//
-	//		|	// callback style:
-	//		|	function renderLotsOfData(data, callback){
-	//		|		var success = false
-	//		|		try{
-	//		|			for(var x in data){
-	//		|				renderDataitem(data[x]);
-	//		|			}
-	//		|			success = true;
-	//		|		}catch(e){ }
-	//		|		if(callback){
-	//		|			callback(success);
-	//		|		}
-	//		|	}
-	//
-	//		|	// using callback style
-	//		|	renderLotsOfData(someDataObj, function(success){
-	//		|		// handles success or failure
-	//		|		if(!success){
-	//		|			promptUserToRecover();
-	//		|		}
-	//		|	});
-	//		|	// NOTE: no way to add another callback here!!
-	// example:
-	//		Using a Deferred doesn't simplify the sending code any, but it
-	//		provides a standard interface for callers and senders alike,
-	//		providing both with a simple way to service multiple callbacks for
-	//		an operation and freeing both sides from worrying about details
-	//		such as "did this get called already?". With Deferreds, new
-	//		callbacks can be added at any time.
-	//
-	//		|	// Deferred style:
-	//		|	function renderLotsOfData(data){
-	//		|		var d = new dojo.Deferred();
-	//		|		try{
-	//		|			for(var x in data){
-	//		|				renderDataitem(data[x]);
-	//		|			}
-	//		|			d.callback(true);
-	//		|		}catch(e){ 
-	//		|			d.errback(new Error("rendering failed"));
-	//		|		}
-	//		|		return d;
-	//		|	}
-	//
-	//		|	// using Deferred style
-	//		|	renderLotsOfData(someDataObj).then(null, function(){
-	//		|		promptUserToRecover();
-	//		|	});
-	//		|	// NOTE: addErrback and addCallback both return the Deferred
-	//		|	// again, so we could chain adding callbacks or save the
-	//		|	// deferred for later should we need to be notified again.
-	// example:
-	//		In this example, renderLotsOfData is syncrhonous and so both
-	//		versions are pretty artificial. Putting the data display on a
-	//		timeout helps show why Deferreds rock:
-	//
-	//		|	// Deferred style and async func
-	//		|	function renderLotsOfData(data){
-	//		|		var d = new dojo.Deferred();
-	//		|		setTimeout(function(){
-	//		|			try{
-	//		|				for(var x in data){
-	//		|					renderDataitem(data[x]);
-	//		|				}
-	//		|				d.callback(true);
-	//		|			}catch(e){ 
-	//		|				d.errback(new Error("rendering failed"));
-	//		|			}
-	//		|		}, 100);
-	//		|		return d;
-	//		|	}
-	//
-	//		|	// using Deferred style
-	//		|	renderLotsOfData(someDataObj).then(null, function(){
-	//		|		promptUserToRecover();
-	//		|	});
-	//
-	//		Note that the caller doesn't have to change his code at all to
-	//		handle the asynchronous case.
+		// summary:
+		//		Deferreds provide a generic means for encapsulating an asynchronous
+		// 		operation and notifying users of the completion and result of the operation. 
+		// description:
+		//		The dojo.Deferred API is based on the concept of promises that provide a
+		//		generic interface into the eventual completion of an asynchronous action.
+		//		The motivation for promises fundamentally is about creating a 
+		//		separation of concerns that allows one to achieve the same type of 
+		//		call patterns and logical data flow in asynchronous code as can be 
+		//		achieved in synchronous code. Promises allows one 
+		//		to be able to call a function purely with arguments needed for 
+		//		execution, without conflating the call with concerns of whether it is 
+		//		sync or async. One shouldn't need to alter a call's arguments if the 
+		//		implementation switches from sync to async (or vice versa). By having 
+		//		async functions return promises, the concerns of making the call are 
+		//		separated from the concerns of asynchronous interaction (which are 
+		//		handled by the promise).
+		// 
+		//  	The dojo.Deferred is a type of promise that provides methods for fulfilling the 
+		// 		promise with a successful result or an error. The most important method for 
+		// 		working with Dojo's promises is the then() method, which follows the 
+		// 		CommonJS proposed promise API. An example of using a Dojo promise:
+		//		
+		//		| 	var resultingPromise = someAsyncOperation.then(function(result){
+		//		|		... handle result ...
+		//		|	},
+		//		|	function(error){
+		//		|		... handle error ...
+		//		|	});
+		//	
+		//		The .then() call returns a new promise that represents the result of the 
+		// 		execution of the callback. The callbacks will never affect the original promises value.
+		//
+		//		The dojo.Deferred instances also provide the following functions for backwards compatibility:
+		//
+		//			* addCallback(handler)
+		//			* addErrback(handler)
+		//			* callback(result)
+		//			* errback(result)
+		//
+		//		Callbacks are allowed to return promisesthemselves, so
+		//		you can build complicated sequences of events with ease.
+		//
+		//		The creator of the Deferred may specify a canceller.  The canceller
+		//		is a function that will be called if Deferred.cancel is called
+		//		before the Deferred fires. You can use this to implement clean
+		//		aborting of an XMLHttpRequest, etc. Note that cancel will fire the
+		//		deferred with a CancelledError (unless your canceller returns
+		//		another kind of error), so the errbacks should be prepared to
+		//		handle that error for cancellable Deferreds.
+		// example:
+		//	|	var deferred = new dojo.Deferred();
+		//	|	setTimeout(function(){ deferred.callback({success: true}); }, 1000);
+		//	|	return deferred;
+		// example:
+		//		Deferred objects are often used when making code asynchronous. It
+		//		may be easiest to write functions in a synchronous manner and then
+		//		split code using a deferred to trigger a response to a long-lived
+		//		operation. For example, instead of register a callback function to
+		//		denote when a rendering operation completes, the function can
+		//		simply return a deferred:
+		//
+		//		|	// callback style:
+		//		|	function renderLotsOfData(data, callback){
+		//		|		var success = false
+		//		|		try{
+		//		|			for(var x in data){
+		//		|				renderDataitem(data[x]);
+		//		|			}
+		//		|			success = true;
+		//		|		}catch(e){ }
+		//		|		if(callback){
+		//		|			callback(success);
+		//		|		}
+		//		|	}
+		//
+		//		|	// using callback style
+		//		|	renderLotsOfData(someDataObj, function(success){
+		//		|		// handles success or failure
+		//		|		if(!success){
+		//		|			promptUserToRecover();
+		//		|		}
+		//		|	});
+		//		|	// NOTE: no way to add another callback here!!
+		// example:
+		//		Using a Deferred doesn't simplify the sending code any, but it
+		//		provides a standard interface for callers and senders alike,
+		//		providing both with a simple way to service multiple callbacks for
+		//		an operation and freeing both sides from worrying about details
+		//		such as "did this get called already?". With Deferreds, new
+		//		callbacks can be added at any time.
+		//
+		//		|	// Deferred style:
+		//		|	function renderLotsOfData(data){
+		//		|		var d = new dojo.Deferred();
+		//		|		try{
+		//		|			for(var x in data){
+		//		|				renderDataitem(data[x]);
+		//		|			}
+		//		|			d.callback(true);
+		//		|		}catch(e){ 
+		//		|			d.errback(new Error("rendering failed"));
+		//		|		}
+		//		|		return d;
+		//		|	}
+		//
+		//		|	// using Deferred style
+		//		|	renderLotsOfData(someDataObj).then(null, function(){
+		//		|		promptUserToRecover();
+		//		|	});
+		//		|	// NOTE: addErrback and addCallback both return the Deferred
+		//		|	// again, so we could chain adding callbacks or save the
+		//		|	// deferred for later should we need to be notified again.
+		// example:
+		//		In this example, renderLotsOfData is syncrhonous and so both
+		//		versions are pretty artificial. Putting the data display on a
+		//		timeout helps show why Deferreds rock:
+		//
+		//		|	// Deferred style and async func
+		//		|	function renderLotsOfData(data){
+		//		|		var d = new dojo.Deferred();
+		//		|		setTimeout(function(){
+		//		|			try{
+		//		|				for(var x in data){
+		//		|					renderDataitem(data[x]);
+		//		|				}
+		//		|				d.callback(true);
+		//		|			}catch(e){ 
+		//		|				d.errback(new Error("rendering failed"));
+		//		|			}
+		//		|		}, 100);
+		//		|		return d;
+		//		|	}
+		//
+		//		|	// using Deferred style
+		//		|	renderLotsOfData(someDataObj).then(null, function(){
+		//		|		promptUserToRecover();
+		//		|	});
+		//
+		//		Note that the caller doesn't have to change his code at all to
+		//		handle the asynchronous case.
 		var result, finished, isError, head, nextListener;
 		var promise = this.promise = {};
 		
@@ -1189,56 +1248,7 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	return callback(promiseOrValue);
 };
 
-})(dojo);dojo._hitchArgs = function(scope, method /*,...*/){
-	var pre = dojo._toArray(arguments, 2);
-	var named = dojo.isString(method);
-	return function(){
-		// arrayify arguments
-		var args = dojo._toArray(arguments);
-		// locate our method
-		var f = named ? (scope||dojo.global)[method] : method;
-		// invoke with collected args
-		return f && f.apply(scope || this, pre.concat(args)); // mixed
- 	} // Function
-}
-
-dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
-	//	summary:
-	//		Returns a function that will only ever execute in the a given scope.
-	//		This allows for easy use of object member functions
-	//		in callbacks and other places in which the "this" keyword may
-	//		otherwise not reference the expected scope.
-	//		Any number of default positional arguments may be passed as parameters
-	//		beyond "method".
-	//		Each of these values will be used to "placehold" (similar to curry)
-	//		for the hitched function.
-	//	scope:
-	//		The scope to use when method executes. If method is a string,
-	//		scope is also the object containing method.
-	//	method:
-	//		A function to be hitched to scope, or the name of the method in
-	//		scope to be hitched.
-	//	example:
-	//	|	dojo.hitch(foo, "bar")();
-	//		runs foo.bar() in the scope of foo
-	//	example:
-	//	|	dojo.hitch(foo, myFunction);
-	//		returns a function that runs myFunction in the scope of foo
-	if(arguments.length > 2){
-		return dojo._hitchArgs.apply(dojo, arguments); // Function
-	}
-	if(!method){
-		method = scope;
-		scope = null;
-	}
-	if(dojo.isString(method)){
-		scope = scope || dojo.global;
-		if(!scope[method]){ throw(['dojo.hitch: scope["', method, '"] is null (scope="', scope, '")'].join('')); }
-		return function(){ return scope[method].apply(scope, arguments || []); }; // Function
-	}
-	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
-}
-;(function(d){
+})(dojo);;(function(d){
 
 	var _destroyContainer = null,
 		_destroyDoc;
@@ -2129,6 +2139,19 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
 dojo.query = dojo._query;
+
+dojo.getComputedStyle = function(/*DomNode*/node){
+	var s;
+	if(node.nodeType == 1){
+		var dv = node.ownerDocument.defaultView;
+		s = dv.getComputedStyle(node, null);
+		if(!s && node.style){
+			node.style.display = "";
+			s = dv.getComputedStyle(node, null);
+		}
+	}
+	return s || {};
+};
 // NOTE: dojo's JSON impl differs from native!
 //	(e.g. revier function)
 
@@ -2139,6 +2162,48 @@ dojo.toJson = function(/* Mixed */ data){
 dojo.fromJson = function(/* String */ json){
 	return JSON.parse(json);
 }
+dojo.objectToQuery = function(/*Object*/ map){
+	//	summary:
+	//		takes a name/value mapping object and returns a string representing
+	//		a URL-encoded version of that object.
+	//	example:
+	//		this object:
+	//
+	//		|	{ 
+	//		|		blah: "blah",
+	//		|		multi: [
+	//		|			"thud",
+	//		|			"thonk"
+	//		|		]
+	//		|	};
+	//
+	//	yields the following query string:
+	//	
+	//	|	"blah=blah&multi=thud&multi=thonk"
+	//
+	//	TODO:
+	//		This originates in dojo._base.xhr. Do we want to keep 
+	//		it here or move it over?
+	var enc = encodeURIComponent;
+	var pairs = [];
+	var backstop = {};
+	for(var name in map){
+		var value = map[name];
+		if(value != backstop[name]){
+			var assign = enc(name) + "=";
+			if(dojo.isArray(value)){
+				for(var i=0; i < value.length; i++){
+					pairs.push(assign + enc(value[i]));
+				}
+			}else{
+				pairs.push(assign + enc(value));
+			}
+		}
+	}
+	return pairs.join("&"); // String
+};
+
+dojo.jsonp = {};
 dojo.jsonp.attach = function(params){
 	//	summary:
 	//		creates a new <script> tag pointing to the specified URL and
@@ -2250,91 +2315,9 @@ dojo.jsonp.get = function(/* dojo.jsonp.__ioArgs */ args){
 	element.src = args.url;
 	element.charset = "utf-8";
 	return doc.getElementsByTagName("head")[0].appendChild(element);
-};dojo.objectToQuery = function(/*Object*/ map){
-	//	summary:
-	//		takes a name/value mapping object and returns a string representing
-	//		a URL-encoded version of that object.
-	//	example:
-	//		this object:
-	//
-	//		|	{ 
-	//		|		blah: "blah",
-	//		|		multi: [
-	//		|			"thud",
-	//		|			"thonk"
-	//		|		]
-	//		|	};
-	//
-	//	yields the following query string:
-	//	
-	//	|	"blah=blah&multi=thud&multi=thonk"
-	//
-	//	TODO:
-	//		This originates in dojo._base.xhr. Do we want to keep 
-	//		it here or move it over?
-	var enc = encodeURIComponent;
-	var pairs = [];
-	var backstop = {};
-	for(var name in map){
-		var value = map[name];
-		if(value != backstop[name]){
-			var assign = enc(name) + "=";
-			if(dojo.isArray(value)){
-				for(var i=0; i < value.length; i++){
-					pairs.push(assign + enc(value[i]));
-				}
-			}else{
-				pairs.push(assign + enc(value));
-			}
-		}
-	}
-	return pairs.join("&"); // String
-};
-
-/*=====
-dojo._toArray = function(obj, offset, startWith){
-	//	summary:
-	//		Converts an array-like object (i.e. arguments, DOMCollection) to an
-	//		array. Returns a new Array with the elements of obj.
-	//	obj: Object
-	//		the object to "arrayify". We expect the object to have, at a
-	//		minimum, a length property which corresponds to integer-indexed
-	//		properties.
-	//	offset: Number?
-	//		the location in obj to start iterating from. Defaults to 0.
-	//		Optional.
-	//	startWith: Array?
-	//		An array to pack with the properties of obj. If provided,
-	//		properties in obj are appended at the end of startWith and
-	//		startWith is the returned array.
-}
-=====*/
-
-;(function(){
-	var efficient = function(obj, offset, startWith){
-		return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
-	};
-
-	//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-	var slow = function(obj, offset, startWith){
-		var arr = startWith||[];
-		for(var x = offset || 0; x < obj.length; x++){
-			arr.push(obj[x]);
-		}
-		return arr;
-	};
-	//>>excludeEnd("webkitMobile");
-
-	dojo._toArray =
-		//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-		dojo.isIE ?  function(obj){
-			return ((obj.item) ? slow : efficient).apply(this, arguments);
-		} :
-		//>>excludeEnd("webkitMobile");
-		efficient;
-
-})();
-dojo.clone = function(/*anything*/ o){
+};dojo._toArray = function(obj, offset, startWith){
+	return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
+};dojo.clone = function(/*anything*/ o){
 	// summary:
 	//		Clones objects (including DOM nodes) and all children.
 	//		Warning: do not clone cyclic structures.
@@ -3479,16 +3462,6 @@ dojo.mixin(dojo.declare, {
 		}
 	}
 });
-dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
-	// summary:
-	//		Adds all properties and methods of props to constructor's
-	//		prototype, making them available to all instances created with
-	//		constructor.
-	for(var i=1, l=arguments.length; i<l; i++){
-		dojo._mixin(constructor.prototype, arguments[i]);
-	}
-	return constructor; // Object
-}
 dojo.delegate = dojo._delegate = (function(){
 	// boodman/crockford delegation w/ cornford optimization
 	function TMP(){}
@@ -3502,3 +3475,272 @@ dojo.delegate = dojo._delegate = (function(){
 		return tmp; // Object
 	}
 })();
+dojo.query = function(query, scope){
+	//	summary:
+	//		Returns nodes which match the given CSS3 selector, searching the
+	//		entire document by default but optionally taking a node to scope
+	//		the search by. Returns an instance of dojo.NodeList.
+	//	description:
+	//		dojo.query() is the swiss army knife of DOM node manipulation in
+	//		Dojo. Much like Prototype's "$$" (bling-bling) function or JQuery's
+	//		"$" function, dojo.query provides robust, high-performance
+	//		CSS-based node selector support with the option of scoping searches
+	//		to a particular sub-tree of a document.
+	//
+	//		Supported Selectors:
+	//		--------------------
+	//
+	//		dojo.query() supports a rich set of CSS3 selectors, including:
+	//
+	//			* class selectors (e.g., `.foo`)
+	//			* node type selectors like `span`
+	//			* ` ` descendant selectors
+	//			* `>` child element selectors 
+	//			* `#foo` style ID selectors
+	//			* `*` universal selector
+	//			* `~`, the immediately preceeded-by sibling selector
+	//			* `+`, the preceeded-by sibling selector
+	//			* attribute queries:
+	//			|	* `[foo]` attribute presence selector
+	//			|	* `[foo='bar']` attribute value exact match
+	//			|	* `[foo~='bar']` attribute value list item match
+	//			|	* `[foo^='bar']` attribute start match
+	//			|	* `[foo$='bar']` attribute end match
+	//			|	* `[foo*='bar']` attribute substring match
+	//			* `:first-child`, `:last-child`, and `:only-child` positional selectors
+	//			* `:empty` content emtpy selector
+	//			* `:checked` pseudo selector
+	//			* `:nth-child(n)`, `:nth-child(2n+1)` style positional calculations
+	//			* `:nth-child(even)`, `:nth-child(odd)` positional selectors
+	//			* `:not(...)` negation pseudo selectors
+	//
+	//		Any legal combination of these selectors will work with
+	//		`dojo.query()`, including compound selectors ("," delimited).
+	//		Very complex and useful searches can be constructed with this
+	//		palette of selectors and when combined with functions for
+	//		manipulation presented by dojo.NodeList, many types of DOM
+	//		manipulation operations become very straightforward.
+	//		
+	//		Unsupported Selectors:
+	//		----------------------
+	//
+	//		While dojo.query handles many CSS3 selectors, some fall outside of
+	//		what's resaonable for a programmatic node querying engine to
+	//		handle. Currently unsupported selectors include:
+	//		
+	//			* namespace-differentiated selectors of any form
+	//			* all `::` pseduo-element selectors
+	//			* certain pseduo-selectors which don't get a lot of day-to-day use:
+	//			|	* `:root`, `:lang()`, `:target`, `:focus`
+	//			* all visual and state selectors:
+	//			|	* `:root`, `:active`, `:hover`, `:visisted`, `:link`,
+	//				  `:enabled`, `:disabled`
+	//			* `:*-of-type` pseudo selectors
+	//		
+	//		dojo.query and XML Documents:
+	//		-----------------------------
+	//		
+	//		`dojo.query` (as of dojo 1.2) supports searching XML documents
+	//		in a case-sensitive manner. If an HTML document is served with
+	//		a doctype that forces case-sensitivity (e.g., XHTML 1.1
+	//		Strict), dojo.query() will detect this and "do the right
+	//		thing". Case sensitivity is dependent upon the document being
+	//		searched and not the query used. It is therefore possible to
+	//		use case-sensitive queries on strict sub-documents (iframes,
+	//		etc.) or XML documents while still assuming case-insensitivity
+	//		for a host/root document.
+	//
+	//		Non-selector Queries:
+	//		---------------------
+	//
+	//		If something other than a String is passed for the query,
+	//		`dojo.query` will return a new `dojo.NodeList` instance
+	//		constructed from that parameter alone and all further
+	//		processing will stop. This means that if you have a reference
+	//		to a node or NodeList, you can quickly construct a new NodeList
+	//		from the original by calling `dojo.query(node)` or
+	//		`dojo.query(list)`.
+	//
+	//	query:
+	//		The CSS3 expression to match against. For details on the syntax of
+	//		CSS3 selectors, see <http://www.w3.org/TR/css3-selectors/#selectors>
+	//	root:
+	//		A DOMNode (or node id) to scope the search from. Optional.
+	//	returns: DOMCollection || Array
+	//		The matching nodes. DOMCollection is enumerable, so you can use
+	//		it with dojo.forEach.
+	//	example:
+	//		search the entire document for elements with the class "foo":
+	//	|	dojo.query(".foo");
+	//		these elements will match:
+	//	|	<span class="foo"></span>
+	//	|	<span class="foo bar"></span>
+	//	|	<p class="thud foo"></p>
+	//	example:
+	//		search the entire document for elements with the classes "foo" *and* "bar":
+	//	|	dojo.query(".foo.bar");
+	//		these elements will match:
+	//	|	<span class="foo bar"></span>
+	//		while these will not:
+	//	|	<span class="foo"></span>
+	//	|	<p class="thud foo"></p>
+	//	example:
+	//		find `<span>` elements which are descendants of paragraphs and
+	//		which have a "highlighted" class:
+	//	|	dojo.query("p span.highlighted");
+	//		the innermost span in this fragment matches:
+	//	|	<p class="foo">
+	//	|		<span>...
+	//	|			<span class="highlighted foo bar">...</span>
+	//	|		</span>
+	//	|	</p>
+	//	example:
+	//		set an "odd" class on all odd table rows inside of the table
+	//		`#tabular_data`, using the `>` (direct child) selector to avoid
+	//		affecting any nested tables:
+	//	|	dojo.query("#tabular_data > tbody > tr:nth-child(odd)").addClass("odd");
+	//	example:
+	//		remove all elements with the class "error" from the document
+	//		and store them in a list:
+	//	|	var errors = dojo.query(".error").orphan();
+	//	example:
+	//		add an onclick handler to every submit button in the document
+	//		which causes the form to be sent via Ajax instead:
+	//	|	dojo.query("input[type='submit']").onclick(function(e){
+	//	|		dojo.stopEvent(e); // prevent sending the form
+	//	|		var btn = e.target;
+	//	|		dojo.xhrPost({
+	//	|			form: btn.form,
+	//	|			load: function(data){
+	//	|				// replace the form with the response
+	//	|				var div = dojo.doc.createElement("div");
+	//	|				dojo.place(div, btn.form, "after");
+	//	|				div.innerHTML = data;
+	//	|				dojo.style(btn.form, "display", "none");
+	//	|			}
+	//	|		});
+	//	|	});
+	//	issues:
+	//		On webkit, the following queries will not work as expected:
+	//		(Note that these are bugs webkit's querySelector engine.)
+	//	|	dojo.query('[foo|="bar"]') // will also return elements with foo="bar"
+	//	|	dojo.query('option:checked') // will return an empty list
+	//	dojo-incompatibilities:
+	//		dojo.query will not return a dojo.NodeList Instance! On webkit it will
+	//		return a DOMCollection or an empty Array.
+	//	TODO: 
+	//		Update the inline doc when we know if dojo.query "does" support
+	//		chaining.
+	
+	
+	// scope normalization
+	if(typeof scope == "string"){
+		scope = d.byId(scope);
+		if(!scope){
+			return [];
+		}
+	}
+
+	scope = scope || dojo.doc;
+	
+	/*
+	QUERY NORMALIZATION:
+
+	`dojo.query` accepts selectors that start with combinators like "> *"
+	or "+ a". It accepts even queries that consist only of a combinator.
+	These queries throw errors with querySelectorAll.
+
+	Markup like
+			<div><p id="myP"><strong>foo</strong></p></div>
+	returns the "strong" element with
+			document.getElementById("myP").querySelectorAll("div strong");
+	Which is incompatible with dojo.query
+
+	For these reasons, the query is normalized before execution:
+	- When the query ends with a combinator (">", "+", "~"), append a universal selector ("*").
+	- When the root is document, and the query starts with a child combinator, return the appropriate element.
+	- When the root is document, and the query starts with an other combinator than ">", return an empty result.
+	- When the root element does not have an id, add a synthetic id.
+	- Prefix the query with the id of the root element.
+	- Execute the query with QSA.
+	- Remove the synthetic id, if added.
+	- Return the results.
+
+	*/
+
+	// Normalize selectors ending with a combinator
+	if (/[>+~]\s*$/.test(query)){
+		query += "*";
+	}
+
+	var queryRoot = scope; // `querySelectorAll` will be called on this node.
+
+	// check if scope is a document node
+	if(scope.nodeType == 9){
+		// if the query starts with a child combinator, try scope.querySelector()
+		// with the first segment _without_ leading child operator and check
+		// if it is scope.documentElement.
+		if(/^\s*>/.test(query)){
+			// split the query up into the selector that the documentElement must match
+			// and the rest of the query.
+			var queryParts = query.replace(/^\s*>/, "").match(/([^\s>+~]+)(.*)/);
+			if (!queryParts) {
+				return [];
+			}
+
+			var docElmQuery = queryParts[1];
+			query = queryParts[2];
+
+			// Check if the documentElement matches the first segment of the selector
+			if(scope.querySelector(docElmQuery) !== scope.documentElement){
+				return [];
+			}
+
+			// If documentElement matches the first segment of the selector,
+			// and the rest of the query is empty return documentElement.
+			if(!query){
+				return [scope.documentElement];
+			}
+
+			// execute the rest of the selector against scope.documentElement
+			scope = scope.documentElement;
+		}
+
+		// if the query starts with a ajdacent combinator or a general sibling combinator,
+		// return an empty array
+		else if(/^\s*[+~]/.test(query)){
+			return [];
+		}
+	}
+
+	// check if the root is an element node.
+	// We can't use an "else" branch here, because the scope might have changed
+	if(scope.nodeType == 1){
+		// we need to prefix the query with an id to make QSA work like
+		// expected. For details check http://ejohn.org/blog/thoughts-on-queryselectorall/
+		var originalId = scope.id;
+		var rootId = originalId;
+		if(!originalId){
+			rootId = scope.id =  "d---dojo-query-synthetic-id-" + new Date().getTime(); // is this "secure" enough?
+			var syntheticIdSet = true;
+		}
+
+		query = "#" + rootId + " " + query;
+
+		// we need to start the query one element up the chain to make sibling
+		// and adjacent combinators work.
+		queryRoot = scope.parentNode;
+	}
+
+	// invalid queries:
+	// [">", "body >", "#t >", ".foo >", "> *", "> h3", ">", "> *", "> [qux]", "> [qux]", "> [qux]", ">", "> *", ">*", "+", "~", "#foo ~", "#foo~", "#t span.foo:not(span:first-child)"]
+
+	var n = queryRoot.querySelectorAll(query);
+
+	// Remove synthetic id from element if set before
+	if(syntheticIdSet){
+		scope.id = "";
+	}
+	
+	return n || [];
+};
