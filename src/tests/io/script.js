@@ -1,10 +1,10 @@
-tests.register("tests.io.script", 
+tests.register("tests.jsonp", 
 	[
 	 	/* load option not supported by API
 		function ioScriptLoad(t){
 			//t.is("undefined", typeof(scriptLoad));
 			var d = new doh.Deferred();
-			var td = dojo.io.script.get({
+			var td = dojo.jsonp.get({
 				url: "scriptLoad.js"
 			});
 			td.addBoth(function(res){
@@ -21,7 +21,7 @@ tests.register("tests.io.script",
 		/* checkstring option not supported by API
 		function ioScriptSimple(t){
 			var d = new doh.Deferred();
-			var td = dojo.io.script.get({
+			var td = dojo.jsonp.get({
 				url: "scriptSimple.js",
 				checkString: "myTasks"
 			});
@@ -38,7 +38,7 @@ tests.register("tests.io.script",
 		*/
 		function ioScriptJsonp(t){
 			var d = new doh.Deferred();
-			var td = dojo.io.script.get({
+			var td = dojo.jsonp.get({
 				url: "io/jsonp.php",
 				content: { foo: "bar" },
 				jsonp: "callback",
@@ -55,7 +55,7 @@ tests.register("tests.io.script",
 		},
 		function ioScriptJsonpTimeoutHandle(t){
 			var d = new doh.Deferred();
-			var td = dojo.io.script.get({
+			var td = dojo.jsonp.get({
 				url: "_base/html/timeout.php",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
@@ -78,7 +78,7 @@ tests.register("tests.io.script",
 		},
 		function ioScriptJsonpTimeoutError(t){
 			var d = new doh.Deferred();
-			var td = dojo.io.script.get({
+			var td = dojo.jsonp.get({
 				url: "_base/html/timeout.php",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
