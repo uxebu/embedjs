@@ -83,7 +83,7 @@
 	    	function runTests(platform){
 				var infoNode = document.getElementById("statusInfo");
 				infoNode.innerHTML = "Loading tests ...";
-				addScript("../../dist/dojo-" + platform + "-kitchensink.js");
+				addScript("../../build/embed-kitchensink-" + platform + ".uncompressed.js");
 				addScript("modules.js");
 				infoNode.innerHTML = "Starting tests in a bit ...";
 		    }
@@ -113,8 +113,12 @@
 				<th></th>
 			</tr>
 			<tr>
-				<td>WebKit</td>
-				<td><button onclick="runTests('webkit-mobile');">run tests</button></td>
+				<td>Android</td>
+				<td><button onclick="runTests('Android');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>iPhone</td>
+				<td><button onclick="runTests('iPhone');">run tests</button></td>
 			</tr>
 			<tr>
 				<td>Opera WRT</td>

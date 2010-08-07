@@ -17,6 +17,10 @@ for P in $PLATFORMS; do
 	FILES=$(java -jar tools/js.jar tools/getFiles.js "$P" `cat profiles/$1.definition`)
 	cd src
 	DEST_FILE=../build/embed-$1-$PLATFORM_NAME.js
+	DEST_FILE_UNCOMPRESSED=../build/embed-$1-$PLATFORM_NAME.uncompressed.js
 	java -jar ../tools/shrinksafe.jar $FILES > $DEST_FILE
 	echo "created `du -h $DEST_FILE`"
+	# Create uncompressed files
+	cat $FILES > $DEST_FILE_UNCOMPRESSED
+	echo "created `du -h $DEST_FILE_UNCOMPRESSED`"
 done
