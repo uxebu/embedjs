@@ -446,7 +446,7 @@ dojo.require = function(){};
 
 })(dojo);
 
-(function(d){
+;(function(d){
 
 	// grab the node we were loaded from
 	if(document && document.getElementsByTagName){
