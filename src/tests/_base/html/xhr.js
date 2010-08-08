@@ -436,7 +436,8 @@ tests.register("tests._base.html.xhr",
 			// t.t(td instanceof dojo.Deferred);
 			return d;
 		},
-
+		
+		/* No ioPublish in API
 		function ioPublish(t){
 		
 			//These numbers will look a bit odd at this point, since
@@ -450,11 +451,12 @@ tests.register("tests._base.html.xhr",
 			t.is(8, topicCount["/dojo/io/done"]);
 			t.is(0, topicCount["/dojo/io/stop"]);
 
-			/*
-			dojo.forEach(topics, function(topic){
-				console.log(topic + ": " + topicCount[topic]);
-			});
-			*/
+			
+//			dojo.forEach(topics, function(topic){
+//				console.log(topic + ": " + topicCount[topic]);
+//			});
+			
 		}
+		*/
 	]
 );

@@ -468,14 +468,14 @@
 		// description:
 		// 		Used by IO transports. An IO transport should
 		// 		call this method before making the network connection.
-
-		if(cfg.ioPublish && _d.publish && dfd.ioArgs.args.ioPublish !== false){
-			if(!_pubCount){
-				_d.publish("/dojo/io/start");
-			}
-			_pubCount += 1;
-			_d.publish("/dojo/io/send", [dfd]);
-		}
+// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+		//if(cfg.ioPublish && _d.publish && dfd.ioArgs.args.ioPublish !== false){
+		//	if(!_pubCount){
+		//		_d.publish("/dojo/io/start");
+		//	}
+		//	_pubCount += 1;
+		//	_d.publish("/dojo/io/send", [dfd]);
+		//}
 	}
 
 	_d._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
