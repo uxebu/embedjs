@@ -13,6 +13,7 @@
 	"connect":[
 		"connect/connect.js",
 		"connect/event.js",
+		"connect/pubsub.js"
 	],
 	
 	"deferred":[
