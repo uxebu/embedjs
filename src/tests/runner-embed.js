@@ -1,3 +1,14 @@
+// Compat layer for older Operas, so that console.log is avail in test runner
+if (window["opera"]){
+	// Make "console.log()" work.
+	console = {};
+	console.log = function(){
+		opera.postError(arguments.join(" "));
+	}
+}
+
+
+
 doh = {};
 //dojo.require = function(){ throw("Illegal dojo.require call.");};
 
