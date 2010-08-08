@@ -25,7 +25,6 @@ addScript("_base/html/query.js");
 addScript("_base/html/getHtml.php?id=html_xhr-test&file=xhr");
 addScript("_base/html/xhr.js");
 
-
 // error reporting
 doh._testMessages = {};
 doh.debug = function(){
@@ -69,7 +68,8 @@ doh._groupStarted = function(group){
 		this._stats.groupsByName[group] = groupData;
 	}
 	
-	doh.infoNode.innerHTML = "Testing group " + this._stats.groups.length + "/" + this._groupCount + ": " + group;
+	document.title = "Testing group " + this._stats.groups.length + "/" + this._groupCount + ": " + group;
+	doh.infoNode && (doh.infoNode.innerHTML = document.title);
 	if(!doh._groupResultNodes[group]){
 		var node = document.createElement('div');
 		node.id = group;
@@ -146,9 +146,12 @@ doh._report = function(){
 	
 	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
 	
-	doh.infoNode.innerHTML = 'Tests finished.';
-	dojo.body().innerHTML = "";
-	dojo.body().appendChild(doh.resultsNode);
+	document.title = 'Tests finished.';
+	doh.infoNode && (doh.infoNode.innerHTML = document.title);
+	//dojo.body().innerHTML = "";
+	//dojo.body().appendChild(doh.resultsNode);
+	document.body.innerHTML = "";
+	document.body.appendChild(doh.resultsNode);
 }
 
 // test box setup
@@ -156,7 +159,8 @@ doh._report = function(){
 doh._testBoxes = {};
 
 doh.showBox = function(id){
-	dojo.body().innerHTML = doh._testBoxes[id];
+	//dojo.body().innerHTML = doh._testBoxes[id];
+	document.body.innerHTML = doh._testBoxes[id];
 };
 
 doh.registerTestBox = function(id, html){
@@ -177,5 +181,6 @@ setTimeout(function(){
 	doh.infoNode = document.getElementById("statusInfo");
 	
 	doh.run();
-	doh.infoNode.innerHTML = "Running tests ...";
+	document.title = "Running tests ...";
+	doh.infoNode && (doh.infoNode.innerHTML = document.title);
 }, 200); // Just to be sure ...
