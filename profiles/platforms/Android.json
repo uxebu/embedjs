@@ -11,8 +11,7 @@
 	
 	"connect":[
 		"connect/connect.js",
-		"connect/event.js",
-		"connect/pubsub.js"
+		"connect/event.js"
 	],
 	
 	"deferred":[
@@ -29,7 +28,7 @@
 	
 	"html":[
 		"html/html.js",
-		"style.js"
+		"html/style.js"
 	],
 	
 	"json":[
