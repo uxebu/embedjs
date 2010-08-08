@@ -3,6 +3,10 @@
 	<head>
 		<title>EmbedJS Test Runner</title>
 		<style type="text/css">
+			body,html{
+				background-color:white;
+				color:black;
+			}
 			a {
 				display: block;
 				color: #000000;
@@ -76,16 +80,24 @@
 				var tag = document.createElement("script");
 				tag.setAttribute("charset","utf-8");
 				var connector = src.indexOf("?") == -1 ? "?" : "&";
-				tag.src = src + connector + "nocache=" + new Date().getTime(); // prevent caching, FF caches hard
+				var src1 = src + connector + "nocache=" + new Date().getTime(); // prevent caching, FF caches hard
+				tag.src = src1;
+				//document.write('<sc'+'ript src="'+src1+' charset="utf-8"></sc'+'ript>');
 				document.body.appendChild(tag);
 			}
 		
 	    	function runTests(platform){
 				var infoNode = document.getElementById("statusInfo");
-				infoNode.innerHTML = "Loading tests ...";
-				addScript("../../build/embed-kitchensink-" + platform + ".js");
+				document.title = "Loading tests ...";
+				infoNode && (infoNode.innerHTML = document.title);
+				if (window["widget"]){
+					addScript("embed-kitchensink-" + platform + ".js");
+				} else {
+					addScript("../../build/embed-kitchensink-" + platform + ".js");
+				}
 				addScript("modules.js");
-				infoNode.innerHTML = "Starting tests in a bit ...";
+				document.title = "Starting tests in a bit ...";
+				infoNode && (infoNode.innerHTML = document.title);
 		    }
 
 		//    function runReadyTest(){
@@ -121,8 +133,7 @@
 		<table border="1">
 			<tr>
 				<th>Platform</th>
-				<th></th>
-				<th></th>
+				<th>Execute</th>
 			</tr>
 			<tr>
 				<td>Android</td>
@@ -137,8 +148,8 @@
 				<td><button onclick="runTests('BlackBerry46');">run tests</button></td>
 			</tr>
 			<tr>
-				<td>Opera WRT</td>
-				<td><button onclick="runTests('opera-wrt');">run tests</button></td>
+				<td>Vodafone Apps Manager 2.2</td>
+				<td><button onclick="runTests('vodafone-apps-manager2.2');">run tests</button></td>
 			</tr>
 		</table>
 	    <pre id="statusInfo"></pre><br />
