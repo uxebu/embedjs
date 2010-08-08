@@ -1280,7 +1280,7 @@ return _4;
 })();
 dojo.query=function(_1,_2){
 if(typeof _2=="string"){
-_2=d.byId(_2);
+_2=dojo.byId(_2);
 if(!_2){
 return [];
 }

@@ -3654,7 +3654,7 @@ dojo.query = function(query, scope){
 	
 	// scope normalization
 	if(typeof scope == "string"){
-		scope = d.byId(scope);
+		scope = dojo.byId(scope);
 		if(!scope){
 			return [];
 		}
