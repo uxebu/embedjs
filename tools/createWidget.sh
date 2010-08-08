@@ -8,6 +8,7 @@ mkdir -p tmp/wgt
 cd tmp/wgt
 cp -R ../../src/tests/* .
 cp ../../src/config.xml .
+cp ../../src/Info.plist .
 cp ../../build/embed-* .
 
 # Remove all *.uncompressed.js files, they are just bloat in a widget
