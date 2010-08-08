@@ -29,7 +29,7 @@
 	
 	"html":[
 		"html/html.js",
-		"html/computedStyle.js"
+		"html/style.js"
 	],
 	
 	"json":[
