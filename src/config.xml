@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:jil="http://www.jil.org/ns/widgets1.2"
+	id="http://jil.org/wid/cc4b75128e6bc033fb7f40e7a8818a7c5311dff8c8b6a8b69f0376214ae8d0b1/embedjs-tests" version="0.1"
+	width="2000" height="2000">
+	<width>2000</width>
+	<height>2000</height>
+	<name>EmbedJS Tests</name>
+	<icon src="img/icon.png"/>
+	<jil:maximum_display_mode height="2000" width="2000"/>
+	<author href="http://uxebu.com" email="wk@uxebu.com">Wolfram Kriesing</author>
+	<description>The embedJS test suite</description>
+	<content src="runTests.html" encoding="utf-8" />
+
+	<access network="true" localfs="true"/> <!-- until JIL 1.1 this was enough -->
+	<jil:access network="true" localfs="true" remote_scripts="true"/> <!-- this is needed for JIL1.2 -->
+	<!--<update href="http://www.jil.org/widgets/" period="1"/>	-->
+</widget>

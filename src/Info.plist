@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Nokia//DTD PLIST 1.0//EN" "http://www.nokia.com/DTDs/plist-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DisplayName</key>
+	<string>embedJS Tests</string>
+	<key>Identifier</key>
+	<string>com.uxebu.embedjs</string>
+	<key>Version</key>
+	<string>0.1</string>
+	<key>AllowNetworkAccess</key>
+	<true/>
+	<key>MainHTML</key>
+	<string>runTests.html</string>
+</dict>
+</plist>
