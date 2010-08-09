@@ -136,12 +136,22 @@ doh._report = function(){
 	doh._groupStarted(group);
 	doh._groupResultNodes[group].outer.className += ' summary';
 	
+	var percentFailures = (this._errorCount+this._failureCount) / this._testCount * 100;
+	var link = doh._groupResultNodes[group].outer.getElementsByTagName("a");
+	if (link.length>0){
+		link[0].setAttribute("style", "width:" + percentFailures + "%");
+		//link[0].innerHTML += " <span>(Passed "+ ( cg.length - cg.failures ) + " tests of " + cg.length + ", elapsed time: " + this._stats.groupsByName[group].elapsed + "ms)</span>"
+	}
+	
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._testCount + ' tests in ' + this._groupCount + ' groups.</div>' );
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._errorCount + ' errors.</div>' );
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>' + this._failureCount + ' failures.</div>' );
 	
 	var totalTime = 0;
-	dojo.forEach(this._stats.groups, function(g){ g.elapsed && ( totalTime += g.elapsed); });
+	for (var i=0, l=this._stats.groups.length, g; i<l; i++){
+		g = this._stats.groups[i];
+		g.elapsed && ( totalTime += g.elapsed);
+	}
 	doh._groupResultNodes[group].inner.innerHTML += ( '<div>Time: ' + totalTime + 'ms.</div>' );
 	
 	doh._groupResultNodes[group].outer.className += ( ( this._errorCount + this._failureCount == 0 ) ? ' passed' : ' failed' );
