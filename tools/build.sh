@@ -5,7 +5,8 @@ if [ -z "$1" ]; then
 	echo "Please specify the kind of build you would like, choose from"
 	# TODO the follwoing should actually ONLY be a list of the valid 
 	cd profiles
-	find . -type f -name "*.definition"
+	find . -type f -name "*.definition" | xargs basename -a -s .definition
+	echo 
 	exit;
 fi
 
