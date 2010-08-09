@@ -33,7 +33,7 @@
 	],
 	
 	"json":[
-		"json/json.js"
+		"json/dojo-json.js"
 	],
 	
 	"jsonp":[
