@@ -475,25 +475,6 @@ dojo.require = function(){};
 	}
 	d.baseUrl = d.config.baseUrl;
 }(dojo));
-require.modify("dojo", "dojo/getProp_bb46_fix", null, function(){
-
-// This file contains fixes for the browser contained in BlackBerry OS 4.6
-
-(function(dojo){
-	var getProp = dojo._getProp;
-
-	// `attr in window` might evaluate to true, even if the proprty does not exist
-	dojo._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object*/context){
-		var obj=context || dojo.global;
-		if(obj === window && create && parts.length && typeof window[parts[0]] === "undefined"){
-			window[parts[0]] = {};
-		}
-
-		return getProp(parts, create, context);
-	}
-}(dojo));
-
-});
 ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
@@ -721,7 +702,84 @@ dojo.disconnect = function(/*Handle*/ handle){
 dojo._disconnect = function(obj, event, handle, listener){
 	listener.remove(obj, event, handle);
 }
+(function(){
 
+var del = (dojo._event_listener = {
+		add: function(/*DOMNode*/ node, /*String*/ name, /*Function*/ fp){
+			if(!node){return;} 
+			name = del._normalizeEventName(name);
+			node.addEventListener(name, fp, false);
+			return fp; /*Handle*/
+		},
+		remove: function(/*DOMNode*/ node, /*String*/ event, /*Handle*/ handle){
+			// summary:
+			//		clobbers the listener from the node
+			// node:
+			//		DOM node to attach the event to
+			// event:
+			//		the name of the handler to remove the function from
+			// handle:
+			//		the handle returned from add
+			if(node){
+				event = del._normalizeEventName(event);
+				node.removeEventListener(event, handle, false);
+			}
+		},
+		_normalizeEventName: function(/*String*/ name){
+			// Generally, name should be lower case, unless it is special
+			// somehow (e.g. a Mozilla DOM event).
+			// Remove 'on'.
+			return name.slice(0,2) =="on" ? name.slice(2) : name;
+		}
+	});
+
+	// DOM events
+	
+	dojo.fixEvent = function(/*Event*/ evt, /*DOMNode*/ sender){
+		// summary:
+		//		normalizes properties on the event object including event
+		//		bubbling methods, keystroke normalization, and x/y positions
+		// evt: Event
+		//		native event object
+		// sender: DOMNode
+		//		node to treat as "currentTarget"
+		return del._fixEvent(evt, sender);
+	};
+
+	dojo.stopEvent = function(/*Event*/ evt){
+		// summary:
+		//		prevents propagation and clobbers the default action of the
+		//		passed event
+		// evt: Event
+		//		The event object. If omitted, window.event is used on IE.
+		evt.preventDefault();
+		evt.stopPropagation();
+		// NOTE: below, this method is overridden for IE
+	};
+	
+	// Unify connect and event listeners
+	dojo._connect = function(obj, event, context, method, dontFix){
+		// FIXME: need a more strict test
+		var isNode = obj && (obj.nodeType||obj.attachEvent||obj.addEventListener);
+		// choose one of three listener options: raw (connect.js), DOM event on a Node, custom event on a Node
+		// we need the third option to provide leak prevention on broken browsers (IE)
+		var lid = isNode ? 1 : 0, l = [dojo._listener, del][lid];
+		// create a listener
+		var h = l.add(obj, event, dojo.hitch(context, method));
+		// formerly, the disconnect package contained "l" directly, but if client code
+		// leaks the disconnect package (by connecting it to a node), referencing "l" 
+		// compounds the problem.
+		// instead we return a listener id, which requires custom _disconnect below.
+		// return disconnect package
+		return [ obj, event, h, lid ];
+	};
+
+	dojo._disconnect = function(obj, event, handle, listener){
+		([dojo._listener, del][listener]).remove(obj, event, handle);
+	};
+
+	
+})();
 // topic publish/subscribe
 
 dojo._topics = {};
@@ -800,84 +858,7 @@ dojo.connectPublisher = function(	/*String*/ topic,
 	var pf = function(){ dojo.publish(topic, arguments); }
 	return event ? dojo.connect(obj, event, pf) : dojo.connect(obj, pf); //Handle
 };
-(function(){
-
-var del = (dojo._event_listener = {
-		add: function(/*DOMNode*/ node, /*String*/ name, /*Function*/ fp){
-			if(!node){return;} 
-			name = del._normalizeEventName(name);
-			node.addEventListener(name, fp, false);
-			return fp; /*Handle*/
-		},
-		remove: function(/*DOMNode*/ node, /*String*/ event, /*Handle*/ handle){
-			// summary:
-			//		clobbers the listener from the node
-			// node:
-			//		DOM node to attach the event to
-			// event:
-			//		the name of the handler to remove the function from
-			// handle:
-			//		the handle returned from add
-			if(node){
-				event = del._normalizeEventName(event);
-				node.removeEventListener(event, handle, false);
-			}
-		},
-		_normalizeEventName: function(/*String*/ name){
-			// Generally, name should be lower case, unless it is special
-			// somehow (e.g. a Mozilla DOM event).
-			// Remove 'on'.
-			return name.slice(0,2) =="on" ? name.slice(2) : name;
-		}
-	});
-
-	// DOM events
-	
-	dojo.fixEvent = function(/*Event*/ evt, /*DOMNode*/ sender){
-		// summary:
-		//		normalizes properties on the event object including event
-		//		bubbling methods, keystroke normalization, and x/y positions
-		// evt: Event
-		//		native event object
-		// sender: DOMNode
-		//		node to treat as "currentTarget"
-		return del._fixEvent(evt, sender);
-	};
-
-	dojo.stopEvent = function(/*Event*/ evt){
-		// summary:
-		//		prevents propagation and clobbers the default action of the
-		//		passed event
-		// evt: Event
-		//		The event object. If omitted, window.event is used on IE.
-		evt.preventDefault();
-		evt.stopPropagation();
-		// NOTE: below, this method is overridden for IE
-	};
-	
-	// Unify connect and event listeners
-	dojo._connect = function(obj, event, context, method, dontFix){
-		// FIXME: need a more strict test
-		var isNode = obj && (obj.nodeType||obj.attachEvent||obj.addEventListener);
-		// choose one of three listener options: raw (connect.js), DOM event on a Node, custom event on a Node
-		// we need the third option to provide leak prevention on broken browsers (IE)
-		var lid = isNode ? 1 : 0, l = [dojo._listener, del][lid];
-		// create a listener
-		var h = l.add(obj, event, dojo.hitch(context, method));
-		// formerly, the disconnect package contained "l" directly, but if client code
-		// leaks the disconnect package (by connecting it to a node), referencing "l" 
-		// compounds the problem.
-		// instead we return a listener id, which requires custom _disconnect below.
-		// return disconnect package
-		return [ obj, event, h, lid ];
-	};
-
-	dojo._disconnect = function(obj, event, handle, listener){
-		([dojo._listener, del][listener]).remove(obj, event, handle);
-	};
-
-	
-})();dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
+dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 	// summary:
 	//		Adds all properties and methods of props to constructor's
 	//		prototype, making them available to all instances created with
@@ -1308,277 +1289,7 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 		}
 	};
 })(dojo);
-(function(d){
-
-	d._query = function(query, scope){
-		//	summary:
-		//		Returns nodes which match the given CSS3 selector, searching the
-		//		entire document by default but optionally taking a node to scope
-		//		the search by. Returns an instance of dojo.NodeList.
-		//	description:
-		//		dojo.query() is the swiss army knife of DOM node manipulation in
-		//		Dojo. Much like Prototype's "$$" (bling-bling) function or JQuery's
-		//		"$" function, dojo.query provides robust, high-performance
-		//		CSS-based node selector support with the option of scoping searches
-		//		to a particular sub-tree of a document.
-		//
-		//		Supported Selectors:
-		//		--------------------
-		//
-		//		dojo.query() supports a rich set of CSS3 selectors, including:
-		//
-		//			* class selectors (e.g., `.foo`)
-		//			* node type selectors like `span`
-		//			* ` ` descendant selectors
-		//			* `>` child element selectors 
-		//			* `#foo` style ID selectors
-		//			* `*` universal selector
-		//			* `~`, the immediately preceeded-by sibling selector
-		//			* `+`, the preceeded-by sibling selector
-		//			* attribute queries:
-		//			|	* `[foo]` attribute presence selector
-		//			|	* `[foo='bar']` attribute value exact match
-		//			|	* `[foo~='bar']` attribute value list item match
-		//			|	* `[foo^='bar']` attribute start match
-		//			|	* `[foo$='bar']` attribute end match
-		//			|	* `[foo*='bar']` attribute substring match
-		//			* `:first-child`, `:last-child`, and `:only-child` positional selectors
-		//			* `:empty` content emtpy selector
-		//			* `:checked` pseudo selector
-		//			* `:nth-child(n)`, `:nth-child(2n+1)` style positional calculations
-		//			* `:nth-child(even)`, `:nth-child(odd)` positional selectors
-		//			* `:not(...)` negation pseudo selectors
-		//
-		//		Any legal combination of these selectors will work with
-		//		`dojo.query()`, including compound selectors ("," delimited).
-		//		Very complex and useful searches can be constructed with this
-		//		palette of selectors and when combined with functions for
-		//		manipulation presented by dojo.NodeList, many types of DOM
-		//		manipulation operations become very straightforward.
-		//		
-		//		Unsupported Selectors:
-		//		----------------------
-		//
-		//		While dojo.query handles many CSS3 selectors, some fall outside of
-		//		what's resaonable for a programmatic node querying engine to
-		//		handle. Currently unsupported selectors include:
-		//		
-		//			* namespace-differentiated selectors of any form
-		//			* all `::` pseduo-element selectors
-		//			* certain pseduo-selectors which don't get a lot of day-to-day use:
-		//			|	* `:root`, `:lang()`, `:target`, `:focus`
-		//			* all visual and state selectors:
-		//			|	* `:root`, `:active`, `:hover`, `:visisted`, `:link`,
-		//				  `:enabled`, `:disabled`
-		//			* `:*-of-type` pseudo selectors
-		//		
-		//		dojo.query and XML Documents:
-		//		-----------------------------
-		//		
-		//		`dojo.query` (as of dojo 1.2) supports searching XML documents
-		//		in a case-sensitive manner. If an HTML document is served with
-		//		a doctype that forces case-sensitivity (e.g., XHTML 1.1
-		//		Strict), dojo.query() will detect this and "do the right
-		//		thing". Case sensitivity is dependent upon the document being
-		//		searched and not the query used. It is therefore possible to
-		//		use case-sensitive queries on strict sub-documents (iframes,
-		//		etc.) or XML documents while still assuming case-insensitivity
-		//		for a host/root document.
-		//
-		//		Non-selector Queries:
-		//		---------------------
-		//
-		//		If something other than a String is passed for the query,
-		//		`dojo.query` will return a new `dojo.NodeList` instance
-		//		constructed from that parameter alone and all further
-		//		processing will stop. This means that if you have a reference
-		//		to a node or NodeList, you can quickly construct a new NodeList
-		//		from the original by calling `dojo.query(node)` or
-		//		`dojo.query(list)`.
-		//
-		//	query:
-		//		The CSS3 expression to match against. For details on the syntax of
-		//		CSS3 selectors, see <http://www.w3.org/TR/css3-selectors/#selectors>
-		//	root:
-		//		A DOMNode (or node id) to scope the search from. Optional.
-		//	returns: DOMCollection || Array
-		//		The matching nodes. DOMCollection is enumerable, so you can use
-		//		it with dojo.forEach.
-		//	example:
-		//		search the entire document for elements with the class "foo":
-		//	|	dojo.query(".foo");
-		//		these elements will match:
-		//	|	<span class="foo"></span>
-		//	|	<span class="foo bar"></span>
-		//	|	<p class="thud foo"></p>
-		//	example:
-		//		search the entire document for elements with the classes "foo" *and* "bar":
-		//	|	dojo.query(".foo.bar");
-		//		these elements will match:
-		//	|	<span class="foo bar"></span>
-		//		while these will not:
-		//	|	<span class="foo"></span>
-		//	|	<p class="thud foo"></p>
-		//	example:
-		//		find `<span>` elements which are descendants of paragraphs and
-		//		which have a "highlighted" class:
-		//	|	dojo.query("p span.highlighted");
-		//		the innermost span in this fragment matches:
-		//	|	<p class="foo">
-		//	|		<span>...
-		//	|			<span class="highlighted foo bar">...</span>
-		//	|		</span>
-		//	|	</p>
-		//	example:
-		//		set an "odd" class on all odd table rows inside of the table
-		//		`#tabular_data`, using the `>` (direct child) selector to avoid
-		//		affecting any nested tables:
-		//	|	dojo.query("#tabular_data > tbody > tr:nth-child(odd)").addClass("odd");
-		//	example:
-		//		remove all elements with the class "error" from the document
-		//		and store them in a list:
-		//	|	var errors = dojo.query(".error").orphan();
-		//	example:
-		//		add an onclick handler to every submit button in the document
-		//		which causes the form to be sent via Ajax instead:
-		//	|	dojo.query("input[type='submit']").onclick(function(e){
-		//	|		dojo.stopEvent(e); // prevent sending the form
-		//	|		var btn = e.target;
-		//	|		dojo.xhrPost({
-		//	|			form: btn.form,
-		//	|			load: function(data){
-		//	|				// replace the form with the response
-		//	|				var div = dojo.doc.createElement("div");
-		//	|				dojo.place(div, btn.form, "after");
-		//	|				div.innerHTML = data;
-		//	|				dojo.style(btn.form, "display", "none");
-		//	|			}
-		//	|		});
-		//	|	});
-		//	issues:
-		//		On webkit, the following queries will not work as expected:
-		//		(Note that these are bugs webkit's querySelector engine.)
-		//	|	dojo.query('[foo|="bar"]') // will also return elements with foo="bar"
-		//	|	dojo.query('option:checked') // will return an empty list
-		//	dojo-incompatibilities:
-		//		dojo.query will not return a dojo.NodeList Instance! On webkit it will
-		//		return a DOMCollection or an empty Array.
-		//	TODO: 
-		//		Update the inline doc when we know if dojo.query "does" support
-		//		chaining.
-		
-		
-		// scope normalization
-		if(typeof scope == "string"){
-			scope = d.byId(scope);
-			if(!scope){
-				return [];
-			}
-		}
-
-		scope = scope || dojo.doc;
-		
-		/*
-		QUERY NORMALIZATION:
-
-		`dojo.query` accepts selectors that start with combinators like "> *"
-		or "+ a". It accepts even queries that consist only of a combinator.
-		These queries throw errors with querySelectorAll.
-
-		Markup like
-				<div><p id="myP"><strong>foo</strong></p></div>
-		returns the "strong" element with
-				document.getElementById("myP").querySelectorAll("div strong");
-		Which is incompatible with dojo.query
-
-		For these reasons, the query is normalized before execution:
-		- When the query ends with a combinator (">", "+", "~"), append a universal selector ("*").
-		- When the root is document, and the query starts with a child combinator, return the appropriate element.
-		- When the root is document, and the query starts with an other combinator than ">", return an empty result.
-		- When the root element does not have an id, add a synthetic id.
-		- Prefix the query with the id of the root element.
-		- Execute the query with QSA.
-		- Remove the synthetic id, if added.
-		- Return the results.
-
-		*/
-
-		// Normalize selectors ending with a combinator
-		if (/[>+~]\s*$/.test(query)){
-			query += "*";
-		}
-
-		var queryRoot = scope; // `querySelectorAll` will be called on this node.
-
-		// check if scope is a document node
-		if(scope.nodeType == 9){
-			// if the query starts with a child combinator, try scope.querySelector()
-			// with the first segment _without_ leading child operator and check
-			// if it is scope.documentElement.
-			if(/^\s*>/.test(query)){
-				// split the query up into the selector that the documentElement must match
-				// and the rest of the query.
-				var queryParts = query.replace(/^\s*>/, "").match(/([^\s>+~]+)(.*)/);
-				if (!queryParts) {
-					return [];
-				}
-
-				var docElmQuery = queryParts[1];
-				query = queryParts[2];
-
-				// Check if the documentElement matches the first segment of the selector
-				if(scope.querySelector(docElmQuery) !== scope.documentElement){
-					return [];
-				}
-
-				// If documentElement matches the first segment of the selector,
-				// and the rest of the query is empty return documentElement.
-				if(!query){
-					return [scope.documentElement];
-				}
-
-				// execute the rest of the selector against scope.documentElement
-				scope = scope.documentElement;
-			}
-
-			// if the query starts with a ajdacent combinator or a general sibling combinator,
-			// return an empty array
-			else if(/^\s*[+~]/.test(query)){
-				return [];
-			}
-		}
-
-		// check if the root is an element node.
-		// We can't use an "else" branch here, because the scope might have changed
-		if(scope.nodeType == 1){
-			// we need to prefix the query with an id to make QSA work like
-			// expected. For details check http://ejohn.org/blog/thoughts-on-queryselectorall/
-			var originalId = scope.id;
-			var rootId = originalId;
-			if(!originalId){
-				rootId = scope.id =  "d---dojo-query-synthetic-id-" + new Date().getTime(); // is this "secure" enough?
-				var syntheticIdSet = true;
-			}
-
-			query = "#" + rootId + " " + query;
-
-			// we need to start the query one element up the chain to make sibling
-			// and adjacent combinators work.
-			queryRoot = scope.parentNode;
-		}
-
-		// invalid queries:
-		// [">", "body >", "#t >", ".foo >", "> *", "> h3", ">", "> *", "> [qux]", "> [qux]", "> [qux]", ">", "> *", ">*", "+", "~", "#foo ~", "#foo~", "#t span.foo:not(span:first-child)"]
-
-		var n = queryRoot.querySelectorAll(query);
-
-		// Remove synthetic id from element if set before
-		if(syntheticIdSet){
-			scope.id = "";
-		}
-		
-		return n || [];
-	};
+;(function(d){
 
 	var byId = d.byId;
 	
@@ -1653,148 +1364,6 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 		return df; // DOMNode
 	}
 
-	// =============================
-	// Style Functions
-	// =============================
-
-	// getComputedStyle drives most of the style code.
-	// Wherever possible, reuse the returned object.
-	//
-	// API functions below that need to access computed styles accept an
-	// optional computedStyle parameter.
-	// If this parameter is omitted, the functions will call getComputedStyle themselves.
-	// This way, calling code can access computedStyle once, and then pass the reference to
-	// multiple API functions.
-
-	// Although we normally eschew argument validation at this
-	// level, here we test argument 'node' for (duck)type,
-	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
-	// it is frequently sent to this function even
-	// though it is not Element.
-	d._getComputedStyle = function(node){
-		//	summary:
-		//		Returns a "computed style" object.
-		//
-		//	description:
-		//		Gets a "computed style" object which can be used to gather
-		//		information about the current state of the rendered node.
-		//
-		//		Note that this may behave differently on different browsers.
-		//		Values may have different formats and value encodings across
-		//		browsers.
-		//
-		//		Note also that this method is expensive.  Wherever possible,
-		//		reuse the returned object.
-		//
-		//		Use the dojo.style() method for more consistent (pixelized)
-		//		return values.
-		//
-		//	node: DOMNode
-		//		A reference to a DOM node. Does NOT support taking an
-		//		ID string for speed reasons.
-		//	example:
-		//	|	dojo.getComputedStyle(dojo.byId('foo')).borderWidth;
-		//
-		//	example:
-		//	Reusing the returned object, avoiding multiple lookups:
-		//	|	var cs = dojo.getComputedStyle(dojo.byId("someNode"));
-		//	|	var w = cs.width, h = cs.height;
-		//	returns: CSS2Properties
-		return node.nodeType == 1 ?
-			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
-	};
-
-
-
-	var _floatStyle = d.isIE ? "styleFloat" : "cssFloat",
-		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
-	;
-
-	// public API
-
-	d._style = function(	/*DomNode|String*/ node,
-							/*String?|Object?*/ style,
-							/*String?*/ value){
-		//	summary:
-		//		Accesses styles on a node. If 2 arguments are
-		//		passed, acts as a getter. If 3 arguments are passed, acts
-		//		as a setter.
-		//	description:
-		//		Getting the style value uses the computed style for the node, so the value
-		//		will be a calculated value, not just the immediate node.style value.
-		//		Also when getting values, use specific style names,
-		//		like "borderBottomWidth" instead of "border" since compound values like
-		//		"border" are not necessarily reflected as expected.
-		//		If you want to get node dimensions, use dojo.marginBox() or
-		//		dojo.contentBox().
-		//	node:
-		//		id or reference to node to get/set style for
-		//	style:
-		//		the style property to set in DOM-accessor format
-		//		("borderWidth", not "border-width") or an object with key/value
-		//		pairs suitable for setting each property.
-		//	value:
-		//		If passed, sets value on the node for style, handling
-		//		cross-browser concerns.  When setting a pixel value,
-		//		be sure to include "px" in the value. For instance, top: "200px".
-		//		Otherwise, in some cases, some browsers will not apply the style.
-		//	example:
-		//		Passing only an ID or node returns the computed style object of
-		//		the node:
-		//	|	dojo.style("thinger");
-		//	example:
-		//		Passing a node and a style property returns the current
-		//		normalized, computed value for that property:
-		//	|	dojo.style("thinger", "opacity"); // 1 by default
-		//
-		//	example:
-		//		Passing a node, a style property, and a value changes the
-		//		current display of the node and returns the new computed value
-		//	|	dojo.style("thinger", "opacity", 0.5); // == 0.5
-		//
-		//	example:
-		//		Passing a node, an object-style style property sets each of the values in turn and returns the computed style object of the node:
-		//	|	dojo.style("thinger", {
-		//	|		"opacity": 0.5,
-		//	|		"border": "3px solid black",
-		//	|		"height": "300px"
-		//	|	});
-		//
-		// 	example:
-		//		When the CSS style property is hyphenated, the JavaScript property is camelCased.
-		//		font-size becomes fontSize, and so on.
-		//	|	dojo.style("thinger",{
-		//	|		fontSize:"14pt",
-		//	|		letterSpacing:"1.2em"
-		//	|	});
-		//
-		//	example:
-		//		dojo.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
-		//		dojo.style() on every element of the list. See: dojo.query and dojo.NodeList
-		//	|	dojo.query(".someClassName").style("visibility","hidden");
-		//	|	// or
-		//	|	dojo.query("#baz > div").style({
-		//	|		opacity:0.75,
-		//	|		fontSize:"13pt"
-		//	|	});
-		//
-		//	returns: Number
-		//	returns: CSS2Properties||String||Number
-
-		var n = byId(node), l = arguments.length;
-		style = _floatAliases[style] || style;
-		if(l == 3){
-			return n.style[style] = value; /*Number*/
-		}
-		var s = d._getComputedStyle(n);
-		if(l == 2 && typeof style != "string"){ // inline'd type check
-			for(var x in style){
-				d._style(node, x, style[x]);
-			}
-			return s;
-		}
-		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
-	}
 
 	// =============================
 	// (CSS) Class Functions
@@ -2154,33 +1723,389 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	};
 
 })(dojo);
+;(function(d){
+
+	// =============================
+	// Style Functions
+	// =============================
+
+	// getComputedStyle drives most of the style code.
+	// Wherever possible, reuse the returned object.
+	//
+	// API functions below that need to access computed styles accept an
+	// optional computedStyle parameter.
+	// If this parameter is omitted, the functions will call getComputedStyle themselves.
+	// This way, calling code can access computedStyle once, and then pass the reference to
+	// multiple API functions.
+
+	// Although we normally eschew argument validation at this
+	// level, here we test argument 'node' for (duck)type,
+	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
+	// it is frequently sent to this function even
+	// though it is not Element.
+	d._getComputedStyle = function(node){
+		//	summary:
+		//		Returns a "computed style" object.
+		//
+		//	description:
+		//		Gets a "computed style" object which can be used to gather
+		//		information about the current state of the rendered node.
+		//
+		//		Note that this may behave differently on different browsers.
+		//		Values may have different formats and value encodings across
+		//		browsers.
+		//
+		//		Note also that this method is expensive.  Wherever possible,
+		//		reuse the returned object.
+		//
+		//		Use the dojo.style() method for more consistent (pixelized)
+		//		return values.
+		//
+		//	node: DOMNode
+		//		A reference to a DOM node. Does NOT support taking an
+		//		ID string for speed reasons.
+		//	example:
+		//	|	dojo.getComputedStyle(dojo.byId('foo')).borderWidth;
+		//
+		//	example:
+		//	Reusing the returned object, avoiding multiple lookups:
+		//	|	var cs = dojo.getComputedStyle(dojo.byId("someNode"));
+		//	|	var w = cs.width, h = cs.height;
+		//	returns: CSS2Properties
+		
+		/* We once had the following impl. Why?
+			var s;
+			if(node.nodeType == 1){
+				var dv = node.ownerDocument.defaultView;
+				s = dv.getComputedStyle(node, null);
+				if(!s && node.style){
+					node.style.display = "";
+					s = dv.getComputedStyle(node, null);
+				}
+			}
+			return s || {};
+		*/
+		
+		return node.nodeType == 1 ?
+			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
+	};
+
+
+
+	var _floatStyle = "cssFloat",
+		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
+	;
+
+	// public API
+
+	d._style = function(	/*DomNode|String*/ node,
+							/*String?|Object?*/ style,
+							/*String?*/ value){
+		//	summary:
+		//		Accesses styles on a node. If 2 arguments are
+		//		passed, acts as a getter. If 3 arguments are passed, acts
+		//		as a setter.
+		//	description:
+		//		Getting the style value uses the computed style for the node, so the value
+		//		will be a calculated value, not just the immediate node.style value.
+		//		Also when getting values, use specific style names,
+		//		like "borderBottomWidth" instead of "border" since compound values like
+		//		"border" are not necessarily reflected as expected.
+		//		If you want to get node dimensions, use dojo.marginBox() or
+		//		dojo.contentBox().
+		//	node:
+		//		id or reference to node to get/set style for
+		//	style:
+		//		the style property to set in DOM-accessor format
+		//		("borderWidth", not "border-width") or an object with key/value
+		//		pairs suitable for setting each property.
+		//	value:
+		//		If passed, sets value on the node for style, handling
+		//		cross-browser concerns.  When setting a pixel value,
+		//		be sure to include "px" in the value. For instance, top: "200px".
+		//		Otherwise, in some cases, some browsers will not apply the style.
+		//	example:
+		//		Passing only an ID or node returns the computed style object of
+		//		the node:
+		//	|	dojo.style("thinger");
+		//	example:
+		//		Passing a node and a style property returns the current
+		//		normalized, computed value for that property:
+		//	|	dojo.style("thinger", "opacity"); // 1 by default
+		//
+		//	example:
+		//		Passing a node, a style property, and a value changes the
+		//		current display of the node and returns the new computed value
+		//	|	dojo.style("thinger", "opacity", 0.5); // == 0.5
+		//
+		//	example:
+		//		Passing a node, an object-style style property sets each of the values in turn and returns the computed style object of the node:
+		//	|	dojo.style("thinger", {
+		//	|		"opacity": 0.5,
+		//	|		"border": "3px solid black",
+		//	|		"height": "300px"
+		//	|	});
+		//
+		// 	example:
+		//		When the CSS style property is hyphenated, the JavaScript property is camelCased.
+		//		font-size becomes fontSize, and so on.
+		//	|	dojo.style("thinger",{
+		//	|		fontSize:"14pt",
+		//	|		letterSpacing:"1.2em"
+		//	|	});
+		//
+		//	example:
+		//		dojo.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
+		//		dojo.style() on every element of the list. See: dojo.query and dojo.NodeList
+		//	|	dojo.query(".someClassName").style("visibility","hidden");
+		//	|	// or
+		//	|	dojo.query("#baz > div").style({
+		//	|		opacity:0.75,
+		//	|		fontSize:"13pt"
+		//	|	});
+		//
+		//	returns: Number
+		//	returns: CSS2Properties||String||Number
+
+		var n = byId(node), l = arguments.length;
+		style = _floatAliases[style] || style;
+		if(l == 3){
+			return n.style[style] = value; /*Number*/
+		}
+		var s = d._getComputedStyle(n);
+		if(l == 2 && typeof style != "string"){ // inline'd type check
+			for(var x in style){
+				d._style(node, x, style[x]);
+			}
+			return s;
+		}
+		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
+	}
+	
+})(dojo);
 
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
-dojo.query = dojo._query;
+// Crockford (ish) functions
 
-dojo.getComputedStyle = function(/*DomNode*/node){
-	var s;
-	if(node.nodeType == 1){
-		var dv = node.ownerDocument.defaultView;
-		s = dv.getComputedStyle(node, null);
-		if(!s && node.style){
-			node.style.display = "";
-			s = dv.getComputedStyle(node, null);
+dojo.isString = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is a String
+	return (typeof it == "string" || it instanceof String); // Boolean
+}
+
+dojo.isArray = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is an Array
+	return it && (it instanceof Array || typeof it == "array"); // Boolean
+}
+
+/*=====
+dojo.isFunction = function(it){
+	// summary: Return true if it is a Function
+	// it: anything
+	return; // Boolean
+}
+=====*/
+
+dojo.isFunction = (function(){
+	var _isFunction = function(/*anything*/ it){
+		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
+		//Firefox thinks object HTML element is a function, so test for nodeType.
+		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
+	};
+
+	return dojo.isSafari ?
+		// only slow this down w/ gratuitious casting in Safari (not WebKit)
+		function(/*anything*/ it){
+			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
+			return _isFunction(it); // Boolean
+		} : _isFunction;
+})();
+
+dojo.isObject = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a JavaScript object (or an Array, a Function
+	//		or null)
+	return it !== undefined &&
+		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
+}
+
+dojo.isArrayLike = function(/*anything*/ it){
+	//	summary:
+	//		similar to dojo.isArray() but more permissive
+	//	description:
+	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
+	//		a string or number and has a length property". Arguments objects
+	//		and DOM collections will return true when passed to
+	//		dojo.isArrayLike(), but will return false when passed to
+	//		dojo.isArray().
+	//	returns:
+	//		If it walks like a duck and quacks like a duck, return `true`
+	var d = dojo;
+	return it && it !== undefined && // Boolean
+		// keep out built-in constructors (Number, String, ...) which have length
+		// properties
+		!d.isString(it) && !d.isFunction(it) &&
+		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
+		(d.isArray(it) || isFinite(it.length));
+}
+
+dojo.isAlien = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a built-in function or some other kind of
+	//		oddball that *should* report as a function but doesn't
+	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
+}
+
+dojo.isNumeric = function(n){
+	return n==parseFloat(n);
+}
+
+dojo.isNumber = function(n){
+	return typeof n == "number" || n instanceof Number;
+}
+dojo.fromJson = function(/*String*/ json){
+	// summary:
+	// 		Parses a [JSON](http://json.org) string to return a JavaScript object.
+	// description:
+	// 		Throws for invalid JSON strings, but it does not use a strict JSON parser. It
+	// 		delegates to eval().  The content passed to this method must therefore come
+	//		from a trusted source.
+	// json: 
+	//		a string literal of a JSON item, for instance:
+	//			`'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'`
+
+	return eval("(" + json + ")"); // Object
+};
+
+dojo._escapeString = function(/*String*/str){
+	//summary:
+	//		Adds escape sequences for non-visual characters, double quote and
+	//		backslash and surrounds with double quotes to form a valid string
+	//		literal.
+	return ('"' + str.replace(/(["\\])/g, '\\$1') + '"').
+		replace(/[\f]/g, "\\f").replace(/[\b]/g, "\\b").replace(/[\n]/g, "\\n").
+		replace(/[\t]/g, "\\t").replace(/[\r]/g, "\\r"); // string
+};
+
+dojo.toJsonIndentStr = "\t";
+dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _indentStr){
+	//	summary:
+	//		Returns a [JSON](http://json.org) serialization of an object.
+	//	description:
+	//		Returns a [JSON](http://json.org) serialization of an object.
+	//		Note that this doesn't check for infinite recursion, so don't do that!
+	//	it:
+	//		an object to be serialized. Objects may define their own
+	//		serialization via a special "__json__" or "json" function
+	//		property. If a specialized serializer has been defined, it will
+	//		be used as a fallback.
+	//	prettyPrint:
+	//		if true, we indent objects and arrays to make the output prettier.
+	//		The variable `dojo.toJsonIndentStr` is used as the indent string --
+	//		to use something other than the default (tab), change that variable
+	//		before calling dojo.toJson().
+	//	_indentStr:
+	//		private variable for recursive calls when pretty printing, do not use.
+	//	example:
+	//		simple serialization of a trivial object
+	//		|	var jsonStr = dojo.toJson({ howdy: "stranger!", isStrange: true });
+	//		|	doh.is('{"howdy":"stranger!","isStrange":true}', jsonStr);
+	//	example:
+	//		a custom serializer for an objects of a particular class:
+	//		|	dojo.declare("Furby", null, {
+	//		|		furbies: "are strange",
+	//		|		furbyCount: 10,
+	//		|		__json__: function(){
+	//		|		},
+	//		|	});
+
+	if(it === undefined){
+		return "undefined";
+	}
+	var objtype = typeof it;
+	if(objtype == "number" || objtype == "boolean"){
+		return it + "";
+	}
+	if(it === null){
+		return "null";
+	}
+	if(dojo.isString(it)){ 
+		return dojo._escapeString(it); 
+	}
+	// recurse
+	var recurse = arguments.callee;
+	// short-circuit for objects that support "json" serialization
+	// if they return "self" then just pass-through...
+	var newObj;
+	_indentStr = _indentStr || "";
+	var nextIndent = prettyPrint ? _indentStr + dojo.toJsonIndentStr : "";
+	var tf = it.__json__||it.json;
+	if(dojo.isFunction(tf)){
+		newObj = tf.call(it);
+		if(it !== newObj){
+			return recurse(newObj, prettyPrint, nextIndent);
 		}
 	}
-	return s || {};
-};
-// NOTE: dojo's JSON impl differs from native!
-//	(e.g. revier function)
+	if(it.nodeType && it.cloneNode){ // isNode
+		// we can't seriailize DOM nodes as regular objects because they have cycles
+		// DOM nodes could be serialized with something like outerHTML, but
+		// that can be provided by users in the form of .json or .__json__ function.
+		throw new Error("Can't serialize DOM nodes");
+	}
 
-dojo.toJson = function(/* Mixed */ data){
-	return JSON.stringify(data);
-};
+	var sep = prettyPrint ? " " : "";
+	var newLine = prettyPrint ? "\n" : "";
 
-dojo.fromJson = function(/* String */ json){
-	return JSON.parse(json);
-}
+	// array
+	if(dojo.isArray(it)){
+		var res = dojo.map(it, function(obj){
+			var val = recurse(obj, prettyPrint, nextIndent);
+			if(typeof val != "string"){
+				val = "undefined";
+			}
+			return newLine + nextIndent + val;
+		});
+		return "[" + res.join("," + sep) + newLine + _indentStr + "]";
+	}
+	/*
+	// look in the registry
+	try {
+		window.o = it;
+		newObj = dojo.json.jsonRegistry.match(it);
+		return recurse(newObj, prettyPrint, nextIndent);
+	}catch(e){
+		// console.log(e);
+	}
+	// it's a function with no adapter, skip it
+	*/
+	if(objtype == "function"){
+		return null; // null
+	}
+	// generic object code path
+	var output = [], key;
+	for(key in it){
+		var keyStr, val;
+		if(typeof key == "number"){
+			keyStr = '"' + key + '"';
+		}else if(typeof key == "string"){
+			keyStr = dojo._escapeString(key);
+		}else{
+			// skip non-string or number keys
+			continue;
+		}
+		val = recurse(it[key], prettyPrint, nextIndent);
+		if(typeof val != "string"){
+			// skip non-serializable values
+			continue;
+		}
+		// FIXME: use += on Moz!!
+		//	 MOW NOTE: using += is a pain because you have to account for the dangling comma...
+		output.push(newLine + nextIndent + keyStr + ":" + sep + val);
+	}
+	return "{" + output.join("," + sep) + newLine + _indentStr + "}"; // String
+};
 dojo.objectToQuery = function(/*Object*/ map){
 	//	summary:
 	//		takes a name/value mapping object and returns a string representing
@@ -2383,85 +2308,6 @@ dojo.jsonp.get = function(/* dojo.jsonp.__ioArgs */ args){
 	}
 	return r; // Object
 		
-}
-// Crockford (ish) functions
-
-dojo.isString = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is a String
-	return (typeof it == "string" || it instanceof String); // Boolean
-}
-
-dojo.isArray = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is an Array
-	return it && (it instanceof Array || typeof it == "array"); // Boolean
-}
-
-/*=====
-dojo.isFunction = function(it){
-	// summary: Return true if it is a Function
-	// it: anything
-	return; // Boolean
-}
-=====*/
-
-dojo.isFunction = (function(){
-	var _isFunction = function(/*anything*/ it){
-		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
-		//Firefox thinks object HTML element is a function, so test for nodeType.
-		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
-	};
-
-	return dojo.isSafari ?
-		// only slow this down w/ gratuitious casting in Safari (not WebKit)
-		function(/*anything*/ it){
-			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
-			return _isFunction(it); // Boolean
-		} : _isFunction;
-})();
-
-dojo.isObject = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a JavaScript object (or an Array, a Function
-	//		or null)
-	return it !== undefined &&
-		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
-}
-
-dojo.isArrayLike = function(/*anything*/ it){
-	//	summary:
-	//		similar to dojo.isArray() but more permissive
-	//	description:
-	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
-	//		a string or number and has a length property". Arguments objects
-	//		and DOM collections will return true when passed to
-	//		dojo.isArrayLike(), but will return false when passed to
-	//		dojo.isArray().
-	//	returns:
-	//		If it walks like a duck and quacks like a duck, return `true`
-	var d = dojo;
-	return it && it !== undefined && // Boolean
-		// keep out built-in constructors (Number, String, ...) which have length
-		// properties
-		!d.isString(it) && !d.isFunction(it) &&
-		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
-		(d.isArray(it) || isFinite(it.length));
-}
-
-dojo.isAlien = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a built-in function or some other kind of
-	//		oddball that *should* report as a function but doesn't
-	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
-}
-
-dojo.isNumeric = function(n){
-	return n==parseFloat(n);
-}
-
-dojo.isNumber = function(n){
-	return typeof n == "number" || n instanceof Number;
 }
 /*=====
 dojo.trim = function(str){
