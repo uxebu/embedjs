@@ -142,7 +142,7 @@
 		//	returns: Number
 		//	returns: CSS2Properties||String||Number
 
-		var n = byId(node), l = arguments.length;
+		var n = dojo.byId(node), l = arguments.length;
 		style = _floatAliases[style] || style;
 		if(l == 3){
 			return n.style[style] = value; /*Number*/
