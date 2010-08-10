@@ -1,30 +1,3 @@
-addScript("_base/object.js");
-addScript("_base/declare.js");
-addScript("_base/lang.js");
-//addScript("_base/html.js");
-addScript("_base/string.js");
-addScript("_base/deferred.js");
-addScript("_base/array.js");
-addScript("_base/connect.js");
-addScript("_base/json.js");
-addScript("io/script.js");
-
-// html tests
-addScript("_base/html/getHtml.php?id=html_id-test&file=id");
-addScript("_base/html/id.js");
-
-addScript("_base/html/getHtml.php?id=html_html-test&file=html");
-addScript("_base/html/html.js");
-
-addScript("_base/html/getHtml.php?id=html_element-test&file=element");
-addScript("_base/html/element.js");
-
-addScript("_base/html/getHtml.php?id=html_query-test&file=query");
-addScript("_base/html/query.js");
-
-addScript("_base/html/getHtml.php?id=html_xhr-test&file=xhr");
-addScript("_base/html/xhr.js");
-
 // error reporting
 doh._testMessages = {};
 doh.debug = function(){
@@ -194,3 +167,5 @@ setTimeout(function(){
 	document.title = "Running tests ...";
 	doh.infoNode && (doh.infoNode.innerHTML = document.title);
 }, 200); // Just to be sure ...
+
+//*/
