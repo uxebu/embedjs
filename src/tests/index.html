@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Test Runner</title>
+	</head>
+	<body>
+	    <script type="text/javascript">
+	    	function runTests(platform){
+				window.location = "runTests-" + platform + ".html";
+		    }
+	    </script>
+	    
+		<table border="1">
+			<tr>
+				<th>Platform</th>
+				<th>Execute</th>
+			</tr>
+			<tr>
+				<td>Android</td>
+				<td><button onclick="runTests('Android');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>iPhone</td>
+				<td><button onclick="runTests('iPhone');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>Blackberry 4.6</td>
+				<td><button onclick="runTests('BlackBerry46');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>Vodafone Apps Manager 2.2</td>
+				<td><button onclick="runTests('vodafone-apps-manager2.2');">run tests</button></td>
+			</tr>
+			<tr>
+				<td>Nokia WRT</td>
+				<td><button onclick="runTests('nokia-wrt');">run tests</button></td>
+			</tr>
+		</table>
+	</body>
+</html>
+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>EmbedJS Test Runner</title>
+		<title>EmbedJS Test Runner - blackberry4.6</title>
 		<style type="text/css">
 			body,html{
 				background-color:white;
@@ -76,38 +76,13 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-			function addScript(src){
-				var tag = document.createElement("script");
-				tag.setAttribute("charset","utf-8");
-				var connector = src.indexOf("?") == -1 ? "?" : "&";
-				var src1 = src + connector + "nocache=" + new Date().getTime(); // prevent caching, FF caches hard
-				tag.src = src1;
-				//document.write('<sc'+'ript src="'+src1+' charset="utf-8"></sc'+'ript>');
-				document.body.appendChild(tag);
-			}
-		
-	    	function runTests(platform){
-				var infoNode = document.getElementById("statusInfo");
-				document.title = "Loading tests ...";
-				infoNode && (infoNode.innerHTML = document.title);
-				if (window["widget"]){
-					addScript("embed-kitchensink-" + platform + ".js");
-				} else {
-					addScript("../../build/embed-kitchensink-" + platform + ".js");
+			window.onerror = function(e){
+				var err = [];
+				for (var key in e){
+					err.push(key+": "+e[key]);
 				}
-				addScript("modules.js");
-				document.title = "Starting tests in a bit ...";
-				infoNode && (infoNode.innerHTML = document.title);
-		    }
-
-		//    function runReadyTest(){
-		//		var select = document.getElementById('target-platform');
-		//		var target = select.options[select.selectedIndex].value;
-		//		var targetModule = "dojo/_platforms/" + target;
-		//
-		//		location.href = "./readyTest.html?platform="+targetModule;
-		//
-		//	}
+				alert("ERROR " + err.join(" "))
+			}
 		
 			function toggleClass(nodeId, classString){
 				var node = document.getElementById(nodeId),
@@ -129,32 +104,32 @@
 				toggleClass(id, 'showMessages');
 			}
 	    </script>
-	    
-		<table border="1">
-			<tr>
-				<th>Platform</th>
-				<th>Execute</th>
-			</tr>
-			<tr>
-				<td>Android</td>
-				<td><button onclick="runTests('Android');">run tests</button></td>
-			</tr>
-			<tr>
-				<td>iPhone</td>
-				<td><button onclick="runTests('iPhone');">run tests</button></td>
-			</tr>
-			<tr>
-				<td>Blackberry 4.6</td>
-				<td><button onclick="runTests('BlackBerry46');">run tests</button></td>
-			</tr>
-			<tr>
-				<td>Vodafone Apps Manager 2.2</td>
-				<td><button onclick="runTests('vodafone-apps-manager2.2');">run tests</button></td>
-			</tr>
-		</table>
 	    <pre id="statusInfo"></pre><br />
 	    <pre id="resultsNode"></pre>
 	    <div id="testBoxContainer"></div>
+		
+		<script type="text/javascript" src="../../build/embed-kitchensink-blackberry4.6.js"></script>
+		<script type="text/javascript" src="modules.js"></script>
+		<script type="text/javascript" src="_base/object.js"></script>
+		<script type="text/javascript" src="_base/declare.js"></script>
+		<script type="text/javascript" src="_base/lang.js"></script>
+		<script type="text/javascript" src="_base/html.js"></script>
+		<script type="text/javascript" src="_base/string.js"></script>
+		<script type="text/javascript" src="_base/deferred.js"></script>
+		<script type="text/javascript" src="_base/array.js"></script>
+		<script type="text/javascript" src="_base/connect.js"></script>
+		<script type="text/javascript" src="_base/json.js"></script>
+		
+		<script type="text/javascript" src="_base/html/getHtml.php?id=html_id-test&file=id"></script>
+		<script type="text/javascript" src="_base/html/id.js"></script>
+		<script type="text/javascript" src="_base/html/getHtml.php?id=html_html-test&file=html"></script>
+		<script type="text/javascript" src="_base/html/html.js"></script>
+		<script type="text/javascript" src="_base/html/getHtml.php?id=html_element-test&file=element"></script>
+		<script type="text/javascript" src="_base/html/element.js"></script>
+		<script type="text/javascript" src="_base/html/getHtml.php?id=html_query-test&file=query"></script>
+		<script type="text/javascript" src="_base/html/query.js"></script>
+		<script type="text/javascript" src="_base/html/getHtml.php?id=html_xhr-test&file=xhr"></script>
+		<script type="text/javascript" src="_base/html/xhr.js"></script>
 	</body>
 </html>
 

@@ -35,3 +35,8 @@ for P in $PLATFORMS; do
 	cat $FILES > $DEST_FILE_UNCOMPRESSED
 	echo "created `du -h $DEST_FILE_UNCOMPRESSED`"
 done
+
+echo
+echo "Creating runTests-*.html files"
+cd ../tools
+./createRunTests.sh

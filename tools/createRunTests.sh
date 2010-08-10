@@ -1,0 +1,1 @@
+java -jar js.jar createRunTests.js ../profiles/platforms ../src/tests
