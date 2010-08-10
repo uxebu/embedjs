@@ -213,9 +213,9 @@ tests.register("tests._base.connect",
 			t.is(3, foo.inc);
 			t.is(3, bar.inc);
 		},
-		*/
 		function publishSubscribe1000(t){
 			t.is(markAndSweepSubscribersTest(1000), 0);
 		}
+		*/
 	]
 );
