@@ -640,7 +640,7 @@ return _1.nodeType==1?_1.ownerDocument.defaultView.getComputedStyle(_1,null):{};
 };
 var _2="cssFloat",_3={"cssFloat":_2,"styleFloat":_2,"float":_2};
 d._style=function(_4,_5,_6){
-var n=byId(_4),l=arguments.length;
+var n=dojo.byId(_4),l=arguments.length;
 _5=_3[_5]||_5;
 if(l==3){
 return n.style[_5]=_6;
