@@ -6,7 +6,7 @@
 	<body>
 	    <script type="text/javascript">
 	    	function runTests(platform){
-				window.location = "runTests-" + platform + ".html";
+				window.location = "runTests-" + (window["widget"]?"-widget":"") + platform + ".html";
 		    }
 	    </script>
 	    

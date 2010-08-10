@@ -28,9 +28,16 @@ var tpl = readFile(RUN_TESTS_DIR+"/runTests.html.tpl");
 importPackage(java.io); // So we can use FileWriter.
 for (var i=0, l=platforms.length, p; i<l; i++){
 	p = platforms[i];
+	// Write the normal file.
 	var destFile = RUN_TESTS_DIR+"/runTests-" + p + ".html";
 	print("Writing '" + destFile + "'");
 	var f = new FileWriter(destFile);
 	f.write(renderTpl(tpl, p));
+	f.close();
+	// Write the test file for the widget env.
+	var destFile = RUN_TESTS_DIR+"/runTests-widget-" + p + ".html";
+	print("Writing '" + destFile + "'");
+	var f = new FileWriter(destFile);
+	f.write(renderTpl(tpl, p, true));
 	f.close();
 }
