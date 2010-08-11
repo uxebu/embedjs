@@ -175,7 +175,6 @@ break;
 }
 d.baseUrl=d.config.baseUrl;
 }(dojo));
-require.modify("dojo","dojo/getProp_bb46_fix",null,function(){
 (function(_1){
 var _2=_1._getProp;
 _1._getProp=function(_3,_4,_5){
@@ -186,7 +185,6 @@ window[_3[0]]={};
 return _2(_3,_4,_5);
 };
 }(dojo));
-});
 ["indexOf","lastIndexOf","forEach","map","some","every","filter"].forEach(function(_1,_2){
 dojo[_1]=function(_3,_4,_5){
 if((_2>1)&&(typeof _4=="string")){

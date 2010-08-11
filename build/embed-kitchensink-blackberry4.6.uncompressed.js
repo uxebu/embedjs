@@ -475,8 +475,6 @@ dojo.require = function(){};
 	}
 	d.baseUrl = d.config.baseUrl;
 }(dojo));
-require.modify("dojo", "dojo/getProp_bb46_fix", null, function(){
-
 // This file contains fixes for the browser contained in BlackBerry OS 4.6
 
 (function(dojo){
@@ -492,8 +490,6 @@ require.modify("dojo", "dojo/getProp_bb46_fix", null, function(){
 		return getProp(parts, create, context);
 	}
 }(dojo));
-
-});
 ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
