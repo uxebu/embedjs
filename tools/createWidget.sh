@@ -1,4 +1,5 @@
-cd ..
+DIR=`dirname $0`
+cd $DIR/..
 
 # Empty the widget stuff
 rm -Rf tmp/wgt
