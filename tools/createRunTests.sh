@@ -1,1 +1,2 @@
-java -jar js.jar createRunTests.js ../profiles/platforms ../src/tests
+DIR=`dirname $0`
+java -jar $DIR/js.jar $DIR/createRunTests.js $DIR/../profiles/platforms $DIR/../src/tests
