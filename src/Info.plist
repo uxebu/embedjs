@@ -11,6 +11,6 @@
 	<key>AllowNetworkAccess</key>
 	<true/>
 	<key>MainHTML</key>
-	<string>runTests.html</string>
+	<string>index.html</string>
 </dict>
 </plist>

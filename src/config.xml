@@ -9,7 +9,7 @@
 	<jil:maximum_display_mode height="2000" width="2000"/>
 	<author href="http://uxebu.com" email="wk@uxebu.com">Wolfram Kriesing</author>
 	<description>The embedJS test suite</description>
-	<content src="runTests.html" encoding="utf-8" />
+	<content src="index.html" encoding="utf-8" />
 
 	<access network="true" localfs="true"/> <!-- until JIL 1.1 this was enough -->
 	<jil:access network="true" localfs="true" remote_scripts="true"/> <!-- this is needed for JIL1.2 -->
