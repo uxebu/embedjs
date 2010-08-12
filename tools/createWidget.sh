@@ -8,7 +8,7 @@ rm -Rf tmp/wgt
 mkdir -p tmp/wgt/embedJS
 
 cd tmp/wgt
-cp -R ../../src/tests/* .
+cp -R ../../tests/* .
 cp ../../src/config.xml .
 cp ../../build/embed-* ./embedJS
 
