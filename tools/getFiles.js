@@ -26,20 +26,19 @@ if (typeof console=="undefined"){
 	}
 }
 
-var SRC_DIR = "../src/dojo/";
-
 //
 //	Input parameters passed to the script.
 //
-var target = arguments[0];
+var platformFile = arguments[0];
 // Split the modules that shall only be included, e.g. oo,array => ["oo", "array"]
-var features = arguments[1] ? arguments[1].split(",") : [];
-var debug = !!arguments[2];
+var sourceDirectory = arguments[1];
+var features = arguments[2] ? arguments[2].split(",") : [];
+var debug = !!arguments[3];
 
-//console.log('params: ', target, features, debug);
+//console.log('params: ', platformFile, features, debug);
 
 
-//console.log('target = ', target);
+//console.log('platformFile = ', platformFile);
 //console.log('features = ', features);
 
 // We store some global information here, so we dont need to pass them around.
@@ -69,7 +68,7 @@ function main(){
 	// 		Load the platform JSON file (like Android.json) which contains all the features mapped to the exact js files.
 	// description:
 	// 		If features are given resolve teh dependencies and concat the files resulting form that.
-	var modules = _loadJsonFile(target);
+	var modules = _loadJsonFile(platformFile);
 	globals.modules = modules;
 	var files = [];
 	if (features.length==0){
@@ -84,7 +83,7 @@ function main(){
 		for (var i=0, l=features.length, f; i<l; i++){
 			var f = features[i];
 			if (typeof modules[f]=="undefined"){
-				console.error("ERROR: Feature '" + f + "' not defined in '" + target + "'. ");
+				console.error("ERROR: Feature '" + f + "' not defined in '" + platformFile + "'. ");
 				console.error("Make sure (or create) the feature exists or you may have a typo in the feature name.");
 				console.error("Giving up :(\n\n");
 				quit();
@@ -150,7 +149,7 @@ function resolveDeps(file){
 	if (typeof globals.dependencyData[file]=="undefined"){
 		var path = file.split("/");
 		var f = path.pop(); // The filename e.g. "declare.js"
-		var deps = _loadJsonFile(SRC_DIR + (path.length?path.join("/"):"") + "/dependencies.json", false);
+		var deps = _loadJsonFile(sourceDirectory + (path.length?path.join("/"):"") + "/dependencies.json", false);
 		//globals.dependencyData[file] = (typeof deps[f]!="undefined" ? deps[f] : []).map(resolveFeature);
 		globals.dependencyData[file] = reduce((deps && typeof deps[f]!="undefined" ? deps[f] : [])
 										.map(resolveFeature)) // Resolve the features
