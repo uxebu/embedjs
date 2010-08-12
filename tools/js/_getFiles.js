@@ -1,45 +1,6 @@
-if (typeof console=="undefined"){
-	console = {
-		log:function(){
-			if (!debug) return;
-			this._log.apply(this, arguments);
-		},
-		_log:function(){
-			var out = [];
-			for (var i=0, l=arguments.length, arg; i<l; i++){
-				arg = arguments[i];
-				if (arg && typeof arg["length"]!="undefined"){
-					out.push(""+arg);
-				} else if (typeof arg=="object"){
-					for (var key in arg){
-						out.push(key+": "+arg[key]+"\n");
-					}
-				} else {
-					out.push(arg);
-				}
-			}
-			print(out.join("    "));
-		},
-		error:function(){
-			this._log.apply(this, arguments);
-		}
-	}
-}
-
-//
-//	Input parameters passed to the script.
-//
-var platformFile = arguments[0];
 // Split the modules that shall only be included, e.g. oo,array => ["oo", "array"]
-var sourceDirectory = arguments[1];
-var features = arguments[2] ? arguments[2].split(",") : [];
-var debug = !!arguments[3];
-
-//console.log('params: ', platformFile, features, debug);
-
-
-//console.log('platformFile = ', platformFile);
-//console.log('features = ', features);
+var features = _loadTextFile(params.featuresFileName);
+features = features ? features.split(",") : [];
 
 // We store some global information here, so we dont need to pass them around.
 var globals = {
@@ -48,27 +9,12 @@ var globals = {
 	modulesAdded:{}
 };
 
-
-
-function _loadJsonFile(fileName, throwError){
-	var ret = null;
-	try{
-		eval("ret = "+readFile(fileName));
-	}catch(e){
-		if (typeof throwError=="undefined" || throwError!=false){
-			console.error("ERROR: reading file '" + fileName + "' at line "+ e.lineNumber +" ===");
-			for (var key in e){ if (typeof e[key]!="function") console.error(key, ((""+e[key]).length>100 ? e[key].substr(0, 100)+"..." : e[key])) }
-		}
-	}
-	return ret;
-}
-
 function main(){
 	// summary:
 	// 		Load the platform JSON file (like Android.json) which contains all the features mapped to the exact js files.
 	// description:
 	// 		If features are given resolve teh dependencies and concat the files resulting form that.
-	var modules = _loadJsonFile(platformFile);
+	var modules = _loadJsonFile(params.platformName);
 	globals.modules = modules;
 	var files = [];
 	if (features.length==0){
@@ -83,7 +29,7 @@ function main(){
 		for (var i=0, l=features.length, f; i<l; i++){
 			var f = features[i];
 			if (typeof modules[f]=="undefined"){
-				console.error("ERROR: Feature '" + f + "' not defined in '" + platformFile + "'. ");
+				console.error("ERROR: Feature '" + f + "' not defined in '" + params.platformName + "'. ");
 				console.error("Make sure (or create) the feature exists or you may have a typo in the feature name.");
 				console.error("Giving up :(\n\n");
 				quit();
@@ -99,7 +45,7 @@ function main(){
 	// Remove doubles but never the first occurence, since this would break the file order dependencies.
 	var files = files.map(function(item, index){return (files.slice(0, index).indexOf(""+item)!=-1) ? null : item; })
 					.filter(function(item){ return item==null ? false : true });
-	print("dojo/"+(files.join(" dojo/")));
+	return files;
 };
 
 function resolveFeature(feature){
@@ -149,7 +95,7 @@ function resolveDeps(file){
 	if (typeof globals.dependencyData[file]=="undefined"){
 		var path = file.split("/");
 		var f = path.pop(); // The filename e.g. "declare.js"
-		var deps = _loadJsonFile(sourceDirectory + (path.length?path.join("/"):"") + "/dependencies.json", false);
+		var deps = _loadJsonFile(params.sourceDirectory + (path.length?path.join("/"):"") + "/dependencies.json", false);
 		//globals.dependencyData[file] = (typeof deps[f]!="undefined" ? deps[f] : []).map(resolveFeature);
 		globals.dependencyData[file] = reduce((deps && typeof deps[f]!="undefined" ? deps[f] : [])
 										.map(resolveFeature)) // Resolve the features
@@ -164,5 +110,3 @@ function reduce(arr){
 	arr.map(function(i){ ret = ret.concat(i) });
 	return ret;
 }
-
-main();
