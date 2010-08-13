@@ -36,7 +36,7 @@ function main(){
 			}
 			console.log("Adding feature:     ", f);
 			var moduleFiles = [];
-			modules[f].map(resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr) });
+			modules[f].map(resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr); });
 			console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 			files = files.concat(moduleFiles);
 		}
@@ -60,9 +60,7 @@ function resolveFeature(feature){
 			// If the feature is only "oo" then we use ALL files given inside "oo".
 			ret = data[ns];
 			for (var i=0, l=ret.length; i<l; i++){
-				resolveDeps(ret[i], function(files){
-					ret = ret.concat(files);
-				});
+				ret = resolveDeps(ret[i]);
 			}
 		} else {
 			// A features like "oo-declare" means we only want the features inside "oo"
@@ -70,10 +68,7 @@ function resolveFeature(feature){
 			for (var j=0, l=data[ns].length, file; j<l; j++){
 				file = data[ns][j];
 				if (file.indexOf(f)!=-1){
-					ret.push(file);
-					resolveDeps(file, function(files){
-						ret = ret.concat(files);
-					});
+					ret = resolveDeps(file);
 				}
 			}
 		}

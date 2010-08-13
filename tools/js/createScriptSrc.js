@@ -32,4 +32,4 @@ load(params.rootPath + "/_getFiles.js");
 var files = main();
 var begin = '<script type="text/javascript" src="' + params.relativePath;
 var ending = '"></script>';
-print(begin + files.join(ending+"\n"+begin));
+print(begin + files.join(ending+"\n"+begin) + ending);

@@ -33,10 +33,10 @@ if [ $SOURCE_DIR ]; then
 	if [ $FEATURES_FILE ]; then
 		if [ $IS_DEBUG ]; then
 			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
-				$RELATIVE_PATH $DIR/$SOURCE_DIR $DIR/$FEATURES_FILE $IS_DEBUG
+				$RELATIVE_PATH $DIR/$SOURCE_DIR $(normalize_path $DIR/../profiles/$FEATURES_FILE) $IS_DEBUG
 		else
 			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
-				$RELATIVE_PATH $DIR/$SOURCE_DIR $DIR/$FEATURES_FILE
+				$RELATIVE_PATH $DIR/$SOURCE_DIR $(normalize_path $DIR/../profiles/$FEATURES_FILE)
 		fi
 	else
 		java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\

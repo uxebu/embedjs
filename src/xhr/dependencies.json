@@ -2,6 +2,7 @@
 	"xhr.js":[
 		"json",
 		"uri",
-		"lang-is"
+		"lang-is",
+		"deferred"
 	]
 }
