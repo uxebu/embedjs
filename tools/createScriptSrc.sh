@@ -1,4 +1,4 @@
-DIR=`dirname $0`
+DIR=`pwd`
 PLATFORM=$1
 RELATIVE_PATH=$2
 SOURCE_DIR=$3
@@ -17,20 +17,32 @@ if [ ! $PLATFORM ]; then
 	exit;
 fi
 
+function normalize_path(){
+	# Remove all /./ sequences.
+	local   path=${1//\/.\//\/}
+
+	# Remove dir/.. sequences.
+	while [[ $path =~ ([^/][^/]*/\.\./) ]]
+	do
+		path=${path/${BASH_REMATCH[0]}/}
+	done
+	echo $path
+}
+
 if [ $SOURCE_DIR ]; then
 	if [ $FEATURES_FILE ]; then
 		if [ $IS_DEBUG ]; then
-			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $DIR/../platforms/$PLATFORM.json\
+			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
 				$RELATIVE_PATH $DIR/$SOURCE_DIR $DIR/$FEATURES_FILE $IS_DEBUG
 		else
-			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $DIR/../platforms/$PLATFORM.json\
+			java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
 				$RELATIVE_PATH $DIR/$SOURCE_DIR $DIR/$FEATURES_FILE
 		fi
 	else
-		java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $DIR/../platforms/$PLATFORM.json\
+		java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
 			$RELATIVE_PATH $DIR/$SOURCE_DIR
 	fi
 else
-	java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $DIR/../platforms/$PLATFORM.json\
+	java -jar $DIR/js.jar $DIR/js/createScriptSrc.js $DIR/js $(normalize_path $DIR/../platforms/$PLATFORM.json)\
 		$RELATIVE_PATH
 fi
