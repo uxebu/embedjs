@@ -87,7 +87,7 @@ var loader = {
 				var moduleFiles = modules[m].map(resolveDeps)
 				console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 				files = files.concat(moduleFiles);
-				globals.modulesAdded[m] = true;
+				loader.globals.modulesAdded[m] = true;
 			}
 		} else {
 			for (var i=0, l=features.length, f; i<l; i++){
