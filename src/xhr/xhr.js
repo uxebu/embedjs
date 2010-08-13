@@ -566,6 +566,7 @@
 			this.sync = sync;
 			this.headers = headers;
 			this.failOk = failOk;
+			this.overrideMimeType = overrideMimeType;
 		}
 	});
 	=====*/
