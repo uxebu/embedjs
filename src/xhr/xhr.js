@@ -558,6 +558,10 @@
 			//		false is default. Indicates whether a request should be
 			//		allowed to fail (and therefore no console error message in
 			//		the event of a failure)
+			//	overrideMimeType: String?
+			//		Calls the overrideMimeType method, if applicable, to
+			//		override the default MIME type for the resource with the one
+			//		given in this param.
 			this.handleAs = handleAs;
 			this.sync = sync;
 			this.headers = headers;
@@ -625,6 +629,9 @@
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
+		if(args.overrideMinmeType && xhr.overrideMimeType){
+			xhr.overrideMimeType(args.overrideMimeType);
+		}
 		_d._ioNotifyStart(dfd);
 		if(dojo.config.debugAtAllCosts){
 			xhr.send(ioArgs.query);
