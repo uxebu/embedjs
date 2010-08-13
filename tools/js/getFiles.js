@@ -25,4 +25,4 @@ load(params.rootPath + "/_global.js");
 handleParams(args);
 
 load(params.rootPath + "/_getFiles.js");
-print(main().join(" "));
+print(params.sourceDirectory+main().join(" "+params.sourceDirectory));
