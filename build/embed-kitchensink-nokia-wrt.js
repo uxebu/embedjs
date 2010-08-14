@@ -1124,6 +1124,9 @@ xhr.setRequestHeader("Content-Type",_2c.contentType||_26);
 if(!_2c.headers||!("X-Requested-With" in _2c.headers)){
 xhr.setRequestHeader("X-Requested-With","XMLHttpRequest");
 }
+if(_2c.overrideMinmeType&&xhr.overrideMimeType){
+xhr.overrideMimeType(_2c.overrideMimeType);
+}
 _1._ioNotifyStart(dfd);
 if(dojo.config.debugAtAllCosts){
 xhr.send(_2e.query);

@@ -17,17 +17,19 @@ var params = {
 		"    debug - If set debugging messages will be shown, default is false."
 	]
 };
+
 function prepareParams(){
 	params.platformName = args[1];
-	params.relativePath = endInSlash(args[2] || "../embedjs/src/");
-	params.sourceDirectory = endInSlash(args[3] || params.rootPath + "/../../src");
-	params.featuresFileName = args[4] || params.rootPath + "/../../profiles/kitchensink.profile";
+	params.featuresFileName = args[2] || params.rootPath + "/../profiles/kitchensink.profile";
+	params.relativePath = endInSlash(args[3] || "");
+	params.sourceDirectory = endInSlash(args[4] || params.rootPath + "/../src");
 	params.debug = !!args[5];
 };
+
 params.rootPath = args[0];
-load(params.rootPath + "/_global.js");
+load(params.rootPath + "/js/_global.js");
 handleParams(args);
-load(params.rootPath + "/_getFiles.js");
+load(params.rootPath + "/js/_getFiles.js");
 
 var files = main();
 var begin = '<script type="text/javascript" src="' + params.relativePath;

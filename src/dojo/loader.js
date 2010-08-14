@@ -109,7 +109,7 @@ var loader = {
 		// Remove doubles but never the first occurence, since this would break the file order dependencies.
 		var files = files.map(function(item, index){return (files.slice(0, index).indexOf(""+item)!=-1) ? null : item; })
 						.filter(function(item){ return item==null ? false : true });
-
+console.log(files);
 		var begin = '<script type="text/javascript" src="' + loader.params.relativePath;
 		var ending = '"></scr'+''+'ipt>';
 		document.write(begin + files.join(ending+"\n"+begin) + ending);

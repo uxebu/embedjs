@@ -20,9 +20,8 @@ function prepareParams(){
 	params.featuresFileName = args[3] || params.rootPath + "/../../profiles/kitchensink.profile";
 	params.debug = !!args[4];
 };
-params.rootPath = environment["user.dir"] + "/" + args[0];
+params.rootPath = args[0];
 load(params.rootPath + "/_global.js");
 handleParams(args);
-
 load(params.rootPath + "/_getFiles.js");
 print(params.sourceDirectory+main().join(" "+params.sourceDirectory));
