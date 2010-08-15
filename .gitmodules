@@ -1,3 +1,6 @@
 [submodule "libs/doctor"]
 	path = libs/doctor
 	url = git://github.com/uxebu/doctor.git
+[submodule "docs/user"]
+	path = docs/user
+	url = git@github.com:uxebu/embedjs.wiki.git

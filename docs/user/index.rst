@@ -1,2 +1,0 @@
-EmbedJS Documentation
-=====================
