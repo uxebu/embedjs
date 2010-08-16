@@ -29,6 +29,7 @@ cp ../../src/Info.plist .
 cd ..
 mv wgt src # A nokia WRT widget has to be in the directory "src" for packaging it ... for whatever reason, but it wont install otherwise ... grrrr
 find src/embedJS -type f ! -name "*nokia*" -delete
+rm src/*.tpl
 zip -r embedJStests.wgz src/*
 
 
