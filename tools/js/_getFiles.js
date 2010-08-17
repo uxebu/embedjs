@@ -17,10 +17,12 @@ function main(){
 	var modules = _loadJsonFile(params.platformName);
 	globals.modules = modules;
 	var files = [];
+
 	if (features.length==0){
 		for (var m in modules){
-			console.log("Adding feature:     ", m);
-			var moduleFiles = modules[m].map(resolveDeps)
+			//console.log("Adding feature:     ", m);
+			var moduleFiles = []
+			modules[m].map(resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr); });
 			console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 			files = files.concat(moduleFiles);
 			globals.modulesAdded[m] = true;
@@ -34,14 +36,14 @@ function main(){
 				console.error("Giving up :(\n\n");
 				quit();
 			}
-			console.log("Adding feature:     ", f);
+			//print("Adding feature:     ", f);
 			var moduleFiles = [];
-			modules[f].map(resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr) });
-			console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
+			modules[f].map(resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr); });
+			//console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 			files = files.concat(moduleFiles);
 		}
 	}
-	console.log("\nCleaning up file list, removing doubles, etc.");
+	//console.log("\nCleaning up file list, removing doubles, etc.");
 	// Remove doubles but never the first occurence, since this would break the file order dependencies.
 	var files = files.map(function(item, index){return (files.slice(0, index).indexOf(""+item)!=-1) ? null : item; })
 					.filter(function(item){ return item==null ? false : true });
@@ -51,7 +53,7 @@ function main(){
 function resolveFeature(feature){
 	var ret = [];
 	if (!globals.modulesAdded[feature]){
-		console.log('  Resolving feature:', feature);
+		//console.log('  Resolving feature:', feature);
 		var parts = feature.split("-");
 		var ns = parts[0]; // The namespace of the feature, like "oo" in "oo" or "oo-declare or "oo-extend".
 		var f = parts.length>1 ? parts[1] : null; // The exact feature if given, like for "oo-declare".
@@ -60,9 +62,7 @@ function resolveFeature(feature){
 			// If the feature is only "oo" then we use ALL files given inside "oo".
 			ret = data[ns];
 			for (var i=0, l=ret.length; i<l; i++){
-				resolveDeps(ret[i], function(files){
-					ret = ret.concat(files);
-				});
+				ret = resolveDeps(ret[i]);
 			}
 		} else {
 			// A features like "oo-declare" means we only want the features inside "oo"
@@ -70,16 +70,13 @@ function resolveFeature(feature){
 			for (var j=0, l=data[ns].length, file; j<l; j++){
 				file = data[ns][j];
 				if (file.indexOf(f)!=-1){
-					ret.push(file);
-					resolveDeps(file, function(files){
-						ret = ret.concat(files);
-					});
+					ret = resolveDeps(file);
 				}
 			}
 		}
-		console.log('    Adding files:       ===>', ret);
+		//console.log('    Adding files:       ===>', ret);
 	} else {
-		console.log("  Depends on '" + feature + "', already resolved before.");
+		//console.log("  Depends on '" + feature + "', already resolved before.");
 	}
 	return ret;
 }

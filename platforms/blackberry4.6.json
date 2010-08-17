@@ -2,88 +2,88 @@
 	// The absolut base that is required for ALL kinds of builds anyway,
 	// this sets up the dojo NS, etc.
 	"base":[
-		"dojo.js",
-        "getProp_bb46_fix.js"
+		"dojo/dojo.js",
+        "dojo/getProp_bb46_fix.js"
 	],
 
 	"array":[
-		"array/array.js"
+		"dojo/array/array.js"
 	],
-	
+
 	"connect":[
-		"connect/connect.js",
-		"connect/event.js",
-		"connect/pubsub.js"
+		"dojo/connect/connect.js",
+		"dojo/connect/event.js",
+		"dojo/connect/pubsub.js"
 	],
-	
+
 	"deferred":[
-		"deferred/deferred.js"
+		"dojo/deferred/deferred.js"
 	],
-	
+
 	"destroy":[
-		"destroy/destroy.js"
+		"dojo/destroy/destroy.js"
 	],
-	
+
 	//"fx":[
 	//	"fx.js"
 	//],
-	
+
 	"html":[
-		"html/html.js",
-		"html/style.js"
+		"dojo/html/html.js",
+		"dojo/html/style.js"
 	],
-	
+
 	"json":[
-		"json/json.js"
+		"dojo/json/json.js"
 	],
-	
+
 	"jsonp":[
-		"jsonp/jsonp.js"
+		"dojo/jsonp/jsonp.js"
 	],
-	
+
 	"lang":[
-		"lang/to-array.js",
-		"lang/clone.js",
-		"lang/hitch.js",
-		"lang/is.js",
-		"lang/string.js",
+		"dojo/lang/to-array.js",
+		"dojo/lang/clone.js",
+		"dojo/lang/hitch.js",
+		"dojo/lang/is.js",
+		"dojo/lang/string.js",
 	],
-	
+
 	"lang-hitch":[
-		"lang/hitch.js",
+		"dojo/lang/hitch.js",
 	],
-	
+
 	"lang-is":[
-		"lang/lang.js",
+		"dojo/lang/lang.js",
 	],
-	
+
 	"xhr":[
-		"xhr/xhr.js"
+		"dojo/xhr/xhr.js"
 	],
-	
+
 	"query": [
-		"query/qsa-preprocessor.js"
+		"dojo/query/qsa-preprocessor.js"
 	],
-	
+
 	"oo":[
-		"oo/declare.js",
-		"oo/delegate.js",
-		"oo/extend.js",
+		"dojo/oo/declare.js",
+		"dojo/oo/delegate.js",
+		"dojo/oo/extend.js",
 	],
-	
+
 	"oo-declare":[
-		"oo/declare.js",
+		"dojo/oo/declare.js",
 	],
-	
+
 	"oo-extend":[
-		"oo/extend.js",
+		"dojo/oo/extend.js",
 	],
-	
+
 	"oo-delegate":[
-		"oo/delegate.js",
+		"dojo/oo/delegate.js",
 	],
-	
+
 	"uri":[
-		"uri/objectToQuery.js",
+		"dojo/uri/objectToQuery.js",
 	],
 }
