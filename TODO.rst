@@ -1,0 +1,1 @@
+* move Info.plist and config.xml into the test dirs, that is what they are used for
