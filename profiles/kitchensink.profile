@@ -1,1 +1,0 @@
-base,array,connect,deferred,destroy,html,json,jsonp,lang,xhr,oo,uri,query
