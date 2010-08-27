@@ -1,4 +1,7 @@
 {
+	
+	isVerbose:true,
+	
 	// All paths are relative to this file!!!
 	// Trailing and leading slashes are not needed!
 	paths:{
