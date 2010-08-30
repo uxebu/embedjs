@@ -1,6 +1,6 @@
 {
 	
-	isVerbose:true,
+	isVerbose:false,
 	
 	// All paths are relative to this file!!!
 	// Trailing and leading slashes are not needed!
