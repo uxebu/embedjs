@@ -54,7 +54,7 @@
 	],
 
 	"lang-is":[
-		"lang/lang.js",
+		"lang/is.js",
 	],
 
 	"xhr":[
