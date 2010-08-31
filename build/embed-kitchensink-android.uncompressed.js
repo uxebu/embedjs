@@ -1,3 +1,11 @@
+
+
+
+/*********FILE**********
+/src/dojo.js
+********************/
+
+
 var dojo = {};
 var djConfig = dojo.config = {};
 
@@ -475,6 +483,14 @@ dojo.require = function(){};
 	}
 	d.baseUrl = d.config.baseUrl;
 }(dojo));
+
+
+
+/*********FILE**********
+/src/array/array.js
+********************/
+
+
 ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
@@ -485,6 +501,14 @@ dojo.require = function(){};
 		}
 	}
 );
+
+
+
+/*********FILE**********
+/src/connect/connect.js
+********************/
+
+
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 // low-level delegation machinery
@@ -702,6 +726,14 @@ dojo.disconnect = function(/*Handle*/ handle){
 dojo._disconnect = function(obj, event, handle, listener){
 	listener.remove(obj, event, handle);
 }
+
+
+
+/*********FILE**********
+/src/connect/event.js
+********************/
+
+
 (function(){
 
 var del = (dojo._event_listener = {
@@ -779,7 +811,103 @@ var del = (dojo._event_listener = {
 	};
 
 	
-})();dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
+})();
+
+
+
+/*********FILE**********
+/src/connect/pubsub.js
+********************/
+
+
+
+// topic publish/subscribe
+
+dojo._topics = {};
+
+dojo.subscribe = function(/*String*/ topic, /*Object|null*/ context, /*String|Function*/ method){
+	//	summary:
+	//		Attach a listener to a named topic. The listener function is invoked whenever the
+	//		named topic is published (see: dojo.publish).
+	//		Returns a handle which is needed to unsubscribe this listener.
+	//	context:
+	//		Scope in which method will be invoked, or null for default scope.
+	//	method:
+	//		The name of a function in context, or a function reference. This is the function that
+	//		is invoked when topic is published.
+	//	example:
+	//	|	dojo.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); });
+	//	|	dojo.publish("alerts", [ "read this", "hello world" ]);																	
+
+	// support for 2 argument invocation (omitting context) depends on hitch
+	return [topic, dojo._listener.add(dojo._topics, topic, dojo.hitch(context, method))]; /*Handle*/
+}
+
+dojo.unsubscribe = function(/*Handle*/ handle){
+	//	summary:
+	//	 	Remove a topic listener. 
+	//	handle:
+	//	 	The handle returned from a call to subscribe.
+	//	example:
+	//	|	var alerter = dojo.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
+	//	|	...
+	//	|	dojo.unsubscribe(alerter);
+	if(handle){
+		dojo._listener.remove(dojo._topics, handle[0], handle[1]);
+	}
+}
+
+dojo.publish = function(/*String*/ topic, /*Array*/ args){
+	//	summary:
+	//	 	Invoke all listener method subscribed to topic.
+	//	topic:
+	//	 	The name of the topic to publish.
+	//	args:
+	//	 	An array of arguments. The arguments will be applied 
+	//	 	to each topic subscriber (as first class parameters, via apply).
+	//	example:
+	//	|	dojo.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
+	//	|	dojo.publish("alerts", [ "read this", "hello world" ]);	
+
+	// Note that args is an array, which is more efficient vs variable length
+	// argument list.  Ideally, var args would be implemented via Array
+	// throughout the APIs.
+	var f = dojo._topics[topic];
+	if(f){
+		f.apply(this, args||[]);
+	}
+}
+
+dojo.connectPublisher = function(	/*String*/ topic, 
+									/*Object|null*/ obj, 
+									/*String*/ event){
+	//	summary:
+	//	 	Ensure that every time obj.event() is called, a message is published
+	//	 	on the topic. Returns a handle which can be passed to
+	//	 	dojo.disconnect() to disable subsequent automatic publication on
+	//	 	the topic.
+	//	topic:
+	//	 	The name of the topic to publish.
+	//	obj: 
+	//	 	The source object for the event function. Defaults to dojo.global
+	//	 	if null.
+	//	event:
+	//	 	The name of the event function in obj. 
+	//	 	I.e. identifies a property obj[event].
+	//	example:
+	//	|	dojo.connectPublisher("/ajax/start", dojo, "xhrGet");
+	var pf = function(){ dojo.publish(topic, arguments); }
+	return event ? dojo.connect(obj, event, pf) : dojo.connect(obj, pf); //Handle
+};
+
+
+
+/*********FILE**********
+/src/oo/extend.js
+********************/
+
+
+dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 	// summary:
 	//		Adds all properties and methods of props to constructor's
 	//		prototype, making them available to all instances created with
@@ -789,6 +917,14 @@ var del = (dojo._event_listener = {
 	}
 	return constructor; // Object
 }
+
+
+
+/*********FILE**********
+/src/lang/hitch.js
+********************/
+
+
 dojo._hitchArgs = function(scope, method /*,...*/){
 	var pre = dojo._toArray(arguments, 2);
 	var named = dojo.isString(method);
@@ -838,6 +974,14 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 	}
 	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
 }
+
+
+
+/*********FILE**********
+/src/deferred/deferred.js
+********************/
+
+
 ;(function(d){
 
 (function(){
@@ -1169,7 +1313,16 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	return callback(promiseOrValue);
 };
 
-})(dojo);;(function(d){
+})(dojo);
+
+
+
+/*********FILE**********
+/src/destroy/destroy.js
+********************/
+
+
+;(function(d){
 
 	var _destroyContainer = null,
 		_destroyDoc;
@@ -1210,6 +1363,14 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 		}
 	};
 })(dojo);
+
+
+
+/*********FILE**********
+/src/html/html.js
+********************/
+
+
 ;(function(d){
 
 	var byId = d.byId;
@@ -1644,6 +1805,14 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	};
 
 })(dojo);
+
+
+
+/*********FILE**********
+/src/html/style.js
+********************/
+
+
 ;(function(d){
 
 	// =============================
@@ -1807,6 +1976,14 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
+
+
+
+/*********FILE**********
+/src/json/json.js
+********************/
+
+
 // NOTE: dojo's JSON impl differs from native!
 //	(e.g. revier function)
 
@@ -1817,6 +1994,14 @@ dojo.toJson = function(/* Mixed */ data){
 dojo.fromJson = function(/* String */ json){
 	return JSON.parse(json);
 }
+
+
+
+/*********FILE**********
+/src/lang/is.js
+********************/
+
+
 // Crockford (ish) functions
 
 dojo.isString = function(/*anything*/ it){
@@ -1896,6 +2081,14 @@ dojo.isNumeric = function(n){
 dojo.isNumber = function(n){
 	return typeof n == "number" || n instanceof Number;
 }
+
+
+
+/*********FILE**********
+/src/uri/objectToQuery.js
+********************/
+
+
 dojo.objectToQuery = function(/*Object*/ map){
 	//	summary:
 	//		takes a name/value mapping object and returns a string representing
@@ -1936,6 +2129,14 @@ dojo.objectToQuery = function(/*Object*/ map){
 	}
 	return pairs.join("&"); // String
 };
+
+
+
+
+/*********FILE**********
+/src/jsonp/jsonp.js
+********************/
+
 
 dojo.jsonp = {};
 dojo.jsonp.attach = function(params){
@@ -2049,9 +2250,27 @@ dojo.jsonp.get = function(/* dojo.jsonp.__ioArgs */ args){
 	element.src = args.url;
 	element.charset = "utf-8";
 	return doc.getElementsByTagName("head")[0].appendChild(element);
-};dojo._toArray = function(obj, offset, startWith){
+};
+
+
+
+/*********FILE**********
+/src/lang/to-array.js
+********************/
+
+
+dojo._toArray = function(obj, offset, startWith){
 	return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
-};dojo.clone = function(/*anything*/ o){
+};
+
+
+
+/*********FILE**********
+/src/lang/clone.js
+********************/
+
+
+dojo.clone = function(/*anything*/ o){
 	// summary:
 	//		Clones objects (including DOM nodes) and all children.
 	//		Warning: do not clone cyclic structures.
@@ -2099,6 +2318,14 @@ dojo.jsonp.get = function(/* dojo.jsonp.__ioArgs */ args){
 	return r; // Object
 		
 }
+
+
+
+/*********FILE**********
+/src/lang/string.js
+********************/
+
+
 /*=====
 dojo.trim = function(str){
 	//	summary:
@@ -2196,6 +2423,14 @@ dojo.replace = function(tmpl, map, pattern){
 	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
 		map : function(_, k){ return dojo.getObject(k, false, map); });
 };
+
+
+
+/*********FILE**********
+/src/xhr/xhr.js
+********************/
+
+
 ;(function(_d){
 	var cfg = _d.config;
 	
@@ -2878,6 +3113,14 @@ dojo.replace = function(tmpl, map, pattern){
 	}
 	
 }(dojo));
+
+
+
+/*********FILE**********
+/src/oo/declare.js
+********************/
+
+
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
@@ -3125,6 +3368,14 @@ dojo.mixin(dojo.declare, {
 		}
 	}
 });
+
+
+
+/*********FILE**********
+/src/oo/delegate.js
+********************/
+
+
 dojo.delegate = dojo._delegate = (function(){
 	// boodman/crockford delegation w/ cornford optimization
 	function TMP(){}
@@ -3138,6 +3389,14 @@ dojo.delegate = dojo._delegate = (function(){
 		return tmp; // Object
 	}
 })();
+
+
+
+/*********FILE**********
+/src/query/qsa-preprocessor.js
+********************/
+
+
 dojo.query = function(query, scope){
 	//	summary:
 	//		Returns nodes which match the given CSS3 selector, searching the

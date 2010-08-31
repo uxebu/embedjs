@@ -11,7 +11,8 @@
 
 	"connect":[
 		"connect/connect.js",
-		"connect/event.js"
+		"connect/event.js",
+		"connect/pubsub.js"
 	],
 
 	"deferred":[
@@ -52,7 +53,7 @@
 	],
 
 	"lang-is":[
-		"lang/lang.js",
+		"lang/is.js",
 	],
 
 	"xhr":[

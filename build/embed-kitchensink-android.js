@@ -268,6 +268,27 @@ dojo._disconnect=function(obj,_11,_12,_13){
 ([dojo._listener,_1][_13]).remove(obj,_11,_12);
 };
 })();
+dojo._topics={};
+dojo.subscribe=function(_1,_2,_3){
+return [_1,dojo._listener.add(dojo._topics,_1,dojo.hitch(_2,_3))];
+};
+dojo.unsubscribe=function(_4){
+if(_4){
+dojo._listener.remove(dojo._topics,_4[0],_4[1]);
+}
+};
+dojo.publish=function(_5,_6){
+var f=dojo._topics[_5];
+if(f){
+f.apply(this,_6||[]);
+}
+};
+dojo.connectPublisher=function(_7,_8,_9){
+var pf=function(){
+dojo.publish(_7,arguments);
+};
+return _9?dojo.connect(_8,_9,pf):dojo.connect(_8,pf);
+};
 dojo.extend=function(_1,_2){
 for(var i=1,l=arguments.length;i<l;i++){
 dojo._mixin(_1.prototype,arguments[i]);
