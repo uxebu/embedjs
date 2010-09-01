@@ -76,13 +76,13 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-			window.onerror = function(e){
-				var err = [];
-				for (var key in e){
-					err.push(key+": "+e[key]);
-				}
-				alert("ERROR " + err.join(" "))
-			}
+			//window.onerror = function(e){
+			//	var err = [];
+			//	for (var key in e){
+			//		err.push(key+": "+e[key]);
+			//	}
+			//	alert("ERROR " + err.join(" "))
+			//}
 		
 			function toggleClass(nodeId, classString){
 				var node = document.getElementById(nodeId),
@@ -108,7 +108,7 @@
 	    <pre id="resultsNode"></pre>
 	    <div id="testBoxContainer"></div>
 		
-		<script type="text/javascript" src="../../build/embed-kitchensink-vodafone-apps-manager2.2.js"></script>
+		<script type="text/javascript" src="../build/embed-kitchensink-vodafone-apps-manager2.2.js"></script>
 		<script type="text/javascript" src="modules.js"></script>
 		<script type="text/javascript" src="_base/object.js"></script>
 		<script type="text/javascript" src="_base/declare.js"></script>

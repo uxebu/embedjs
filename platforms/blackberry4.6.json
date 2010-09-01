@@ -62,7 +62,7 @@
 	],
 
 	"query": [
-		"query/qsa-preprocessor.js"
+		"query/acme.js"
 	],
 
 	"oo":[
