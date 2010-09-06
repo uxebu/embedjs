@@ -32,7 +32,8 @@ var f3fo = {
 var f3foStr = "spaces=string%20with%20spaces&";
 var f3foJson = '{"spaces":"string with spaces"}';
 
-var f5fo = { 'blåh': "bláh" };
+//var f5fo = { 'blåh': "bláh" };
+var f5fo = { 'bl\u00E5h': 'bl\u00E1h' };
 var f5foStr = "bl%C3%A5h=bl%C3%A1h";
 var f5foJson = '{"blåh":"bláh"}';
 
