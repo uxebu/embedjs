@@ -1,4 +1,4 @@
-tests.register("tests.jsonp", 
+tests.register("tests._base.jsonp", 
 	[
 	 	/* load option not supported by API
 		function ioScriptLoad(t){
@@ -39,7 +39,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonp(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "io/jsonp-response.js",
+				url: "_base/jsonp-response.js",
 				content: { foo: "bar" },
 				jsonp: "callback",
 				handle: function(res, ioArgs){
@@ -56,7 +56,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonpTimeoutHandle(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "_base/html/jsonp-timeout.js",
+				url: "_base/jsonp-timeout.js",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
 				timeout: 500,
@@ -79,7 +79,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonpTimeoutError(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "_base/html/jsonp-timeout.js",
+				url: "_base/jsonp-timeout.js",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
 				timeout: 500,
