@@ -388,11 +388,11 @@ tests.register("tests._base.html.xhr",
 		function xhrPut(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPut({
-				url: "_base/html/xhrDummyMethod.php?foo=bar", // self
+				url: "_base/html/xhr.html?foo=bar", // self
 				content: { color: "blue"},
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
-						(ioArgs.xhr.status == 403)
+						(ioArgs.xhr.status == 403) || (ioArgs.xhr.status == 405)
 					){
 						d.callback(true);
 					}else{
@@ -406,11 +406,11 @@ tests.register("tests._base.html.xhr",
 		function xhrDelete(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrDelete({
-				url: "_base/html/xhrDummyMethod.php", // self
+				url: "_base/html/xhr.html", // self
 				preventCache: true,
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
-						(ioArgs.xhr.status == 403)
+						(ioArgs.xhr.status == 403) || (ioArgs.xhr.status == 405)
 					){
 						d.callback(true);
 					}else{
@@ -424,7 +424,7 @@ tests.register("tests._base.html.xhr",
 		function xhrCancel(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "_base/html/xhrDummyMethod.php", // self
+				url: "_base/html/xhr.html", // self
 				handle: function(res, ioArgs){
 					if(res instanceof Error && res.dojoType == "cancel"){
 						d.callback(true);
