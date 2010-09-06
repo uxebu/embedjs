@@ -39,7 +39,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonp(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "io/jsonp.php",
+				url: "io/jsonp-response.js",
 				content: { foo: "bar" },
 				jsonp: "callback",
 				handle: function(res, ioArgs){
@@ -56,7 +56,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonpTimeoutHandle(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "_base/html/timeout.php",
+				url: "_base/html/jsonp-timeout.js",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
 				timeout: 500,
@@ -79,7 +79,7 @@ tests.register("tests.jsonp",
 		function ioScriptJsonpTimeoutError(t){
 			var d = new doh.Deferred();
 			var td = dojo.jsonp.get({
-				url: "_base/html/timeout.php",
+				url: "_base/html/jsonp-timeout.js",
 				jsonp: "callback",
 				content: {Foo: 'Bar'},
 				timeout: 500,
