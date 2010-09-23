@@ -780,65 +780,58 @@ _3.push(_7+_2(_6));
 }
 return _3.join("&");
 };
-dojo.jsonp={};
-dojo.jsonp.attach=function(_1){
-var _2=document;
-var _3=_2.createElement("script");
-_3.type="text/javascript";
-_3.src=_1.url;
-_3.charset="utf-8";
-return _2.getElementsByTagName("head")[0].appendChild(_3);
-};
-dojo.jsonp._id=0;
-dojo.jsonp._timeouts={};
-dojo.jsonp.get=function(_4){
-if(!_4.url){
+(function(){
+var _1=0;
+var _2={};
+dojo.jsonp=function(_3){
+if(!_3.url){
 throw new Error("dojo.jsonp.get: No URL specified.");
 }
-if(!_4.jsonp){
+if(!_3.jsonp){
 throw new Error("dojo.jsonp.get: No callback param specified.");
 }
-dojo.jsonp._id++;
-var _5="jsonp_callback_"+dojo.jsonp._id;
-var _6=_4.timeout||3000;
-dojo.jsonp._timeouts[dojo.jsonp._id]=setTimeout(function(){
-dojo.jsonp[_5]=function(){
+_1++;
+var _4="jsonp_callback_"+_1;
+var _5=_3.timeout||3000;
+_2[_1]=setTimeout(function(){
+dojo.jsonp[_4]=function(){
 };
-clearTimeout(dojo.jsonp._timeouts[dojo.jsonp._id]);
-if(_4.error){
-_4.error(null,{});
+clearTimeout(_2[_1]);
+if(_3.error){
+_3.error(null,{});
 }
-if(_4.handle){
-_4.handle(null,{});
+if(_3.handle){
+_3.handle(null,{});
 }
-},_6);
-_4.url+="?"+_4.jsonp+"=dojo.jsonp."+_5;
-dojo.jsonp[_5]=function(_7){
-clearTimeout(dojo.jsonp._timeouts[dojo.jsonp._id]);
+},_5);
+_3.url+="?"+_3.jsonp+"=dojo.jsonp."+_4;
+dojo.jsonp[_4]=function(_6){
+clearTimeout(_2[_1]);
 try{
-if(_4.load){
-_4.load(_7,{});
+if(_3.load){
+_3.load(_6,{});
 }
 }
 catch(e){
-if(_4.error){
-_4.error(null,{});
+if(_3.error){
+_3.error(null,{});
 }
 }
-if(_4.handle){
-_4.handle(_7,{});
+if(_3.handle){
+_3.handle(_6,{});
 }
 };
-if(_4.content){
-_4.url+="&"+dojo.objectToQuery(_4.content);
+if(_3.content){
+_3.url+="&"+dojo.objectToQuery(_3.content);
 }
-var _8=dojo.doc;
-var _9=_8.createElement("script");
-_9.type="text/javascript";
-_9.src=_4.url;
-_9.charset="utf-8";
-return _8.getElementsByTagName("head")[0].appendChild(_9);
+var _7=dojo.doc;
+var _8=_7.createElement("script");
+_8.type="text/javascript";
+_8.src=_3.url;
+_8.charset="utf-8";
+return _7.getElementsByTagName("head")[0].appendChild(_8);
 };
+})();
 dojo._toArray=function(_1,_2,_3){
 return (_3||[]).concat(Array.prototype.slice.call(_1,_2||0));
 };
