@@ -1,4 +1,4 @@
-(function(){
+;(function(){
 
 var del = (dojo._event_listener = {
 		add: function(/*DOMNode*/ node, /*String*/ name, /*Function*/ fp){
