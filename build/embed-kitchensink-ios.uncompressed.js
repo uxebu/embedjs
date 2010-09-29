@@ -3112,7 +3112,16 @@ dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass
 	//		Create a feature-rich constructor from compact notation
 	//
 	//	description:
-	//		Create a feature-rich constructor from compact notation
+	//		Create a constructor using a compact notation for inheritance and
+	//		prototype extension. 
+	//
+	//		All superclasses (including mixins) must be Functions (not simple Objects).
+	//
+	//		Mixin ancestors provide a type of multiple inheritance. Prototypes of mixin 
+	//		ancestors are copied to the new class: changes to mixin prototypes will
+	//		not affect classes to which they have been mixed in.
+	//
+	//		"className" is cached in "declaredClass" property of the new class.
 	//
 	//	className:
 	//		The name of the constructor (loosely, a "class")
@@ -3126,18 +3135,6 @@ dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass
 	//		created prototype.
 	//		Add an instance-initialization function by making it a property 
 	//		named "constructor".
-	//	description:
-	//		Create a constructor using a compact notation for inheritance and
-	//		prototype extension. 
-	//
-	//		All superclasses (including mixins) must be Functions (not simple Objects).
-	//
-	//		Mixin ancestors provide a type of multiple inheritance. Prototypes of mixin 
-	//		ancestors are copied to the new class: changes to mixin prototypes will
-	//		not affect classes to which they have been mixed in.
-	//
-	//		"className" is cached in "declaredClass" property of the new class.
-	//
 	//	example:
 	//		Declare a class with no ancestors.
 	//	|	dojo.declare("my.ClassyThing", null, {
