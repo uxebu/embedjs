@@ -1505,15 +1505,15 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 			return s;
 		};
 
-	d.addClass = function(/*DomNode|String*/node, /*String|Array*/classStr){
+	d.addClass = function(node, classStr){
 		//	summary:
 		//		Adds the specified classes to the end of the class list on the
 		//		passed node. Will not re-apply duplicate classes.
 		//
-	//	node:
+		//	node: DomNode|String
 		//		String ID or DomNode reference to add a class string too
 		//
-		//	classStr:
+		//	classStr: String|Array
 		//		A String class name to add, or several space-separated class names,
 		//		or an array of class names.
 		//
