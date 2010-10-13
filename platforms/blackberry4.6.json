@@ -30,6 +30,7 @@
 
 	"html":[
 		"html/html.js",
+		"html/class.js",
 		"html/style.js"
 	],
 
@@ -55,6 +56,10 @@
 
 	"lang-is":[
 		"lang/is.js",
+	],
+
+	"lang-string":[
+		"lang/string.js",
 	],
 
 	"xhr":[
