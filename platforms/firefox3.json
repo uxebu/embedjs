@@ -1,0 +1,93 @@
+{
+	// The absolut base that is required for ALL kinds of builds anyway,
+	// this sets up the dojo NS, etc.
+	"base":[
+		"dojo.js"
+	],
+
+	"array":[
+		"array/array.js"
+	],
+
+	"connect":[
+		"connect/connect.js",
+		"connect/event.js",
+		"connect/pubsub.js"
+	],
+
+	"deferred":[
+		"deferred/deferred.js"
+	],
+
+	"destroy":[
+		"destroy/destroy.js"
+	],
+
+	//"fx":[
+	//	"fx.js"
+	//],
+
+	"html":[
+		"html/html.js",
+		"html/classList.js",
+		"html/style.js"
+	],
+
+	"json":[
+		"json/json.js"
+	],
+
+	"jsonp":[
+		"jsonp/jsonp.js"
+	],
+
+	"lang":[
+		"lang/to-array.js",
+		"lang/clone.js",
+		"lang/hitch.js",
+		"lang/is.js",
+		"lang/string.js",
+	],
+
+	"lang-hitch":[
+		"lang/hitch.js",
+	],
+
+	"lang-is":[
+		"lang/is.js",
+	],
+
+	"lang-string":[
+		"lang/string.js",
+	],
+
+	"xhr":[
+		"xhr/xhr.js"
+	],
+
+	"query": [
+		"query/qsa-preprocessor.js"
+	],
+
+	"oo":[
+		"oo/declare.js",
+		"oo/delegate.js",
+		"oo/extend.js",
+	],
+
+	"oo-declare":[
+		"oo/declare.js",
+	],
+
+	"oo-extend":[
+		"oo/extend.js",
+	],
+
+	"oo-delegate":[
+		"oo/delegate.js",
+	],
+
+	"uri":[
+		"uri/objectToQuery.js",
+	],
+}
