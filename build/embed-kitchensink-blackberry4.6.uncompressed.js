@@ -1469,154 +1469,6 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 		return df; // DOMNode
 	}
 
-
-	// =============================
-	// (CSS) Class Functions
-	// =============================
-	var _className = "className";
-
-	d.hasClass = function(/*DomNode|String*/node, /*String*/classStr){
-		//	summary:
-		//		Returns whether or not the specified classes are a portion of the
-		//		class list currently applied to the node.
-		//
-		//	node:
-		//		String ID or DomNode reference to check the class for.
-		//
-		//	classStr:
-		//		A string class name to look for.
-		//
-		//	example:
-		//	| if(dojo.hasClass("someNode","aSillyClassName")){ ... }
-		return ((" "+ byId(node)[_className] +" ").indexOf(" " + classStr + " ") >= 0);  // Boolean
-	};
-
-	var spaces = /\s+/, a1 = [""],
-		str2array = function(s){
-			if(typeof s == "string" || s instanceof String){
-				if(s.indexOf(" ") < 0){
-					a1[0] = s;
-					return a1;
-				}else{
-					return s.split(spaces);
-				}
-			}
-			// assumed to be an array
-			return s;
-		};
-
-	d.addClass = function(node, classStr){
-		//	summary:
-		//		Adds the specified classes to the end of the class list on the
-		//		passed node. Will not re-apply duplicate classes.
-		//
-		//	node: DomNode|String
-		//		String ID or DomNode reference to add a class string too
-		//
-		//	classStr: String|Array
-		//		A String class name to add, or several space-separated class names,
-		//		or an array of class names.
-		//
-		// example:
-		//	Add a class to some node:
-		//	|	dojo.addClass("someNode", "anewClass");
-		//
-		// example:
-		//	Add two classes at once:
-		//	| 	dojo.addClass("someNode", "firstClass secondClass");
-		//
-		// example:
-		//	Add two classes at once (using array):
-		//	| 	dojo.addClass("someNode", ["firstClass", "secondClass"]);
-		//
-		// example:
-		//	Available in `dojo.NodeList` for multiple additions
-		//	| dojo.query("ul > li").addClass("firstLevel");
-
-		node = byId(node);
-		classStr = str2array(classStr);
-		var cls = " " + node[_className] + " ";
-		for(var i = 0, len = classStr.length, c; i < len; ++i){
-			c = classStr[i];
-			if(c && cls.indexOf(" " + c + " ") < 0){
-				cls += c + " ";
-			}
-		}
-		node[_className] = d.trim(cls);
-	};
-
-	d.removeClass = function(/*DomNode|String*/node, /*String|Array?*/classStr){
-		// summary:
-		//		Removes the specified classes from node. No `dojo.hasClass`
-		//		check is required.
-		//
-		// node:
-		// 		String ID or DomNode reference to remove the class from.
-		//
-		// classStr:
-		//		An optional String class name to remove, or several space-separated
-		//		class names, or an array of class names. If omitted, all class names
-		//		will be deleted.
-		//
-		// example:
-		//	Remove a class from some node:
-		// 	| dojo.removeClass("someNode", "firstClass");
-		//
-		// example:
-		//	Remove two classes from some node:
-		// 	| dojo.removeClass("someNode", "firstClass secondClass");
-		//
-		// example:
-		//	Remove two classes from some node (using array):
-		// 	| dojo.removeClass("someNode", ["firstClass", "secondClass"]);
-		//
-		// example:
-		//	Remove all classes from some node:
-		// 	| dojo.removeClass("someNode");
-		//
-		// example:
-		//	Available in `dojo.NodeList` for multiple removal
-		//	| dojo.query(".foo").removeClass("foo");
-
-		node = byId(node);
-		var cls;
-		if(classStr !== undefined){
-			classStr = str2array(classStr);
-			cls = " " + node[_className] + " ";
-			for(var i = 0, len = classStr.length; i < len; ++i){
-				cls = cls.replace(" " + classStr[i] + " ", " ");
-			}
-			cls = d.trim(cls);
-		}else{
-			cls = "";
-		}
-		if(node[_className] != cls){ node[_className] = cls; }
-	};
-
-	d.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolean?*/condition){
-		//	summary:
-		//		Adds a class to node if not present, or removes if present.
-		//		Pass a boolean condition if you want to explicitly add or remove.
-		//	condition:
-		//		If passed, true means to add the class, false means to remove.
-		//
-		// example:
-		//	| dojo.toggleClass("someNode", "hovered");
-		//
-		// example:
-		// 	Forcefully add a class
-		//	| dojo.toggleClass("someNode", "hovered", true);
-		//
-		// example:
-		//	Available in `dojo.NodeList` for multiple toggles
-		//	| dojo.query(".toggleMe").toggleClass("toggleMe");
-
-		if(condition === undefined){
-			condition = !d.hasClass(node, classStr);
-		}
-		d[condition ? "addClass" : "removeClass"](node, classStr);
-	};
-
 	d._docScroll = function(){
 		var n = d.global;
 		return "pageXOffset" in n? { x:n.pageXOffset, y:n.pageYOffset } :
@@ -1828,6 +1680,261 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	};
 
 })(dojo);
+
+
+
+/*********FILE**********
+/src/lang/string.js
+********************/
+
+
+/*=====
+dojo.trim = function(str){
+	//	summary:
+	//		Trims whitespace from both sides of the string
+	//	str: String
+	//		String to be trimmed
+	//	returns: String
+	//		Returns the trimmed string
+	//	description:
+	//		This version of trim() was selected for inclusion into the base due
+	//		to its compact size and relatively good performance
+	//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
+	//		Uses String.prototype.trim instead, if available.
+	//		The fastest but longest version of this function is located at
+	//		dojo.string.trim()
+	return "";	// String
+}
+=====*/
+
+dojo.trim = String.prototype.trim ?
+	function(str){ return str.trim(); } :
+	function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+
+/*=====
+dojo.replace = function(tmpl, map, pattern){
+	//	summary:
+	//		Performs parameterized substitutions on a string. Throws an
+	//		exception if any parameter is unmatched. 
+	//	tmpl: String
+	//		String to be used as a template.
+	//	map: Object|Function
+	//		If an object, it is used as a dictionary to look up substitutions.
+	//		If a function, it is called for every substitution with following
+	//		parameters: a whole match, a name, an offset, and the whole template
+	//		string (see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/String/replace
+	//		for more details).
+	//	pattern: RegEx?
+	//		Optional regular expression objects that overrides the default pattern.
+	//		Must be global and match one item. The default is: /\{([^\}]+)\}/g,
+	//		which matches patterns like that: "{xxx}", where "xxx" is any sequence
+	//		of characters, which doesn't include "}".
+	//	returns: String
+	//		Returns the substituted string.
+	//	example:
+	//	|	// uses a dictionary for substitutions:
+	//	|	dojo.replace("Hello, {name.first} {name.last} AKA {nick}!",
+	//	|	  {
+	//	|	    nick: "Bob",
+	//	|	    name: {
+	//	|	      first:  "Robert",
+	//	|	      middle: "X",
+	//	|	      last:   "Cringely"
+	//	|	    }
+	//	|	  });
+	//	|	// returns: Hello, Robert Cringely AKA Bob!
+	//	example:
+	//	|	// uses an array for substitutions:
+	//	|	dojo.replace("Hello, {0} {2}!",
+	//	|	  ["Robert", "X", "Cringely"]);
+	//	|	// returns: Hello, Robert Cringely!
+	//	example:
+	//	|	// uses a function for substitutions:
+	//	|	function sum(a){
+	//	|	  var t = 0;
+	//	|	  dojo.forEach(a, function(x){ t += x; });
+	//	|	  return t;
+	//	|	}
+	//	|	dojo.replace(
+	//	|	  "{count} payments averaging {avg} USD per payment.",
+	//	|	  dojo.hitch(
+	//	|	    { payments: [11, 16, 12] },
+	//	|	    function(_, key){
+	//	|	      switch(key){
+	//	|	        case "count": return this.payments.length;
+	//	|	        case "min":   return Math.min.apply(Math, this.payments);
+	//	|	        case "max":   return Math.max.apply(Math, this.payments);
+	//	|	        case "sum":   return sum(this.payments);
+	//	|	        case "avg":   return sum(this.payments) / this.payments.length;
+	//	|	      }
+	//	|	    }
+	//	|	  )
+	//	|	);
+	//	|	// prints: 3 payments averaging 13 USD per payment.
+	//	example:
+	//	|	// uses an alternative PHP-like pattern for substitutions:
+	//	|	dojo.replace("Hello, ${0} ${2}!",
+	//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
+	//	|	// returns: Hello, Robert Cringely!
+	return "";	// String
+}
+=====*/
+
+var _pattern = /\{([^\}]+)\}/g;
+dojo.replace = function(tmpl, map, pattern){
+	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
+		map : function(_, k){ return dojo.getObject(k, false, map); });
+};
+
+
+
+/*********FILE**********
+/src/html/class.js
+********************/
+
+
+dojo.hasClass = function(/*DomNode|String*/node, /*String*/classStr){
+	//	summary:
+	//		Returns whether or not the specified classes are a portion of the
+	//		class list currently applied to the node.
+	//
+	//	node:
+	//		String ID or DomNode reference to check the class for.
+	//
+	//	classStr:
+	//		A string class name to look for.
+	//
+	//	example:
+	//	| if(dojo.hasClass("someNode","aSillyClassName")){ ... }
+	return ((" "+ dojo.byId(node).className +" ").indexOf(" " + classStr + " ") >= 0);  // Boolean
+};
+
+dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolean?*/condition){
+	//	summary:
+	//		Adds a class to node if not present, or removes if present.
+	//		Pass a boolean condition if you want to explicitly add or remove.
+	//	condition:
+	//		If passed, true means to add the class, false means to remove.
+	//
+	// example:
+	//	| dojo.toggleClass("someNode", "hovered");
+	//
+	// example:
+	// 	Forcefully add a class
+	//	| dojo.toggleClass("someNode", "hovered", true);
+	//
+	// example:
+	//	Available in `dojo.NodeList` for multiple toggles
+	//	| dojo.query(".toggleMe").toggleClass("toggleMe");
+
+	if(condition === undefined){
+		condition = !dojo.hasClass(node, classStr);
+	}
+	dojo[condition ? "addClass" : "removeClass"](node, classStr);
+};
+
+(function(){
+	var spaces = /\s+/;
+	var str2array = function(s){
+		if(typeof s == "string" || s instanceof String){
+			if(s.indexOf(" ") < 0){
+				return [s];
+			}else{
+				return dojo.trim(s).split(spaces);
+			}
+		}
+		// assumed to be an array
+		return s;
+	};
+
+	dojo.addClass = function(node, classStr){
+		//	summary:
+		//		Adds the specified classes to the end of the class list on the
+		//		passed node. Will not re-apply duplicate classes.
+		//
+		//	node: DomNode|String
+		//		String ID or DomNode reference to add a class string too
+		//
+		//	classStr: String|Array
+		//		A String class name to add, or several space-separated class names,
+		//		or an array of class names.
+		//
+		// example:
+		//	Add a class to some node:
+		//	|	dojo.addClass("someNode", "anewClass");
+		//
+		// example:
+		//	Add two classes at once:
+		//	| 	dojo.addClass("someNode", "firstClass secondClass");
+		//
+		// example:
+		//	Add two classes at once (using array):
+		//	| 	dojo.addClass("someNode", ["firstClass", "secondClass"]);
+		//
+		// example:
+		//	Available in `dojo.NodeList` for multiple additions
+		//	| dojo.query("ul > li").addClass("firstLevel");
+	
+		node = dojo.byId(node);
+		classStr = str2array(classStr);
+		var cls = " " + node.className + " ";
+		for(var i = 0, len = classStr.length, c; i < len; ++i){
+			c = classStr[i];
+			if(c && cls.indexOf(" " + c + " ") < 0){
+				cls += c + " ";
+			}
+		}
+		node.className = dojo.trim(cls);
+	};
+	
+	dojo.removeClass = function(/*DomNode|String*/node, /*String|Array?*/classStr){
+		// summary:
+		//		Removes the specified classes from node. No `dojo.hasClass`
+		//		check is required.
+		//
+		// node:
+		// 		String ID or DomNode reference to remove the class from.
+		//
+		// classStr:
+		//		An optional String class name to remove, or several space-separated
+		//		class names, or an array of class names. If omitted, all class names
+		//		will be deleted.
+		//
+		// example:
+		//	Remove a class from some node:
+		// 	| dojo.removeClass("someNode", "firstClass");
+		//
+		// example:
+		//	Remove two classes from some node:
+		// 	| dojo.removeClass("someNode", "firstClass secondClass");
+		//
+		// example:
+		//	Remove two classes from some node (using array):
+		// 	| dojo.removeClass("someNode", ["firstClass", "secondClass"]);
+		//
+		// example:
+		//	Remove all classes from some node:
+		// 	| dojo.removeClass("someNode");
+		//
+		// example:
+		//	Available in `dojo.NodeList` for multiple removal
+		//	| dojo.query(".foo").removeClass("foo");
+	
+		node = dojo.byId(node);
+		var cls;
+		if(classStr !== undefined){
+			classStr = str2array(classStr);
+			cls = " " + node.className + " ";
+			for(var i = 0, len = classStr.length; i < len; ++i){
+				cls = cls.replace(" " + classStr[i] + " ", " ");
+			}
+			cls = dojo.trim(cls);
+		}else{
+			cls = "";
+		}
+		if(node.className != cls){ node.className = cls; }
+	};
+})();
 
 
 
@@ -2325,111 +2432,6 @@ dojo.clone = function(/*anything*/ o){
 	return r; // Object
 		
 }
-
-
-
-/*********FILE**********
-/src/lang/string.js
-********************/
-
-
-/*=====
-dojo.trim = function(str){
-	//	summary:
-	//		Trims whitespace from both sides of the string
-	//	str: String
-	//		String to be trimmed
-	//	returns: String
-	//		Returns the trimmed string
-	//	description:
-	//		This version of trim() was selected for inclusion into the base due
-	//		to its compact size and relatively good performance
-	//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
-	//		Uses String.prototype.trim instead, if available.
-	//		The fastest but longest version of this function is located at
-	//		dojo.string.trim()
-	return "";	// String
-}
-=====*/
-
-dojo.trim = String.prototype.trim ?
-	function(str){ return str.trim(); } :
-	function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
-
-/*=====
-dojo.replace = function(tmpl, map, pattern){
-	//	summary:
-	//		Performs parameterized substitutions on a string. Throws an
-	//		exception if any parameter is unmatched. 
-	//	tmpl: String
-	//		String to be used as a template.
-	//	map: Object|Function
-	//		If an object, it is used as a dictionary to look up substitutions.
-	//		If a function, it is called for every substitution with following
-	//		parameters: a whole match, a name, an offset, and the whole template
-	//		string (see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/String/replace
-	//		for more details).
-	//	pattern: RegEx?
-	//		Optional regular expression objects that overrides the default pattern.
-	//		Must be global and match one item. The default is: /\{([^\}]+)\}/g,
-	//		which matches patterns like that: "{xxx}", where "xxx" is any sequence
-	//		of characters, which doesn't include "}".
-	//	returns: String
-	//		Returns the substituted string.
-	//	example:
-	//	|	// uses a dictionary for substitutions:
-	//	|	dojo.replace("Hello, {name.first} {name.last} AKA {nick}!",
-	//	|	  {
-	//	|	    nick: "Bob",
-	//	|	    name: {
-	//	|	      first:  "Robert",
-	//	|	      middle: "X",
-	//	|	      last:   "Cringely"
-	//	|	    }
-	//	|	  });
-	//	|	// returns: Hello, Robert Cringely AKA Bob!
-	//	example:
-	//	|	// uses an array for substitutions:
-	//	|	dojo.replace("Hello, {0} {2}!",
-	//	|	  ["Robert", "X", "Cringely"]);
-	//	|	// returns: Hello, Robert Cringely!
-	//	example:
-	//	|	// uses a function for substitutions:
-	//	|	function sum(a){
-	//	|	  var t = 0;
-	//	|	  dojo.forEach(a, function(x){ t += x; });
-	//	|	  return t;
-	//	|	}
-	//	|	dojo.replace(
-	//	|	  "{count} payments averaging {avg} USD per payment.",
-	//	|	  dojo.hitch(
-	//	|	    { payments: [11, 16, 12] },
-	//	|	    function(_, key){
-	//	|	      switch(key){
-	//	|	        case "count": return this.payments.length;
-	//	|	        case "min":   return Math.min.apply(Math, this.payments);
-	//	|	        case "max":   return Math.max.apply(Math, this.payments);
-	//	|	        case "sum":   return sum(this.payments);
-	//	|	        case "avg":   return sum(this.payments) / this.payments.length;
-	//	|	      }
-	//	|	    }
-	//	|	  )
-	//	|	);
-	//	|	// prints: 3 payments averaging 13 USD per payment.
-	//	example:
-	//	|	// uses an alternative PHP-like pattern for substitutions:
-	//	|	dojo.replace("Hello, ${0} ${2}!",
-	//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
-	//	|	// returns: Hello, Robert Cringely!
-	return "";	// String
-}
-=====*/
-
-var _pattern = /\{([^\}]+)\}/g;
-dojo.replace = function(tmpl, map, pattern){
-	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
-		map : function(_, k){ return dojo.getObject(k, false, map); });
-};
 
 
 
