@@ -240,7 +240,7 @@ tests.register("tests._base.html.html",
 			dojo.removeClass(node, "c");
 			t.assertTrue(!node.className, "no class");
 		},
-		function testAddRemoveClassMultiple(t){
+		function testAddClassMultiple(t){
 			var node = dojo.byId("sq100");
 			dojo.addClass(node, "a");
 			t.is("a", node.className, "class is a");
@@ -249,6 +249,17 @@ tests.register("tests._base.html.html",
 			dojo.addClass(node, "b a");
 			t.is("a b", node.className, "class is still a b");
 			dojo.addClass(node, ["a", "c"]);
+			t.is("a b c", node.className, "class is a b c");
+			dojo.addClass(node, "d e "); // Trailing slash used to hurt.
+			t.is("a b c d e", node.className, "class is a b c d e");
+			dojo.addClass(node, "testing");
+			t.is("a b c d e testing", node.className, "class is testing");
+		},
+		function testRemoveClassMultiple(t){
+			var node = dojo.byId("sq100");
+			dojo.removeClass(node, "testing");
+			t.is("a b c d e", node.className, "class is a b c");
+			dojo.removeClass(node, "d e ");
 			t.is("a b c", node.className, "class is a b c");
 			dojo.removeClass(node, "c a");
 			t.is("b", node.className, "class is b");
