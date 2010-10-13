@@ -1,4 +1,4 @@
-var dojo = {};
+var dojo = embed = {};
 var djConfig = dojo.config = {};
 
 dojo.global = window;
