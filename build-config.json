@@ -1,23 +1,23 @@
 {
 	
-	isVerbose:false,
+	"isVerbose":false,
 	
 	// All paths are relative to this file!!!
 	// Trailing and leading slashes are not needed!
-	paths:{
+	"paths":{
 		// The path where to find the platform JSON files.
 		// Those files define the features and which files belong to each of them.
-		platforms:"platforms",
+		"platforms":"platforms",
 	
 		// Where can the source code be found.
 		// This is required to find the dependencies.json files.
-		source:"src",
+		"source":"src",
 		
 		// Where shall the built files be put.
-		build:"build"
+		"build":"build"
 	},
 	
-	build:{
+	"build":{
 		// How to create the final file name for the built file.
 		// You can use "PROFILE" and "PLATFORM" as variables, like so:
 		// 		buildFileName:"embed-${PROFILE}-${PLATFORM}"
@@ -25,28 +25,28 @@
 		// The final files may look like so:
 		// 		embed-kitchensink-android.js
 		// you can see the ".js" gets added automatically at the end.
-		fileName:"embed-${PROFILE}-${PLATFORM}",
+		"fileName":"embed-${PROFILE}-${PLATFORM}",
 		
 		// If you also want to generate the uncompressed file set the
 		// following option to true.
 		// This may result in a file like:
 		// 		embed-kitchensink-android.uncompressed.js
-		generateUncompressedFiles:true,
+		"generateUncompressedFiles":true,
 	},
 	
-	defaults:{
+	"defaults":{
 		// If no profile is given explicitly as a parameter in the build process
 		// the following is used as the default parameter.
-		profile:"kitchensink",
+		"profile":"kitchensink",
 		
 		// The default if no platform is given during the buold process.
-		platform:"android",
+		"platform":"android",
 	},
 	
 	// Each profile defines a set of features which will be build
 	// in order to do that the dependencies need to be resolved and
 	// this is done using the sourcePath to find the dependencies etc.
-	profiles:{
+	"profiles":{
 		"kitchensink":[
 			"base","array","connect","deferred","destroy","html","json","jsonp","lang","xhr","oo","uri","query",
 		],
@@ -59,6 +59,6 @@
 		// Ideas for profiles we might offer ...
 		"javascript-1.6":[],
 		"domtools":[],
-		"domtools-profile":[],
+		"domtools-profile":[]
 	}
 }
