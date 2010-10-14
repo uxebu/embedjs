@@ -76,7 +76,7 @@ markAndSweepSubscribersTest = function(iterations){
 	return failures;
 }
 
-tests.register("tests._base.connect",
+tests.register("tests.connect",
 	[
 		function smokeTest(t){
 			// foo sets ok to false

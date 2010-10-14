@@ -1,4 +1,4 @@
-tests.register("tests._base.array", 
+tests.register("tests.array", 
 	[
 		function testIndexOf(t){
 			var foo = [128, 256, 512];

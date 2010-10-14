@@ -9,7 +9,7 @@ var delay = function(ms){
 	return d.promise;
 };
 
-doh.register("tests._base.deferred", 
+doh.register("tests.deferred", 
 	[
 
 		function callback(t){

@@ -1,9 +1,21 @@
-// setup the test object
-dojo.zoo = { a:1, c: { d:1 } };
-
-tests.register("tests._base.object",
+tests.register("tests.base", 
 	[
-	
+		function mixin(t){
+			t.assertEqual("object", typeof dojo.mixin());
+			t.assertEqual("object", typeof dojo.mixin(undefined));
+			t.assertEqual("object", typeof dojo.mixin(null));
+			var src = {
+				foo: function(){
+					t.debug("foo");
+				},
+				bar: "bar"
+			};
+			var dest = {};
+			dojo.mixin(dest, src);
+			t.assertEqual("function", typeof dest["foo"]);
+			t.assertEqual("string", typeof dest["bar"]);
+		},
+		
 		function getBasic(t){
 			var x = dojo.getObject('dojo.zoo.a');
 			t.is(1, x);
@@ -35,6 +47,5 @@ tests.register("tests._base.object",
 			dojo.zoo.bar.baz.bam.x = 10;
 			t.is(10, dojo.zoo.bar.baz.bam.x);
 		}
-
 	]
 );
