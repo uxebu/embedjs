@@ -31,7 +31,7 @@
 		// following option to true.
 		// This may result in a file like:
 		// 		embed-kitchensink-android.uncompressed.js
-		"generateUncompressedFiles":true,
+		"generateUncompressedFiles":true
 	},
 	
 	"defaults":{
@@ -40,7 +40,7 @@
 		"profile":"kitchensink",
 		
 		// The default if no platform is given during the buold process.
-		"platform":"android",
+		"platform":"android"
 	},
 	
 	// Each profile defines a set of features which will be build
@@ -48,11 +48,11 @@
 	// this is done using the sourcePath to find the dependencies etc.
 	"profiles":{
 		"kitchensink":[
-			"base","array","connect","deferred","destroy","html","json","jsonp","lang","xhr","oo","uri","query",
+			"base","array","connect","deferred","destroy","html","json","jsonp","lang","xhr","oo","uri","query"
 		],
 		
 		"oo-only":[
-			"base","oo-declare",
+			"base","oo-declare"
 		],
 		
 		
