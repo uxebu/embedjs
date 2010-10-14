@@ -40,10 +40,10 @@ dojo.declare("dojo.jsonp.__ioArgs", null, {
 		//	summary:
 		//		sends a get request using a dynamically created script tag.
 		if(!args.url){
-			throw new Error("dojo.jsonp.get: No URL specified.");
+			throw new Error("dojo.jsonp: No URL specified.");
 		}
 		if(!args.jsonp){
-			throw new Error("dojo.jsonp.get: No callback param specified.");
+			throw new Error("dojo.jsonp: No callback param specified.");
 		}
 		
 		_id++;
