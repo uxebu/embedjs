@@ -1,4 +1,7 @@
-tests.register("tests._base.html.element", 
+// This test group tests the base html methods:
+//   create, place, destroy and _toDom
+
+tests.register("html", 
 	[		
 	 	function _start(t){
 			doh.showBox('html_element-test');

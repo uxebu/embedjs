@@ -1,4 +1,4 @@
-tests.register("tests.oo.delegate", 
+tests.register("oo-delegate", 
 	[
 		function delegate(t){
 			var a = {

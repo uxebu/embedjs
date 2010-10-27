@@ -1,4 +1,4 @@
-tests.register("tests._base.oo-declare",
+tests.register("oo-declare",
 	[
 		function smokeTest(t){
 			dojo.declare("tests._base.declare.tmp");

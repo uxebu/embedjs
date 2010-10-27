@@ -1,4 +1,4 @@
-tests.register("tests._base.string",
+tests.register("lang-string",
 	[
 		
 		function test_trim(t){

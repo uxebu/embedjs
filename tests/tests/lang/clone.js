@@ -1,4 +1,4 @@
-tests.register("tests.lang.clone", 
+tests.register("lang-clone", 
 	[
 		function clone(t) { 
 			var obj1 = {

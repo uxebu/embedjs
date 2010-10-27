@@ -110,26 +110,46 @@
 		
 		<script type="text/javascript" src="${embedjs_filename}"></script>
 		<script type="text/javascript" src="modules.js"></script>
-		<script type="text/javascript" src="_base/object.js"></script>
-		<script type="text/javascript" src="_base/declare.js"></script>
-		<script type="text/javascript" src="_base/lang.js"></script>
-		<script type="text/javascript" src="_base/html.js"></script>
-		<script type="text/javascript" src="_base/string.js"></script>
-		<script type="text/javascript" src="_base/deferred.js"></script>
-		<script type="text/javascript" src="_base/array.js"></script>
-		<script type="text/javascript" src="_base/connect.js"></script>
-		<script type="text/javascript" src="_base/json.js"></script>
 		
-		<script type="text/javascript" src="_base/html/getHtml.php?id=html_id-test&file=id"></script>
-		<script type="text/javascript" src="_base/html/id.js"></script>
-		<script type="text/javascript" src="_base/html/getHtml.php?id=html_html-test&file=html"></script>
-		<script type="text/javascript" src="_base/html/html.js"></script>
-		<script type="text/javascript" src="_base/html/getHtml.php?id=html_element-test&file=element"></script>
-		<script type="text/javascript" src="_base/html/element.js"></script>
-		<script type="text/javascript" src="_base/html/getHtml.php?id=html_query-test&file=query"></script>
-		<script type="text/javascript" src="_base/html/query.js"></script>
-		<script type="text/javascript" src="_base/html/getHtml.php?id=html_xhr-test&file=xhr"></script>
-		<script type="text/javascript" src="_base/html/xhr.js"></script>
+		<!-- base -->
+		<script type="text/javascript" src="tests/base.js"></script>
+		<!-- array -->
+		<script type="text/javascript" src="tests/array/array.js"></script>
+		<!-- connect -->
+		<script type="text/javascript" src="tests/connect/connect.js"></script>
+		<!-- deferred -->
+		<script type="text/javascript" src="tests/deferred/deferred.js"></script>
+		<!-- destroy -->
+		<script type="text/javascript" src="tests/destroy/destroy.js"></script>
+		<!-- html -->
+		<script type="text/javascript" src="tests/html/id_html.js"></script>
+		<script type="text/javascript" src="tests/html/id.js"></script>
+		<script type="text/javascript" src="tests/html/html_html.js"></script>
+		<script type="text/javascript" src="tests/html/html.js"></script>
+		<script type="text/javascript" src="tests/html/element_html.js"></script>
+		<script type="text/javascript" src="tests/html/element.js"></script>
+		<!-- json -->
+		<script type="text/javascript" src="tests/json/json.js"></script>
+		<!-- jsonp -->
+		<script type="text/javascript" src="tests/jsonp/jsonp.js"></script>
+		<!-- lang -->
+		<script type="text/javascript" src="tests/lang/toArray.js"></script>
+		<script type="text/javascript" src="tests/lang/clone.js"></script>
+		<script type="text/javascript" src="tests/lang/hitch.js"></script>
+		<script type="text/javascript" src="tests/lang/is.js"></script>
+		<script type="text/javascript" src="tests/lang/string.js"></script>
+		<!-- oo -->
+		<script type="text/javascript" src="tests/oo/declare.js"></script>
+		<script type="text/javascript" src="tests/oo/delegate.js"></script>
+		<script type="text/javascript" src="tests/oo/extend.js"></script>
+		<!-- query -->
+		<script type="text/javascript" src="tests/query/query_html.js"></script>
+		<script type="text/javascript" src="tests/query/query.js"></script>
+		<!-- uri -->
+		<script type="text/javascript" src="tests/uri/uri.js"></script>
+		<!-- xhr -->
+		<script type="text/javascript" src="tests/html/xhr_html.js"></script>
+		<script type="text/javascript" src="tests/html/xhr.js"></script>
 	</body>
 </html>
 

@@ -1,4 +1,7 @@
-tests.register("tests.base", 
+// setup the test object
+dojo.zoo = { a:1, c: { d:1 } };
+
+tests.register("base", 
 	[
 		function mixin(t){
 			t.assertEqual("object", typeof dojo.mixin());

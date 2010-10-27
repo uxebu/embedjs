@@ -1,4 +1,4 @@
-tests.register("tests.lang.hitch", 
+tests.register("lang-hitch", 
 	[
 		function hitch(t){
 			var scope = { foo: "bar" };

@@ -1,4 +1,4 @@
-tests.register("tests.lang.is", 
+tests.register("lang-is", 
 	[
 		function isFunction(t){
 			t.assertTrue(dojo.isFunction(new Function()));

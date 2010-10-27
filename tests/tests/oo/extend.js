@@ -1,4 +1,4 @@
-tests.register("tests.oo.extend", 
+tests.register("oo-extend", 
 	[
 		function extend(t){
 			var src = {

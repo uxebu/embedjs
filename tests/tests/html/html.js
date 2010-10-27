@@ -1,8 +1,9 @@
-	
+// This test group tests class and style methods.
+
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
 
-tests.register("tests._base.html.html", 
+tests.register("html.class+style", 
 	[
 		function _start(t){
 			doh.showBox('html_html-test');
