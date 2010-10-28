@@ -15,9 +15,18 @@
 		"connect/event.js",
 		"connect/pubsub.js"
 	],
+    
+    "deferred": [
+        "deferred/deferred.js"
+    ],
 
-	"deferred":[
-		"deferred/deferred.js"
+	"promise-pure":[
+        "promise/promise.js"
+	],
+
+	"promise":[
+        "promise/promise.js",
+        "promise/when.js"
 	],
 
 	"destroy":[

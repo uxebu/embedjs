@@ -19,7 +19,7 @@ tests.register("uri",
 		function objectToQuery(t){
 			t.is(f1foStr , dojo.objectToQuery(f1fo));
 			t.is(f5foStr , dojo.objectToQuery(f5fo));
-		}
+		},
 		
 		function objectToQueryArr(t){
 			t.is(f2foStr, dojo.objectToQuery(f2fo));

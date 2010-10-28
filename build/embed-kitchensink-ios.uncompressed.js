@@ -286,7 +286,7 @@ dojo.require = function(){};
 		}
 	}
 
-	dojo.addOnLoad = function(/*Object?*/obj, /*String|Function*/functionName){
+	dojo.addOnLoad = dojo.ready = function(/*Object?*/obj, /*String|Function*/functionName){
 		// summary:
 		//		Registers a function to be triggered after the DOM has finished
 		//		loading and widgets declared in markup have been instantiated.
@@ -588,7 +588,7 @@ dojo._listener = {
 // and dontFix argument here to help the autodocs. Actual DOM aware code is in
 // event.js.
 
-dojo.connect = function(/*Object|null*/ obj, 
+dojo.connect = dojo.on = function(/*Object|null*/ obj, 
 						/*String*/ event, 
 						/*Object|null*/ context, 
 						/*String|Function*/ method,
@@ -903,24 +903,6 @@ dojo.connectPublisher = function(	/*String*/ topic,
 
 
 /*********FILE**********
-/src/oo/extend.js
-********************/
-
-
-dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
-	// summary:
-	//		Adds all properties and methods of props to constructor's
-	//		prototype, making them available to all instances created with
-	//		constructor.
-	for(var i=1, l=arguments.length; i<l; i++){
-		dojo._mixin(constructor.prototype, arguments[i]);
-	}
-	return constructor; // Object
-}
-
-
-
-/*********FILE**********
 /src/lang/hitch.js
 ********************/
 
@@ -978,17 +960,17 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 
 
 /*********FILE**********
-/src/deferred/deferred.js
+/src/promise/promise.js
 ********************/
 
 
 ;(function(d){
 
 (function(){
-	var mutator = function(){};		
+	dojo.__mutator = function(){};		
 	var freeze = Object.freeze || function(){};
 	// A deferred provides an API for creating and resolving a promise.
-	dojo.Deferred = function(/*Function?*/canceller){
+	dojo.Promise = function(/*Function?*/canceller){
 		// summary:
 		//		Deferreds provide a generic means for encapsulating an asynchronous
 		// 		operation and notifying users of the completion and result of the operation. 
@@ -1146,7 +1128,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 			while(!mutated && nextListener){
 				var listener = nextListener;
 				nextListener = nextListener.next;
-				if(mutated = (listener.progress == mutator)){ // assignment and check
+				if(mutated = (listener.progress == dojo.__mutator)){ // assignment and check
 					finished = false;
 				}
 				var func = (isError ? listener.error : listener.resolved);
@@ -1173,7 +1155,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 			}	
 		}
 		// calling resolve will resolve the promise
-		this.resolve = this.callback = function(value){
+		this.resolve = function(value){
 			// summary:
 			//		Fulfills the Deferred instance successfully with the provide value
 			this.fired = 0;
@@ -1183,7 +1165,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 		
 		
 		// calling error will indicate that the promise failed
-		this.reject = this.errback = function(error){
+		this.reject = function(error){
 			// summary:
 			//		Fulfills the Deferred instance as an error with the provided error 
 			isError = true;
@@ -1204,10 +1186,6 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 				progress && progress(update);
 				listener = listener.next;	
 			}
-		};
-		this.addCallbacks = function(/*Function?*/callback, /*Function?*/errback){
-			this.then(callback, errback, mutator);
-			return this;
 		};
 		// provide the implementation of the promise
 		this.then = promise.then = function(/*Function?*/resolvedCallback, /*Function?*/errorCallback, /*Function?*/progressCallback){
@@ -1233,7 +1211,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 			//		|		then(printResult, onError);
   			//		|	>44 
 			// 		
-			var returnDeferred = progressCallback == mutator ? this : new dojo.Deferred(promise.cancel);
+			var returnDeferred = progressCallback == dojo.__mutator ? this : new dojo.Promise(promise.cancel);
 			var listener = {
 				resolved: resolvedCallback, 
 				error: errorCallback, 
@@ -1268,22 +1246,17 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 		}
 		freeze(promise);
 	};
-	dojo.extend(dojo.Deferred, {
-		addCallback: function (/*Function*/callback) {
-			return this.addCallbacks(dojo.hitch.apply(dojo, arguments));
-		},
-	
-		addErrback: function (/*Function*/errback) {
-			return this.addCallbacks(null, dojo.hitch.apply(dojo, arguments));
-		},
-	
-		addBoth: function (/*Function*/callback) {
-			var enclosed = dojo.hitch.apply(dojo, arguments);
-			return this.addCallbacks(enclosed, enclosed);
-		},
-		fired: -1
-	});
 })();
+
+})(dojo);
+
+
+
+/*********FILE**********
+/src/promise/when.js
+********************/
+
+
 dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback, /*Function?*/progressHandler){
 	// summary:
 	//		This provides normalization between normal synchronous values and 
@@ -1313,7 +1286,58 @@ dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback
 	return callback(promiseOrValue);
 };
 
-})(dojo);
+
+
+/*********FILE**********
+/src/oo/extend.js
+********************/
+
+
+dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
+	// summary:
+	//		Adds all properties and methods of props to constructor's
+	//		prototype, making them available to all instances created with
+	//		constructor.
+	for(var i=1, l=arguments.length; i<l; i++){
+		dojo._mixin(constructor.prototype, arguments[i]);
+	}
+	return constructor; // Object
+}
+
+
+
+/*********FILE**********
+/src/deferred/deferred.js
+********************/
+
+
+dojo.Deferred = dojo.Promise;
+
+dojo.extend(dojo.Deferred, {
+	callback: function(value){
+		this.resolve(value);
+	},
+	errback: function(error){
+		this.reject(error);
+	},
+	addCallbacks: function(/*Function?*/callback, /*Function?*/errback){
+		this.then(callback, errback, dojo.__mutator);
+		return this;
+	},
+	addCallback: function (/*Function*/callback) {
+		return this.addCallbacks(dojo.hitch.apply(dojo, arguments));
+	},
+
+	addErrback: function (/*Function*/errback) {
+		return this.addCallbacks(null, dojo.hitch.apply(dojo, arguments));
+	},
+
+	addBoth: function (/*Function*/callback) {
+		var enclosed = dojo.hitch.apply(dojo, arguments);
+		return this.addCallbacks(enclosed, enclosed);
+	},
+	fired: -1
+});
 
 
 
@@ -2287,10 +2311,10 @@ dojo.declare("dojo.jsonp.__ioArgs", null, {
 		//	summary:
 		//		sends a get request using a dynamically created script tag.
 		if(!args.url){
-			throw new Error("dojo.jsonp.get: No URL specified.");
+			throw new Error("dojo.jsonp: No URL specified.");
 		}
 		if(!args.jsonp){
-			throw new Error("dojo.jsonp.get: No callback param specified.");
+			throw new Error("dojo.jsonp: No callback param specified.");
 		}
 		
 		_id++;
