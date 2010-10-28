@@ -76,7 +76,7 @@
 	d._docScroll = function(){
 		var n = d.global;
 		return "pageXOffset" in n? { x:n.pageXOffset, y:n.pageYOffset } :
-			(n=d.doc.documentElement, n.clientHeight? { x:d._fixIeBiDiScrollLeft(n.scrollLeft), y:n.scrollTop } :
+			(n=d.doc.documentElement, n.clientHeight? { x:n.scrollLeft, y:n.scrollTop } :
 			(n=d.body(), { x:n.scrollLeft||0, y:n.scrollTop||0 }));
 	};
 
