@@ -87,11 +87,6 @@ dojo.declare("dojo.jsonp.__ioArgs", null, {
 		}
 		
 		// create script element
-		var doc = dojo.doc;
-		var element = doc.createElement("script");
-		element.type = "text/javascript";
-		element.src = args.url;
-		element.charset = "utf-8";
-		return doc.getElementsByTagName("head")[0].appendChild(element);
+		return dojo.attachScript(args);
 	};
 })();

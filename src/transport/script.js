@@ -1,12 +1,12 @@
-dojo.jsonp = function(params){
+dojo.attachScript = function(params){
 	//	summary:
 	//		creates a new <script> tag pointing to the specified URL and
 	//		adds it to the document.
 	//	description:
-	//		Attaches the script element to the DOM. ÊUse this method if you
+	//		Attaches the script element to the DOM. Use this method if you
 	//		just want to attach a script to the DOM and do not care when or
 	//		if it loads.
-	var doc = document;
+	var doc = dojo.doc;
 	var element = doc.createElement("script");
 	element.type = "text/javascript";
 	element.src = params.url;

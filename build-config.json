@@ -50,7 +50,7 @@
     
         // kitchensink is the full-blown build of EmbedJS, including every existing feature.
 		"kitchensink":[
-			"base","array","connect","promise","deferred","destroy","html","json","jsonp","lang","xhr","oo","uri","query"
+			"base","array","connect","promise","deferred","destroy","html","json","lang","transport","oo","uri","query"
 		],
         
 		"recommended":[

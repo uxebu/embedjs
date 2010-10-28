@@ -46,10 +46,6 @@
 		"json/dojo-json.js"
 	],
 
-	"jsonp":[
-		"jsonp/jsonp.js"
-	],
-
 	"lang":[
 		"lang/to-array.js",
 		"lang/clone.js",
@@ -69,10 +65,26 @@
 	"lang-string":[
 		"lang/string.js",
 	],
+    
+    /* The "transport" feature group */
+    
+    "transport":[
+		"transport/xhr.js",
+        "transport/script.js",
+        "transport/jsonp.js"
+    ],
 
-	"xhr":[
-		"xhr/xhr.js"
+	"transport-xhr":[
+		"transport/xhr.js"
 	],
+    
+    "transport-script":[
+        "transport/script.js"
+    ],
+    
+    "transport-jsonp":[
+        "transport/jsonp.js"
+    ],
 
 	"query": [
 		"query/qsa-preprocessor.js"

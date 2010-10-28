@@ -503,7 +503,7 @@ return df;
 };
 d._docScroll=function(){
 var n=d.global;
-return "pageXOffset" in n?{x:n.pageXOffset,y:n.pageYOffset}:(n=d.doc.documentElement,n.clientHeight?{x:d._fixIeBiDiScrollLeft(n.scrollLeft),y:n.scrollTop}:(n=d.body(),{x:n.scrollLeft||0,y:n.scrollTop||0}));
+return "pageXOffset" in n?{x:n.pageXOffset,y:n.pageYOffset}:(n=d.doc.documentElement,n.clientHeight?{x:n.scrollLeft,y:n.scrollTop}:(n=d.body(),{x:n.scrollLeft||0,y:n.scrollTop||0}));
 };
 var _f=function(_10,ref){
 var _11=ref.parentNode;
@@ -777,77 +777,6 @@ _e.push(_a+_8+_10+":"+_9+val);
 }
 return "{"+_e.join(","+_9)+_a+_4+"}";
 };
-dojo.objectToQuery=function(_1){
-var _2=encodeURIComponent;
-var _3=[];
-var _4={};
-for(var _5 in _1){
-var _6=_1[_5];
-if(_6!=_4[_5]){
-var _7=_2(_5)+"=";
-if(dojo.isArray(_6)){
-for(var i=0;i<_6.length;i++){
-_3.push(_7+_2(_6[i]));
-}
-}else{
-_3.push(_7+_2(_6));
-}
-}
-}
-return _3.join("&");
-};
-(function(){
-var _1=0;
-var _2={};
-dojo.jsonp=function(_3){
-if(!_3.url){
-throw new Error("dojo.jsonp: No URL specified.");
-}
-if(!_3.jsonp){
-throw new Error("dojo.jsonp: No callback param specified.");
-}
-_1++;
-var _4="jsonp_callback_"+_1;
-var _5=_3.timeout||3000;
-_2[_1]=setTimeout(function(){
-dojo.jsonp[_4]=function(){
-};
-clearTimeout(_2[_1]);
-if(_3.error){
-_3.error(null,{});
-}
-if(_3.handle){
-_3.handle(null,{});
-}
-},_5);
-_3.url+="?"+_3.jsonp+"=dojo.jsonp."+_4;
-dojo.jsonp[_4]=function(_6){
-clearTimeout(_2[_1]);
-try{
-if(_3.load){
-_3.load(_6,{});
-}
-}
-catch(e){
-if(_3.error){
-_3.error(null,{});
-}
-}
-if(_3.handle){
-_3.handle(_6,{});
-}
-};
-if(_3.content){
-_3.url+="&"+dojo.objectToQuery(_3.content);
-}
-var _7=dojo.doc;
-var _8=_7.createElement("script");
-_8.type="text/javascript";
-_8.src=_3.url;
-_8.charset="utf-8";
-return _7.getElementsByTagName("head")[0].appendChild(_8);
-};
-})();
 dojo._toArray=function(_1,_2,_3){
 return (_3||[]).concat(Array.prototype.slice.call(_1,_2||0));
 };
@@ -880,6 +809,25 @@ r[_1]=dojo.clone(s);
 }
 }
 return r;
+};
+dojo.objectToQuery=function(_1){
+var _2=encodeURIComponent;
+var _3=[];
+var _4={};
+for(var _5 in _1){
+var _6=_1[_5];
+if(_6!=_4[_5]){
+var _7=_2(_5)+"=";
+if(dojo.isArray(_6)){
+for(var i=0;i<_6.length;i++){
+_3.push(_7+_2(_6[i]));
+}
+}else{
+_3.push(_7+_2(_6));
+}
+}
+}
+return _3.join("&");
 };
 (function(_1){
 var _2=_1.config;
@@ -1154,6 +1102,61 @@ dojo.xhrDelete=function(_32){
 return _1.xhr("DELETE",_32);
 };
 }(dojo));
+dojo.attachScript=function(_1){
+var _2=dojo.doc;
+var _3=_2.createElement("script");
+_3.type="text/javascript";
+_3.src=_1.url;
+_3.charset="utf-8";
+return _2.getElementsByTagName("head")[0].appendChild(_3);
+};
+(function(){
+var _1=0;
+var _2={};
+dojo.jsonp=function(_3){
+if(!_3.url){
+throw new Error("dojo.jsonp: No URL specified.");
+}
+if(!_3.jsonp){
+throw new Error("dojo.jsonp: No callback param specified.");
+}
+_1++;
+var _4="jsonp_callback_"+_1;
+var _5=_3.timeout||3000;
+_2[_1]=setTimeout(function(){
+dojo.jsonp[_4]=function(){
+};
+clearTimeout(_2[_1]);
+if(_3.error){
+_3.error(null,{});
+}
+if(_3.handle){
+_3.handle(null,{});
+}
+},_5);
+_3.url+="?"+_3.jsonp+"=dojo.jsonp."+_4;
+dojo.jsonp[_4]=function(_6){
+clearTimeout(_2[_1]);
+try{
+if(_3.load){
+_3.load(_6,{});
+}
+}
+catch(e){
+if(_3.error){
+_3.error(null,{});
+}
+}
+if(_3.handle){
+_3.handle(_6,{});
+}
+};
+if(_3.content){
+_3.url+="&"+dojo.objectToQuery(_3.content);
+}
+return dojo.attachScript(_3);
+};
+})();
 dojo.declare=function(_1,_2,_3){
 var dd=arguments.callee,_4;
 if(dojo.isArray(_2)){

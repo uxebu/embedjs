@@ -1,4 +1,4 @@
-tests.register("jsonp", 
+tests.register("transport-jsonp", 
 	[
 	 	/* load option not supported by API
 		function ioScriptLoad(t){
