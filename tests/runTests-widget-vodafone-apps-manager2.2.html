@@ -76,13 +76,13 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-			window.onerror = function(e){
-				var err = [];
-				for (var key in e){
-					err.push(key+": "+e[key]);
-				}
-				alert("ERROR " + err.join(" "))
-			}
+			//window.onerror = function(e){
+			//	var err = [];
+			//	for (var key in e){
+			//		err.push(key+": "+e[key]);
+			//	}
+			//	alert("ERROR " + err.join(" "))
+			//}
 		
 			function toggleClass(nodeId, classString){
 				var node = document.getElementById(nodeId),
