@@ -69,6 +69,10 @@
 		"query/acme.js"
 	],
 
+	"query-simple": [
+		"query/simple.js"
+	],
+
 	"oo":[
 		"oo/declare.js",
 		"oo/delegate.js",

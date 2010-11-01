@@ -69,6 +69,11 @@
 		"query/qsa-preprocessor.js"
 	],
 
+	"query-simple": [
+		// I am not sure if getElementsByClassName() is implemented for this platform, to be tested
+		"query/acme.js"
+	],
+
 	"oo":[
 		"oo/declare.js",
 		"oo/delegate.js",
