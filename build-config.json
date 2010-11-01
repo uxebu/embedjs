@@ -14,7 +14,10 @@
 		"source":"src",
 		
 		// Where shall the built files be put.
-		"build":"build"
+		"build":"build",
+		
+		// Where are the tests located?
+		"tests":"tests"
 	},
 	
 	"build":{
