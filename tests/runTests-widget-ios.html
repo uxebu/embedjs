@@ -117,6 +117,9 @@
 		<script type="text/javascript" src="tests/array/array.js"></script>
 		<!-- connect -->
 		<script type="text/javascript" src="tests/connect/connect.js"></script>
+		<!-- promise -->
+		<script type="text/javascript" src="tests/promise/promise.js"></script>
+		<script type="text/javascript" src="tests/promise/when.js"></script>
 		<!-- deferred -->
 		<script type="text/javascript" src="tests/deferred/deferred.js"></script>
 		<!-- destroy -->
@@ -147,9 +150,9 @@
 		<script type="text/javascript" src="tests/query/query.js"></script>
 		<!-- uri -->
 		<script type="text/javascript" src="tests/uri/uri.js"></script>
-		<!-- xhr -->
-		<script type="text/javascript" src="tests/html/xhr_html.js"></script>
-		<script type="text/javascript" src="tests/html/xhr.js"></script>
+		<!-- transport -->
+		<script type="text/javascript" src="tests/transport/xhr_html.js"></script>
+		<script type="text/javascript" src="tests/transport/xhr.js"></script>
 	</body>
 </html>
 
