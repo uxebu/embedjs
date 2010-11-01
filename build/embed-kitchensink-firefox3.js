@@ -295,6 +295,40 @@ dojo._mixin(_1.prototype,arguments[i]);
 }
 return _1;
 };
+dojo.isString=function(it){
+return (typeof it=="string"||it instanceof String);
+};
+dojo.isArray=function(it){
+return it&&(it instanceof Array||typeof it=="array");
+};
+dojo.isFunction=(function(){
+var _1=function(it){
+var t=typeof it;
+return it&&(t=="function"||it instanceof Function)&&!it.nodeType;
+};
+return dojo.isSafari?function(it){
+if(typeof it=="function"&&it=="[object NodeList]"){
+return false;
+}
+return _1(it);
+}:_1;
+})();
+dojo.isObject=function(it){
+return it!==undefined&&(it===null||typeof it=="object"||dojo.isArray(it)||dojo.isFunction(it));
+};
+dojo.isArrayLike=function(it){
+var d=dojo;
+return it&&it!==undefined&&!d.isString(it)&&!d.isFunction(it)&&!(it.tagName&&it.tagName.toLowerCase()=="form")&&(d.isArray(it)||isFinite(it.length));
+};
+dojo.isAlien=function(it){
+return it&&!dojo.isFunction(it)&&/\{\s*\[native code\]\s*\}/.test(String(it));
+};
+dojo.isNumeric=function(n){
+return n==parseFloat(n);
+};
+dojo.isNumber=function(n){
+return typeof n=="number"||n instanceof Number;
+};
 dojo._hitchArgs=function(_1,_2){
 var _3=dojo._toArray(arguments,2);
 var _4=dojo.isString(_2);
@@ -662,40 +696,6 @@ return JSON.stringify(_1);
 dojo.fromJson=function(_2){
 return JSON.parse(_2);
 };
-dojo.isString=function(it){
-return (typeof it=="string"||it instanceof String);
-};
-dojo.isArray=function(it){
-return it&&(it instanceof Array||typeof it=="array");
-};
-dojo.isFunction=(function(){
-var _1=function(it){
-var t=typeof it;
-return it&&(t=="function"||it instanceof Function)&&!it.nodeType;
-};
-return dojo.isSafari?function(it){
-if(typeof it=="function"&&it=="[object NodeList]"){
-return false;
-}
-return _1(it);
-}:_1;
-})();
-dojo.isObject=function(it){
-return it!==undefined&&(it===null||typeof it=="object"||dojo.isArray(it)||dojo.isFunction(it));
-};
-dojo.isArrayLike=function(it){
-var d=dojo;
-return it&&it!==undefined&&!d.isString(it)&&!d.isFunction(it)&&!(it.tagName&&it.tagName.toLowerCase()=="form")&&(d.isArray(it)||isFinite(it.length));
-};
-dojo.isAlien=function(it){
-return it&&!dojo.isFunction(it)&&/\{\s*\[native code\]\s*\}/.test(String(it));
-};
-dojo.isNumeric=function(n){
-return n==parseFloat(n);
-};
-dojo.isNumber=function(n){
-return typeof n=="number"||n instanceof Number;
-};
 dojo.objectToQuery=function(_1){
 var _2=encodeURIComponent;
 var _3=[];
@@ -720,10 +720,10 @@ var _1=0;
 var _2={};
 dojo.jsonp=function(_3){
 if(!_3.url){
-throw new Error("dojo.jsonp.get: No URL specified.");
+throw new Error("dojo.jsonp: No URL specified.");
 }
 if(!_3.jsonp){
-throw new Error("dojo.jsonp.get: No callback param specified.");
+throw new Error("dojo.jsonp: No callback param specified.");
 }
 _1++;
 var _4="jsonp_callback_"+_1;
