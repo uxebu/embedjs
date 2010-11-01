@@ -289,13 +289,6 @@ dojo.publish(_7,arguments);
 };
 return _9?dojo.connect(_8,_9,pf):dojo.connect(_8,pf);
 };
-<<<<<<< HEAD
-dojo.extend=function(_1,_2){
-for(var i=1,l=arguments.length;i<l;i++){
-dojo._mixin(_1.prototype,arguments[i]);
-}
-return _1;
-};
 dojo.isString=function(it){
 return (typeof it=="string"||it instanceof String);
 };
@@ -330,8 +323,6 @@ return n==parseFloat(n);
 dojo.isNumber=function(n){
 return typeof n=="number"||n instanceof Number;
 };
-=======
->>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 dojo._hitchArgs=function(_1,_2){
 var _3=dojo._toArray(arguments,2);
 var _4=dojo.isString(_2);
@@ -786,80 +777,6 @@ _e.push(_a+_8+_10+":"+_9+val);
 }
 return "{"+_e.join(","+_9)+_a+_4+"}";
 };
-<<<<<<< HEAD
-dojo.objectToQuery=function(_1){
-var _2=encodeURIComponent;
-var _3=[];
-var _4={};
-for(var _5 in _1){
-var _6=_1[_5];
-if(_6!=_4[_5]){
-var _7=_2(_5)+"=";
-if(dojo.isArray(_6)){
-for(var i=0;i<_6.length;i++){
-_3.push(_7+_2(_6[i]));
-}
-}else{
-_3.push(_7+_2(_6));
-}
-}
-}
-return _3.join("&");
-};
-(function(){
-var _1=0;
-var _2={};
-dojo.jsonp=function(_3){
-if(!_3.url){
-throw new Error("dojo.jsonp: No URL specified.");
-}
-if(!_3.jsonp){
-throw new Error("dojo.jsonp: No callback param specified.");
-}
-_1++;
-var _4="jsonp_callback_"+_1;
-var _5=_3.timeout||3000;
-_2[_1]=setTimeout(function(){
-dojo.jsonp[_4]=function(){
-};
-clearTimeout(_2[_1]);
-if(_3.error){
-_3.error(null,{});
-}
-if(_3.handle){
-_3.handle(null,{});
-}
-},_5);
-_3.url+="?"+_3.jsonp+"=dojo.jsonp."+_4;
-dojo.jsonp[_4]=function(_6){
-clearTimeout(_2[_1]);
-try{
-if(_3.load){
-_3.load(_6,{});
-}
-}
-catch(e){
-if(_3.error){
-_3.error(null,{});
-}
-}
-if(_3.handle){
-_3.handle(_6,{});
-}
-};
-if(_3.content){
-_3.url+="&"+dojo.objectToQuery(_3.content);
-}
-var _7=dojo.doc;
-var _8=_7.createElement("script");
-_8.type="text/javascript";
-_8.src=_3.url;
-_8.charset="utf-8";
-return _7.getElementsByTagName("head")[0].appendChild(_8);
-};
-})();
-=======
->>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 dojo._toArray=function(_1,_2,_3){
 return (_3||[]).concat(Array.prototype.slice.call(_1,_2||0));
 };

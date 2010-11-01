@@ -926,25 +926,6 @@ dojo.connectPublisher = function(	/*String*/ topic,
 
 
 /*********FILE**********
-<<<<<<< HEAD
-/src/oo/extend.js
-********************/
-
-
-dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
-	// summary:
-	//		Adds all properties and methods of props to constructor's
-	//		prototype, making them available to all instances created with
-	//		constructor.
-	for(var i=1, l=arguments.length; i<l; i++){
-		dojo._mixin(constructor.prototype, arguments[i]);
-	}
-	return constructor; // Object
-}
-
-
-
-/*********FILE**********
 /src/lang/is.js
 ********************/
 
@@ -1032,8 +1013,6 @@ dojo.isNumber = function(n){
 
 
 /*********FILE**********
-=======
->>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 /src/lang/hitch.js
 ********************/
 
@@ -2260,8 +2239,6 @@ dojo.fromJson = function(/* String */ json){
 
 
 /*********FILE**********
-<<<<<<< HEAD
-=======
 /src/lang/to-array.js
 ********************/
 
@@ -2329,94 +2306,6 @@ dojo.clone = function(/*anything*/ o){
 
 
 /*********FILE**********
-/src/lang/is.js
-********************/
-
-
-// Crockford (ish) functions
-
-dojo.isString = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is a String
-	return (typeof it == "string" || it instanceof String); // Boolean
-}
-
-dojo.isArray = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is an Array
-	return it && (it instanceof Array || typeof it == "array"); // Boolean
-}
-
-/*=====
-dojo.isFunction = function(it){
-	// summary: Return true if it is a Function
-	// it: anything
-	return; // Boolean
-}
-=====*/
-
-dojo.isFunction = (function(){
-	var _isFunction = function(/*anything*/ it){
-		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
-		//Firefox thinks object HTML element is a function, so test for nodeType.
-		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
-	};
-
-	return dojo.isSafari ?
-		// only slow this down w/ gratuitious casting in Safari (not WebKit)
-		function(/*anything*/ it){
-			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
-			return _isFunction(it); // Boolean
-		} : _isFunction;
-})();
-
-dojo.isObject = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a JavaScript object (or an Array, a Function
-	//		or null)
-	return it !== undefined &&
-		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
-}
-
-dojo.isArrayLike = function(/*anything*/ it){
-	//	summary:
-	//		similar to dojo.isArray() but more permissive
-	//	description:
-	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
-	//		a string or number and has a length property". Arguments objects
-	//		and DOM collections will return true when passed to
-	//		dojo.isArrayLike(), but will return false when passed to
-	//		dojo.isArray().
-	//	returns:
-	//		If it walks like a duck and quacks like a duck, return `true`
-	var d = dojo;
-	return it && it !== undefined && // Boolean
-		// keep out built-in constructors (Number, String, ...) which have length
-		// properties
-		!d.isString(it) && !d.isFunction(it) &&
-		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
-		(d.isArray(it) || isFinite(it.length));
-}
-
-dojo.isAlien = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a built-in function or some other kind of
-	//		oddball that *should* report as a function but doesn't
-	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
-}
-
-dojo.isNumeric = function(n){
-	return n==parseFloat(n);
-}
-
-dojo.isNumber = function(n){
-	return typeof n == "number" || n instanceof Number;
-}
-
-
-
-/*********FILE**********
->>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 /src/uri/objectToQuery.js
 ********************/
 
@@ -2466,183 +2355,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 
 
 /*********FILE**********
-<<<<<<< HEAD
-/src/jsonp/jsonp.js
-********************/
-
-
-/*=====
-dojo.declare("dojo.jsonp.__ioArgs", null, {
-	constructor: function(){
-		//	summary:
-		//		The following properties are allowed for dojo.jsonp.get.
-		//	jsonp: String
-		//		The URL parameter name that indicates the JSONP callback string.
-		//		For instance, when using Yahoo JSONP calls it is normally, 
-		//		jsonp: "callback". For AOL JSONP calls it is normally 
-		//		jsonp: "c".
-		//	content: Object
-		//		Contains properties with string values. These properties will be 
-		//		serialized as name1=value2 and passed in the request.
-		//	error: Function
-		//		Called on timoeut or if an Exception is thrown in load function.
-		//	load: Function
-		//		Called when requested data is recieved.
-		//	handle: Function
-		//		Called always, independent of errors or timeouts.
-		//	timeout: Integer
-		//		Milliseconds to wait for the response. If this time passes, then 
-		//		the error callbacks are called.
-		//	url: String
-		//		URL to server endpoint.
-		this.jsonp = jsonp;
-		this.content = content;
-		this.error = error;
-		this.load = load;
-		this.handle = handle;
-		this.timeout = timeout;
-		this.url = url;
-	}
-});
-=====*/
-
-(function(){
-	var _id = 0;
-	var _timeouts = {};
-	dojo.jsonp = function(/* dojo.jsonp.__ioArgs */ args){
-		//	summary:
-		//		sends a get request using a dynamically created script tag.
-		if(!args.url){
-			throw new Error("dojo.jsonp: No URL specified.");
-		}
-		if(!args.jsonp){
-			throw new Error("dojo.jsonp: No callback param specified.");
-		}
-		
-		_id++;
-		var funcName = "jsonp_callback_" + _id;
-	
-		// timeout
-		var timeout = args.timeout || 3000;
-		_timeouts[_id] = setTimeout(function(){
-			dojo.jsonp[funcName] = function(){};
-			clearTimeout(_timeouts[_id]);
-			if(args.error){
-				args.error(null,{});
-			}
-			if(args.handle){
-				args.handle(null,{});
-			}
-		},timeout);
-		
-		
-		// create/append callback
-		args.url += '?' + args.jsonp + '=dojo.jsonp.' + funcName;
-		
-		dojo.jsonp[funcName] = function(data){
-			clearTimeout(_timeouts[_id]);
-			try{ // TODO: Do we really want to do this, or do we want to get rid of expensive try/catch blocks?
-				if(args.load){
-					args.load(data,{});
-				}
-			}catch(e){
-				if(args.error){
-					args.error(null,{});
-				}
-			}
-			if(args.handle){
-				args.handle(data,{});
-			}
-		};
-		
-		if(args.content){
-			args.url += '&' + dojo.objectToQuery(args.content);
-		}
-		
-		// create script element
-		var doc = dojo.doc;
-		var element = doc.createElement("script");
-		element.type = "text/javascript";
-		element.src = args.url;
-		element.charset = "utf-8";
-		return doc.getElementsByTagName("head")[0].appendChild(element);
-	};
-})();
-
-
-
-/*********FILE**********
-/src/lang/to-array.js
-********************/
-
-
-dojo._toArray = function(obj, offset, startWith){
-	return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
-};
-
-
-
-/*********FILE**********
-/src/lang/clone.js
-********************/
-
-
-dojo.clone = function(/*anything*/ o){
-	// summary:
-	//		Clones objects (including DOM nodes) and all children.
-	//		Warning: do not clone cyclic structures.
-	
-	if(!o || typeof o != "object" || dojo.isFunction(o)){
-		// null, undefined, any non-object, or function
-		return o;	// anything
-	}
-	if(o.nodeType && "cloneNode" in o){
-		// DOM Node
-		return o.cloneNode(true); // Node
-	}
-	if(o instanceof Date){
-		// Date
-		return new Date(o.getTime());	// Date
-	}
-	var r, i, l, s, name;
-	if(dojo.isArray(o)){
-		// array
-		r = [];
-		for(i = 0, l = o.length; i < l; ++i){
-			if(i in o){
-				r.push(dojo.clone(o[i]));
-			}
-		}
-//we don't clone functions for performance reasons
-//	}else if(dojo.isFunction(o)){
-//		// function
-//		r = function(){ return o.apply(this, arguments); };
-	}else{
-		// generic objects
-		r = o.constructor ? new o.constructor() : {};
-	}
-	var empty = {};
-	for(name in o){
-		// the "tobj" condition avoid copying properties in "source"
-		// inherited from Object.prototype.  For example, if target has a custom
-		// toString() method, don't overwrite it with the toString() method
-		// that source inherited from Object.prototype
-		s = o[name];
-		if(!(name in r) || (r[name] !== s && (!(name in empty) || empty[name] !== s))){
-			r[name] = dojo.clone(s);
-		}
-	}
-	return r; // Object
-		
-}
-
-
-
-/*********FILE**********
-/src/xhr/xhr.js
-=======
 /src/transport/xhr.js
->>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 ********************/
 
 
