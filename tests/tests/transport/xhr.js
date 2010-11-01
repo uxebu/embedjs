@@ -78,7 +78,7 @@ dojo.forEach(topics, function(topic){
 
 dojo.config.ioPublish = true;
 	
-tests.register("xhr",
+tests.register("transport-xhr",
 	[
 		function _start(t){
 			doh.showBox('html_xhr-test');
@@ -223,7 +223,7 @@ tests.register("xhr",
 		function xhrGet(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrGet({
-				url: "tests/xhr/xhr.html", // self
+				url: "tests/transport/xhr.html", // self
 				preventCache: true,
 				load: function(text, ioArgs){
 					t.is(4, ioArgs.xhr.readyState);
@@ -253,7 +253,7 @@ tests.register("xhr",
 		function xhrGetContent(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrGet({
-				url: "tests/xhr/xhr.html?color=blue",
+				url: "tests/transport/xhr.html?color=blue",
 				content: {
 					foo: [ "bar", "baz" ],
 					thud: "thonk",
@@ -262,7 +262,7 @@ tests.register("xhr",
 			});
 			td.addCallback(function(text){
 				// console.debug(td, td.xhr, td.args);
-				t.is("tests/xhr/xhr.html?color=blue&foo=bar&foo=baz&thud=thonk&xyzzy=3", 
+				t.is("tests/transport/xhr.html?color=blue&foo=bar&foo=baz&thud=thonk&xyzzy=3", 
 						td.ioArgs.url);
 				d.callback(true);
 			});
@@ -302,7 +302,7 @@ tests.register("xhr",
 		function xhrPost(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "tests/xhr/xhr.html?foo=bar", // self
+				url: "tests/transport/xhr.html?foo=bar", // self
 				content: { color: "blue"},
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -320,7 +320,7 @@ tests.register("xhr",
 		function xhrPostWithContent(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "tests/xhr/xhr.html",
+				url: "tests/transport/xhr.html",
 				content: {
 					foo: [ "bar", "baz" ],
 					thud: "thonk",
@@ -363,7 +363,7 @@ tests.register("xhr",
 		function rawXhrPost(t){
 			var d = new doh.Deferred();
 			var td = dojo.rawXhrPost({
-				url: "tests/xhr/xhr.html", // self
+				url: "tests/transport/xhr.html", // self
 				postData: "foo=bar&color=blue&height=average",
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -381,7 +381,7 @@ tests.register("xhr",
 		function xhrPut(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPut({
-				url: "tests/xhr/xhr.html?foo=bar", // self
+				url: "tests/transport/xhr.html?foo=bar", // self
 				content: { color: "blue"},
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -399,7 +399,7 @@ tests.register("xhr",
 		function xhrDelete(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrDelete({
-				url: "tests/xhr/xhr.html", // self
+				url: "tests/transport/xhr.html", // self
 				preventCache: true,
 				handle: function(res, ioArgs){
 					if((dojo._isDocumentOk(ioArgs.xhr))||
@@ -417,7 +417,7 @@ tests.register("xhr",
 		function xhrCancel(t){
 			var d = new doh.Deferred();
 			var td = dojo.xhrPost({
-				url: "tests/xhr/xhr.html", // self
+				url: "tests/transport/xhr.html", // self
 				handle: function(res, ioArgs){
 					if(res instanceof Error && res.dojoType == "cancel"){
 						d.callback(true);

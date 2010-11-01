@@ -278,7 +278,7 @@ dojo.require = function(){};
 		}
 	}
 
-	dojo.addOnLoad = function(/*Object?*/obj, /*String|Function*/functionName){
+	dojo.addOnLoad = dojo.ready = function(/*Object?*/obj, /*String|Function*/functionName){
 		// summary:
 		//		Registers a function to be triggered after the DOM has finished
 		//		loading and widgets declared in markup have been instantiated.

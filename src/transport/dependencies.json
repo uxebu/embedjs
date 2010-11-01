@@ -4,5 +4,10 @@
 		"uri",
 		"lang-is",
 		"deferred"
+	],
+    
+	"jsonp.js":[
+		"uri",
+        "transport-script"
 	]
 }

@@ -19,6 +19,15 @@
 		"deferred/deferred.js"
 	],
 
+	"promise-pure":[
+        "promise/promise.js"
+	],
+
+	"promise":[
+        "promise/promise.js",
+        "promise/when.js"
+	],
+
 	"destroy":[
 		"destroy/destroy.js"
 	],
@@ -35,10 +44,6 @@
 
 	"json":[
 		"json/json.js"
-	],
-
-	"jsonp":[
-		"jsonp/jsonp.js"
 	],
 
 	"lang":[
@@ -60,11 +65,27 @@
 	"lang-string":[
 		"lang/string.js",
 	],
-
-	"xhr":[
-		"xhr/xhr.js"
+	
+	/* The "transport" feature group */
+	
+	"transport":[
+		"transport/xhr.js",
+		"transport/script.js",
+		"transport/jsonp.js"
 	],
-
+	
+	"transport-xhr":[
+		"transport/xhr.js"
+	],
+	
+	"transport-script":[
+		"transport/script.js"
+	],
+	
+	"transport-jsonp":[
+		"transport/jsonp.js"
+	],
+	
 	"query": [
 		"query/qsa-preprocessor.js"
 	],

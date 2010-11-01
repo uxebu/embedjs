@@ -98,7 +98,7 @@ _18.call(obj);
 }
 }
 };
-dojo.addOnLoad=function(obj,_19){
+dojo.addOnLoad=dojo.ready=function(obj,_19){
 d._onto(d._loaders,obj,_19);
 if(d._postLoad&&d._inFlightCount==0&&!d._loadNotifying){
 d._callLoaded();
@@ -222,7 +222,7 @@ if(f&&f._listeners&&_7--){
 delete f._listeners[_7];
 }
 }};
-dojo.connect=function(_8,_9,_a,_b,_c){
+dojo.connect=dojo.on=function(_8,_9,_a,_b,_c){
 var a=arguments,_d=[],i=0;
 _d.push(dojo.isString(a[0])?null:a[i++],a[i++]);
 var a1=a[i+1];
@@ -299,6 +299,7 @@ dojo.publish(_7,arguments);
 };
 return _9?dojo.connect(_8,_9,pf):dojo.connect(_8,pf);
 };
+<<<<<<< HEAD
 dojo.extend=function(_1,_2){
 for(var i=1,l=arguments.length;i<l;i++){
 dojo._mixin(_1.prototype,arguments[i]);
@@ -339,6 +340,8 @@ return n==parseFloat(n);
 dojo.isNumber=function(n){
 return typeof n=="number"||n instanceof Number;
 };
+=======
+>>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 dojo._hitchArgs=function(_1,_2){
 var _3=dojo._toArray(arguments,2);
 var _4=dojo.isString(_2);
@@ -371,124 +374,134 @@ return _7.apply(_6,arguments||[]);
 };
 (function(d){
 (function(){
-var _1=function(){
+dojo.__mutator=function(){
 };
-var _2=Object.freeze||function(){
+var _1=Object.freeze||function(){
 };
-dojo.Deferred=function(_3){
-var _4,_5,_6,_7,_8;
-var _9=this.promise={};
-function _a(_b){
-if(_5){
+dojo.Promise=function(_2){
+var _3,_4,_5,_6,_7;
+var _8=this.promise={};
+function _9(_a){
+if(_4){
 throw new Error("This deferred has already been resolved");
 }
-_4=_b;
-_5=true;
-_c();
+_3=_a;
+_4=true;
+_b();
 };
-function _c(){
-var _d;
-while(!_d&&_8){
-var _e=_8;
-_8=_8.next;
-if(_d=(_e.progress==_1)){
-_5=false;
+function _b(){
+var _c;
+while(!_c&&_7){
+var _d=_7;
+_7=_7.next;
+if(_c=(_d.progress==dojo.__mutator)){
+_4=false;
 }
-var _f=(_6?_e.error:_e.resolved);
-if(_f){
+var _e=(_5?_d.error:_d.resolved);
+if(_e){
 try{
-var _10=_f(_4);
-if(_10&&typeof _10.then==="function"){
-_10.then(dojo.hitch(_e.deferred,"resolve"),dojo.hitch(_e.deferred,"reject"));
+var _f=_e(_3);
+if(_f&&typeof _f.then==="function"){
+_f.then(dojo.hitch(_d.deferred,"resolve"),dojo.hitch(_d.deferred,"reject"));
 continue;
 }
-var _11=_d&&_10===undefined;
-_e.deferred[_11&&_6?"reject":"resolve"](_11?_4:_10);
+var _10=_c&&_f===undefined;
+_d.deferred[_10&&_5?"reject":"resolve"](_10?_3:_f);
 }
 catch(e){
-_e.deferred.reject(e);
+_d.deferred.reject(e);
 }
 }else{
-if(_6){
-_e.deferred.reject(_4);
+if(_5){
+_d.deferred.reject(_3);
 }else{
-_e.deferred.resolve(_4);
+_d.deferred.resolve(_3);
 }
 }
 }
 };
-this.resolve=this.callback=function(_12){
+this.resolve=function(_11){
 this.fired=0;
-this.results=[_12,null];
-_a(_12);
+this.results=[_11,null];
+_9(_11);
 };
-this.reject=this.errback=function(_13){
-_6=true;
+this.reject=function(_12){
+_5=true;
 this.fired=1;
-_a(_13);
-this.results=[null,_13];
-if(!_13||_13.log!==false){
+_9(_12);
+this.results=[null,_12];
+if(!_12||_12.log!==false){
 (dojo.config.deferredOnError||function(x){
 console.error(x);
-})(_13);
+})(_12);
 }
 };
-this.progress=function(_14){
-var _15=_8;
-while(_15){
-var _16=_15.progress;
-_16&&_16(_14);
-_15=_15.next;
+this.progress=function(_13){
+var _14=_7;
+while(_14){
+var _15=_14.progress;
+_15&&_15(_13);
+_14=_14.next;
 }
 };
-this.addCallbacks=function(_17,_18){
-this.then(_17,_18,_1);
-return this;
-};
-this.then=_9.then=function(_19,_1a,_1b){
-var _1c=_1b==_1?this:new dojo.Deferred(_9.cancel);
-var _1d={resolved:_19,error:_1a,progress:_1b,deferred:_1c};
-if(_8){
-_7=_7.next=_1d;
+this.then=_8.then=function(_16,_17,_18){
+var _19=_18==dojo.__mutator?this:new dojo.Promise(_8.cancel);
+var _1a={resolved:_16,error:_17,progress:_18,deferred:_19};
+if(_7){
+_6=_6.next=_1a;
 }else{
-_8=_7=_1d;
+_7=_6=_1a;
 }
-if(_5){
-_c();
+if(_4){
+_b();
 }
-return _1c.promise;
+return _19.promise;
 };
-var _1e=this;
-this.cancel=_9.cancel=function(){
-if(!_5){
-var _1f=_3&&_3(_1e);
-if(!_5){
-if(!(_1f instanceof Error)){
-_1f=new Error(_1f);
+var _1b=this;
+this.cancel=_8.cancel=function(){
+if(!_4){
+var _1c=_2&&_2(_1b);
+if(!_4){
+if(!(_1c instanceof Error)){
+_1c=new Error(_1c);
 }
-_1f.log=false;
-_1e.reject(_1f);
+_1c.log=false;
+_1b.reject(_1c);
 }
 }
 };
-_2(_9);
+_1(_8);
 };
-dojo.extend(dojo.Deferred,{addCallback:function(_20){
-return this.addCallbacks(dojo.hitch.apply(dojo,arguments));
-},addErrback:function(_21){
-return this.addCallbacks(null,dojo.hitch.apply(dojo,arguments));
-},addBoth:function(_22){
-var _23=dojo.hitch.apply(dojo,arguments);
-return this.addCallbacks(_23,_23);
-},fired:-1});
 })();
-dojo.when=function(_24,_25,_26,_27){
-if(_24&&typeof _24.then==="function"){
-return _24.then(_25,_26,_27);
-}
-return _25(_24);
-};
 })(dojo);
+dojo.when=function(_1,_2,_3,_4){
+if(_1&&typeof _1.then==="function"){
+return _1.then(_2,_3,_4);
+}
+return _2(_1);
+};
+dojo.extend=function(_1,_2){
+for(var i=1,l=arguments.length;i<l;i++){
+dojo._mixin(_1.prototype,arguments[i]);
+}
+return _1;
+};
+dojo.Deferred=dojo.Promise;
+dojo.extend(dojo.Deferred,{callback:function(_1){
+this.resolve(_1);
+},errback:function(_2){
+this.reject(_2);
+},addCallbacks:function(_3,_4){
+this.then(_3,_4,dojo.__mutator);
+return this;
+},addCallback:function(_5){
+return this.addCallbacks(dojo.hitch.apply(dojo,arguments));
+},addErrback:function(_6){
+return this.addCallbacks(null,dojo.hitch.apply(dojo,arguments));
+},addBoth:function(_7){
+var _8=dojo.hitch.apply(dojo,arguments);
+return this.addCallbacks(_8,_8);
+},fired:-1});
 (function(d){
 var _1=null,_2;
 d.destroy=function(_3){
@@ -543,7 +556,7 @@ return df;
 };
 d._docScroll=function(){
 var n=d.global;
-return "pageXOffset" in n?{x:n.pageXOffset,y:n.pageYOffset}:(n=d.doc.documentElement,n.clientHeight?{x:d._fixIeBiDiScrollLeft(n.scrollLeft),y:n.scrollTop}:(n=d.body(),{x:n.scrollLeft||0,y:n.scrollTop||0}));
+return "pageXOffset" in n?{x:n.pageXOffset,y:n.pageYOffset}:(n=d.doc.documentElement,n.clientHeight?{x:n.scrollLeft,y:n.scrollTop}:(n=d.body(),{x:n.scrollLeft||0,y:n.scrollTop||0}));
 };
 var _f=function(_10,ref){
 var _11=ref.parentNode;
@@ -719,6 +732,76 @@ return JSON.stringify(_1);
 dojo.fromJson=function(_2){
 return JSON.parse(_2);
 };
+<<<<<<< HEAD
+=======
+dojo._toArray=function(_1,_2,_3){
+return (_3||[]).concat(Array.prototype.slice.call(_1,_2||0));
+};
+dojo.clone=function(o){
+if(!o||typeof o!="object"||dojo.isFunction(o)){
+return o;
+}
+if(o.nodeType&&"cloneNode" in o){
+return o.cloneNode(true);
+}
+if(o instanceof Date){
+return new Date(o.getTime());
+}
+var r,i,l,s,_1;
+if(dojo.isArray(o)){
+r=[];
+for(i=0,l=o.length;i<l;++i){
+if(i in o){
+r.push(dojo.clone(o[i]));
+}
+}
+}else{
+r=o.constructor?new o.constructor():{};
+}
+var _2={};
+for(_1 in o){
+s=o[_1];
+if(!(_1 in r)||(r[_1]!==s&&(!(_1 in _2)||_2[_1]!==s))){
+r[_1]=dojo.clone(s);
+}
+}
+return r;
+};
+dojo.isString=function(it){
+return (typeof it=="string"||it instanceof String);
+};
+dojo.isArray=function(it){
+return it&&(it instanceof Array||typeof it=="array");
+};
+dojo.isFunction=(function(){
+var _1=function(it){
+var t=typeof it;
+return it&&(t=="function"||it instanceof Function)&&!it.nodeType;
+};
+return dojo.isSafari?function(it){
+if(typeof it=="function"&&it=="[object NodeList]"){
+return false;
+}
+return _1(it);
+}:_1;
+})();
+dojo.isObject=function(it){
+return it!==undefined&&(it===null||typeof it=="object"||dojo.isArray(it)||dojo.isFunction(it));
+};
+dojo.isArrayLike=function(it){
+var d=dojo;
+return it&&it!==undefined&&!d.isString(it)&&!d.isFunction(it)&&!(it.tagName&&it.tagName.toLowerCase()=="form")&&(d.isArray(it)||isFinite(it.length));
+};
+dojo.isAlien=function(it){
+return it&&!dojo.isFunction(it)&&/\{\s*\[native code\]\s*\}/.test(String(it));
+};
+dojo.isNumeric=function(n){
+return n==parseFloat(n);
+};
+dojo.isNumber=function(n){
+return typeof n=="number"||n instanceof Number;
+};
+>>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 dojo.objectToQuery=function(_1){
 var _2=encodeURIComponent;
 var _3=[];
@@ -738,6 +821,7 @@ _3.push(_7+_2(_6));
 }
 return _3.join("&");
 };
+<<<<<<< HEAD
 (function(){
 var _1=0;
 var _2={};
@@ -823,6 +907,8 @@ r[_1]=dojo.clone(s);
 }
 return r;
 };
+=======
+>>>>>>> 88bad071aa234f65b7cc7fddbc1f2030ab2d051d
 (function(_1){
 var _2=_1.config;
 _1._xhrObj=function(){
@@ -1096,6 +1182,61 @@ dojo.xhrDelete=function(_32){
 return _1.xhr("DELETE",_32);
 };
 }(dojo));
+dojo.attachScript=function(_1){
+var _2=dojo.doc;
+var _3=_2.createElement("script");
+_3.type="text/javascript";
+_3.src=_1.url;
+_3.charset="utf-8";
+return _2.getElementsByTagName("head")[0].appendChild(_3);
+};
+(function(){
+var _1=0;
+var _2={};
+dojo.jsonp=function(_3){
+if(!_3.url){
+throw new Error("dojo.jsonp: No URL specified.");
+}
+if(!_3.jsonp){
+throw new Error("dojo.jsonp: No callback param specified.");
+}
+_1++;
+var _4="jsonp_callback_"+_1;
+var _5=_3.timeout||3000;
+_2[_1]=setTimeout(function(){
+dojo.jsonp[_4]=function(){
+};
+clearTimeout(_2[_1]);
+if(_3.error){
+_3.error(null,{});
+}
+if(_3.handle){
+_3.handle(null,{});
+}
+},_5);
+_3.url+="?"+_3.jsonp+"=dojo.jsonp."+_4;
+dojo.jsonp[_4]=function(_6){
+clearTimeout(_2[_1]);
+try{
+if(_3.load){
+_3.load(_6,{});
+}
+}
+catch(e){
+if(_3.error){
+_3.error(null,{});
+}
+}
+if(_3.handle){
+_3.handle(_6,{});
+}
+};
+if(_3.content){
+_3.url+="&"+dojo.objectToQuery(_3.content);
+}
+return dojo.attachScript(_3);
+};
+})();
 dojo.declare=function(_1,_2,_3){
 var dd=arguments.callee,_4;
 if(dojo.isArray(_2)){

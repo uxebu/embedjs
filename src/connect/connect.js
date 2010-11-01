@@ -77,7 +77,7 @@ dojo._listener = {
 // and dontFix argument here to help the autodocs. Actual DOM aware code is in
 // event.js.
 
-dojo.connect = function(/*Object|null*/ obj, 
+dojo.connect = dojo.on = function(/*Object|null*/ obj, 
 						/*String*/ event, 
 						/*Object|null*/ context, 
 						/*String|Function*/ method,

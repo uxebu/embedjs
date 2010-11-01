@@ -50,8 +50,14 @@
 	// in order to do that the dependencies need to be resolved and
 	// this is done using the sourcePath to find the dependencies etc.
 	"profiles":{
+    
+        // kitchensink is the full-blown build of EmbedJS, including every existing feature.
 		"kitchensink":[
-			"base","array","connect","deferred","destroy","html","json","jsonp","lang","xhr","oo","uri","query"
+			"base","array","connect","promise","deferred","destroy","html","json","lang","transport","oo","uri","query"
+		],
+        
+		"recommended":[
+			"base","array","connect","promise","destroy","html","json","jsonp","lang","xhr","oo","uri","query"
 		],
 		
 		"oo-only":[
