@@ -1,9 +1,9 @@
 dojo._hitchArgs = function(scope, method /*,...*/){
-	var pre = dojo._toArray(arguments, 2);
+	var pre = dojo.toArray(arguments, 2);
 	var named = dojo.isString(method);
 	return function(){
 		// arrayify arguments
-		var args = dojo._toArray(arguments);
+		var args = dojo.toArray(arguments);
 		// locate our method
 		var f = named ? (scope||dojo.global)[method] : method;
 		// invoke with collected args

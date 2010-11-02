@@ -11,7 +11,7 @@
 		return arr;
 	};
 
-	dojo._toArray = function(obj){
+	dojo.toArray = function(obj){
 		return ((obj.item) ? slow : efficient).apply(this, arguments);
 	};
 

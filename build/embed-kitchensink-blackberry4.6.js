@@ -334,10 +334,10 @@ dojo.isNumber=function(n){
 return typeof n=="number"||n instanceof Number;
 };
 dojo._hitchArgs=function(_1,_2){
-var _3=dojo._toArray(arguments,2);
+var _3=dojo.toArray(arguments,2);
 var _4=dojo.isString(_2);
 return function(){
-var _5=dojo._toArray(arguments);
+var _5=dojo.toArray(arguments);
 var f=_4?(_1||dojo.global)[_2]:_2;
 return f&&f.apply(_1||this,_3.concat(_5));
 };
@@ -723,7 +723,7 @@ return JSON.stringify(_1);
 dojo.fromJson=function(_2){
 return JSON.parse(_2);
 };
-dojo._toArray=function(_1,_2,_3){
+dojo.toArray=function(_1,_2,_3){
 return (_3||[]).concat(Array.prototype.slice.call(_1,_2||0));
 };
 dojo.clone=function(o){
