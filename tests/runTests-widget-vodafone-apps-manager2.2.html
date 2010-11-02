@@ -133,8 +133,6 @@
 		<script type="text/javascript" src="tests/html/element.js"></script>
 		<!-- json -->
 		<script type="text/javascript" src="tests/json/json.js"></script>
-		<!-- jsonp -->
-		<script type="text/javascript" src="tests/jsonp/jsonp.js"></script>
 		<!-- lang -->
 		<script type="text/javascript" src="tests/lang/toArray.js"></script>
 		<script type="text/javascript" src="tests/lang/clone.js"></script>
@@ -153,6 +151,7 @@
 		<!-- transport -->
 		<script type="text/javascript" src="tests/transport/xhr_html.js"></script>
 		<script type="text/javascript" src="tests/transport/xhr.js"></script>
+		<script type="text/javascript" src="tests/transport/jsonp.js"></script>
 	</body>
 </html>
 

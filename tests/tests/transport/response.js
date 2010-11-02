@@ -38,7 +38,7 @@ function getScriptUrls(){
 	var scriptUrls = new Array();
 	for(var i = 0; scripts && i < scripts.length; i++){
 		var scriptTag = scripts[i];
-		if(scriptTag.src.indexOf("jsonp/response") != -1){
+		if(scriptTag.src.indexOf("transport/response") != -1){
 			scriptUrls.push(scriptTag.src);
 		}
 	}
