@@ -1,6 +1,0 @@
-{
-	"deferred.js":[
-		"promise",
-        "oo-extend"
-	]
-}

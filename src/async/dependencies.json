@@ -1,0 +1,12 @@
+{
+	"promise.js":[
+		"lang-hitch"
+	],
+    "when.js":[
+        "async-promise"
+    ],
+	"deferred.js":[
+		"async-promise",
+        "oo-extend"
+	]
+}

@@ -487,7 +487,7 @@ dojo.require = function(){};
 
 
 /*********FILE**********
-/src/array/array.js
+/src/array/native.js
 ********************/
 
 
@@ -1047,7 +1047,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 
 
 /*********FILE**********
-/src/promise/promise.js
+/src/async/promise.js
 ********************/
 
 
@@ -1340,7 +1340,7 @@ dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 
 
 /*********FILE**********
-/src/promise/when.js
+/src/async/when.js
 ********************/
 
 
@@ -1394,7 +1394,7 @@ dojo.extend = function(/*Object*/ constructor, /*Object...*/ props){
 
 
 /*********FILE**********
-/src/deferred/deferred.js
+/src/async/deferred.js
 ********************/
 
 

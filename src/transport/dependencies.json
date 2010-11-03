@@ -3,7 +3,7 @@
 		"json",
 		"uri",
 		"lang-is",
-		"deferred"
+		"transport-deferred"
 	],
     
 	"jsonp.js":[

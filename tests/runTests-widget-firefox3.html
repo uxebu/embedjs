@@ -117,11 +117,10 @@
 		<script type="text/javascript" src="tests/array/array.js"></script>
 		<!-- connect -->
 		<script type="text/javascript" src="tests/connect/connect.js"></script>
-		<!-- promise -->
-		<script type="text/javascript" src="tests/promise/promise.js"></script>
-		<script type="text/javascript" src="tests/promise/when.js"></script>
-		<!-- deferred -->
-		<script type="text/javascript" src="tests/deferred/deferred.js"></script>
+		<!-- async -->
+		<script type="text/javascript" src="tests/async/promise.js"></script>
+		<script type="text/javascript" src="tests/async/when.js"></script>
+		<script type="text/javascript" src="tests/async/deferred.js"></script>
 		<!-- destroy -->
 		<script type="text/javascript" src="tests/destroy/destroy.js"></script>
 		<!-- html -->

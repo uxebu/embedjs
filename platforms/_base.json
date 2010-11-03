@@ -14,18 +14,25 @@
 		"connect/event.js",
 		"connect/pubsub.js"
 	],
+	
+	/* The "async" feature group */
 
-	"deferred":[
-		"deferred/deferred.js"
+	"async":[
+		"async/promise.js",
+        "async/when.js",
+        "async/deferred.js"
 	],
 
-	"promise-pure":[
-        "promise/promise.js"
+	"async-promise":[
+        "async/promise.js"
 	],
 
-	"promise":[
-        "promise/promise.js",
-        "promise/when.js"
+	"async-when":[
+        "async/when.js"
+	],
+
+	"async-deferred":[
+		"async/deferred.js"
 	],
 
 	"destroy":[
@@ -35,6 +42,8 @@
 	//"fx":[
 	//	"fx.js"
 	//],
+	
+	/* The "html" feature group */
 
 	"html":[
 		"html/html.js",
@@ -45,6 +54,8 @@
 	"json":[
 		"json/json.js"
 	],
+	
+	/* The "lang" feature group */
 
 	"lang":[
 		"lang/to-array.js",
@@ -52,6 +63,14 @@
 		"lang/hitch.js",
 		"lang/is.js",
 		"lang/string.js",
+	],
+
+	"lang-toarray":[
+		"lang/to-array.js",
+	],
+
+	"lang-clone":[
+		"lang/clone.js",
 	],
 
 	"lang-hitch":[

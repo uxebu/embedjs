@@ -9,7 +9,7 @@ var delay = function(ms){
 	return d.promise;
 };
 
-doh.register("promise-when", 
+doh.register("async-when", 
 	[
 		function simpleWhen(t){
 			var td = new doh.Deferred();

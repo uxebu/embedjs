@@ -53,11 +53,11 @@
     
         // kitchensink is the full-blown build of EmbedJS, including every existing feature.
 		"kitchensink":[
-			"base","array","connect","promise","deferred","destroy","html","json","lang","transport","oo","uri","query"
+			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri","query"
 		],
         
 		"recommended":[
-			"base","array","connect","promise","destroy","html","json","lang","transport-jsonp","oo","uri","query"
+			"base","array","connect","async-promise","destroy","html","json","lang","transport-jsonp","oo","uri","query"
 		],
 		
 		"oo-only":[

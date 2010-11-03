@@ -1,8 +1,0 @@
-{
-	"promise.js":[
-		"lang-hitch"
-	],
-    "when.js":[
-        "promise-pure"
-    ]
-}
