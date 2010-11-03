@@ -1,4 +1,4 @@
-tests.register("lang.toArray", 
+tests.register("lang-toArray", 
 	[
 
 		
@@ -44,15 +44,15 @@ tests.register("lang.toArray",
 			}
 			var obj2 = thinger.apply(this, obj1);
 			t.assertEqual(obj1[0], obj2[0]);
-
-			if(dojo.isBrowser){
-				//test DomCollection
-				var div = document.createElement('div');
-				div.innerHTML="<a href='#'>link</a>text";
-				var r=dojo.toArray(div.childNodes);
-				t.is(2,r.length);
-			}
 		},
+		
+		function toArrayDOM(t){
+			//test DomCollection
+			var div = document.createElement('div');
+			div.innerHTML="<a href='#'>link</a>text";
+			var r=dojo.toArray(div.childNodes);
+			t.is(2,r.length);
+		}
 		
 		
 	]
