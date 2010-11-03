@@ -7,3 +7,7 @@
 //	But to get started this makes it a lot easier for developers who are used to the Dojo API.
 //
 dojo._toArray = dojo.toArray;
+
+dojo.setObject("io.script");
+dojo.io.script.get = dojo.jsonp;
+dojo.io.script.attach = dojo.attachScript;
