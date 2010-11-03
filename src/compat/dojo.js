@@ -8,6 +8,6 @@
 //
 dojo._toArray = dojo.toArray;
 
-dojo.setObject("io.script");
+dojo.setObject("dojo.io.script");
 dojo.io.script.get = dojo.jsonp;
 dojo.io.script.attach = dojo.attachScript;
