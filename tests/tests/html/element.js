@@ -4,7 +4,7 @@
 tests.register("html.create+place+destroy+toDom", 
 	[		
 	 	function _start(t){
-			doh.showBox('html_element-test');
+			doh.showBox('element.html');
 		},
 	
 		function createBasic(t){

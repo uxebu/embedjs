@@ -53,6 +53,14 @@
         "html/id.js"
 	],
     
+    "html-class":[
+        "html/class.js"
+    ],
+    
+    "html-style":[
+        "html/style.js"
+    ],
+    
     "html-ready":[
         "html/ready.js"
     ],

@@ -126,10 +126,14 @@
 		<!-- html -->
 		<script type="text/javascript" src="tests/html/id_html.js"></script>
 		<script type="text/javascript" src="tests/html/id.js"></script>
-		<script type="text/javascript" src="tests/html/html_html.js"></script>
-		<script type="text/javascript" src="tests/html/html.js"></script>
-		<script type="text/javascript" src="tests/html/element_html.js"></script>
+		
+		<script type="text/javascript" src="tests/html/class+style.html.js"></script>
+		<script type="text/javascript" src="tests/html/style.js"></script>
+		<script type="text/javascript" src="tests/html/class.js"></script>
+		
+		<script type="text/javascript" src="tests/html/element.html.js"></script>
 		<script type="text/javascript" src="tests/html/element.js"></script>
+		
 		<script type="text/javascript" src="tests/html/ready.js"></script>
 		<!-- json -->
 		<script type="text/javascript" src="tests/json/json.js"></script>

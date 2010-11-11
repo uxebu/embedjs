@@ -25,12 +25,19 @@ tests.register("html-id",
 			doh.is("span", dojo.byId("fish").nodeName.toLowerCase());
 			
 			var startNode = dojo.byId("start");
-			var clonedNode = dojo.clone(startNode);
+			var clonedNode = dojo.clone(startNode); // FIXME: This also tests dojo.clone();
 			clonedNode.id= "clonedStart";
 			clonedNode.innerHTML= "This is a cloned div";
 			dojo.body().appendChild(clonedNode);
 
 			doh.is("This is a cloned div", dojo.byId("clonedStart").innerHTML);
+		},
+		
+		function byIdNull(t){
+			doh.is(null, dojo.byId('nonExistantId'));
+			doh.is(null, dojo.byId(null));
+			doh.is(null, dojo.byId(''));
+			doh.is(undefined, dojo.byId(undefined));
 		}
 	]
 );
