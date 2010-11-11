@@ -130,6 +130,7 @@
 		<script type="text/javascript" src="tests/html/html.js"></script>
 		<script type="text/javascript" src="tests/html/element_html.js"></script>
 		<script type="text/javascript" src="tests/html/element.js"></script>
+		<script type="text/javascript" src="tests/html/ready.js"></script>
 		<!-- json -->
 		<script type="text/javascript" src="tests/json/json.js"></script>
 		<!-- lang -->
@@ -148,7 +149,7 @@
 		<!-- uri -->
 		<script type="text/javascript" src="tests/uri/uri.js"></script>
 		<!-- transport -->
-		<script type="text/javascript" src="tests/transport/xhr_html.js"></script>
+		<!-- <script type="text/javascript" src="tests/transport/xhr_html.js"></script> -->
 		<script type="text/javascript" src="tests/transport/xhr.js"></script>
 		<script type="text/javascript" src="tests/transport/jsonp.js"></script>
 	</body>
