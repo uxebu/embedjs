@@ -80,9 +80,11 @@ dojo.config.ioPublish = true;
 	
 tests.register("transport-xhr",
 	[
+		/*
 		function _start(t){
 			doh.showBox('html_xhr-test');
 		},
+		*/
 		/* No fieldToObject in API
 		function inputNodeValueFromId(t){
 			t.is(f1NoValueObj, dojo.fieldToObject('f1_no_value'));
