@@ -1,32 +1,29 @@
-var dojo=embed={};
+var embed=dojo={};
 var djConfig=dojo.config={};
 dojo.global=window;
 dojo.doc=document;
 dojo.body=function(){
 return document.body;
 };
-dojo.byId=function(id,_1){
-return (typeof id=="string")?(_1||document).getElementById(id):id;
-};
 (function(d){
 if(document&&document.getElementsByTagName){
-var _2=document.getElementsByTagName("script");
-var _3=/dojo[^\/]*\.js(\W|$)/i;
-for(var i=0;i<_2.length;i++){
-var _4=_2[i].getAttribute("src");
-if(!_4){
+var _1=document.getElementsByTagName("script");
+var _2=/dojo[^\/]*\.js(\W|$)/i;
+for(var i=0;i<_1.length;i++){
+var _3=_1[i].getAttribute("src");
+if(!_3){
 continue;
 }
-var m=_4.match(_3);
+var m=_3.match(_2);
 if(m){
 if(!d.config.baseUrl){
-d.config.baseUrl=_4.substring(0,m.index);
+d.config.baseUrl=_3.substring(0,m.index);
 }
-var _5=_2[i].getAttribute("djConfig");
-if(_5){
-var _6=eval("({ "+_5+" })");
-for(var x in _6){
-dojo.config[x]=_6[x];
+var _4=_1[i].getAttribute("djConfig");
+if(_4){
+var _5=eval("({ "+_4+" })");
+for(var x in _5){
+dojo.config[x]=_5[x];
 }
 }
 break;
@@ -413,6 +410,9 @@ return this.addCallbacks(null,dojo.hitch.apply(dojo,arguments));
 var _8=dojo.hitch.apply(dojo,arguments);
 return this.addCallbacks(_8,_8);
 },fired:-1});
+dojo.byId=function(id,_1){
+return (typeof id=="string")?(_1||document).getElementById(id):id;
+};
 (function(d){
 var _1=null,_2;
 d.destroy=function(_3){

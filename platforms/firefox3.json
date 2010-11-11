@@ -1,7 +1,10 @@
 {
 	"html":[
 		"html/html.js",
-		"html/classList.js",
-		"html/style.js"
-	],
+		"html/class.js",
+        "html/classList.js",
+		"html/style.js",
+        "html/ready.js",
+        "html/id.js"
+	]
 }

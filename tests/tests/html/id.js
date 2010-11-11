@@ -1,7 +1,7 @@
 // This test group tests byId.
 // Do we really need this? We don't offer any alternative to document.getElementById.
 
-tests.register("html.id", 
+tests.register("html-id", 
 	[
 		function byId(t){
 			

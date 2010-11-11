@@ -4,5 +4,15 @@
 	],
 	"class.js":[
 		"lang-string",
-	]
+        "html-id"
+	],
+    "html.js":[
+        "html-id"
+    ],
+    "style-ie.js":[
+        "html-id"
+    ],
+    "style.js":[
+        "html-id"
+    ]
 }

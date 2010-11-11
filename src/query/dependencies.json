@@ -1,0 +1,11 @@
+{
+    "acme.js":[
+        "html-id"
+    ],
+    "qsa-preprocessor.js":[
+        "html-id"
+    ],
+    "qsa.js":[
+        "html-id"
+    ]
+}

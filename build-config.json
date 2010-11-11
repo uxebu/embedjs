@@ -63,7 +63,10 @@
 		"oo-only":[
 			"base","oo-declare"
 		],
-		
+        
+        "no-dom":[
+            "base","array","connect","async","json","lang","transport","oo","uri"
+        ],
 		
 		// Ideas for profiles we might offer ...
 		"javascript-1.6":[],

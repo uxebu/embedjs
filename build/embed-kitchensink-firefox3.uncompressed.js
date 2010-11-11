@@ -6,45 +6,13 @@
 ********************/
 
 
-var dojo = embed = {};
+var embed = dojo = {};
 var djConfig = dojo.config = {};
 
 dojo.global = window;
-
 dojo.doc = document;
 dojo.body = function() {
 	return document.body;
-}
-
-dojo.byId = function(id, doc){
-	//	summary:
-	//		Returns DOM node with matching `id` attribute or `null`
-	//		if not found, similar to "$" function in another library.
-	//		If `id` is a DomNode, this function is a no-op.
-	//
-	//	id: String|DOMNode
-	//	 	A string to match an HTML id attribute or a reference to a DOM Node
-	//
-	//	doc: Document?
-	//		Document to work in. Defaults to the current value of
-	//		dojo.doc.  Can be used to retrieve
-	//		node references from other documents.
-	//
-	//	example:
-	//	Look up a node by ID:
-	//	| var n = dojo.byId("foo");
-	//
-	//	example:
-	//	Check if a node exists.
-	//	|	if(dojo.byId("bar")){ ... }
-	//
-	//	example:
-	//	Allow string or DomNode references to be passed to a custom function:
-	//	| var foo = function(nodeOrId){
-	//	|	nodeOrId = dojo.byId(nodeOrId);
-	//	|	// ... more stuff
-	//	| }
-	return (typeof id == "string") ? (doc || document).getElementById(id) : id; // DomNode
 };
 
 (function(d){
@@ -1218,6 +1186,45 @@ dojo.extend(dojo.Deferred, {
 
 
 /*********FILE**********
+/src/html/id.js
+********************/
+
+
+
+dojo.byId = function(id, doc){
+	//	summary:
+	//		Returns DOM node with matching `id` attribute or `null`
+	//		if not found, similar to "$" function in another library.
+	//		If `id` is a DomNode, this function is a no-op.
+	//
+	//	id: String|DOMNode
+	//	 	A string to match an HTML id attribute or a reference to a DOM Node
+	//
+	//	doc: Document?
+	//		Document to work in. Defaults to the current value of
+	//		dojo.doc.  Can be used to retrieve
+	//		node references from other documents.
+	//
+	//	example:
+	//	Look up a node by ID:
+	//	| var n = dojo.byId("foo");
+	//
+	//	example:
+	//	Check if a node exists.
+	//	|	if(dojo.byId("bar")){ ... }
+	//
+	//	example:
+	//	Allow string or DomNode references to be passed to a custom function:
+	//	| var foo = function(nodeOrId){
+	//	|	nodeOrId = dojo.byId(nodeOrId);
+	//	|	// ... more stuff
+	//	| }
+	return (typeof id == "string") ? (doc || document).getElementById(id) : id; // DomNode
+};
+
+
+
+/*********FILE**********
 /src/destroy/destroy.js
 ********************/
 
@@ -1732,6 +1739,156 @@ dojo.replace = function(tmpl, map, pattern){
 
 
 /*********FILE**********
+/src/html/class.js
+********************/
+
+
+dojo.hasClass = function(/*DomNode|String*/node, /*String*/classStr){
+	//	summary:
+	//		Returns whether or not the specified classes are a portion of the
+	//		class list currently applied to the node.
+	//
+	//	node:
+	//		String ID or DomNode reference to check the class for.
+	//
+	//	classStr:
+	//		A string class name to look for.
+	//
+	//	example:
+	//	| if(dojo.hasClass("someNode","aSillyClassName")){ ... }
+	return ((" "+ dojo.byId(node).className +" ").indexOf(" " + classStr + " ") >= 0);  // Boolean
+};
+
+dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolean?*/condition){
+	//	summary:
+	//		Adds a class to node if not present, or removes if present.
+	//		Pass a boolean condition if you want to explicitly add or remove.
+	//	condition:
+	//		If passed, true means to add the class, false means to remove.
+	//
+	// example:
+	//	| dojo.toggleClass("someNode", "hovered");
+	//
+	// example:
+	// 	Forcefully add a class
+	//	| dojo.toggleClass("someNode", "hovered", true);
+	//
+	// example:
+	//	Available in `dojo.NodeList` for multiple toggles
+	//	| dojo.query(".toggleMe").toggleClass("toggleMe");
+
+	if(condition === undefined){
+		condition = !dojo.hasClass(node, classStr);
+	}
+	dojo[condition ? "addClass" : "removeClass"](node, classStr);
+};
+
+(function(){
+	var spaces = /\s+/;
+	var str2array = function(s){
+		if(typeof s == "string" || s instanceof String){
+			if(s.indexOf(" ") < 0){
+				return [s];
+			}else{
+				return dojo.trim(s).split(spaces);
+			}
+		}
+		// assumed to be an array
+		return s;
+	};
+
+	dojo.addClass = function(node, classStr){
+		//	summary:
+		//		Adds the specified classes to the end of the class list on the
+		//		passed node. Will not re-apply duplicate classes.
+		//
+		//	node: DomNode|String
+		//		String ID or DomNode reference to add a class string too
+		//
+		//	classStr: String|Array
+		//		A String class name to add, or several space-separated class names,
+		//		or an array of class names.
+		//
+		// example:
+		//	Add a class to some node:
+		//	|	dojo.addClass("someNode", "anewClass");
+		//
+		// example:
+		//	Add two classes at once:
+		//	| 	dojo.addClass("someNode", "firstClass secondClass");
+		//
+		// example:
+		//	Add two classes at once (using array):
+		//	| 	dojo.addClass("someNode", ["firstClass", "secondClass"]);
+		//
+		// example:
+		//	Available in `dojo.NodeList` for multiple additions
+		//	| dojo.query("ul > li").addClass("firstLevel");
+	
+		node = dojo.byId(node);
+		classStr = str2array(classStr);
+		var cls = " " + node.className + " ";
+		for(var i = 0, len = classStr.length, c; i < len; ++i){
+			c = classStr[i];
+			if(c && cls.indexOf(" " + c + " ") < 0){
+				cls += c + " ";
+			}
+		}
+		node.className = dojo.trim(cls);
+	};
+	
+	dojo.removeClass = function(/*DomNode|String*/node, /*String|Array?*/classStr){
+		// summary:
+		//		Removes the specified classes from node. No `dojo.hasClass`
+		//		check is required.
+		//
+		// node:
+		// 		String ID or DomNode reference to remove the class from.
+		//
+		// classStr:
+		//		An optional String class name to remove, or several space-separated
+		//		class names, or an array of class names. If omitted, all class names
+		//		will be deleted.
+		//
+		// example:
+		//	Remove a class from some node:
+		// 	| dojo.removeClass("someNode", "firstClass");
+		//
+		// example:
+		//	Remove two classes from some node:
+		// 	| dojo.removeClass("someNode", "firstClass secondClass");
+		//
+		// example:
+		//	Remove two classes from some node (using array):
+		// 	| dojo.removeClass("someNode", ["firstClass", "secondClass"]);
+		//
+		// example:
+		//	Remove all classes from some node:
+		// 	| dojo.removeClass("someNode");
+		//
+		// example:
+		//	Available in `dojo.NodeList` for multiple removal
+		//	| dojo.query(".foo").removeClass("foo");
+	
+		node = dojo.byId(node);
+		var cls;
+		if(classStr !== undefined){
+			classStr = str2array(classStr);
+			cls = " " + node.className + " ";
+			for(var i = 0, len = classStr.length; i < len; ++i){
+				cls = cls.replace(" " + classStr[i] + " ", " ");
+			}
+			cls = dojo.trim(cls);
+		}else{
+			cls = "";
+		}
+		if(node.className != cls){ node.className = cls; }
+	};
+})();
+
+
+
+/*********FILE**********
 /src/html/classList.js
 ********************/
 
@@ -1967,6 +2124,112 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
+
+
+
+/*********FILE**********
+/src/html/ready.js
+********************/
+
+
+;(function(d){
+	
+	d._loaders = [];
+	d._loadNotifying = false;
+
+	d._onto = function(arr, obj, fn){
+		if(!fn){
+			arr.push(obj);
+		}else if(fn){
+			var func = (typeof fn == "string") ? obj[fn] : fn;
+			arr.push(function(){ func.call(obj); });
+		}
+	}
+
+	dojo.ready = dojo.addOnLoad = function(/*Object?*/obj, /*String|Function*/functionName){
+		// summary:
+		//		Registers a function to be triggered after the DOM has finished
+		//		loading and widgets declared in markup have been instantiated.
+		//		Images and CSS files may or may not have finished downloading when
+		//		the specified function is called.  (Note that widgets' CSS and HTML
+		//		code is guaranteed to be downloaded before said widgets are
+		//		instantiated.)
+		// example:
+		//	|	dojo.addOnLoad(functionPointer);
+		//	|	dojo.addOnLoad(object, "functionName");
+		//	|	dojo.addOnLoad(object, function(){ /* ... */});
+		
+		d._onto(d._loaders, obj, functionName);
+
+		//Added for xdomain loading. dojo.addOnLoad is used to
+		//indicate callbacks after doing some dojo.require() statements.
+		//In the xdomain case, if all the requires are loaded (after initial
+		//page load), then immediately call any listeners.
+		if(document.readyState === "complete" || ( d._postLoad && !d._loadNotifying )){
+			d._callLoaded();
+		}
+	}
+	
+	dojo._callLoaded = function(){
+
+		// The "object" check is for IE, and the other opera check fixes an
+		// issue in Opera where it could not find the body element in some
+		// widget test cases.  For 0.9, maybe route all browsers through the
+		// setTimeout (need protection still for non-browser environments
+		// though). This might also help the issue with FF 2.0 and freezing
+		// issues where we try to do sync xhr while background css images are
+		// being loaded (trac #2572)? Consider for 0.9.
+		
+		setTimeout("dojo.loaded();", 0);
+	}
+	
+	dojo.loaded = function(){
+		// summary:
+		//		signal fired when initial environment and package loading is
+		//		complete. You should use dojo.addOnLoad() instead of doing a 
+		//		direct dojo.connect() to this method in order to handle
+		//		initialization tasks that require the environment to be
+		//		initialized. In a browser host,	declarative widgets will 
+		//		be constructed when this function finishes runing.
+		d._loadNotifying = true;
+		d._postLoad = true;
+		var mll = d._loaders;
+
+		//Clear listeners so new ones can be added
+		//For other xdomain package loads after the initial load.
+		d._loaders = [];
+
+		for(var x = 0; x < mll.length; x++){
+			mll[x]();
+		}
+
+		d._loadNotifying = false;
+		
+		//Make sure nothing else got added to the onload queue
+		//after this first run. If something did, and we are not waiting for any
+		//more inflight resources, run again.
+		if(d._postLoad && mll.length){
+			d._callLoaded();
+		}
+	}
+	
+	dojo._initFired = false;
+	dojo._loadInit = function(){
+
+		if(!dojo._initFired){
+			dojo._initFired = true;
+			
+			document.removeEventListener("DOMContentLoaded", dojo._loadInit, false);
+			
+			dojo._callLoaded();
+		}
+	}
+	
+
+	document.addEventListener("DOMContentLoaded", dojo._loadInit, false);
+	window.addEventListener("load", dojo._loadInit, false);
+	
+})(dojo);
 
 
 

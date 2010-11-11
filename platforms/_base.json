@@ -49,11 +49,16 @@
 		"html/html.js",
 		"html/class.js",
 		"html/style.js",
-        "html/ready.js"
+        "html/ready.js",
+        "html/id.js"
 	],
     
     "html-ready":[
         "html/ready.js"
+    ],
+    
+    "html-id":[
+        "html/id.js"
     ],
 
 	"json":[
