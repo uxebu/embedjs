@@ -65,7 +65,7 @@
 		],
         
         "no-dom":[
-            "base","array","connect","async","json","lang","transport","oo","uri"
+            "base","array","connect","async","json","lang","transport-xhr","oo","uri"
         ],
 		
 		// Ideas for profiles we might offer ...
