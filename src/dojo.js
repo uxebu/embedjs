@@ -8,14 +8,6 @@ dojo.body = function() {
 	return document.body;
 }
 
-dojo.provide = function(resourceName){
-	// Make sure we have a string.
-	resourceName = resourceName + "";
-	return dojo.getObject(resourceName, true); // Object
-};
-
-dojo.require = function(){};
-
 ;(function(d){
 
 	d._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object*/context){
