@@ -46,12 +46,16 @@
 	/* The "html" feature group */
 
 	"html":[
-		"html/html.js",
+		"html/element.js",
 		"html/class.js",
 		"html/style.js",
         "html/ready.js",
         "html/id.js"
 	],
+    
+    "html-element":[
+        "html/element.js"
+    ],
     
     "html-class":[
         "html/class.js"

@@ -1,6 +1,6 @@
 {
 	"html":[
-		"html/html.js",
+		"html/element.js",
 		"html/class.js",
         "html/classList.js",
 		"html/style.js",

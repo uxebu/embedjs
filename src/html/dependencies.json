@@ -6,7 +6,7 @@
 		"lang-string",
         "html-id"
 	],
-    "html.js":[
+    "element.js":[
         "html-id"
     ],
     "style-ie.js":[
