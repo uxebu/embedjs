@@ -2,6 +2,15 @@
 	"declare.js":[
 		"oo-extend",
 		"lang-is",
+        "lang-mixin",
 		"array",
-	]
+	],
+    
+    "delegate.js":[
+        "lang-mixin"
+    ],
+    
+    "extend.js":[
+        "lang-mixin.js"
+    ]
 }

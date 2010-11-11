@@ -68,6 +68,7 @@
 		"lang/hitch.js",
 		"lang/is.js",
 		"lang/string.js",
+        "lang/mixin.js"
 	],
 
 	"lang-toarray":[
@@ -89,6 +90,10 @@
 	"lang-string":[
 		"lang/string.js",
 	],
+    
+    "lang-mixin":[
+        "lang/mixin.js"
+    ],
 	
 	/* The "transport" feature group */
 	

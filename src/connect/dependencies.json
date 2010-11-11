@@ -1,5 +1,8 @@
 {
 	"pub-sub.js":[
 		"connect"
-	]
+	],
+    "ie.js":[
+        "lang-mixin"
+    ]
 }
