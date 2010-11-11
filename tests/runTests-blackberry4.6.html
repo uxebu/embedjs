@@ -140,6 +140,7 @@
 		<script type="text/javascript" src="tests/lang/is.js"></script>
 		<script type="text/javascript" src="tests/lang/string.js"></script>
 		<script type="text/javascript" src="tests/lang/mixin.js"></script>
+		<script type="text/javascript" src="tests/lang/object.js"></script>
 		<!-- oo -->
 		<script type="text/javascript" src="tests/oo/declare.js"></script>
 		<script type="text/javascript" src="tests/oo/delegate.js"></script>

@@ -3,6 +3,7 @@
 		"oo-extend",
 		"lang-is",
         "lang-mixin",
+        "lang-object",
 		"array",
 	],
     

@@ -5,50 +5,28 @@ dojo.doc=document;
 dojo.body=function(){
 return document.body;
 };
-dojo.provide=function(_1){
-_1=_1+"";
-return dojo.getObject(_1,true);
+dojo.byId=function(id,_1){
+return (typeof id=="string")?(_1||document).getElementById(id):id;
 };
-dojo.require=function(){
-};
-(function(d){
-d._getProp=function(_2,_3,_4){
-var _5=_4||d.global;
-for(var i=0,p;_5&&(p=_2[i]);i++){
-_5=(p in _5?_5[p]:(_3?_5[p]={}:undefined));
-}
-return _5;
-};
-d.setObject=function(_6,_7,_8){
-var _9=_6.split("."),p=_9.pop(),_a=d._getProp(_9,true,_8);
-return _a&&p?(_a[p]=_7):undefined;
-};
-d.getObject=function(_b,_c,_d){
-return d._getProp(_b.split("."),_c,_d);
-};
-dojo.byId=function(id,_e){
-return (typeof id=="string")?(_e||document).getElementById(id):id;
-};
-})(dojo);
 (function(d){
 if(document&&document.getElementsByTagName){
-var _f=document.getElementsByTagName("script");
-var _10=/dojo[^\/]*\.js(\W|$)/i;
-for(var i=0;i<_f.length;i++){
-var src=_f[i].getAttribute("src");
-if(!src){
+var _2=document.getElementsByTagName("script");
+var _3=/dojo[^\/]*\.js(\W|$)/i;
+for(var i=0;i<_2.length;i++){
+var _4=_2[i].getAttribute("src");
+if(!_4){
 continue;
 }
-var m=src.match(_10);
+var m=_4.match(_3);
 if(m){
 if(!d.config.baseUrl){
-d.config.baseUrl=src.substring(0,m.index);
+d.config.baseUrl=_4.substring(0,m.index);
 }
-var cfg=_f[i].getAttribute("djConfig");
-if(cfg){
-var _11=eval("({ "+cfg+" })");
-for(var x in _11){
-dojo.config[x]=_11[x];
+var _5=_2[i].getAttribute("djConfig");
+if(_5){
+var _6=eval("({ "+_5+" })");
+for(var x in _6){
+dojo.config[x]=_6[x];
 }
 }
 break;
@@ -564,6 +542,20 @@ d.empty=function(_1b){
 _1(_1b).innerHTML="";
 };
 })(dojo);
+dojo._getProp=function(_1,_2,_3){
+var _4=_3||dojo.global;
+for(var i=0,p;_4&&(p=_1[i]);i++){
+_4=(p in _4?_4[p]:(_2?_4[p]={}:undefined));
+}
+return _4;
+};
+dojo.setObject=function(_5,_6,_7){
+var _8=_5.split("."),p=_8.pop(),_9=dojo._getProp(_8,true,_7);
+return _9&&p?(_9[p]=_6):undefined;
+};
+dojo.getObject=function(_a,_b,_c){
+return dojo._getProp(_a.split("."),_b,_c);
+};
 dojo.trim=String.prototype.trim?function(_1){
 return _1.trim();
 }:function(_2){

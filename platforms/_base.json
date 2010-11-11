@@ -68,7 +68,8 @@
 		"lang/hitch.js",
 		"lang/is.js",
 		"lang/string.js",
-        "lang/mixin.js"
+        "lang/mixin.js",
+        "lang/object.js"
 	],
 
 	"lang-toarray":[
