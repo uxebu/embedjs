@@ -51,6 +51,10 @@
 		"html/style.js",
         "html/ready.js"
 	],
+    
+    "html-ready":[
+        "html/ready.js"
+    ],
 
 	"json":[
 		"json/json.js"

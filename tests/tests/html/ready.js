@@ -4,7 +4,7 @@ dojo.readyTestObj = {
 	}
 };
 
-tests.register("html.ready", 
+tests.register("html-ready", 
 	[
 		function simpleReadyCall(t){
 			var d = new doh.Deferred();
