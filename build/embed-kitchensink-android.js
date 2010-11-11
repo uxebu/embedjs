@@ -1,37 +1,10 @@
 var embed=dojo={};
-var djConfig=dojo.config={};
-dojo.global=window;
-dojo.doc=document;
-dojo.body=function(){
+embed.config={};
+embed.global=window;
+embed.doc=document;
+embed.body=function(){
 return document.body;
 };
-(function(d){
-if(document&&document.getElementsByTagName){
-var _1=document.getElementsByTagName("script");
-var _2=/dojo[^\/]*\.js(\W|$)/i;
-for(var i=0;i<_1.length;i++){
-var _3=_1[i].getAttribute("src");
-if(!_3){
-continue;
-}
-var m=_3.match(_2);
-if(m){
-if(!d.config.baseUrl){
-d.config.baseUrl=_3.substring(0,m.index);
-}
-var _4=_1[i].getAttribute("djConfig");
-if(_4){
-var _5=eval("({ "+_4+" })");
-for(var x in _5){
-dojo.config[x]=_5[x];
-}
-}
-break;
-}
-}
-}
-d.baseUrl=d.config.baseUrl;
-}(dojo));
 ["indexOf","lastIndexOf","forEach","map","some","every","filter"].forEach(function(_1,_2){
 dojo[_1]=function(_3,_4,_5){
 if((_2>1)&&(typeof _4=="string")){
