@@ -48,7 +48,8 @@
 	"html":[
 		"html/html.js",
 		"html/class.js",
-		"html/style.js"
+		"html/style.js",
+        "html/ready.js"
 	],
 
 	"json":[

@@ -269,156 +269,6 @@ dojo.require = function(){};
 
 
 
-	//
-	// addOnLoad stuff
-	//
-
-	d._loaders = [];
-	d._unloaders = [];
-
-
-	d._onto = function(arr, obj, fn){
-		if(!fn){
-			arr.push(obj);
-		}else if(fn){
-			var func = (typeof fn == "string") ? obj[fn] : fn;
-			arr.push(function(){ func.call(obj); });
-		}
-	}
-
-	dojo.addOnLoad = dojo.ready = function(/*Object?*/obj, /*String|Function*/functionName){
-		// summary:
-		//		Registers a function to be triggered after the DOM has finished
-		//		loading and widgets declared in markup have been instantiated.
-		//		Images and CSS files may or may not have finished downloading when
-		//		the specified function is called.  (Note that widgets' CSS and HTML
-		//		code is guaranteed to be downloaded before said widgets are
-		//		instantiated.)
-		// example:
-		//	|	dojo.addOnLoad(functionPointer);
-		//	|	dojo.addOnLoad(object, "functionName");
-		//	|	dojo.addOnLoad(object, function(){ /* ... */});
-
-		d._onto(d._loaders, obj, functionName);
-
-		//Added for xdomain loading. dojo.addOnLoad is used to
-		//indicate callbacks after doing some dojo.require() statements.
-		//In the xdomain case, if all the requires are loaded (after initial
-		//page load), then immediately call any listeners.
-		if(d._postLoad && d._inFlightCount == 0 && !d._loadNotifying){
-			d._callLoaded();
-		}
-	}
-	
-	dojo._getModuleSymbols = function(/*String*/modulename){
-		// summary:
-		//		Converts a module name in dotted JS notation to an array
-		//		representing the path in the source tree
-		var syms = modulename.split(".");
-		for(var i = syms.length; i>0; i--){
-			var parentModule = syms.slice(0, i).join(".");
-			if(i == 1 && !d._moduleHasPrefix(parentModule)){
-				// Support default module directory (sibling of dojo) for top-level modules
-				syms[0] = "../" + syms[0];
-			}else{
-				var parentModulePath = d._getModulePrefix(parentModule);
-				if(parentModulePath != parentModule){
-					syms.splice(0, i, parentModulePath);
-					break;
-				}
-			}
-		}
-		return syms; // Array
-	};
-
-	dojo.moduleUrl = function(/*String*/module, /*dojo._Url||String*/url){
-		//	summary:
-		//		Returns an URL relative to a module.
-		//	example:
-		//	|	var pngPath = dojo.moduleUrl("acme","images/small.png");
-		//	|	console.dir(pngPath); // list the object properties
-		//	|	// create an image and set it's source to pngPath's value:
-		//	|	var img = document.createElement("img");
-		// 	|	// NOTE: we assign the string representation of the url object
-		//	|	img.src = pngPath.toString();
-		//	|	// add our image to the document
-		//	|	dojo.body().appendChild(img);
-		//	example:
-		//		you may de-reference as far as you like down the package
-		//		hierarchy.  This is sometimes handy to avoid lenghty relative
-		//		urls or for building portable sub-packages. In this example,
-		//		the `acme.widget` and `acme.util` directories may be located
-		//		under different roots (see `dojo.registerModulePath`) but the
-		//		the modules which reference them can be unaware of their
-		//		relative locations on the filesystem:
-		//	|	// somewhere in a configuration block
-		//	|	dojo.registerModulePath("acme.widget", "../../acme/widget");
-		//	|	dojo.registerModulePath("acme.util", "../../util");
-		//	|
-		//	|	// ...
-		//	|
-		//	|	// code in a module using acme resources
-		//	|	var tmpltPath = dojo.moduleUrl("acme.widget","templates/template.html");
-		//	|	var dataPath = dojo.moduleUrl("acme.util","resources/data.json");
-
-		var loc = d._getModuleSymbols(module).join('/');
-		if(!loc){ return null; }
-		if(loc.lastIndexOf("/") != loc.length-1){
-			loc += "/";
-		}
-
-		//If the path is an absolute path (starts with a / or is on another
-		//domain/xdomain) then don't add the baseUrl.
-		var colonIndex = loc.indexOf(":");
-		if(loc.charAt(0) != "/" && (colonIndex == -1 || colonIndex > loc.indexOf("/"))){
-			loc = d.baseUrl + loc;
-		}
-
-		return loc + (url || "");
-	};
-
-
-	d.mixin(d, {
-		baseUrl: "",
-		_loadedModules: {},
-		_inFlightCount: 0,
-		_hasResource: {},
-
-		_modulePrefixes: {
-			dojo: 	{	name: "dojo", value: "." },
-			// dojox: 	{	name: "dojox", value: "../dojox" },
-			// dijit: 	{	name: "dijit", value: "../dijit" },
-			doh: 	{	name: "doh", value: "../util/doh" },
-			tests: 	{	name: "tests", value: "tests" }
-		},
-
-		_moduleHasPrefix: function(/*String*/module){
-			// summary: checks to see if module has been established
-			var mp = d._modulePrefixes;
-			return !!(mp[module] && mp[module].value); // Boolean
-		},
-
-		_getModulePrefix: function(/*String*/module){
-			// summary: gets the prefix associated with module
-			var mp = d._modulePrefixes;
-			if(d._moduleHasPrefix(module)){
-				return mp[module].value; // String
-			}
-			return module; // String
-		},
-
-		_loadedUrls: [],
-
-		//WARNING:
-		//		This variable is referenced by packages outside of bootstrap:
-		//		FloatingPane.js and undo/browser.js
-		_postLoad: false,
-
-		//Egad! Lots of test files push on this directly instead of using dojo.addOnLoad.
-		_loaders: [],
-		_unloaders: [],
-		_loadNotifying: false
-	});
 	
 	dojo.byId = function(id, doc){
 		//	summary:
@@ -2194,6 +2044,112 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 
 dojo.getComputedStyle = dojo._getComputedStyle;
 dojo.style = dojo._style;
+
+
+
+/*********FILE**********
+/src/html/ready.js
+********************/
+
+
+;(function(d){
+	
+	d._loaders = [];
+	d._loadNotifying = false;
+
+	d._onto = function(arr, obj, fn){
+		if(!fn){
+			arr.push(obj);
+		}else if(fn){
+			var func = (typeof fn == "string") ? obj[fn] : fn;
+			arr.push(function(){ func.call(obj); });
+		}
+	}
+
+	dojo.ready = dojo.addOnLoad = function(/*Object?*/obj, /*String|Function*/functionName){
+		// summary:
+		//		Registers a function to be triggered after the DOM has finished
+		//		loading and widgets declared in markup have been instantiated.
+		//		Images and CSS files may or may not have finished downloading when
+		//		the specified function is called.  (Note that widgets' CSS and HTML
+		//		code is guaranteed to be downloaded before said widgets are
+		//		instantiated.)
+		// example:
+		//	|	dojo.addOnLoad(functionPointer);
+		//	|	dojo.addOnLoad(object, "functionName");
+		//	|	dojo.addOnLoad(object, function(){ /* ... */});
+		
+		d._onto(d._loaders, obj, functionName);
+
+		//Added for xdomain loading. dojo.addOnLoad is used to
+		//indicate callbacks after doing some dojo.require() statements.
+		//In the xdomain case, if all the requires are loaded (after initial
+		//page load), then immediately call any listeners.
+		if(document.readyState === "complete" || ( d._postLoad && !d._loadNotifying )){
+			d._callLoaded();
+		}
+	}
+	
+	dojo._callLoaded = function(){
+
+		// The "object" check is for IE, and the other opera check fixes an
+		// issue in Opera where it could not find the body element in some
+		// widget test cases.  For 0.9, maybe route all browsers through the
+		// setTimeout (need protection still for non-browser environments
+		// though). This might also help the issue with FF 2.0 and freezing
+		// issues where we try to do sync xhr while background css images are
+		// being loaded (trac #2572)? Consider for 0.9.
+		
+		setTimeout("dojo.loaded();", 0);
+	}
+	
+	dojo.loaded = function(){
+		// summary:
+		//		signal fired when initial environment and package loading is
+		//		complete. You should use dojo.addOnLoad() instead of doing a 
+		//		direct dojo.connect() to this method in order to handle
+		//		initialization tasks that require the environment to be
+		//		initialized. In a browser host,	declarative widgets will 
+		//		be constructed when this function finishes runing.
+		d._loadNotifying = true;
+		d._postLoad = true;
+		var mll = d._loaders;
+
+		//Clear listeners so new ones can be added
+		//For other xdomain package loads after the initial load.
+		d._loaders = [];
+
+		for(var x = 0; x < mll.length; x++){
+			mll[x]();
+		}
+
+		d._loadNotifying = false;
+		
+		//Make sure nothing else got added to the onload queue
+		//after this first run. If something did, and we are not waiting for any
+		//more inflight resources, run again.
+		if(d._postLoad && mll.length){
+			d._callLoaded();
+		}
+	}
+	
+	dojo._initFired = false;
+	dojo._loadInit = function(){
+
+		if(!dojo._initFired){
+			dojo._initFired = true;
+			
+			document.removeEventListener("DOMContentLoaded", dojo._loadInit, false);
+			
+			dojo._callLoaded();
+		}
+	}
+	
+
+	document.addEventListener("DOMContentLoaded", dojo._loadInit, false);
+	window.addEventListener("load", dojo._loadInit, false);
+	
+})(dojo);
 
 
 
