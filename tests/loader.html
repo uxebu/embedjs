@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Loader Test</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="../src/loader.js"></script>
+		<script type="text/javascript">
+			loader.load({
+				pathToBuildConfig: '../',
+				profile: 'kitchensink', // Optional, if not given, takes default from config
+				platform: 'ios' // Optional, if not given, takes default from config
+			});
+		</script>
+	</body>
+</html>

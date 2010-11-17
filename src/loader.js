@@ -29,7 +29,14 @@ var loader = {
 
 			if (req.readyState == 4){
 				if (req.status == 200){
-					ret = JSON.parse(req.responseText);
+					
+					// comment filtering :(
+					var lines = req.responseText.split("\n");
+					var lines = lines.map(function(line){
+						line =  line.replace(/\/\/.*/, "");
+						return line.replace(/\/\*.*\*\//, "");
+					});
+					ret = JSON.parse(lines.join(""));
 				}else{
 					console.log("There was a problem retrieving the dependency data:\n" +
 						req.statusText);
@@ -73,17 +80,39 @@ var loader = {
 		// 		If features are given resolve teh dependencies and concat the files resulting form that.
 
 		loader.params = params;
+		
+		// first, get the build config file
+		this.buildConfig = this._loadJsonFile(params.pathToBuildConfig + 'build-config.json');
+		this.buildConfig.paths.relativeRoot = params.pathToBuildConfig;
+		
+		// get profile and feature list
+		var profile = params.profile || this.buildConfig.defaults.profile;
+		if(!this.buildConfig.profiles[profile]){
+			console.error("Given profile " + profile + " is not specified in build-config.json.");
+			return;
+		}
+		this.profileName = profile;
+		this.profile = this.buildConfig.profiles[profile];
+		
+		// get the platform and implementation details
+		this.platform = params.platform || this.buildConfig.defaults.platform;
+		var pathToPlatforms = params.pathToBuildConfig + this.buildConfig.paths.platforms + '/';
+		var _baseModules = loader._loadJsonFile(pathToPlatforms + '_base.json');
+		var _specificModules = loader._loadJsonFile(pathToPlatforms + this.platform + '.json');
+		for(var prop in _specificModules){
+			_baseModules[prop] = _specificModules[prop];
+		}
+		this.implementations = _baseModules;
+		
+		console.log('Loading files for profile ' + this.profileName + ' at platform ' + this.platform);
 
-		// Split the modules that shall only be included, e.g. oo,array => ["oo", "array"]
-		var features = loader._loadTextFile(loader.params.featuresFileName);
-		features = features ? features.split(",") : [];
-
-		var modules = loader._loadJsonFile(loader.params.platformName);
-		loader.globals.modules = modules;
+		// go...
+		var modules = loader.globals.modules = this.implementations;
+		var features = this.profile;
 		var files = [];
 		if (features.length==0){
 			for (var m in modules){
-				console.log("Adding feature:     ", m);
+				console.info("Adding feature:     ", m);
 				var moduleFiles = modules[m].map(resolveDeps)
 				console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 				files = files.concat(moduleFiles);
@@ -93,7 +122,7 @@ var loader = {
 			for (var i=0, l=features.length, f; i<l; i++){
 				var f = features[i];
 				if (typeof modules[f]=="undefined"){
-					console.error("ERROR: Feature '" + f + "' not defined in '" + params.platformName + "'. ");
+					console.error("ERROR: Feature '" + f + "' not defined in '" + this.platform + "'. ");
 					console.error("Make sure (or create) the feature exists or you may have a typo in the feature name.");
 					console.error("Giving up :(\n\n");
 					quit();
@@ -103,6 +132,9 @@ var loader = {
 				modules[f].map(loader.resolveDeps).map(function(arr){ moduleFiles = moduleFiles.concat(arr); });
 				console.log(moduleFiles.length ? ("+++ " + moduleFiles.join(" ")) : "");
 				files = files.concat(moduleFiles);
+				console.log("Done with feature", f);
+				console.log(files);
+				console.log('-----------------------------------------------');
 			}
 		}
 		console.log("\nCleaning up file list, removing doubles, etc.");
@@ -110,9 +142,15 @@ var loader = {
 		var files = files.map(function(item, index){return (files.slice(0, index).indexOf(""+item)!=-1) ? null : item; })
 						.filter(function(item){ return item==null ? false : true });
 console.log(files);
-		var begin = '<script type="text/javascript" src="' + loader.params.relativePath;
-		var ending = '"></scr'+''+'ipt>';
-		document.write(begin + files.join(ending+"\n"+begin) + ending);
+files.forEach(function(fileName){
+	setTimeout(function(){
+		var s = '<script type="text/javascript" src="' + loader.buildConfig.paths.relativeRoot + loader.buildConfig.paths.source + '/' + fileName + '"></scr'+''+'ipt>';
+		document.write(s);
+	}, 10);
+});
+//		var begin = '<script type="text/javascript" src="' + this.buildConfig.paths.relativeRoot + this.buildConfig.paths.source + '/';
+//		var ending = '"></scr'+''+'ipt>';
+//		document.write(begin + files.join(ending+"\n"+begin) + ending);
 
 	},
 	resolveFeature: function(feature){
@@ -156,7 +194,7 @@ console.log(files);
 			var path = file.split("/");
 			var f = path.pop(); // The filename e.g. "declare.js"
 			console.log("loading json");
-			var deps = loader._loadJsonFile(loader.params.sourceDirectory + (path.length?path.join("/"):"") + "/dependencies.json", false);
+			var deps = loader._loadJsonFile(loader.buildConfig.paths.relativeRoot + loader.buildConfig.paths.source + '/' + (path.length?path.join("/"):"") + "/dependencies.json", false);
 			//globals.dependencyData[file] = (typeof deps[f]!="undefined" ? deps[f] : []).map(resolveFeature);
 			loader.globals.dependencyData[file] = loader.reduce((deps && typeof deps[f]!="undefined" ? deps[f] : [])
 											.map(loader.resolveFeature)) // Resolve the features
