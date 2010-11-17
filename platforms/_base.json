@@ -90,23 +90,23 @@
 	],
 
 	"lang-toarray":[
-		"lang/to-array.js",
+		"lang/to-array.js"
 	],
 
 	"lang-clone":[
-		"lang/clone.js",
+		"lang/clone.js"
 	],
 
 	"lang-hitch":[
-		"lang/hitch.js",
+		"lang/hitch.js"
 	],
 
 	"lang-is":[
-		"lang/is.js",
+		"lang/is.js"
 	],
 
 	"lang-string":[
-		"lang/string.js",
+		"lang/string.js"
 	],
     
     "lang-mixin":[
@@ -144,22 +144,22 @@
 	"oo":[
 		"oo/declare.js",
 		"oo/delegate.js",
-		"oo/extend.js",
+		"oo/extend.js"
 	],
 
 	"oo-declare":[
-		"oo/declare.js",
+		"oo/declare.js"
 	],
 
 	"oo-extend":[
-		"oo/extend.js",
+		"oo/extend.js"
 	],
 
 	"oo-delegate":[
-		"oo/delegate.js",
+		"oo/delegate.js"
 	],
 
 	"uri":[
-		"uri/objectToQuery.js",
-	],
+		"uri/objectToQuery.js"
+	]
 }
