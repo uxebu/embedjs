@@ -1,4 +1,8 @@
-(function(){
+//
+//	imho this file is way too big and inefficient, should be minimized, maybe rewritten?
+//
+
+(function(d){
 	// =============================
 	// Element attribute Functions
 	// =============================
@@ -28,7 +32,8 @@
 		_forcePropNames = {
 			innerHTML: 1,
 			className: 1,
-			htmlFor:   d.isIE,
+			//htmlFor:   d.isIE,
+			htmlFor:   false,
 			value:     1
 		};
 
@@ -58,7 +63,7 @@
 		//		true if the requested attribute is specified on the
 		//		given element, and false otherwise
 		var lc = name.toLowerCase();
-		return _forcePropNames[_propNames[lc] || name] || _hasAttr(byId(node), _attrNames[lc] || name);	// Boolean
+		return _forcePropNames[_propNames[lc] || name] || _hasAttr(d.byId(node), _attrNames[lc] || name);	// Boolean
 	};
 
 	var _evtHdlrMap = {}, _ctr = 0,
@@ -149,7 +154,7 @@
 		//	|	// though shorter to use `dojo.style()` in this case:
 		//	|	dojo.style("someNode", obj);
 
-		node = byId(node);
+		node = d.byId(node);
 		var args = arguments.length, prop;
 		if(args == 2 && typeof name != "string"){ // inline'd type check
 			// the object form of setter: the 2nd argument is a dictionary
@@ -173,14 +178,14 @@
 				if(propName == "innerHTML"){
 					// special case: assigning HTML
 					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
-						d.empty(node);
-						node.appendChild(d._toDom(value, node.ownerDocument));
-					}else{
+					//if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
+					//	d.empty(node);
+					//	node.appendChild(d._toDom(value, node.ownerDocument));
+					//}else{
 					//>>excludeEnd("webkitMobile");
 						node[propName] = value;
 					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					}
+					//}
 					//>>excludeEnd("webkitMobile");
 					break;
 				}
@@ -242,6 +247,6 @@
 		//		id or reference to the element to remove the attribute from
 		//	name:
 		//		the name of the attribute to remove
-		byId(node).removeAttribute(_fixAttrName(name));
+		d.byId(node).removeAttribute(_fixAttrName(name));
 	};
-})();
+})(dojo);
