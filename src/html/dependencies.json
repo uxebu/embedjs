@@ -1,4 +1,9 @@
 {
+	"attr.js":[
+		"html-style",
+		"lang-is",
+		"connect",
+	],
 	"classList.js":[
 		"lang-string",
 	],

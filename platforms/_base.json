@@ -46,6 +46,7 @@
 	/* The "html" feature group */
 
 	"html":[
+		"html/attr.js",
 		"html/element.js",
 		"html/class.js",
 		"html/style.js",
