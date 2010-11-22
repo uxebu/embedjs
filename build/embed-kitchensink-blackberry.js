@@ -393,6 +393,88 @@ catch(e){
 }
 };
 })(dojo);
+(function(){
+var _1={"class":"className","for":"htmlFor",tabindex:"tabIndex",readonly:"readOnly",colspan:"colSpan",frameborder:"frameBorder",rowspan:"rowSpan",valuetype:"valueType"},_2={classname:"class",htmlfor:"for",tabindex:"tabIndex",readonly:"readOnly"},_3={innerHTML:1,className:1,htmlFor:d.isIE,value:1};
+var _4=function(_5){
+return _2[_5.toLowerCase()]||_5;
+};
+var _6=function(_7,_8){
+var _9=_7.getAttributeNode&&_7.getAttributeNode(_8);
+return _9&&_9.specified;
+};
+dojo.hasAttr=function(_a,_b){
+var lc=_b.toLowerCase();
+return _3[_1[lc]||_b]||_6(byId(_a),_2[lc]||_b);
+};
+var _c={},_d=0,_e=dojo._scopeName+"attrid",_f={col:1,colgroup:1,table:1,tbody:1,tfoot:1,thead:1,tr:1,title:1};
+dojo.attr=function(_10,_11,_12){
+_10=byId(_10);
+var _13=arguments.length,_14;
+if(_13==2&&typeof _11!="string"){
+for(var x in _11){
+d.attr(_10,x,_11[x]);
+}
+return _10;
+}
+var lc=_11.toLowerCase(),_15=_1[lc]||_11,_16=_3[_15],_17=_2[lc]||_11;
+if(_13==3){
+do{
+if(_15=="style"&&typeof _12!="string"){
+d.style(_10,_12);
+break;
+}
+if(_15=="innerHTML"){
+if(d.isIE&&_10.tagName.toLowerCase() in _f){
+d.empty(_10);
+_10.appendChild(d._toDom(_12,_10.ownerDocument));
+}else{
+_10[_15]=_12;
+}
+break;
+}
+if(d.isFunction(_12)){
+var _18=d.attr(_10,_e);
+if(!_18){
+_18=_d++;
+d.attr(_10,_e,_18);
+}
+if(!_c[_18]){
+_c[_18]={};
+}
+var h=_c[_18][_15];
+if(h){
+d.disconnect(h);
+}else{
+try{
+delete _10[_15];
+}
+catch(e){
+}
+}
+_c[_18][_15]=d.connect(_10,_15,_12);
+break;
+}
+if(_16||typeof _12=="boolean"){
+_10[_15]=_12;
+break;
+}
+_10.setAttribute(_17,_12);
+}while(false);
+return _10;
+}
+_12=_10[_15];
+if(_16&&typeof _12!="undefined"){
+return _12;
+}
+if(_15!="href"&&(typeof _12=="boolean"||d.isFunction(_12))){
+return _12;
+}
+return _6(_10,_17)?_10.getAttribute(_17):null;
+};
+dojo.removeAttr=function(_19,_1a){
+byId(_19).removeAttribute(_4(_1a));
+};
+})();
 (function(d){
 var _1=d.byId;
 var _2={option:["select"],tbody:["table"],thead:["table"],tfoot:["table"],tr:["table","tbody"],td:["table","tbody","tr"],th:["table","thead","tr"],legend:["fieldset"],caption:["table"],colgroup:["table"],col:["table","colgroup"],li:["ul"]},_3=/<\s*([\w\:]+)/,_4={},_5=0,_6="__"+d._scopeName+"ToDomId";
