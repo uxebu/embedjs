@@ -1359,7 +1359,7 @@ _7=_2.id="d---dojo-query-synthetic-id-"+new Date().getTime();
 var _8=true;
 }
 _1="#"+_7+" "+_1;
-_3=_2.parentNode;
+_3=_2.parentNode||_2;
 }
 var n=_3.querySelectorAll(_1);
 if(_8){

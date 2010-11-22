@@ -3771,7 +3771,7 @@ dojo.query = function(query, scope){
 	//			* class selectors (e.g., `.foo`)
 	//			* node type selectors like `span`
 	//			* ` ` descendant selectors
-	//			* `>` child element selectors 
+	//			* `>` child element selectors
 	//			* `#foo` style ID selectors
 	//			* `*` universal selector
 	//			* `~`, the immediately preceeded-by sibling selector
@@ -3796,14 +3796,14 @@ dojo.query = function(query, scope){
 	//		palette of selectors and when combined with functions for
 	//		manipulation presented by dojo.NodeList, many types of DOM
 	//		manipulation operations become very straightforward.
-	//		
+	//
 	//		Unsupported Selectors:
 	//		----------------------
 	//
 	//		While dojo.query handles many CSS3 selectors, some fall outside of
 	//		what's resaonable for a programmatic node querying engine to
 	//		handle. Currently unsupported selectors include:
-	//		
+	//
 	//			* namespace-differentiated selectors of any form
 	//			* all `::` pseduo-element selectors
 	//			* certain pseduo-selectors which don't get a lot of day-to-day use:
@@ -3812,10 +3812,10 @@ dojo.query = function(query, scope){
 	//			|	* `:root`, `:active`, `:hover`, `:visisted`, `:link`,
 	//				  `:enabled`, `:disabled`
 	//			* `:*-of-type` pseudo selectors
-	//		
+	//
 	//		dojo.query and XML Documents:
 	//		-----------------------------
-	//		
+	//
 	//		`dojo.query` (as of dojo 1.2) supports searching XML documents
 	//		in a case-sensitive manner. If an HTML document is served with
 	//		a doctype that forces case-sensitivity (e.g., XHTML 1.1
@@ -3904,11 +3904,11 @@ dojo.query = function(query, scope){
 	//	dojo-incompatibilities:
 	//		dojo.query will not return a dojo.NodeList Instance! On webkit it will
 	//		return a DOMCollection or an empty Array.
-	//	TODO: 
+	//	TODO:
 	//		Update the inline doc when we know if dojo.query "does" support
 	//		chaining.
-	
-	
+
+
 	// scope normalization
 	if(typeof scope == "string"){
 		scope = dojo.byId(scope);
@@ -3918,7 +3918,7 @@ dojo.query = function(query, scope){
 	}
 
 	scope = scope || dojo.doc;
-	
+
 	/*
 	QUERY NORMALIZATION:
 
@@ -4005,7 +4005,8 @@ dojo.query = function(query, scope){
 
 		// we need to start the query one element up the chain to make sibling
 		// and adjacent combinators work.
-		queryRoot = scope.parentNode;
+		// If there is no parent node run the query against the scope.
+		queryRoot = scope.parentNode || scope;
 	}
 
 	// invalid queries:
@@ -4017,6 +4018,6 @@ dojo.query = function(query, scope){
 	if(syntheticIdSet){
 		scope.id = "";
 	}
-	
+
 	return n || [];
 };
