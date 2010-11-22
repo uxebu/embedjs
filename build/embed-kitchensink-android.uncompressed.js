@@ -2535,8 +2535,8 @@ dojo.objectToQuery = function(/*Object*/ map){
 
 ;(function(_d){
 	var cfg = _d.config;
-	
-	
+
+
 	_d._xhrObj = function(){
 		return new XMLHttpRequest();
 	}
@@ -2567,7 +2567,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		http.open('GET', uri, false);
 		try{
 			http.send(null);
-			if(!d._isDocumentOk(http)){
+			if(!_d._isDocumentOk(http)){
 				var err = Error("Unable to load "+uri+" status:"+ http.status);
 				err.status = http.status;
 				err.responseText = http.responseText;
@@ -2580,13 +2580,13 @@ dojo.objectToQuery = function(/*Object*/ map){
 		}
 		return http.responseText; // String
 	};
-	
-	
+
+
 	dojo._blockAsync = false;
 
 	// MOW: remove dojo._contentHandlers alias in 2.0
 	var handlers = _d._contentHandlers = dojo.contentHandlers = {
-		// summary: 
+		// summary:
 		//		A map of availble XHR transport handle types. Name matches the
 		//		`handleAs` attribute passed to XHR calls.
 		//
@@ -2594,24 +2594,24 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		A map of availble XHR transport handle types. Name matches the
 		//		`handleAs` attribute passed to XHR calls. Each contentHandler is
 		//		called, passing the xhr object for manipulation. The return value
-		//		from the contentHandler will be passed to the `load` or `handle` 
-		//		functions defined in the original xhr call. 
-		//		
+		//		from the contentHandler will be passed to the `load` or `handle`
+		//		functions defined in the original xhr call.
+		//
 		// example:
 		//		Creating a custom content-handler:
 		//	|	dojo.contentHandlers.makeCaps = function(xhr){
 		//	|		return xhr.responseText.toUpperCase();
 		//	|	}
 		//	|	// and later:
-		//	|	dojo.xhrGet({ 
+		//	|	dojo.xhrGet({
 		//	|		url:"foo.txt",
 		//	|		handleAs:"makeCaps",
 		//	|		load: function(data){ /* data is a toUpper version of foo.txt */ }
 		//	|	});
 
-		text: function(xhr){ 
+		text: function(xhr){
 			// summary: A contentHandler which simply returns the plaintext response data
-			return xhr.responseText; 
+			return xhr.responseText;
 		},
 		json: function(xhr){
 			// summary: A contentHandler which returns a JavaScript object created from the response data
@@ -2783,7 +2783,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			/*Function*/canceller,
 			/*Function*/okHandler,
 			/*Function*/errHandler){
-		//	summary: 
+		//	summary:
 		//		sets up the Deferred and ioArgs property on the Deferred so it
 		//		can be used in an io call.
 		//	args:
@@ -2799,14 +2799,14 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		object returned from this function.
 		//	errHandler:
 		//		The first error callback to be registered with Deferred. It has the opportunity
-		//		to do cleanup on an error. It will receive two arguments: error (the 
+		//		to do cleanup on an error. It will receive two arguments: error (the
 		//		Error object) and dfd, the Deferred object returned from this function.
 
 		var ioArgs = {args: args, url: args.url};
 
 		// set up the query params
 		var miArgs = [{}];
-	
+
 		if(args.content){
 			// stuff in content over-rides what's set by form
 			miArgs.push(args.content);
@@ -2815,7 +2815,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			miArgs.push({"dojo.preventCache": new Date().valueOf()});
 		}
 		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
-	
+
 		// .. and the real work of getting the deferred in order, etc.
 		ioArgs.handleAs = args.handleAs || "text";
 		var d = new _d.Deferred(canceller);
@@ -2849,7 +2849,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//Plug in topic publishing, if dojo.publish is loaded.
 		// TODO: What is this? Do we want it?
 // deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
-// should be moved into a separate 
+// should be moved into a separate
 		//if(cfg.ioPublish && _d.publish && ioArgs.args.ioPublish !== false){
 		//	d.addCallbacks(
 		//		function(res){
@@ -2868,7 +2868,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//}
 
 		d.ioArgs = ioArgs;
-	
+
 		// FIXME: need to wire up the xhr object's abort method to something
 		// analagous in the Deferred
 		return d;
@@ -2876,7 +2876,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 
 	var _deferredCancel = function(/*Deferred*/dfd){
 		// summary: canceller function for dojo._ioSetArgs call.
-		
+
 		dfd.canceled = true;
 		var xhr = dfd.ioArgs.xhr;
 		var _at = typeof xhr.abort;
@@ -2909,8 +2909,8 @@ dojo.objectToQuery = function(/*Object*/ map){
 	// something fierece if we don't use unified loops.
 	var _inFlightIntvl = null;
 	var _inFlight = [];
-	
-	
+
+
 	//Use a separate count for knowing if we are starting/stopping io calls.
 	//Cannot use _inFlight.length since it can change at a different time than
 	//when we want to do this kind of test. We only want to decrement the count
@@ -2928,10 +2928,10 @@ dojo.objectToQuery = function(/*Object*/ map){
 	};
 
 	var _watchInFlight = function(){
-		//summary: 
+		//summary:
 		//		internal method that checks each inflight XMLHttpRequest to see
 		//		if it has completed or if the timeout situation applies.
-		
+
 		var now = (new Date()).getTime();
 		// make sure sync calls stay thread safe, if this callback is called
 		// during a sync call and this results in another sync call before the
@@ -2943,7 +2943,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 				var dfd = tif.dfd;
 				var func = function(){
 					if(!dfd || dfd.canceled || !tif.validCheck(dfd)){
-						_inFlight.splice(i--, 1); 
+						_inFlight.splice(i--, 1);
 						_pubCount -= 1;
 					}else if(tif.ioCheck(dfd)){
 						_inFlight.splice(i--, 1);
@@ -3014,7 +3014,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 	}
 
 	_d._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
-		// summary: 
+		// summary:
 		//		Watches the io request represented by dfd to see if it completes.
 		// dfd: Deferred
 		//		The Deferred object to watch.
@@ -3031,7 +3031,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		if(args.timeout){
 			dfd.startTime = (new Date()).getTime();
 		}
-		
+
 		_inFlight.push({dfd: dfd, validCheck: validCheck, ioCheck: ioCheck, resHandle: resHandle});
 		if(!_inFlightIntvl){
 			_inFlightIntvl = setInterval(_watchInFlight, 50);
@@ -3072,7 +3072,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		if(ioArgs.query.length){
 			ioArgs.url += (ioArgs.url.indexOf("?") == -1 ? "?" : "&") + ioArgs.query;
 			ioArgs.query = null;
-		}		
+		}
 	}
 
 	/*=====
@@ -3185,7 +3185,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 	}
 
 	dojo.xhrGet = function(/*dojo.__XhrArgs*/ args){
-		//	summary: 
+		//	summary:
 		//		Sends an HTTP GET request to the server.
 		return _d.xhr("GET", args); // dojo.Deferred
 	}
@@ -3213,7 +3213,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		Sends an HTTP DELETE request to the server.
 		return _d.xhr("DELETE", args); //dojo.Deferred
 	}
-	
+
 }(dojo));
 
 
