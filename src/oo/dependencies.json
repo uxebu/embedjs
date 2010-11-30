@@ -12,6 +12,6 @@
     ],
     
     "extend.js":[
-        "lang-mixin.js"
+        "lang-mixin"
     ]
 }
