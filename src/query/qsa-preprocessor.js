@@ -252,7 +252,8 @@ dojo.query = function(query, scope){
 
 		// we need to start the query one element up the chain to make sibling
 		// and adjacent combinators work.
-		queryRoot = scope.parentNode;
+		// If there is no parent node run the query against the scope.
+		queryRoot = scope.parentNode || scope;
 	}
 
 	// invalid queries:

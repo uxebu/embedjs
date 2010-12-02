@@ -772,7 +772,7 @@ var _7=_1._xhrObj();
 _7.open("GET",_5,false);
 try{
 _7.send(null);
-if(!d._isDocumentOk(_7)){
+if(!_1._isDocumentOk(_7)){
 var _8=Error("Unable to load "+_5+" status:"+_7.status);
 _8.status=_7.status;
 _8.responseText=_7.responseText;
@@ -1256,7 +1256,7 @@ _7=_2.id="d---dojo-query-synthetic-id-"+new Date().getTime();
 var _8=true;
 }
 _1="#"+_7+" "+_1;
-_3=_2.parentNode;
+_3=_2.parentNode||_2;
 }
 var n=_3.querySelectorAll(_1);
 if(_8){

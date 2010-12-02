@@ -1243,11 +1243,186 @@ dojo.byId = function(id, doc){
 
 
 /*********FILE**********
+/src/html/style.js
+********************/
+
+
+;(function(d){
+
+	// =============================
+	// Style Functions
+	// =============================
+
+	// getComputedStyle drives most of the style code.
+	// Wherever possible, reuse the returned object.
+	//
+	// API functions below that need to access computed styles accept an
+	// optional computedStyle parameter.
+	// If this parameter is omitted, the functions will call getComputedStyle themselves.
+	// This way, calling code can access computedStyle once, and then pass the reference to
+	// multiple API functions.
+
+	// Although we normally eschew argument validation at this
+	// level, here we test argument 'node' for (duck)type,
+	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
+	// it is frequently sent to this function even
+	// though it is not Element.
+	d._getComputedStyle = function(node){
+		//	summary:
+		//		Returns a "computed style" object.
+		//
+		//	description:
+		//		Gets a "computed style" object which can be used to gather
+		//		information about the current state of the rendered node.
+		//
+		//		Note that this may behave differently on different browsers.
+		//		Values may have different formats and value encodings across
+		//		browsers.
+		//
+		//		Note also that this method is expensive.  Wherever possible,
+		//		reuse the returned object.
+		//
+		//		Use the dojo.style() method for more consistent (pixelized)
+		//		return values.
+		//
+		//	node: DOMNode
+		//		A reference to a DOM node. Does NOT support taking an
+		//		ID string for speed reasons.
+		//	example:
+		//	|	dojo.getComputedStyle(dojo.byId('foo')).borderWidth;
+		//
+		//	example:
+		//	Reusing the returned object, avoiding multiple lookups:
+		//	|	var cs = dojo.getComputedStyle(dojo.byId("someNode"));
+		//	|	var w = cs.width, h = cs.height;
+		//	returns: CSS2Properties
+		
+		/* We once had the following impl. Why?
+			var s;
+			if(node.nodeType == 1){
+				var dv = node.ownerDocument.defaultView;
+				s = dv.getComputedStyle(node, null);
+				if(!s && node.style){
+					node.style.display = "";
+					s = dv.getComputedStyle(node, null);
+				}
+			}
+			return s || {};
+		*/
+		
+		return node.nodeType == 1 ?
+			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
+	};
+
+
+
+	var _floatStyle = "cssFloat",
+		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
+	;
+
+	// public API
+
+	d._style = function(	/*DomNode|String*/ node,
+							/*String?|Object?*/ style,
+							/*String?*/ value){
+		//	summary:
+		//		Accesses styles on a node. If 2 arguments are
+		//		passed, acts as a getter. If 3 arguments are passed, acts
+		//		as a setter.
+		//	description:
+		//		Getting the style value uses the computed style for the node, so the value
+		//		will be a calculated value, not just the immediate node.style value.
+		//		Also when getting values, use specific style names,
+		//		like "borderBottomWidth" instead of "border" since compound values like
+		//		"border" are not necessarily reflected as expected.
+		//		If you want to get node dimensions, use dojo.marginBox() or
+		//		dojo.contentBox().
+		//	node:
+		//		id or reference to node to get/set style for
+		//	style:
+		//		the style property to set in DOM-accessor format
+		//		("borderWidth", not "border-width") or an object with key/value
+		//		pairs suitable for setting each property.
+		//	value:
+		//		If passed, sets value on the node for style, handling
+		//		cross-browser concerns.  When setting a pixel value,
+		//		be sure to include "px" in the value. For instance, top: "200px".
+		//		Otherwise, in some cases, some browsers will not apply the style.
+		//	example:
+		//		Passing only an ID or node returns the computed style object of
+		//		the node:
+		//	|	dojo.style("thinger");
+		//	example:
+		//		Passing a node and a style property returns the current
+		//		normalized, computed value for that property:
+		//	|	dojo.style("thinger", "opacity"); // 1 by default
+		//
+		//	example:
+		//		Passing a node, a style property, and a value changes the
+		//		current display of the node and returns the new computed value
+		//	|	dojo.style("thinger", "opacity", 0.5); // == 0.5
+		//
+		//	example:
+		//		Passing a node, an object-style style property sets each of the values in turn and returns the computed style object of the node:
+		//	|	dojo.style("thinger", {
+		//	|		"opacity": 0.5,
+		//	|		"border": "3px solid black",
+		//	|		"height": "300px"
+		//	|	});
+		//
+		// 	example:
+		//		When the CSS style property is hyphenated, the JavaScript property is camelCased.
+		//		font-size becomes fontSize, and so on.
+		//	|	dojo.style("thinger",{
+		//	|		fontSize:"14pt",
+		//	|		letterSpacing:"1.2em"
+		//	|	});
+		//
+		//	example:
+		//		dojo.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
+		//		dojo.style() on every element of the list. See: dojo.query and dojo.NodeList
+		//	|	dojo.query(".someClassName").style("visibility","hidden");
+		//	|	// or
+		//	|	dojo.query("#baz > div").style({
+		//	|		opacity:0.75,
+		//	|		fontSize:"13pt"
+		//	|	});
+		//
+		//	returns: Number
+		//	returns: CSS2Properties||String||Number
+
+		var n = dojo.byId(node), l = arguments.length;
+		style = _floatAliases[style] || style;
+		if(l == 3){
+			return n.style[style] = value; /*Number*/
+		}
+		var s = d._getComputedStyle(n);
+		if(l == 2 && typeof style != "string"){ // inline'd type check
+			for(var x in style){
+				d._style(node, x, style[x]);
+			}
+			return s;
+		}
+		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
+	}
+	
+})(dojo);
+
+dojo.getComputedStyle = dojo._getComputedStyle;
+dojo.style = dojo._style;
+
+
+
+/*********FILE**********
 /src/html/attr.js
 ********************/
 
 
-(function(){
+//
+//	imho this file is way too big and inefficient, should be minimized, maybe rewritten?
+//
+
+(function(d){
 	// =============================
 	// Element attribute Functions
 	// =============================
@@ -1277,7 +1452,8 @@ dojo.byId = function(id, doc){
 		_forcePropNames = {
 			innerHTML: 1,
 			className: 1,
-			htmlFor:   d.isIE,
+			//htmlFor:   d.isIE,
+			htmlFor:   false,
 			value:     1
 		};
 
@@ -1307,11 +1483,11 @@ dojo.byId = function(id, doc){
 		//		true if the requested attribute is specified on the
 		//		given element, and false otherwise
 		var lc = name.toLowerCase();
-		return _forcePropNames[_propNames[lc] || name] || _hasAttr(byId(node), _attrNames[lc] || name);	// Boolean
+		return _forcePropNames[_propNames[lc] || name] || _hasAttr(d.byId(node), _attrNames[lc] || name);	// Boolean
 	};
 
 	var _evtHdlrMap = {}, _ctr = 0,
-		_attrId = dojo._scopeName + "attrid",
+		_attrId = "_attrid",
 		// the next dictionary lists elements with read-only innerHTML on IE
 		_roInnerHtml = {col: 1, colgroup: 1,
 			// frameset: 1, head: 1, html: 1, style: 1,
@@ -1398,7 +1574,7 @@ dojo.byId = function(id, doc){
 		//	|	// though shorter to use `dojo.style()` in this case:
 		//	|	dojo.style("someNode", obj);
 
-		node = byId(node);
+		node = d.byId(node);
 		var args = arguments.length, prop;
 		if(args == 2 && typeof name != "string"){ // inline'd type check
 			// the object form of setter: the 2nd argument is a dictionary
@@ -1422,14 +1598,14 @@ dojo.byId = function(id, doc){
 				if(propName == "innerHTML"){
 					// special case: assigning HTML
 					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
-						d.empty(node);
-						node.appendChild(d._toDom(value, node.ownerDocument));
-					}else{
+					//if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
+					//	d.empty(node);
+					//	node.appendChild(d._toDom(value, node.ownerDocument));
+					//}else{
 					//>>excludeEnd("webkitMobile");
 						node[propName] = value;
 					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					}
+					//}
 					//>>excludeEnd("webkitMobile");
 					break;
 				}
@@ -1491,9 +1667,9 @@ dojo.byId = function(id, doc){
 		//		id or reference to the element to remove the attribute from
 		//	name:
 		//		the name of the attribute to remove
-		byId(node).removeAttribute(_fixAttrName(name));
+		d.byId(node).removeAttribute(_fixAttrName(name));
 	};
-})();
+})(dojo);
 
 
 
@@ -2113,177 +2289,6 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 
 
 /*********FILE**********
-/src/html/style.js
-********************/
-
-
-;(function(d){
-
-	// =============================
-	// Style Functions
-	// =============================
-
-	// getComputedStyle drives most of the style code.
-	// Wherever possible, reuse the returned object.
-	//
-	// API functions below that need to access computed styles accept an
-	// optional computedStyle parameter.
-	// If this parameter is omitted, the functions will call getComputedStyle themselves.
-	// This way, calling code can access computedStyle once, and then pass the reference to
-	// multiple API functions.
-
-	// Although we normally eschew argument validation at this
-	// level, here we test argument 'node' for (duck)type,
-	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
-	// it is frequently sent to this function even
-	// though it is not Element.
-	d._getComputedStyle = function(node){
-		//	summary:
-		//		Returns a "computed style" object.
-		//
-		//	description:
-		//		Gets a "computed style" object which can be used to gather
-		//		information about the current state of the rendered node.
-		//
-		//		Note that this may behave differently on different browsers.
-		//		Values may have different formats and value encodings across
-		//		browsers.
-		//
-		//		Note also that this method is expensive.  Wherever possible,
-		//		reuse the returned object.
-		//
-		//		Use the dojo.style() method for more consistent (pixelized)
-		//		return values.
-		//
-		//	node: DOMNode
-		//		A reference to a DOM node. Does NOT support taking an
-		//		ID string for speed reasons.
-		//	example:
-		//	|	dojo.getComputedStyle(dojo.byId('foo')).borderWidth;
-		//
-		//	example:
-		//	Reusing the returned object, avoiding multiple lookups:
-		//	|	var cs = dojo.getComputedStyle(dojo.byId("someNode"));
-		//	|	var w = cs.width, h = cs.height;
-		//	returns: CSS2Properties
-		
-		/* We once had the following impl. Why?
-			var s;
-			if(node.nodeType == 1){
-				var dv = node.ownerDocument.defaultView;
-				s = dv.getComputedStyle(node, null);
-				if(!s && node.style){
-					node.style.display = "";
-					s = dv.getComputedStyle(node, null);
-				}
-			}
-			return s || {};
-		*/
-		
-		return node.nodeType == 1 ?
-			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
-	};
-
-
-
-	var _floatStyle = "cssFloat",
-		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
-	;
-
-	// public API
-
-	d._style = function(	/*DomNode|String*/ node,
-							/*String?|Object?*/ style,
-							/*String?*/ value){
-		//	summary:
-		//		Accesses styles on a node. If 2 arguments are
-		//		passed, acts as a getter. If 3 arguments are passed, acts
-		//		as a setter.
-		//	description:
-		//		Getting the style value uses the computed style for the node, so the value
-		//		will be a calculated value, not just the immediate node.style value.
-		//		Also when getting values, use specific style names,
-		//		like "borderBottomWidth" instead of "border" since compound values like
-		//		"border" are not necessarily reflected as expected.
-		//		If you want to get node dimensions, use dojo.marginBox() or
-		//		dojo.contentBox().
-		//	node:
-		//		id or reference to node to get/set style for
-		//	style:
-		//		the style property to set in DOM-accessor format
-		//		("borderWidth", not "border-width") or an object with key/value
-		//		pairs suitable for setting each property.
-		//	value:
-		//		If passed, sets value on the node for style, handling
-		//		cross-browser concerns.  When setting a pixel value,
-		//		be sure to include "px" in the value. For instance, top: "200px".
-		//		Otherwise, in some cases, some browsers will not apply the style.
-		//	example:
-		//		Passing only an ID or node returns the computed style object of
-		//		the node:
-		//	|	dojo.style("thinger");
-		//	example:
-		//		Passing a node and a style property returns the current
-		//		normalized, computed value for that property:
-		//	|	dojo.style("thinger", "opacity"); // 1 by default
-		//
-		//	example:
-		//		Passing a node, a style property, and a value changes the
-		//		current display of the node and returns the new computed value
-		//	|	dojo.style("thinger", "opacity", 0.5); // == 0.5
-		//
-		//	example:
-		//		Passing a node, an object-style style property sets each of the values in turn and returns the computed style object of the node:
-		//	|	dojo.style("thinger", {
-		//	|		"opacity": 0.5,
-		//	|		"border": "3px solid black",
-		//	|		"height": "300px"
-		//	|	});
-		//
-		// 	example:
-		//		When the CSS style property is hyphenated, the JavaScript property is camelCased.
-		//		font-size becomes fontSize, and so on.
-		//	|	dojo.style("thinger",{
-		//	|		fontSize:"14pt",
-		//	|		letterSpacing:"1.2em"
-		//	|	});
-		//
-		//	example:
-		//		dojo.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
-		//		dojo.style() on every element of the list. See: dojo.query and dojo.NodeList
-		//	|	dojo.query(".someClassName").style("visibility","hidden");
-		//	|	// or
-		//	|	dojo.query("#baz > div").style({
-		//	|		opacity:0.75,
-		//	|		fontSize:"13pt"
-		//	|	});
-		//
-		//	returns: Number
-		//	returns: CSS2Properties||String||Number
-
-		var n = dojo.byId(node), l = arguments.length;
-		style = _floatAliases[style] || style;
-		if(l == 3){
-			return n.style[style] = value; /*Number*/
-		}
-		var s = d._getComputedStyle(n);
-		if(l == 2 && typeof style != "string"){ // inline'd type check
-			for(var x in style){
-				d._style(node, x, style[x]);
-			}
-			return s;
-		}
-		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
-	}
-	
-})(dojo);
-
-dojo.getComputedStyle = dojo._getComputedStyle;
-dojo.style = dojo._style;
-
-
-
-/*********FILE**********
 /src/html/ready.js
 ********************/
 
@@ -2530,8 +2535,8 @@ dojo.objectToQuery = function(/*Object*/ map){
 
 ;(function(_d){
 	var cfg = _d.config;
-	
-	
+
+
 	_d._xhrObj = function(){
 		return new XMLHttpRequest();
 	}
@@ -2562,7 +2567,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		http.open('GET', uri, false);
 		try{
 			http.send(null);
-			if(!d._isDocumentOk(http)){
+			if(!_d._isDocumentOk(http)){
 				var err = Error("Unable to load "+uri+" status:"+ http.status);
 				err.status = http.status;
 				err.responseText = http.responseText;
@@ -2575,13 +2580,13 @@ dojo.objectToQuery = function(/*Object*/ map){
 		}
 		return http.responseText; // String
 	};
-	
-	
+
+
 	dojo._blockAsync = false;
 
 	// MOW: remove dojo._contentHandlers alias in 2.0
 	var handlers = _d._contentHandlers = dojo.contentHandlers = {
-		// summary: 
+		// summary:
 		//		A map of availble XHR transport handle types. Name matches the
 		//		`handleAs` attribute passed to XHR calls.
 		//
@@ -2589,24 +2594,24 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		A map of availble XHR transport handle types. Name matches the
 		//		`handleAs` attribute passed to XHR calls. Each contentHandler is
 		//		called, passing the xhr object for manipulation. The return value
-		//		from the contentHandler will be passed to the `load` or `handle` 
-		//		functions defined in the original xhr call. 
-		//		
+		//		from the contentHandler will be passed to the `load` or `handle`
+		//		functions defined in the original xhr call.
+		//
 		// example:
 		//		Creating a custom content-handler:
 		//	|	dojo.contentHandlers.makeCaps = function(xhr){
 		//	|		return xhr.responseText.toUpperCase();
 		//	|	}
 		//	|	// and later:
-		//	|	dojo.xhrGet({ 
+		//	|	dojo.xhrGet({
 		//	|		url:"foo.txt",
 		//	|		handleAs:"makeCaps",
 		//	|		load: function(data){ /* data is a toUpper version of foo.txt */ }
 		//	|	});
 
-		text: function(xhr){ 
+		text: function(xhr){
 			// summary: A contentHandler which simply returns the plaintext response data
-			return xhr.responseText; 
+			return xhr.responseText;
 		},
 		json: function(xhr){
 			// summary: A contentHandler which returns a JavaScript object created from the response data
@@ -2778,7 +2783,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			/*Function*/canceller,
 			/*Function*/okHandler,
 			/*Function*/errHandler){
-		//	summary: 
+		//	summary:
 		//		sets up the Deferred and ioArgs property on the Deferred so it
 		//		can be used in an io call.
 		//	args:
@@ -2794,14 +2799,14 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		object returned from this function.
 		//	errHandler:
 		//		The first error callback to be registered with Deferred. It has the opportunity
-		//		to do cleanup on an error. It will receive two arguments: error (the 
+		//		to do cleanup on an error. It will receive two arguments: error (the
 		//		Error object) and dfd, the Deferred object returned from this function.
 
 		var ioArgs = {args: args, url: args.url};
 
 		// set up the query params
 		var miArgs = [{}];
-	
+
 		if(args.content){
 			// stuff in content over-rides what's set by form
 			miArgs.push(args.content);
@@ -2810,7 +2815,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			miArgs.push({"dojo.preventCache": new Date().valueOf()});
 		}
 		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
-	
+
 		// .. and the real work of getting the deferred in order, etc.
 		ioArgs.handleAs = args.handleAs || "text";
 		var d = new _d.Deferred(canceller);
@@ -2844,7 +2849,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//Plug in topic publishing, if dojo.publish is loaded.
 		// TODO: What is this? Do we want it?
 // deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
-// should be moved into a separate 
+// should be moved into a separate
 		//if(cfg.ioPublish && _d.publish && ioArgs.args.ioPublish !== false){
 		//	d.addCallbacks(
 		//		function(res){
@@ -2863,7 +2868,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//}
 
 		d.ioArgs = ioArgs;
-	
+
 		// FIXME: need to wire up the xhr object's abort method to something
 		// analagous in the Deferred
 		return d;
@@ -2871,7 +2876,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 
 	var _deferredCancel = function(/*Deferred*/dfd){
 		// summary: canceller function for dojo._ioSetArgs call.
-		
+
 		dfd.canceled = true;
 		var xhr = dfd.ioArgs.xhr;
 		var _at = typeof xhr.abort;
@@ -2904,8 +2909,8 @@ dojo.objectToQuery = function(/*Object*/ map){
 	// something fierece if we don't use unified loops.
 	var _inFlightIntvl = null;
 	var _inFlight = [];
-	
-	
+
+
 	//Use a separate count for knowing if we are starting/stopping io calls.
 	//Cannot use _inFlight.length since it can change at a different time than
 	//when we want to do this kind of test. We only want to decrement the count
@@ -2923,10 +2928,10 @@ dojo.objectToQuery = function(/*Object*/ map){
 	};
 
 	var _watchInFlight = function(){
-		//summary: 
+		//summary:
 		//		internal method that checks each inflight XMLHttpRequest to see
 		//		if it has completed or if the timeout situation applies.
-		
+
 		var now = (new Date()).getTime();
 		// make sure sync calls stay thread safe, if this callback is called
 		// during a sync call and this results in another sync call before the
@@ -2938,7 +2943,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 				var dfd = tif.dfd;
 				var func = function(){
 					if(!dfd || dfd.canceled || !tif.validCheck(dfd)){
-						_inFlight.splice(i--, 1); 
+						_inFlight.splice(i--, 1);
 						_pubCount -= 1;
 					}else if(tif.ioCheck(dfd)){
 						_inFlight.splice(i--, 1);
@@ -3009,7 +3014,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 	}
 
 	_d._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
-		// summary: 
+		// summary:
 		//		Watches the io request represented by dfd to see if it completes.
 		// dfd: Deferred
 		//		The Deferred object to watch.
@@ -3026,7 +3031,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		if(args.timeout){
 			dfd.startTime = (new Date()).getTime();
 		}
-		
+
 		_inFlight.push({dfd: dfd, validCheck: validCheck, ioCheck: ioCheck, resHandle: resHandle});
 		if(!_inFlightIntvl){
 			_inFlightIntvl = setInterval(_watchInFlight, 50);
@@ -3067,7 +3072,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		if(ioArgs.query.length){
 			ioArgs.url += (ioArgs.url.indexOf("?") == -1 ? "?" : "&") + ioArgs.query;
 			ioArgs.query = null;
-		}		
+		}
 	}
 
 	/*=====
@@ -3180,7 +3185,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 	}
 
 	dojo.xhrGet = function(/*dojo.__XhrArgs*/ args){
-		//	summary: 
+		//	summary:
 		//		Sends an HTTP GET request to the server.
 		return _d.xhr("GET", args); // dojo.Deferred
 	}
@@ -3208,7 +3213,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 		//		Sends an HTTP DELETE request to the server.
 		return _d.xhr("DELETE", args); //dojo.Deferred
 	}
-	
+
 }(dojo));
 
 

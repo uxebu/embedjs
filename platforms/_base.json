@@ -54,6 +54,10 @@
         "html/id.js"
 	],
     
+    "html-attr":[
+        "html/attr.js"
+    ],
+    
     "html-element":[
         "html/element.js"
     ],
@@ -112,6 +116,10 @@
     
     "lang-mixin":[
         "lang/mixin.js"
+    ],
+    
+    "lang-object":[
+        "lang/object.js"
     ],
 	
 	/* The "transport" feature group */

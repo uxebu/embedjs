@@ -394,6 +394,29 @@ catch(e){
 };
 })(dojo);
 (function(d){
+d._getComputedStyle=function(_1){
+return _1.nodeType==1?_1.ownerDocument.defaultView.getComputedStyle(_1,null):{};
+};
+var _2="cssFloat",_3={"cssFloat":_2,"styleFloat":_2,"float":_2};
+d._style=function(_4,_5,_6){
+var n=dojo.byId(_4),l=arguments.length;
+_5=_3[_5]||_5;
+if(l==3){
+return n.style[_5]=_6;
+}
+var s=d._getComputedStyle(n);
+if(l==2&&typeof _5!="string"){
+for(var x in _5){
+d._style(_4,x,_5[x]);
+}
+return s;
+}
+return (l==1)?s:parseFloat(s[_5]||n.style[_5])||s[_5];
+};
+})(dojo);
+dojo.getComputedStyle=dojo._getComputedStyle;
+dojo.style=dojo._style;
+(function(d){
 var _1={"class":"className","for":"htmlFor",tabindex:"tabIndex",readonly:"readOnly",colspan:"colSpan",frameborder:"frameBorder",rowspan:"rowSpan",valuetype:"valueType"},_2={classname:"class",htmlfor:"for",tabindex:"tabIndex",readonly:"readOnly"},_3={innerHTML:1,className:1,htmlFor:false,value:1};
 var _4=function(_5){
 return _2[_5.toLowerCase()]||_5;
@@ -669,29 +692,6 @@ _c.className=_e;
 };
 })();
 (function(d){
-d._getComputedStyle=function(_1){
-return _1.nodeType==1?_1.ownerDocument.defaultView.getComputedStyle(_1,null):{};
-};
-var _2="cssFloat",_3={"cssFloat":_2,"styleFloat":_2,"float":_2};
-d._style=function(_4,_5,_6){
-var n=dojo.byId(_4),l=arguments.length;
-_5=_3[_5]||_5;
-if(l==3){
-return n.style[_5]=_6;
-}
-var s=d._getComputedStyle(n);
-if(l==2&&typeof _5!="string"){
-for(var x in _5){
-d._style(_4,x,_5[x]);
-}
-return s;
-}
-return (l==1)?s:parseFloat(s[_5]||n.style[_5])||s[_5];
-};
-})(dojo);
-dojo.getComputedStyle=dojo._getComputedStyle;
-dojo.style=dojo._style;
-(function(d){
 d._loaders=[];
 d._loadNotifying=false;
 d._onto=function(_1,_2,fn){
@@ -811,7 +811,7 @@ var _7=_1._xhrObj();
 _7.open("GET",_5,false);
 try{
 _7.send(null);
-if(!d._isDocumentOk(_7)){
+if(!_1._isDocumentOk(_7)){
 var _8=Error("Unable to load "+_5+" status:"+_7.status);
 _8.status=_7.status;
 _8.responseText=_7.responseText;
@@ -1295,7 +1295,7 @@ _7=_2.id="d---dojo-query-synthetic-id-"+new Date().getTime();
 var _8=true;
 }
 _1="#"+_7+" "+_1;
-_3=_2.parentNode;
+_3=_2.parentNode||_2;
 }
 var n=_3.querySelectorAll(_1);
 if(_8){
