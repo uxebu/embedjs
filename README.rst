@@ -21,7 +21,7 @@ Most of the work in embedJS - especially about how to strip out of dojo what is 
 Building embedJS
 ----------------
 
-See [[wiki page|https://github.com/uxebu/embedjs/wiki/build]]
+See https://github.com/uxebu/embedjs/wiki/build
 
 *NOTE: The current state of the project is NOT stable and under heavy development, use at your own risk :)*
 
