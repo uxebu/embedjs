@@ -66,10 +66,10 @@ tests.register("transport-jsonp",
 					// No way...
 					//if(response instanceof Error && response.dojoType == "timeout"){
 					if(response === null){
-						console.debug("FOO OK TEST");
+						//console.debug("FOO OK TEST");
 						d.callback(true);
 					}else{
-						console.debug("FOO FAIL TEST");
+						//console.debug("FOO FAIL TEST");
 						d.errback(false);
 					}
 				}
@@ -89,15 +89,15 @@ tests.register("transport-jsonp",
 					// No way...
 					//if(response instanceof Error && response.dojoType == "timeout"){
 					if(response === null){
-						console.debug("FOO OK TEST");
+						//console.debug("FOO OK TEST");
 						d.callback(true);
 					}else{
-						console.debug("FOO FAIL TEST");
+						//console.debug("FOO FAIL TEST");
 						d.errback(false);
 					}
 				},
 				load: function(response, ioArgs){
-						console.debug("FOO FAIL TEST");
+						//console.debug("FOO FAIL TEST");
 						d.errback(false);
 				}
 			});

@@ -11,7 +11,7 @@ tests.register("lang-clone",
 					c: {
 						d: undefined,
 						e: 99,
-						f: function(){ console.log(42); return 42; },
+						f: function(){ return 42; },
 						g: /\d+/gm
 					}
 				},
