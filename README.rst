@@ -18,7 +18,10 @@ Goal 2 - stay compatible to the dojo APIs. For those who are used to dojo.query,
 
 Most of the work in embedJS - especially about how to strip out of dojo what is really needed, how to make it most efficient and what platform to provide with what features - comes from the investigations of the people inside uxebu. We are planning to actively push this project and we'll strive to provide the best quality, as used to from dojo. In the hope that all the efforts one day may flow back into dojo.
 
+Building embedJS
+----------------
 
+See https://github.com/uxebu/embedjs/wiki/build
 
 *NOTE: The current state of the project is NOT stable and under heavy development, use at your own risk :)*
 
