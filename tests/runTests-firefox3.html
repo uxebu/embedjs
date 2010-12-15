@@ -130,6 +130,7 @@
 		<script type="text/javascript" src="tests/html/class+style.html.js"></script>
 		<script type="text/javascript" src="tests/html/style.js"></script>
 		<script type="text/javascript" src="tests/html/class.js"></script>
+		<script type="text/javascript" src="tests/html/attr.js"></script>
 		
 		<script type="text/javascript" src="tests/html/element.html.js"></script>
 		<script type="text/javascript" src="tests/html/element.js"></script>
