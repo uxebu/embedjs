@@ -43,6 +43,10 @@
 	//	"fx.js"
 	//],
 	
+	"geolocation":[
+		"geolocation/w3c.js"
+	],
+	
 	/* The "html" feature group */
 
 	"html":[
@@ -144,6 +148,10 @@
 	
 	"query": [
 		"query/qsa-preprocessor.js"
+	],
+
+	"query-qsa": [
+		"query/qsa.js"
 	],
 
 	"query-simple": [

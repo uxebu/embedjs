@@ -6,6 +6,10 @@
         "getProp_bb46_fix.js"
 	],
 
+	"geolocation":[
+		// Not yet implemented ... feel free to do it!
+	],
+	
 	"query": [
 		"query/acme.js"
 	],

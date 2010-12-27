@@ -1418,10 +1418,6 @@ dojo.style = dojo._style;
 ********************/
 
 
-//
-//	imho this file is way too big and inefficient, should be minimized, maybe rewritten?
-//
-
 (function(d){
 	// =============================
 	// Element attribute Functions
@@ -1452,8 +1448,7 @@ dojo.style = dojo._style;
 		_forcePropNames = {
 			innerHTML: 1,
 			className: 1,
-			//htmlFor:   d.isIE,
-			htmlFor:   false,
+			htmlFor:   0,
 			value:     1
 		};
 
@@ -1471,7 +1466,7 @@ dojo.style = dojo._style;
 	// but it is value is "false"; "tabIndex" of <div> returns 0 by default on IE, yet other browsers
 	// can return -1.
 
-	dojo.hasAttr = function(/*DomNode|String*/node, /*String*/name){
+	d.hasAttr = function(/*DomNode|String*/node, /*String*/name){
 		//	summary:
 		//		Returns true if the requested attribute is specified on the
 		//		given element, and false otherwise.
@@ -1493,7 +1488,7 @@ dojo.style = dojo._style;
 			// frameset: 1, head: 1, html: 1, style: 1,
 			table: 1, tbody: 1, tfoot: 1, thead: 1, tr: 1, title: 1};
 
-	dojo.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
+	d.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
 		//	summary:
 		//		Gets or sets an attribute on an HTML element.
 		//	description:
@@ -1596,17 +1591,7 @@ dojo.style = dojo._style;
 					break;
 				}
 				if(propName == "innerHTML"){
-					// special case: assigning HTML
-					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					//if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
-					//	d.empty(node);
-					//	node.appendChild(d._toDom(value, node.ownerDocument));
-					//}else{
-					//>>excludeEnd("webkitMobile");
-						node[propName] = value;
-					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					//}
-					//>>excludeEnd("webkitMobile");
+					node[propName] = value;
 					break;
 				}
 				if(d.isFunction(value)){
@@ -1660,7 +1645,7 @@ dojo.style = dojo._style;
 		return _hasAttr(node, attrName) ? node.getAttribute(attrName) : null; // Anything
 	};
 
-	dojo.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
+	d.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
 		//	summary:
 		//		Removes an attribute from an HTML element.
 		//	node:
@@ -2395,20 +2380,151 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 
 
 /*********FILE**********
-/src/json/json.js
+/src/json/dojo-json.js
 ********************/
 
 
-// NOTE: dojo's JSON impl differs from native!
-//	(e.g. revier function)
+dojo.fromJson = function(/*String*/ json){
+	// summary:
+	// 		Parses a [JSON](http://json.org) string to return a JavaScript object.
+	// description:
+	// 		Throws for invalid JSON strings, but it does not use a strict JSON parser. It
+	// 		delegates to eval().  The content passed to this method must therefore come
+	//		from a trusted source.
+	// json: 
+	//		a string literal of a JSON item, for instance:
+	//			`'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'`
 
-dojo.toJson = function(/* Mixed */ data){
-	return JSON.stringify(data);
+	return eval("(" + json + ")"); // Object
 };
 
-dojo.fromJson = function(/* String */ json){
-	return JSON.parse(json);
-}
+dojo._escapeString = function(/*String*/str){
+	//summary:
+	//		Adds escape sequences for non-visual characters, double quote and
+	//		backslash and surrounds with double quotes to form a valid string
+	//		literal.
+	return ('"' + str.replace(/(["\\])/g, '\\$1') + '"').
+		replace(/[\f]/g, "\\f").replace(/[\b]/g, "\\b").replace(/[\n]/g, "\\n").
+		replace(/[\t]/g, "\\t").replace(/[\r]/g, "\\r"); // string
+};
+
+dojo.toJsonIndentStr = "\t";
+dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _indentStr){
+	//	summary:
+	//		Returns a [JSON](http://json.org) serialization of an object.
+	//	description:
+	//		Returns a [JSON](http://json.org) serialization of an object.
+	//		Note that this doesn't check for infinite recursion, so don't do that!
+	//	it:
+	//		an object to be serialized. Objects may define their own
+	//		serialization via a special "__json__" or "json" function
+	//		property. If a specialized serializer has been defined, it will
+	//		be used as a fallback.
+	//	prettyPrint:
+	//		if true, we indent objects and arrays to make the output prettier.
+	//		The variable `dojo.toJsonIndentStr` is used as the indent string --
+	//		to use something other than the default (tab), change that variable
+	//		before calling dojo.toJson().
+	//	_indentStr:
+	//		private variable for recursive calls when pretty printing, do not use.
+	//	example:
+	//		simple serialization of a trivial object
+	//		|	var jsonStr = dojo.toJson({ howdy: "stranger!", isStrange: true });
+	//		|	doh.is('{"howdy":"stranger!","isStrange":true}', jsonStr);
+	//	example:
+	//		a custom serializer for an objects of a particular class:
+	//		|	dojo.declare("Furby", null, {
+	//		|		furbies: "are strange",
+	//		|		furbyCount: 10,
+	//		|		__json__: function(){
+	//		|		},
+	//		|	});
+
+	if(it === undefined){
+		return "undefined";
+	}
+	var objtype = typeof it;
+	if(objtype == "number" || objtype == "boolean"){
+		return it + "";
+	}
+	if(it === null){
+		return "null";
+	}
+	if(dojo.isString(it)){ 
+		return dojo._escapeString(it); 
+	}
+	// recurse
+	var recurse = arguments.callee;
+	// short-circuit for objects that support "json" serialization
+	// if they return "self" then just pass-through...
+	var newObj;
+	_indentStr = _indentStr || "";
+	var nextIndent = prettyPrint ? _indentStr + dojo.toJsonIndentStr : "";
+	var tf = it.__json__||it.json;
+	if(dojo.isFunction(tf)){
+		newObj = tf.call(it);
+		if(it !== newObj){
+			return recurse(newObj, prettyPrint, nextIndent);
+		}
+	}
+	if(it.nodeType && it.cloneNode){ // isNode
+		// we can't seriailize DOM nodes as regular objects because they have cycles
+		// DOM nodes could be serialized with something like outerHTML, but
+		// that can be provided by users in the form of .json or .__json__ function.
+		throw new Error("Can't serialize DOM nodes");
+	}
+
+	var sep = prettyPrint ? " " : "";
+	var newLine = prettyPrint ? "\n" : "";
+
+	// array
+	if(dojo.isArray(it)){
+		var res = dojo.map(it, function(obj){
+			var val = recurse(obj, prettyPrint, nextIndent);
+			if(typeof val != "string"){
+				val = "undefined";
+			}
+			return newLine + nextIndent + val;
+		});
+		return "[" + res.join("," + sep) + newLine + _indentStr + "]";
+	}
+	/*
+	// look in the registry
+	try {
+		window.o = it;
+		newObj = dojo.json.jsonRegistry.match(it);
+		return recurse(newObj, prettyPrint, nextIndent);
+	}catch(e){
+		// console.log(e);
+	}
+	// it's a function with no adapter, skip it
+	*/
+	if(objtype == "function"){
+		return null; // null
+	}
+	// generic object code path
+	var output = [], key;
+	for(key in it){
+		var keyStr, val;
+		if(typeof key == "number"){
+			keyStr = '"' + key + '"';
+		}else if(typeof key == "string"){
+			keyStr = dojo._escapeString(key);
+		}else{
+			// skip non-string or number keys
+			continue;
+		}
+		val = recurse(it[key], prettyPrint, nextIndent);
+		if(typeof val != "string"){
+			// skip non-serializable values
+			continue;
+		}
+		// FIXME: use += on Moz!!
+		//	 MOW NOTE: using += is a pain because you have to account for the dangling comma...
+		output.push(newLine + nextIndent + keyStr + ":" + sep + val);
+	}
+	return "{" + output.join("," + sep) + newLine + _indentStr + "}"; // String
+};
 
 
 

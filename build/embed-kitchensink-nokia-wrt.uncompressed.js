@@ -1418,10 +1418,6 @@ dojo.style = dojo._style;
 ********************/
 
 
-//
-//	imho this file is way too big and inefficient, should be minimized, maybe rewritten?
-//
-
 (function(d){
 	// =============================
 	// Element attribute Functions
@@ -1452,8 +1448,7 @@ dojo.style = dojo._style;
 		_forcePropNames = {
 			innerHTML: 1,
 			className: 1,
-			//htmlFor:   d.isIE,
-			htmlFor:   false,
+			htmlFor:   0,
 			value:     1
 		};
 
@@ -1471,7 +1466,7 @@ dojo.style = dojo._style;
 	// but it is value is "false"; "tabIndex" of <div> returns 0 by default on IE, yet other browsers
 	// can return -1.
 
-	dojo.hasAttr = function(/*DomNode|String*/node, /*String*/name){
+	d.hasAttr = function(/*DomNode|String*/node, /*String*/name){
 		//	summary:
 		//		Returns true if the requested attribute is specified on the
 		//		given element, and false otherwise.
@@ -1493,7 +1488,7 @@ dojo.style = dojo._style;
 			// frameset: 1, head: 1, html: 1, style: 1,
 			table: 1, tbody: 1, tfoot: 1, thead: 1, tr: 1, title: 1};
 
-	dojo.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
+	d.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
 		//	summary:
 		//		Gets or sets an attribute on an HTML element.
 		//	description:
@@ -1596,17 +1591,7 @@ dojo.style = dojo._style;
 					break;
 				}
 				if(propName == "innerHTML"){
-					// special case: assigning HTML
-					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					//if(d.isIE && node.tagName.toLowerCase() in _roInnerHtml){
-					//	d.empty(node);
-					//	node.appendChild(d._toDom(value, node.ownerDocument));
-					//}else{
-					//>>excludeEnd("webkitMobile");
-						node[propName] = value;
-					//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
-					//}
-					//>>excludeEnd("webkitMobile");
+					node[propName] = value;
 					break;
 				}
 				if(d.isFunction(value)){
@@ -1660,7 +1645,7 @@ dojo.style = dojo._style;
 		return _hasAttr(node, attrName) ? node.getAttribute(attrName) : null; // Anything
 	};
 
-	dojo.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
+	d.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
 		//	summary:
 		//		Removes an attribute from an HTML element.
 		//	node:
