@@ -69,7 +69,7 @@ dojo.forEach(topics, function(topic){
 		topicCount[topic] = 0;
 		dojo.subscribe(topic, function(){
 			topicCount[topic] += 1;
-			console.log("##"+ topic + ": " + topicCount[topic]);
+			//console.log("##"+ topic + ": " + topicCount[topic]);
 		});
 	}catch(e){
 		

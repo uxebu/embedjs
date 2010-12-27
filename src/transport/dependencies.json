@@ -4,7 +4,7 @@
 		"uri",
 		"lang-is",
         "lang-mixin",
-		"transport-deferred"
+		"async-deferred"
 	],
     
 	"jsonp.js":[
