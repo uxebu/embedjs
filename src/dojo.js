@@ -1,4 +1,5 @@
-var embed = dojo = {};
+var embed, dojo;
+embed = dojo = {};
 embed.config = {};
 embed.global = window;
 embed.doc = document;
