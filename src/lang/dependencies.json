@@ -1,8 +1,9 @@
 {
 	"hitch.js":[
-		"lang-is"
+		"lang-is",
+		"lang-toarray"
 	],
-    
+
     "string.js":[
         "lang-object"
     ]
