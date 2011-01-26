@@ -7,3 +7,4 @@ embed.body = function() {
 	var ebd = embed;
 	return ebd.doc && ebd.doc.body;
 };
+embed.version = "0.1";
