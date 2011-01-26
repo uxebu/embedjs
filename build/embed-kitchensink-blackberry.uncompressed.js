@@ -6,13 +6,16 @@
 ********************/
 
 
-var embed = dojo = {};
+var embed, dojo;
+embed = dojo = {};
 embed.config = {};
-embed.global = window;
-embed.doc = document;
+embed.global = this;
+embed.doc = this.document || null;
 embed.body = function() {
-	return document.body;
+	var ebd = embed;
+	return ebd.doc && ebd.doc.body;
 };
+embed.version = "0.1";
 
 
 
@@ -3328,6 +3331,27 @@ dojo.declare("dojo.jsonp.__ioArgs", null, {
 
 
 /*********FILE**********
+/src/oo/delegate.js
+********************/
+
+
+dojo.delegate = dojo._delegate = (function(){
+	// boodman/crockford delegation w/ cornford optimization
+	function TMP(){}
+	return function(obj, props){
+		TMP.prototype = obj;
+		var tmp = new TMP();
+		TMP.prototype = null;
+		if(props){
+			dojo._mixin(tmp, props);
+		}
+		return tmp; // Object
+	}
+})();
+
+
+
+/*********FILE**********
 /src/oo/declare.js
 ********************/
 
@@ -3576,27 +3600,6 @@ dojo.mixin(dojo.declare, {
 		}
 	}
 });
-
-
-
-/*********FILE**********
-/src/oo/delegate.js
-********************/
-
-
-dojo.delegate = dojo._delegate = (function(){
-	// boodman/crockford delegation w/ cornford optimization
-	function TMP(){}
-	return function(obj, props){
-		TMP.prototype = obj;
-		var tmp = new TMP();
-		TMP.prototype = null;
-		if(props){
-			dojo._mixin(tmp, props);
-		}
-		return tmp; // Object
-	}
-})();
 
 
 
