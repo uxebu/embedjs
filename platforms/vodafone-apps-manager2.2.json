@@ -2,4 +2,13 @@
 	"query": [
 		"query/acme.js"
 	],
+	
+	"geolocation":[
+		// Not yet implemented ... feel free to do it!
+	],
+	
+	"json":[
+		"json/dojo-json.js"
+	],
+
 }

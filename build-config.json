@@ -50,12 +50,20 @@
 	// in order to do that the dependencies need to be resolved and
 	// this is done using the sourcePath to find the dependencies etc.
 	"profiles":{
-    
-        // kitchensink is the full-blown build of EmbedJS, including every existing feature.
-		"kitchensink":[
+	
+		// The "standard" is the recommended build, that we will offer for download on
+		// the embedjs.org site, which is best (in our opinion) for mobile.
+		"standard":[
 			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri","query"
 		],
-        
+		
+		// kitchensink is the full-blown build of EmbedJS, including everything.
+		"kitchensink":[
+			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri","query",
+			// the APIs follow
+			"geolocation"
+		],
+		
 		"recommended":[
 			"base","array","connect","async-promise","destroy","html","json","lang","transport-jsonp","oo","uri","query"
 		],
@@ -63,10 +71,10 @@
 		"oo-only":[
 			"base","oo-declare"
 		],
-        
-        "no-dom":[
-            "base","array","connect","async","json","lang","transport-xhr","oo","uri"
-        ],
+		
+		"no-dom":[
+			"base","array","connect","async","json","lang","transport-xhr","oo","uri"
+		],
 		
 		// Ideas for profiles we might offer ...
 		"javascript-1.6":[],
