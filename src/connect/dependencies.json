@@ -4,5 +4,8 @@
 	],
     "ie.js":[
         "lang-mixin"
-    ]
+    ],
+	"connect.js":[
+		"lang-hitch"
+	]
 }
