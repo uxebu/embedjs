@@ -630,7 +630,7 @@
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
-		if(args.overrideMinmeType && xhr.overrideMimeType){
+		if(args.overrideMimeType && xhr.overrideMimeType){
 			xhr.overrideMimeType(args.overrideMimeType);
 		}
 		_d._ioNotifyStart(dfd);
