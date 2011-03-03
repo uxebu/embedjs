@@ -68,7 +68,9 @@ tests.register("array",
 					default: t.assertTrue(false);
 				}
 			});
-
+		},
+		
+		function testForEachExeption(t){
 			var noException = true;
 			try{
 				dojo.forEach(undefined, function(){});
