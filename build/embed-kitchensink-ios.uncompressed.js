@@ -24,16 +24,167 @@ embed.version = "0.1";
 ********************/
 
 
-["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
+["indexOf", "lastIndexOf"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
-			if((idx > 1) && (typeof callback == "string")){
+			// This is due to a bug found in in Chrome 9, FF 3.6 and 4:
+			// Having undefined as the second parameter to lastIndexOf
+			// will result in lastIndeOf interpreting this as 0.
+			// TODO: Do we want to have this in an own feature?
+			return typeof thisObj == "undefined" ? 
+				Array.prototype[name].call(arr, callback) : 
+				Array.prototype[name].call(arr, callback, thisObj);
+		}
+	}
+);
+["forEach", "map", "some", "every", "filter"].forEach(
+	function(name, idx){
+		dojo[name] = function(arr, callback, thisObj){
+			if(typeof callback == "string"){
 				callback = new Function("item", "index", "array", callback);
 			}
 			return Array.prototype[name].call(arr, callback, thisObj);
 		}
 	}
 );
+
+
+
+/*********FILE**********
+/src/lang/is.js
+********************/
+
+
+// Crockford (ish) functions
+
+dojo.isString = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is a String
+	return (typeof it == "string" || it instanceof String); // Boolean
+}
+
+dojo.isArray = function(/*anything*/ it){
+	//	summary:
+	//		Return true if it is an Array
+	return it && (it instanceof Array || typeof it == "array"); // Boolean
+}
+
+/*=====
+dojo.isFunction = function(it){
+	// summary: Return true if it is a Function
+	// it: anything
+	return; // Boolean
+}
+=====*/
+
+dojo.isFunction = function(/*anything*/ it){
+	var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
+	//Firefox thinks object HTML element is a function, so test for nodeType.
+	//Safari (incl webkit mobile on iOS) thinks of NodeLists as funtions, so we need to check this.
+	// TODO: Find a less expensive way to test this instead of toString.
+	// TODO Check if this affects webkit mobile on android.
+	return it && (t == "function" || it instanceof Function) && !it.nodeType && it.toString() != "[object NodeList]"; // Boolean
+};
+
+dojo.isObject = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a JavaScript object (or an Array, a Function
+	//		or null)
+	return it !== undefined &&
+		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
+}
+
+dojo.isArrayLike = function(/*anything*/ it){
+	//	summary:
+	//		similar to dojo.isArray() but more permissive
+	//	description:
+	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
+	//		a string or number and has a length property". Arguments objects
+	//		and DOM collections will return true when passed to
+	//		dojo.isArrayLike(), but will return false when passed to
+	//		dojo.isArray().
+	//	returns:
+	//		If it walks like a duck and quacks like a duck, return `true`
+	var d = dojo;
+	return it && it !== undefined && // Boolean
+		// keep out built-in constructors (Number, String, ...) which have length
+		// properties
+		!d.isString(it) && !d.isFunction(it) &&
+		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
+		(d.isArray(it) || isFinite(it.length));
+}
+
+dojo.isAlien = function(/*anything*/ it){
+	// summary:
+	//		Returns true if it is a built-in function or some other kind of
+	//		oddball that *should* report as a function but doesn't
+	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
+}
+
+dojo.isNumeric = function(n){
+	return n==parseFloat(n);
+}
+
+dojo.isNumber = function(n){
+	return typeof n == "number" || n instanceof Number;
+}
+
+
+
+/*********FILE**********
+/src/lang/hitch.js
+********************/
+
+
+dojo._hitchArgs = function(scope, method /*,...*/){
+	var pre = dojo.toArray(arguments, 2);
+	var named = dojo.isString(method);
+	return function(){
+		// arrayify arguments
+		var args = dojo.toArray(arguments);
+		// locate our method
+		var f = named ? (scope||dojo.global)[method] : method;
+		// invoke with collected args
+		return f && f.apply(scope || this, pre.concat(args)); // mixed
+ 	} // Function
+}
+
+dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
+	//	summary:
+	//		Returns a function that will only ever execute in the a given scope.
+	//		This allows for easy use of object member functions
+	//		in callbacks and other places in which the "this" keyword may
+	//		otherwise not reference the expected scope.
+	//		Any number of default positional arguments may be passed as parameters
+	//		beyond "method".
+	//		Each of these values will be used to "placehold" (similar to curry)
+	//		for the hitched function.
+	//	scope:
+	//		The scope to use when method executes. If method is a string,
+	//		scope is also the object containing method.
+	//	method:
+	//		A function to be hitched to scope, or the name of the method in
+	//		scope to be hitched.
+	//	example:
+	//	|	dojo.hitch(foo, "bar")();
+	//		runs foo.bar() in the scope of foo
+	//	example:
+	//	|	dojo.hitch(foo, myFunction);
+	//		returns a function that runs myFunction in the scope of foo
+	if(arguments.length > 2){
+		return dojo._hitchArgs.apply(dojo, arguments); // Function
+	}
+	if(!method){
+		method = scope;
+		scope = null;
+	}
+	if(dojo.isString(method)){
+		scope = scope || dojo.global;
+		if(!scope[method]){ throw(['dojo.hitch: scope["', method, '"] is null (scope="', scope, '")'].join('')); }
+		return function(){ return scope[method].apply(scope, arguments || []); }; // Function
+	}
+	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
+}
 
 
 
@@ -432,150 +583,6 @@ dojo.connectPublisher = function(	/*String*/ topic,
 	var pf = function(){ dojo.publish(topic, arguments); }
 	return event ? dojo.connect(obj, event, pf) : dojo.connect(obj, pf); //Handle
 };
-
-
-
-/*********FILE**********
-/src/lang/is.js
-********************/
-
-
-// Crockford (ish) functions
-
-dojo.isString = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is a String
-	return (typeof it == "string" || it instanceof String); // Boolean
-}
-
-dojo.isArray = function(/*anything*/ it){
-	//	summary:
-	//		Return true if it is an Array
-	return it && (it instanceof Array || typeof it == "array"); // Boolean
-}
-
-/*=====
-dojo.isFunction = function(it){
-	// summary: Return true if it is a Function
-	// it: anything
-	return; // Boolean
-}
-=====*/
-
-dojo.isFunction = (function(){
-	var _isFunction = function(/*anything*/ it){
-		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
-		//Firefox thinks object HTML element is a function, so test for nodeType.
-		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
-	};
-
-	return dojo.isSafari ?
-		// only slow this down w/ gratuitious casting in Safari (not WebKit)
-		function(/*anything*/ it){
-			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
-			return _isFunction(it); // Boolean
-		} : _isFunction;
-})();
-
-dojo.isObject = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a JavaScript object (or an Array, a Function
-	//		or null)
-	return it !== undefined &&
-		(it === null || typeof it == "object" || dojo.isArray(it) || dojo.isFunction(it)); // Boolean
-}
-
-dojo.isArrayLike = function(/*anything*/ it){
-	//	summary:
-	//		similar to dojo.isArray() but more permissive
-	//	description:
-	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
-	//		a string or number and has a length property". Arguments objects
-	//		and DOM collections will return true when passed to
-	//		dojo.isArrayLike(), but will return false when passed to
-	//		dojo.isArray().
-	//	returns:
-	//		If it walks like a duck and quacks like a duck, return `true`
-	var d = dojo;
-	return it && it !== undefined && // Boolean
-		// keep out built-in constructors (Number, String, ...) which have length
-		// properties
-		!d.isString(it) && !d.isFunction(it) &&
-		!(it.tagName && it.tagName.toLowerCase() == 'form') &&
-		(d.isArray(it) || isFinite(it.length));
-}
-
-dojo.isAlien = function(/*anything*/ it){
-	// summary:
-	//		Returns true if it is a built-in function or some other kind of
-	//		oddball that *should* report as a function but doesn't
-	return it && !dojo.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
-}
-
-dojo.isNumeric = function(n){
-	return n==parseFloat(n);
-}
-
-dojo.isNumber = function(n){
-	return typeof n == "number" || n instanceof Number;
-}
-
-
-
-/*********FILE**********
-/src/lang/hitch.js
-********************/
-
-
-dojo._hitchArgs = function(scope, method /*,...*/){
-	var pre = dojo.toArray(arguments, 2);
-	var named = dojo.isString(method);
-	return function(){
-		// arrayify arguments
-		var args = dojo.toArray(arguments);
-		// locate our method
-		var f = named ? (scope||dojo.global)[method] : method;
-		// invoke with collected args
-		return f && f.apply(scope || this, pre.concat(args)); // mixed
- 	} // Function
-}
-
-dojo.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
-	//	summary:
-	//		Returns a function that will only ever execute in the a given scope.
-	//		This allows for easy use of object member functions
-	//		in callbacks and other places in which the "this" keyword may
-	//		otherwise not reference the expected scope.
-	//		Any number of default positional arguments may be passed as parameters
-	//		beyond "method".
-	//		Each of these values will be used to "placehold" (similar to curry)
-	//		for the hitched function.
-	//	scope:
-	//		The scope to use when method executes. If method is a string,
-	//		scope is also the object containing method.
-	//	method:
-	//		A function to be hitched to scope, or the name of the method in
-	//		scope to be hitched.
-	//	example:
-	//	|	dojo.hitch(foo, "bar")();
-	//		runs foo.bar() in the scope of foo
-	//	example:
-	//	|	dojo.hitch(foo, myFunction);
-	//		returns a function that runs myFunction in the scope of foo
-	if(arguments.length > 2){
-		return dojo._hitchArgs.apply(dojo, arguments); // Function
-	}
-	if(!method){
-		method = scope;
-		scope = null;
-	}
-	if(dojo.isString(method)){
-		scope = scope || dojo.global;
-		if(!scope[method]){ throw(['dojo.hitch: scope["', method, '"] is null (scope="', scope, '")'].join('')); }
-		return function(){ return scope[method].apply(scope, arguments || []); }; // Function
-	}
-	return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
-}
 
 
 
@@ -3153,7 +3160,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
-		if(args.overrideMinmeType && xhr.overrideMimeType){
+		if(args.overrideMimeType && xhr.overrideMimeType){
 			xhr.overrideMimeType(args.overrideMimeType);
 		}
 		_d._ioNotifyStart(dfd);
