@@ -25,10 +25,11 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 		"false": "remove",
 		"undefined": "toggle"
 	};
-	node.classList[methodHash[condition + ""]](classStr);
+	dojo.byId(node).classList[methodHash[condition + ""]](classStr);
 };
 
 dojo.addClass = function(node, classStr){
+	node = dojo.byId(node);
 	var classes = classStr.split ? classStr.split(" ") : classStr;
 	for (var i=0, l=classes.length; i<l; i++){
 		node.classList.add(classes[i]);
@@ -36,6 +37,7 @@ dojo.addClass = function(node, classStr){
 };
 
 dojo.removeClass = function(node, classStr){
+	node = dojo.byId(node);
 	if (classStr === undefined){
 		node.className = "";
 	} else {
