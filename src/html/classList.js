@@ -32,7 +32,7 @@ dojo.addClass = function(node, classStr){
 	node = dojo.byId(node);
 	var classes = classStr.split ? classStr.split(" ") : classStr;
 	for (var i=0, l=classes.length; i<l; i++){
-		node.classList.add(classes[i]);
+		classes[i].length && node.classList.add(classes[i]);
 	}
 };
 
@@ -43,7 +43,7 @@ dojo.removeClass = function(node, classStr){
 	} else {
 		var classes = classStr.split ? classStr.split(" ") : classStr;
 		for (var i=0, l=classes.length; i<l; i++){
-			node.classList.remove(classes[i]);
+			classes[i].length && node.classList.remove(classes[i]);
 		}
 	}
 };
