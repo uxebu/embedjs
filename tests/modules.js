@@ -67,7 +67,7 @@ doh._groupFinished = function(group, success){
 	var percentFailures = cg.failures / cg.length * 100;
 	var link = doh._groupResultNodes[group].outer.getElementsByTagName("a");
 	if (link.length>0){
-		link[0].setAttribute("style", "width:" + percentFailures + "%");
+		link[0].style.width = parseInt(percentFailures) + "%"; // setAttribute() fails on WP7 with IE7, so use style attribute directly. grrr
 		link[0].innerHTML += " <span>(Passed "+ ( cg.length - cg.failures ) + " tests of " + cg.length + ", elapsed time: " + this._stats.groupsByName[group].elapsed + "ms)</span>"
 	}
 }
