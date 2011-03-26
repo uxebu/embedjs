@@ -20,6 +20,7 @@
 				padding: 5px 0px;
 				text-decoration: none;
 				background-color: #FF3F3F;
+				white-space: nowrap; /* Just for IE7 (wp7) :( */
 			}
 			#resultsNode h1 span {
 				font-weight: normal;
