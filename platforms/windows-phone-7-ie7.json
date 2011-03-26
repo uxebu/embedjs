@@ -15,4 +15,9 @@
 		// I am not sure if getElementsByClassName() is implemented for this platform, to be tested
 		"query/acme.js"
 	],
+	
+	"json":[
+		"json/dojo-json.js"
+	],
+
 }
