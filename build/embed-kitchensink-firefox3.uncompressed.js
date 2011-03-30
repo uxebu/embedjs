@@ -24,10 +24,23 @@ embed.version = "0.1";
 ********************/
 
 
-["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
+["indexOf", "lastIndexOf"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
-			if((idx > 1) && (typeof callback == "string")){
+			// This is due to a bug found in in Chrome 9, FF 3.6 and 4:
+			// Having undefined as the second parameter to lastIndexOf
+			// will result in lastIndeOf interpreting this as 0.
+			// TODO: Do we want to have this in an own feature?
+			return typeof thisObj == "undefined" ? 
+				Array.prototype[name].call(arr, callback) : 
+				Array.prototype[name].call(arr, callback, thisObj);
+		}
+	}
+);
+["forEach", "map", "some", "every", "filter"].forEach(
+	function(name, idx){
+		dojo[name] = function(arr, callback, thisObj){
+			if(typeof callback == "string"){
 				callback = new Function("item", "index", "array", callback);
 			}
 			return Array.prototype[name].call(arr, callback, thisObj);
@@ -64,20 +77,14 @@ dojo.isFunction = function(it){
 }
 =====*/
 
-dojo.isFunction = (function(){
-	var _isFunction = function(/*anything*/ it){
-		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
-		//Firefox thinks object HTML element is a function, so test for nodeType.
-		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
-	};
-
-	return dojo.isSafari ?
-		// only slow this down w/ gratuitious casting in Safari (not WebKit)
-		function(/*anything*/ it){
-			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
-			return _isFunction(it); // Boolean
-		} : _isFunction;
-})();
+dojo.isFunction = function(/*anything*/ it){
+	var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
+	//Firefox thinks object HTML element is a function, so test for nodeType.
+	//Safari (incl webkit mobile on iOS) thinks of NodeLists as funtions, so we need to check this.
+	// TODO: Find a less expensive way to test this instead of toString.
+	// TODO Check if this affects webkit mobile on android.
+	return it && (t == "function" || it instanceof Function) && !it.nodeType && it.toString() != "[object NodeList]"; // Boolean
+};
 
 dojo.isObject = function(/*anything*/ it){
 	// summary:
@@ -1956,327 +1963,6 @@ dojo.style = dojo._style;
 
 
 /*********FILE**********
-/src/lang/object.js
-********************/
-
-
-
-dojo._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object?*/context){
-	var obj=context || dojo.global;
-	for(var i=0, p; obj && (p=parts[i]); i++){
-		//if(i == 0 && d._scopeMap[p]){
-		//	p = d._scopeMap[p];
-		//}
-		obj = (p in obj ? obj[p] : (create ? obj[p]={} : undefined));
-	}
-	return obj; // mixed
-};
-
-dojo.setObject = function(/*String*/name, /*Object*/value, /*Object?*/context){
-	// summary:
-	//		Set a property from a dot-separated string, such as "A.B.C"
-	//	description:
-	//		Useful for longer api chains where you have to test each object in
-	//		the chain, or when you have an object reference in string format.
-	//		Objects are created as needed along `path`. Returns the passed
-	//		value if setting is successful or `undefined` if not.
-	//	name:
-	//		Path to a property, in the form "A.B.C".
-	//	context:
-	//		Optional. Object to use as root of path. Defaults to
-	//		`dojo.global`.
-	//	example:
-	//		set the value of `foo.bar.baz`, regardless of whether
-	//		intermediate objects already exist:
-	//	|	dojo.setObject("foo.bar.baz", value);
-	//	example:
-	//		without `dojo.setObject`, we often see code like this:
-	//	|	// ensure that intermediate objects are available
-	//	|	if(!obj["parent"]){ obj.parent = {}; }
-	//	|	if(!obj.parent["child"]){ obj.parent.child= {}; }
-	//	|	// now we can safely set the property
-	//	|	obj.parent.child.prop = "some value";
-	//		wheras with `dojo.setObject`, we can shorten that to:
-	//	|	dojo.setObject("parent.child.prop", "some value", obj);
-	var parts=name.split("."), p=parts.pop(), obj=dojo._getProp(parts, true, context);
-	return obj && p ? (obj[p]=value) : undefined; // Object
-};
-
-dojo.getObject = function(/*String*/name, /*Boolean?*/create, /*Object?*/context){
-	// summary:
-	//		Get a property from a dot-separated string, such as "A.B.C"
-	//	description:
-	//		Useful for longer api chains where you have to test each object in
-	//		the chain, or when you have an object reference in string format.
-	//	name:
-	//		Path to an property, in the form "A.B.C".
-	//	create:
-	//		Optional. Defaults to `false`. If `true`, Objects will be
-	//		created at any point along the 'path' that is undefined.
-	//	context:
-	//		Optional. Object to use as root of path. Defaults to
-	//		'dojo.global'. Null may be passed.
-	return dojo._getProp(name.split("."), create, context); // Object
-};
-
-
-
-/*********FILE**********
-/src/lang/string.js
-********************/
-
-
-/*=====
-dojo.trim = function(str){
-	//	summary:
-	//		Trims whitespace from both sides of the string
-	//	str: String
-	//		String to be trimmed
-	//	returns: String
-	//		Returns the trimmed string
-	//	description:
-	//		This version of trim() was selected for inclusion into the base due
-	//		to its compact size and relatively good performance
-	//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
-	//		Uses String.prototype.trim instead, if available.
-	//		The fastest but longest version of this function is located at
-	//		dojo.string.trim()
-	return "";	// String
-}
-=====*/
-
-dojo.trim = String.prototype.trim ?
-	function(str){ return str.trim(); } :
-	function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
-
-/*=====
-dojo.replace = function(tmpl, map, pattern){
-	//	summary:
-	//		Performs parameterized substitutions on a string. Throws an
-	//		exception if any parameter is unmatched. 
-	//	tmpl: String
-	//		String to be used as a template.
-	//	map: Object|Function
-	//		If an object, it is used as a dictionary to look up substitutions.
-	//		If a function, it is called for every substitution with following
-	//		parameters: a whole match, a name, an offset, and the whole template
-	//		string (see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/String/replace
-	//		for more details).
-	//	pattern: RegEx?
-	//		Optional regular expression objects that overrides the default pattern.
-	//		Must be global and match one item. The default is: /\{([^\}]+)\}/g,
-	//		which matches patterns like that: "{xxx}", where "xxx" is any sequence
-	//		of characters, which doesn't include "}".
-	//	returns: String
-	//		Returns the substituted string.
-	//	example:
-	//	|	// uses a dictionary for substitutions:
-	//	|	dojo.replace("Hello, {name.first} {name.last} AKA {nick}!",
-	//	|	  {
-	//	|	    nick: "Bob",
-	//	|	    name: {
-	//	|	      first:  "Robert",
-	//	|	      middle: "X",
-	//	|	      last:   "Cringely"
-	//	|	    }
-	//	|	  });
-	//	|	// returns: Hello, Robert Cringely AKA Bob!
-	//	example:
-	//	|	// uses an array for substitutions:
-	//	|	dojo.replace("Hello, {0} {2}!",
-	//	|	  ["Robert", "X", "Cringely"]);
-	//	|	// returns: Hello, Robert Cringely!
-	//	example:
-	//	|	// uses a function for substitutions:
-	//	|	function sum(a){
-	//	|	  var t = 0;
-	//	|	  dojo.forEach(a, function(x){ t += x; });
-	//	|	  return t;
-	//	|	}
-	//	|	dojo.replace(
-	//	|	  "{count} payments averaging {avg} USD per payment.",
-	//	|	  dojo.hitch(
-	//	|	    { payments: [11, 16, 12] },
-	//	|	    function(_, key){
-	//	|	      switch(key){
-	//	|	        case "count": return this.payments.length;
-	//	|	        case "min":   return Math.min.apply(Math, this.payments);
-	//	|	        case "max":   return Math.max.apply(Math, this.payments);
-	//	|	        case "sum":   return sum(this.payments);
-	//	|	        case "avg":   return sum(this.payments) / this.payments.length;
-	//	|	      }
-	//	|	    }
-	//	|	  )
-	//	|	);
-	//	|	// prints: 3 payments averaging 13 USD per payment.
-	//	example:
-	//	|	// uses an alternative PHP-like pattern for substitutions:
-	//	|	dojo.replace("Hello, ${0} ${2}!",
-	//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
-	//	|	// returns: Hello, Robert Cringely!
-	return "";	// String
-}
-=====*/
-
-var _pattern = /\{([^\}]+)\}/g;
-dojo.replace = function(tmpl, map, pattern){
-	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
-		map : function(_, k){ return dojo.getObject(k, false, map); });
-};
-
-
-
-/*********FILE**********
-/src/html/class.js
-********************/
-
-
-dojo.hasClass = function(/*DomNode|String*/node, /*String*/classStr){
-	//	summary:
-	//		Returns whether or not the specified classes are a portion of the
-	//		class list currently applied to the node.
-	//
-	//	node:
-	//		String ID or DomNode reference to check the class for.
-	//
-	//	classStr:
-	//		A string class name to look for.
-	//
-	//	example:
-	//	| if(dojo.hasClass("someNode","aSillyClassName")){ ... }
-	return ((" "+ dojo.byId(node).className +" ").indexOf(" " + classStr + " ") >= 0);  // Boolean
-};
-
-dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolean?*/condition){
-	//	summary:
-	//		Adds a class to node if not present, or removes if present.
-	//		Pass a boolean condition if you want to explicitly add or remove.
-	//	condition:
-	//		If passed, true means to add the class, false means to remove.
-	//
-	// example:
-	//	| dojo.toggleClass("someNode", "hovered");
-	//
-	// example:
-	// 	Forcefully add a class
-	//	| dojo.toggleClass("someNode", "hovered", true);
-	//
-	// example:
-	//	Available in `dojo.NodeList` for multiple toggles
-	//	| dojo.query(".toggleMe").toggleClass("toggleMe");
-
-	if(condition === undefined){
-		condition = !dojo.hasClass(node, classStr);
-	}
-	dojo[condition ? "addClass" : "removeClass"](node, classStr);
-};
-
-(function(){
-	var spaces = /\s+/;
-	var str2array = function(s){
-		if(typeof s == "string" || s instanceof String){
-			if(s.indexOf(" ") < 0){
-				return [s];
-			}else{
-				return dojo.trim(s).split(spaces);
-			}
-		}
-		// assumed to be an array
-		return s;
-	};
-
-	dojo.addClass = function(node, classStr){
-		//	summary:
-		//		Adds the specified classes to the end of the class list on the
-		//		passed node. Will not re-apply duplicate classes.
-		//
-		//	node: DomNode|String
-		//		String ID or DomNode reference to add a class string too
-		//
-		//	classStr: String|Array
-		//		A String class name to add, or several space-separated class names,
-		//		or an array of class names.
-		//
-		// example:
-		//	Add a class to some node:
-		//	|	dojo.addClass("someNode", "anewClass");
-		//
-		// example:
-		//	Add two classes at once:
-		//	| 	dojo.addClass("someNode", "firstClass secondClass");
-		//
-		// example:
-		//	Add two classes at once (using array):
-		//	| 	dojo.addClass("someNode", ["firstClass", "secondClass"]);
-		//
-		// example:
-		//	Available in `dojo.NodeList` for multiple additions
-		//	| dojo.query("ul > li").addClass("firstLevel");
-	
-		node = dojo.byId(node);
-		classStr = str2array(classStr);
-		var cls = " " + node.className + " ";
-		for(var i = 0, len = classStr.length, c; i < len; ++i){
-			c = classStr[i];
-			if(c && cls.indexOf(" " + c + " ") < 0){
-				cls += c + " ";
-			}
-		}
-		node.className = dojo.trim(cls);
-	};
-	
-	dojo.removeClass = function(/*DomNode|String*/node, /*String|Array?*/classStr){
-		// summary:
-		//		Removes the specified classes from node. No `dojo.hasClass`
-		//		check is required.
-		//
-		// node:
-		// 		String ID or DomNode reference to remove the class from.
-		//
-		// classStr:
-		//		An optional String class name to remove, or several space-separated
-		//		class names, or an array of class names. If omitted, all class names
-		//		will be deleted.
-		//
-		// example:
-		//	Remove a class from some node:
-		// 	| dojo.removeClass("someNode", "firstClass");
-		//
-		// example:
-		//	Remove two classes from some node:
-		// 	| dojo.removeClass("someNode", "firstClass secondClass");
-		//
-		// example:
-		//	Remove two classes from some node (using array):
-		// 	| dojo.removeClass("someNode", ["firstClass", "secondClass"]);
-		//
-		// example:
-		//	Remove all classes from some node:
-		// 	| dojo.removeClass("someNode");
-		//
-		// example:
-		//	Available in `dojo.NodeList` for multiple removal
-		//	| dojo.query(".foo").removeClass("foo");
-	
-		node = dojo.byId(node);
-		var cls;
-		if(classStr !== undefined){
-			classStr = str2array(classStr);
-			cls = " " + node.className + " ";
-			for(var i = 0, len = classStr.length; i < len; ++i){
-				cls = cls.replace(" " + classStr[i] + " ", " ");
-			}
-			cls = dojo.trim(cls);
-		}else{
-			cls = "";
-		}
-		if(node.className != cls){ node.className = cls; }
-	};
-})();
-
-
-
-/*********FILE**********
 /src/html/classList.js
 ********************/
 
@@ -2303,44 +1989,33 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 	//	Available in `dojo.NodeList` for multiple toggles
 	//	| dojo.query(".toggleMe").toggleClass("toggleMe");
 
-	if(condition === undefined){
-		condition = !dojo.hasClass(node, classStr);
-	}
-	dojo[condition ? "addClass" : "removeClass"](node, classStr);
+	var methodHash = {
+		"true": "add",
+		"false": "remove",
+		"undefined": "toggle"
+	};
+	dojo.byId(node).classList[methodHash[condition + ""]](classStr);
 };
 
-(function(){
-	var spaces = /\s+/;
-	var str2array = function(s){
-		if(typeof s == "string" || s instanceof String){
-			if(s.indexOf(" ") < 0){
-				return [s];
-			}else{
-				return dojo.trim(s).split(spaces);
-			}
-		}
-		// assumed to be an array
-		return s;
-	};
-	
-	dojo.addClass = function(node, classStr){
-		var classes = str2array(classStr);
+dojo.addClass = function(node, classStr){
+	node = dojo.byId(node);
+	var classes = classStr.split ? classStr.split(" ") : classStr;
+	for (var i=0, l=classes.length; i<l; i++){
+		classes[i].length && node.classList.add(classes[i]);
+	}
+};
+
+dojo.removeClass = function(node, classStr){
+	node = dojo.byId(node);
+	if (classStr === undefined){
+		node.className = "";
+	} else {
+		var classes = classStr.split ? classStr.split(" ") : classStr;
 		for (var i=0, l=classes.length; i<l; i++){
-			node.classList.add(classes[i]);
+			classes[i].length && node.classList.remove(classes[i]);
 		}
 	}
-	
-	dojo.removeClass = function(node, classStr){
-		if (classStr === undefined){
-			node.className = "";
-		} else {
-			var classes = str2array(classStr);
-			for (var i=0, l=classes.length; i<l; i++){
-				node.classList.remove(classes[i]);
-			}
-		}
-	}
-})();
+};
 
 
 
@@ -2532,6 +2207,177 @@ dojo.clone = function(/*anything*/ o){
 	return r; // Object
 		
 }
+
+
+
+/*********FILE**********
+/src/lang/object.js
+********************/
+
+
+
+dojo._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object?*/context){
+	var obj=context || dojo.global;
+	for(var i=0, p; obj && (p=parts[i]); i++){
+		//if(i == 0 && d._scopeMap[p]){
+		//	p = d._scopeMap[p];
+		//}
+		obj = (p in obj ? obj[p] : (create ? obj[p]={} : undefined));
+	}
+	return obj; // mixed
+};
+
+dojo.setObject = function(/*String*/name, /*Object*/value, /*Object?*/context){
+	// summary:
+	//		Set a property from a dot-separated string, such as "A.B.C"
+	//	description:
+	//		Useful for longer api chains where you have to test each object in
+	//		the chain, or when you have an object reference in string format.
+	//		Objects are created as needed along `path`. Returns the passed
+	//		value if setting is successful or `undefined` if not.
+	//	name:
+	//		Path to a property, in the form "A.B.C".
+	//	context:
+	//		Optional. Object to use as root of path. Defaults to
+	//		`dojo.global`.
+	//	example:
+	//		set the value of `foo.bar.baz`, regardless of whether
+	//		intermediate objects already exist:
+	//	|	dojo.setObject("foo.bar.baz", value);
+	//	example:
+	//		without `dojo.setObject`, we often see code like this:
+	//	|	// ensure that intermediate objects are available
+	//	|	if(!obj["parent"]){ obj.parent = {}; }
+	//	|	if(!obj.parent["child"]){ obj.parent.child= {}; }
+	//	|	// now we can safely set the property
+	//	|	obj.parent.child.prop = "some value";
+	//		wheras with `dojo.setObject`, we can shorten that to:
+	//	|	dojo.setObject("parent.child.prop", "some value", obj);
+	var parts=name.split("."), p=parts.pop(), obj=dojo._getProp(parts, true, context);
+	return obj && p ? (obj[p]=value) : undefined; // Object
+};
+
+dojo.getObject = function(/*String*/name, /*Boolean?*/create, /*Object?*/context){
+	// summary:
+	//		Get a property from a dot-separated string, such as "A.B.C"
+	//	description:
+	//		Useful for longer api chains where you have to test each object in
+	//		the chain, or when you have an object reference in string format.
+	//	name:
+	//		Path to an property, in the form "A.B.C".
+	//	create:
+	//		Optional. Defaults to `false`. If `true`, Objects will be
+	//		created at any point along the 'path' that is undefined.
+	//	context:
+	//		Optional. Object to use as root of path. Defaults to
+	//		'dojo.global'. Null may be passed.
+	return dojo._getProp(name.split("."), create, context); // Object
+};
+
+
+
+/*********FILE**********
+/src/lang/string.js
+********************/
+
+
+/*=====
+dojo.trim = function(str){
+	//	summary:
+	//		Trims whitespace from both sides of the string
+	//	str: String
+	//		String to be trimmed
+	//	returns: String
+	//		Returns the trimmed string
+	//	description:
+	//		This version of trim() was selected for inclusion into the base due
+	//		to its compact size and relatively good performance
+	//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
+	//		Uses String.prototype.trim instead, if available.
+	//		The fastest but longest version of this function is located at
+	//		dojo.string.trim()
+	return "";	// String
+}
+=====*/
+
+dojo.trim = String.prototype.trim ?
+	function(str){ return str.trim(); } :
+	function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+
+/*=====
+dojo.replace = function(tmpl, map, pattern){
+	//	summary:
+	//		Performs parameterized substitutions on a string. Throws an
+	//		exception if any parameter is unmatched. 
+	//	tmpl: String
+	//		String to be used as a template.
+	//	map: Object|Function
+	//		If an object, it is used as a dictionary to look up substitutions.
+	//		If a function, it is called for every substitution with following
+	//		parameters: a whole match, a name, an offset, and the whole template
+	//		string (see https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/String/replace
+	//		for more details).
+	//	pattern: RegEx?
+	//		Optional regular expression objects that overrides the default pattern.
+	//		Must be global and match one item. The default is: /\{([^\}]+)\}/g,
+	//		which matches patterns like that: "{xxx}", where "xxx" is any sequence
+	//		of characters, which doesn't include "}".
+	//	returns: String
+	//		Returns the substituted string.
+	//	example:
+	//	|	// uses a dictionary for substitutions:
+	//	|	dojo.replace("Hello, {name.first} {name.last} AKA {nick}!",
+	//	|	  {
+	//	|	    nick: "Bob",
+	//	|	    name: {
+	//	|	      first:  "Robert",
+	//	|	      middle: "X",
+	//	|	      last:   "Cringely"
+	//	|	    }
+	//	|	  });
+	//	|	// returns: Hello, Robert Cringely AKA Bob!
+	//	example:
+	//	|	// uses an array for substitutions:
+	//	|	dojo.replace("Hello, {0} {2}!",
+	//	|	  ["Robert", "X", "Cringely"]);
+	//	|	// returns: Hello, Robert Cringely!
+	//	example:
+	//	|	// uses a function for substitutions:
+	//	|	function sum(a){
+	//	|	  var t = 0;
+	//	|	  dojo.forEach(a, function(x){ t += x; });
+	//	|	  return t;
+	//	|	}
+	//	|	dojo.replace(
+	//	|	  "{count} payments averaging {avg} USD per payment.",
+	//	|	  dojo.hitch(
+	//	|	    { payments: [11, 16, 12] },
+	//	|	    function(_, key){
+	//	|	      switch(key){
+	//	|	        case "count": return this.payments.length;
+	//	|	        case "min":   return Math.min.apply(Math, this.payments);
+	//	|	        case "max":   return Math.max.apply(Math, this.payments);
+	//	|	        case "sum":   return sum(this.payments);
+	//	|	        case "avg":   return sum(this.payments) / this.payments.length;
+	//	|	      }
+	//	|	    }
+	//	|	  )
+	//	|	);
+	//	|	// prints: 3 payments averaging 13 USD per payment.
+	//	example:
+	//	|	// uses an alternative PHP-like pattern for substitutions:
+	//	|	dojo.replace("Hello, ${0} ${2}!",
+	//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
+	//	|	// returns: Hello, Robert Cringely!
+	return "";	// String
+}
+=====*/
+
+var _pattern = /\{([^\}]+)\}/g;
+dojo.replace = function(tmpl, map, pattern){
+	return tmpl.replace(pattern || _pattern, dojo.isFunction(map) ?
+		map : function(_, k){ return dojo.getObject(k, false, map); });
+};
 
 
 
@@ -3221,7 +3067,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
-		if(args.overrideMinmeType && xhr.overrideMimeType){
+		if(args.overrideMimeType && xhr.overrideMimeType){
 			xhr.overrideMimeType(args.overrideMimeType);
 		}
 		_d._ioNotifyStart(dfd);

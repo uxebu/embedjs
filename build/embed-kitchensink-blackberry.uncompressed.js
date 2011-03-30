@@ -24,10 +24,23 @@ embed.version = "0.1";
 ********************/
 
 
-["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"].forEach(
+["indexOf", "lastIndexOf"].forEach(
 	function(name, idx){
 		dojo[name] = function(arr, callback, thisObj){
-			if((idx > 1) && (typeof callback == "string")){
+			// This is due to a bug found in in Chrome 9, FF 3.6 and 4:
+			// Having undefined as the second parameter to lastIndexOf
+			// will result in lastIndeOf interpreting this as 0.
+			// TODO: Do we want to have this in an own feature?
+			return typeof thisObj == "undefined" ? 
+				Array.prototype[name].call(arr, callback) : 
+				Array.prototype[name].call(arr, callback, thisObj);
+		}
+	}
+);
+["forEach", "map", "some", "every", "filter"].forEach(
+	function(name, idx){
+		dojo[name] = function(arr, callback, thisObj){
+			if(typeof callback == "string"){
 				callback = new Function("item", "index", "array", callback);
 			}
 			return Array.prototype[name].call(arr, callback, thisObj);
@@ -64,20 +77,14 @@ dojo.isFunction = function(it){
 }
 =====*/
 
-dojo.isFunction = (function(){
-	var _isFunction = function(/*anything*/ it){
-		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
-		//Firefox thinks object HTML element is a function, so test for nodeType.
-		return it && (t == "function" || it instanceof Function) && !it.nodeType; // Boolean
-	};
-
-	return dojo.isSafari ?
-		// only slow this down w/ gratuitious casting in Safari (not WebKit)
-		function(/*anything*/ it){
-			if(typeof it == "function" && it == "[object NodeList]"){ return false; }
-			return _isFunction(it); // Boolean
-		} : _isFunction;
-})();
+dojo.isFunction = function(/*anything*/ it){
+	var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
+	//Firefox thinks object HTML element is a function, so test for nodeType.
+	//Safari (incl webkit mobile on iOS) thinks of NodeLists as funtions, so we need to check this.
+	// TODO: Find a less expensive way to test this instead of toString.
+	// TODO Check if this affects webkit mobile on android.
+	return it && (t == "function" || it instanceof Function) && !it.nodeType && it.toString() != "[object NodeList]"; // Boolean
+};
 
 dojo.isObject = function(/*anything*/ it){
 	// summary:
@@ -3153,7 +3160,7 @@ dojo.objectToQuery = function(/*Object*/ map){
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
-		if(args.overrideMinmeType && xhr.overrideMimeType){
+		if(args.overrideMimeType && xhr.overrideMimeType){
 			xhr.overrideMimeType(args.overrideMimeType);
 		}
 		_d._ioNotifyStart(dfd);
