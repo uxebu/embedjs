@@ -375,7 +375,7 @@ tests.register("html-style",
 				}, 10);
 			}, 10);
 			return def;
-		},
+		},*/
 		function attrSpecials(){
 			var node = document.createElement("div");
 			dojo.body().appendChild(node);
@@ -400,6 +400,7 @@ tests.register("html-style",
 			doh.is("<span>howdy!</span>", node.innerHTML.toLowerCase());
 			doh.is("<span>howdy!</span>", dojo.attr(node, "innerHTML").toLowerCase());
 		},
+		/*
 		function testLabelForAttr(t){
 			// create label with no for attribute make sure requesting
 			// it as for and html for returns null
