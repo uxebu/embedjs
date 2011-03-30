@@ -157,6 +157,10 @@
 	"query-simple": [
 		"query/simple.js"
 	],
+	
+	"query-chainable":[
+		"query/chainable.js"
+	],
 
 	"oo":[
 		"oo/declare.js",

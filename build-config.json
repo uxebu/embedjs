@@ -59,7 +59,9 @@
 		
 		// kitchensink is the full-blown build of EmbedJS, including everything.
 		"kitchensink":[
-			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri","query",
+			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri",
+			// All methods that are chainable
+			"query-chainable",
 			// the APIs follow
 			"geolocation"
 		],
