@@ -176,9 +176,9 @@ tests.register("html-style",
 		},
 		function styleObject(){
 			dojo.style('sq100nopos', { 'opacity': 0.1 });
-			doh.is(0.1, dojo.style('sq100nopos', 'opacity'));
+			doh.is(0.1, dojo.style('sq100nopos', 'opacity').toPrecision(5)); // Chrome 9 will return 0.10000000149011612 here, which is close enough.
 			dojo.style('sq100nopos', { 'opacity': 0.8 });
-			doh.is(0.8, dojo.style('sq100nopos', 'opacity'));
+			doh.is(0.8, dojo.style('sq100nopos', 'opacity').toPrecision(5)); // Same as above
 		},
 		function defaultPosition(){
 			doh.is('static', dojo.style('sq100nopos', 'position'));

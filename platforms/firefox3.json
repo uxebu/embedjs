@@ -2,7 +2,6 @@
 	"html":[
         "html/attr.js",
 		"html/element.js",
-		"html/class.js",
         "html/classList.js",
 		"html/style.js",
         "html/ready.js",

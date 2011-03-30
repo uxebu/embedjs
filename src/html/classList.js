@@ -20,41 +20,30 @@ dojo.toggleClass = function(/*DomNode|String*/node, /*String*/classStr, /*Boolea
 	//	Available in `dojo.NodeList` for multiple toggles
 	//	| dojo.query(".toggleMe").toggleClass("toggleMe");
 
-	if(condition === undefined){
-		condition = !dojo.hasClass(node, classStr);
-	}
-	dojo[condition ? "addClass" : "removeClass"](node, classStr);
+	var methodHash = {
+		"true": "add",
+		"false": "remove",
+		"undefined": "toggle"
+	};
+	dojo.byId(node).classList[methodHash[condition + ""]](classStr);
 };
 
-(function(){
-	var spaces = /\s+/;
-	var str2array = function(s){
-		if(typeof s == "string" || s instanceof String){
-			if(s.indexOf(" ") < 0){
-				return [s];
-			}else{
-				return dojo.trim(s).split(spaces);
-			}
-		}
-		// assumed to be an array
-		return s;
-	};
-	
-	dojo.addClass = function(node, classStr){
-		var classes = str2array(classStr);
+dojo.addClass = function(node, classStr){
+	node = dojo.byId(node);
+	var classes = classStr.split ? classStr.split(" ") : classStr;
+	for (var i=0, l=classes.length; i<l; i++){
+		classes[i].length && node.classList.add(classes[i]);
+	}
+};
+
+dojo.removeClass = function(node, classStr){
+	node = dojo.byId(node);
+	if (classStr === undefined){
+		node.className = "";
+	} else {
+		var classes = classStr.split ? classStr.split(" ") : classStr;
 		for (var i=0, l=classes.length; i<l; i++){
-			node.classList.add(classes[i]);
+			classes[i].length && node.classList.remove(classes[i]);
 		}
 	}
-	
-	dojo.removeClass = function(node, classStr){
-		if (classStr === undefined){
-			node.className = "";
-		} else {
-			var classes = str2array(classStr);
-			for (var i=0, l=classes.length; i<l; i++){
-				node.classList.remove(classes[i]);
-			}
-		}
-	}
-})();
+};
