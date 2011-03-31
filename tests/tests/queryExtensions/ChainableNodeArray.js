@@ -102,11 +102,34 @@ tests.register("queryExtension-ChainableNodeArray",
 		},
 		
 		//
-		// Use array functions in the chaining
+		// Use (native) array functions in the chaining
 		//
 		function callArrayMap(){
-			embed.query("#_foo").filter(console.log);
-			//doh.assertFalse(embed.hasClass(embed.query("#_foo")[0], "f"));
+			var n = embed.query("#_foo");
+			n.map(function(node){ embed.attr(node, "data-m", "n") });
+			doh.assertEqual("n", embed.attr(n[0], "data-m"));
+		},
+		
+		function mixArrayChainFunctions(){
+			var n = embed.query("#_foo");
+			// Call array, chaining and an array function again.
+			n.map(function(node){ embed.attr(node, "data-j", "k"); return node; })
+			 .style("color", "lime")
+			 .forEach(function(node){ embed.addClass(node, "foozy") });
+			doh.assertEqual("k", embed.attr(n[0], "data-j"));
+			doh.assertTrue(embed.hasClass(n[0], "foozy"));
+			doh.assertEqual("lime", embed.style(n[0], "color"));
+		},
+		
+		function mixArrayChainFunctions1(){
+			var n = embed.query("#_foo");
+			// Call array, chaining and an array function again.
+			n.map(function(node){ embed.attr(node, "data-j", "k"); return node; })
+			 .style("opacity", .75)
+			 .forEach(function(node){ embed.addClass(node, "foozy") });
+			doh.assertEqual("k", embed.attr(n[0], "data-j"));
+			doh.assertTrue(embed.hasClass(n[0], "foozy"));
+			doh.assertEqual(0.75, embed.style(n[0], "opacity"));
 		}
 	]
 );
