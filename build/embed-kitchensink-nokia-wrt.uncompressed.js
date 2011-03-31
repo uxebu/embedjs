@@ -4046,23 +4046,34 @@ dojo.query = function(query, scope){
 	};
 	
 	function enhanceNodeList(obj){
-		var chainedFunctions = "attr addClass connect removeAttr removeClass style toggleClass place".split(" ");
+		var chainedFunctions = ["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"];
 		for (var i=0, l=chainedFunctions.length, func; i<l; i++){
 			func = chainedFunctions[i];
 			// Create the functions on the object. I am sure this could be more efficiently done, i.e.
 			// on the prototype. Feel free to optimize it!
 			obj[func] = (function(func){
 				return function(){
-					var ret;
+					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
 					for (var i=0, l=this.length; i<l; i++){
 						// Concatenate this[i]+arguments into one array to be able to pass them as ONE array.
-						var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
-						ret = embed[func].apply(embed, [this[i]].concat(argsAsArray));
+						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned.
+						embed[func].apply(embed, [this[i]].concat(argsAsArray));
 					}
-					return ret; // Return the last return value.
+					return this; // Return the last return value.
 				}
 			})(func);
 		}
+		//// The array funciton shall also always be enabled! If natively implemented we leave them out.
+		//var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
+		//for (var i=0, l=arrayFunctions.length, func; i<l; i++){
+		//	func = arrayFunctions[i];
+		//	if (func in []) continue; // Don't override native array functions.
+		//	obj[func] = (function(func){
+		//		return function(){
+		//			return embed[func].apply(embed, [this[i]].concat(argsAsArray));
+		//		}
+		//	})(func);
+		//}
 	}
 	
 })();
