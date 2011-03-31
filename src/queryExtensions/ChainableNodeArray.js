@@ -1,14 +1,15 @@
 ;(function(){
-	
+	// Remember the old query function, so we can still call it.
 	var _oldQuery = embed.query;
-	
+	// Override embed.query() with a chainable version of itself.
 	embed.query = function(query, scope){
-		return new NodeList(_oldQuery.apply(embed, arguments));
-	}
+		return new embed.ChainableNodeArray(_oldQuery.apply(embed, arguments));
+	};
+	
 	
 	// Extend the Array prototype for the NodeList to provide all methods that
 	// are reachable by chainable functions.
-	var NodeList = function(arr){
+	embed.ChainableNodeArray = function(arr){
 		var ret = []; // For some reason Array.apply(null, arguments) didn't work, so we push all from arr handish into ret, down there.
 		enhanceNodeList(ret);
 		if (arr){
@@ -37,6 +38,17 @@
 				}
 			})(func);
 		}
+		//// The array funciton shall also always be enabled! If natively implemented we leave them out.
+		//var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
+		//for (var i=0, l=arrayFunctions.length, func; i<l; i++){
+		//	func = arrayFunctions[i];
+		//	if (func in []) continue; // Don't override native array functions.
+		//	obj[func] = (function(func){
+		//		return function(){
+		//			return embed[func].apply(embed, [this[i]].concat(argsAsArray));
+		//		}
+		//	})(func);
+		//}
 	}
-	
 })();
+

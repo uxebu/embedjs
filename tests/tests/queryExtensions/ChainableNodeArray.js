@@ -1,4 +1,4 @@
-tests.register("query-chainable", 
+tests.register("queryExtension-ChainableNodeArray", 
 	[
 	 	function _start(t){
 			doh.showBox('html_query-test');
