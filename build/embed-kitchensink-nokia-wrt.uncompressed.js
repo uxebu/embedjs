@@ -4032,21 +4032,19 @@ dojo.query = function(query, scope){
 		return new embed.ChainableNodeArray(_oldQuery.apply(embed, arguments));
 	};
 	
-	
-	// Extend the Array prototype for the NodeList to provide all methods that
+	// Extend the Array prototype for the ChainableNodeArray to provide all methods that
 	// are reachable by chainable functions.
 	embed.ChainableNodeArray = function(arr){
-		var ret = []; // For some reason Array.apply(null, arguments) didn't work, so we push all from arr handish into ret, down there.
-		enhanceNodeList(ret);
-		if (arr){
-			for (var i=0, l=arr.length; i<l; i++){
-				ret.push(arr[i]);
-			}
-		}
+		//var ret = Array.apply(null, arr);
+		var ret = [];
+		// "arr" is a NodeList object and WebKit is not able to use that as parameters to push(), ff can though.
+		// So let's explicitly convert the NodeList into an array.
+		ret.push.apply(ret, Array.prototype.slice.call(arr, 0));
+		makeChainable(ret);
 		return ret;
 	};
 	
-	function enhanceNodeList(obj){
+	function makeChainable(obj){
 		var chainedFunctions = ["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"];
 		for (var i=0, l=chainedFunctions.length, func; i<l; i++){
 			func = chainedFunctions[i];
@@ -4064,17 +4062,22 @@ dojo.query = function(query, scope){
 				}
 			})(func);
 		}
-		//// The array funciton shall also always be enabled! If natively implemented we leave them out.
-		//var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
-		//for (var i=0, l=arrayFunctions.length, func; i<l; i++){
-		//	func = arrayFunctions[i];
-		//	if (func in []) continue; // Don't override native array functions.
-		//	obj[func] = (function(func){
-		//		return function(){
-		//			return embed[func].apply(embed, [this[i]].concat(argsAsArray));
-		//		}
-		//	})(func);
-		//}
+		
+		// The array functions shall also always be enabled! Even the natively implemented once we have to convert their
+		// results back to a ChainableNodeArray.
+		var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
+		for (var i=0, l=arrayFunctions.length, func; i<l; i++){
+			func = arrayFunctions[i];
+			obj[func] = (function(func){
+				return function(){
+					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
+					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
+					// The result we get returned above is a native array, let's convert
+					// it into a chainable one again so the chaining can go on.
+					return new embed.ChainableNodeArray(ret);
+				}
+			})(func);
+		}
 	}
 })();
 
