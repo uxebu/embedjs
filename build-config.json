@@ -61,7 +61,7 @@
 		"kitchensink":[
 			"base","array","connect","async","destroy","html","json","lang","transport","oo","uri",
 			// All methods that are chainable
-			"query-chainable",
+			"queryExtensions-ChainableNodeArray",
 			// the APIs follow
 			"geolocation"
 		],

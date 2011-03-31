@@ -158,8 +158,8 @@
 		"query/simple.js"
 	],
 	
-	"query-chainable":[
-		"query/chainable.js"
+	"queryExtensions-ChainableNodeArray":[
+		"queryExtensions/ChainableNodeArray.js"
 	],
 
 	"oo":[
