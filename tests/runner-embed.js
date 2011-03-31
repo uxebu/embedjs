@@ -536,6 +536,21 @@ doh.register = doh.add = function(groupOrNs, testOrNull, type){
 	// 		"magical" variant of registerTests, registerTest, and
 	// 		registerTestNs. Will accept the calling arguments of any of these
 	// 		methods and will correctly guess the right one to register with.
+	
+	// The following block allows that you can filter the tests you are running
+	// by adding a URL parameter q=<query> and only tests containing <query>
+	// will be executed.
+	// I.e.
+	// 		http://embedjs/tests/runTests-dev-firefox3.html?q=query
+	// will only run the tests that have "query" in their name.
+	var filterFiles = window.location.href.match(/[?&]q=(\w+)(&.*|$)/);
+	if (filterFiles && filterFiles.length && filterFiles.length>2){
+		var searchQuery = filterFiles[1];
+		if (groupOrNs.toLowerCase().indexOf(searchQuery.toLowerCase())==-1){
+			return;
+		}
+	}
+	
 	if(	(arguments.length == 1)&&
 		(typeof groupOrNs == "string") ){
 		if(groupOrNs.substr(0, 4)=="url:"){
