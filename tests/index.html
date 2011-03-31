@@ -11,11 +11,12 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-	    	function runTests(platform){
+	    	function runTests(platform, isDev){
+				var s = (isDev ? "dev-" : "" ) + platform;
 				if (window["widget"]){
-					window.location.href = "runTests-widget" + platform + ".html";
+					window.location.href = "runTests-widget-" + s + ".html";
 				} else {
-					window.location = "runTests-" + platform + ".html";
+					window.location = "runTests-" + s + ".html";
 				}
 		    }
 	    </script>
@@ -29,41 +30,49 @@
 			<tr>
 				<td>android</td>
 				<td><button onclick="runTests('android');">run tests</button></td>
+				<td><button onclick="runTests('android', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>blackberry</td>
 				<td><button onclick="runTests('blackberry');">run tests</button></td>
+				<td><button onclick="runTests('blackberry', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>blackberry4.6</td>
 				<td><button onclick="runTests('blackberry4.6');">run tests</button></td>
+				<td><button onclick="runTests('blackberry4.6', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>firefox3</td>
 				<td><button onclick="runTests('firefox3');">run tests</button></td>
+				<td><button onclick="runTests('firefox3', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>ios</td>
 				<td><button onclick="runTests('ios');">run tests</button></td>
+				<td><button onclick="runTests('ios', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>nokia-wrt</td>
 				<td><button onclick="runTests('nokia-wrt');">run tests</button></td>
+				<td><button onclick="runTests('nokia-wrt', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>vodafone-apps-manager2.2</td>
 				<td><button onclick="runTests('vodafone-apps-manager2.2');">run tests</button></td>
+				<td><button onclick="runTests('vodafone-apps-manager2.2', true);">[dev version]</button></td>
 			</tr>
 			
 			<tr>
 				<td>windows-phone-7-ie7</td>
 				<td><button onclick="runTests('windows-phone-7-ie7');">run tests</button></td>
+				<td><button onclick="runTests('windows-phone-7-ie7', true);">[dev version]</button></td>
 			</tr>
 			
 		</table>

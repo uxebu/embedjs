@@ -11,11 +11,12 @@
 	</head>
 	<body>
 	    <script type="text/javascript">
-	    	function runTests(platform){
+	    	function runTests(platform, isDev){
+				var s = (isDev ? "dev-" : "" ) + platform;
 				if (window["widget"]){
-					window.location.href = "runTests-widget" + platform + ".html";
+					window.location.href = "runTests-widget-" + s + ".html";
 				} else {
-					window.location = "runTests-" + platform + ".html";
+					window.location = "runTests-" + s + ".html";
 				}
 		    }
 	    </script>
@@ -29,6 +30,7 @@
 			<tr>
 				<td>${platform}</td>
 				<td><button onclick="runTests('${platform}');">run tests</button></td>
+				<td><button onclick="runTests('${platform}', true);">[dev version]</button></td>
 			</tr>
 			{endloop}
 		</table>
