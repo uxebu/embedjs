@@ -3889,21 +3889,22 @@ dojo.query = function(query, scope){
 
 
 /*********FILE**********
-/src/query/chainable.js
+/src/queryExtensions/ChainableNodeArray.js
 ********************/
 
 
 ;(function(){
-	
+	// Remember the old query function, so we can still call it.
 	var _oldQuery = embed.query;
-	
+	// Override embed.query() with a chainable version of itself.
 	embed.query = function(query, scope){
-		return new NodeList(_oldQuery.apply(embed, arguments));
-	}
+		return new embed.ChainableNodeArray(_oldQuery.apply(embed, arguments));
+	};
+	
 	
 	// Extend the Array prototype for the NodeList to provide all methods that
 	// are reachable by chainable functions.
-	var NodeList = function(arr){
+	embed.ChainableNodeArray = function(arr){
 		var ret = []; // For some reason Array.apply(null, arguments) didn't work, so we push all from arr handish into ret, down there.
 		enhanceNodeList(ret);
 		if (arr){
@@ -3944,8 +3945,8 @@ dojo.query = function(query, scope){
 		//	})(func);
 		//}
 	}
-	
 })();
+
 
 
 

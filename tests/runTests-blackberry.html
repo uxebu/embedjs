@@ -154,7 +154,7 @@
 		<!-- query -->
 		<script type="text/javascript" src="tests/query/query_html.js"></script>
 		<script type="text/javascript" src="tests/query/query.js"></script>
-		<script type="text/javascript" src="tests/query/chainable.js"></script>
+		<script type="text/javascript" src="tests/queryExtensions/ChainableNodeArray.js"></script>
 		<!-- uri -->
 		<script type="text/javascript" src="tests/uri/uri.js"></script>
 		<!-- transport -->
