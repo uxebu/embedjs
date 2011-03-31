@@ -174,6 +174,23 @@ tests.register("html-style",
 			doh.is(0.1, dojo.style('sq100nopos', 'opacity', 0.1));
 			doh.is(0.8, dojo.style('sq100nopos', 'opacity', 0.8));
 		},
+		function setColorByName(){
+			dojo.style('sq100nopos', 'color', "red");
+			doh.is("red", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByRgb(){
+			dojo.style('sq100nopos', 'color', "rgb(255, 0, 255)");
+			doh.is("rgb(255, 0, 255)", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByHex(){
+			dojo.style('sq100nopos', 'color', "#FFFFFF");
+			doh.is("#FFFFFF", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorEmpty(){
+			dojo.style('sq100nopos', 'color', "");
+			doh.is("", dojo.style('sq100nopos', 'color'));
+		},
+		
 		function styleObject(){
 			dojo.style('sq100nopos', { 'opacity': 0.1 });
 			doh.is(0.1, dojo.style('sq100nopos', 'opacity').toPrecision(5)); // Chrome 9 will return 0.10000000149011612 here, which is close enough.
