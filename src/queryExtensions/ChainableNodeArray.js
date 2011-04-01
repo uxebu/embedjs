@@ -54,7 +54,7 @@
 
 					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined.
 					// If return value is an array, return a new chainable, else return the return value.
-					if(ret && "length" in ret){ //TODO: add dependency to embed.is (embed.isArray)?
+					if(ret && "length" in Object(ret)){ //TODO: add dependency to embed.is (embed.isArray)?
 						return new embed.ChainableNodeArray(ret);
 					}
 					return ret;
