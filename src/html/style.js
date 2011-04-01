@@ -132,21 +132,37 @@ dojo.style = function(	/*DomNode|String*/ node,
 	//	|	});
 	//
 	//	returns: CSS2Properties||String
-
-	var n = dojo.byId(node), l = arguments.length;
+	var n = dojo.byId(node);
+	var l = arguments.length;
 	
-	// simple setter
-	if(l == 3){
+	// >>> // Three parameters are handled as a setter.
+	// >>> var n = embed.query("div")[0];
+	// >>> embed.style(n, "color", "lime");
+	// >>> embed.style(n, "color");
+	// "lime"
+	if (l == 3) {
 		return n.style[style] = value; /*Number*/
 	}
-	
-	// object setter
-	if(l == 2 && typeof style != "string"){ // inline'd type check
-		for(var x in style){
-			dojo.style(node, x, style[x]);
+	// Two parameters and the second is an object, we handle this as a setter.
+	// And we iterate over the second parameter, the property is the style.
+	//
+	// >>> // Setter using an object, tests also getter using a string as a 2nd parameter.
+	// >>> var n = embed.query("div")[0];
+	// >>> embed.style(n, {color:"red", backgroundColor:"white"});
+	// >>> embed.style(n, "color");
+	// "red"
+	if (l == 2) {
+		if (typeof style == "string"){ // inline'd type check
+			return n.style[style];
+		} else {
+			for(var x in style){
+				dojo.style(node, x, style[x]);
+			}
 		}
 	}
-	// getter
-	return (l == 1) ? dojo.getComputedStyle(n) : n.style[style]; /* CSS2Properties||String */
+	// >>> // Return computedStyle if only node is given, just a shortcut.
+	// >>> embed.style(embed.query("div")[0]) instanceof ComputedCSSStyleDeclaration
+	// true
+	return dojo.getComputedStyle(n);
 };
 
