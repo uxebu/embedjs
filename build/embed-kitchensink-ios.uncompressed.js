@@ -3894,62 +3894,85 @@ dojo.query = function(query, scope){
 
 
 ;(function(){
+	var slice = [].slice;
+	var push = [].push;
+  
 	// Remember the old query function, so we can still call it.
 	var _oldQuery = embed.query;
 	// Override embed.query() with a chainable version of itself.
 	embed.query = function(query, scope){
 		return new embed.ChainableNodeArray(_oldQuery.apply(embed, arguments));
 	};
-	
+
 	// Extend the Array prototype for the ChainableNodeArray to provide all methods that
 	// are reachable by chainable functions.
 	embed.ChainableNodeArray = function(arr){
 		//var ret = Array.apply(null, arr);
 		// "arr" is a NodeList object and WebKit is not able to use that as parameters to push(), ff can though.
 		// So let's explicitly convert the NodeList into an array.
-		var ret = Array.prototype.slice.call(arr); // or [].slice.call(arr) for less bytes
+		var ret = slice.call(arr);
 		makeChainable(ret);
 		return ret;
 	};
-	
+
 	function makeChainable(obj){
-		var chainedFunctions = ["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"];
-		for (var i=0, l=chainedFunctions.length, func; i<l; i++){
-			func = chainedFunctions[i];
-			// Create the functions on the object. I am sure this could be more efficiently done, i.e.
-			// on the prototype. Feel free to optimize it!
-			obj[func] = (function(func){
-				return function(){
-					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
+		// add chained functions
+		embed.forEach(
+			["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"],
+			function(func){
+				this[func] = function(){
+					var argsAsArray = slice.call(arguments); // Convert arguments into an array, so we can use cancat() on it.
+					argsAsArray.unshift(null); // Creating space needed later for `node` argument.
 					for (var i=0, l=this.length; i<l; i++){
-						// Concatenate this[i]+arguments into one array to be able to pass them as ONE array.
-						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned.
-						embed[func].apply(embed, [this[i]].concat(argsAsArray));
+						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned,
+						// we're adding it as first argument.
+						argsAsArray[0] = this[i];
+						embed[func].apply(embed, argsAsArray);
 					}
-					return this; // Return the last return value.
+					return this; // Return the chainable object
 				}
-			})(func);
-		}
-		
+			},
+			obj
+		);
+
 		// The array functions shall also always be enabled! Even the natively implemented once we have to convert their
 		// results back to a ChainableNodeArray.
-		var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
-		for (var i=0, l=arrayFunctions.length, func; i<l; i++){
-			func = arrayFunctions[i];
-			obj[func] = (function(func){
-				return function(){
-					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
-					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
+		embed.forEach(
+			["forEach", "map", "some", "every", "filter"],
+			function(func){
+				this[func] = function(){
+					var argsAsArray = slice.call(arguments); // Convert arguments into an array.
+					argsAsArray.unshift(this); // Unshifting `this`, so it is used as first argument.
+					var ret = embed[func].apply(embed, argsAsArray);
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
-					// If ret is undefined, return undefined.
-					return ret && new embed.ChainableNodeArray(ret);
+
+					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined.
+					// If return value is an array, return a new chainable, else return the return value.
+					if(ret && "length" in Object(ret)){ //TODO: add dependency to embed.is (embed.isArray)?
+						return new embed.ChainableNodeArray(ret);
+					}
+					return ret;
 				}
-			})(func);
-		}
+			},
+			obj
+		);
+		
+		// Enable sub selects (e.g. for filtering).
+		obj.query = function(query){
+			var ret = [];
+			embed.forEach(
+				this,
+				function(parentNode){
+					// Make a query with the current node as its scope, push all selected nodes to the result array.
+					push.apply(ret, slice.call(embed.query(query, parentNode)));
+				}
+			);
+			makeChainable(ret);
+			return ret;
+		};
 	}
 })();
-
 
 
 
