@@ -10,10 +10,9 @@
 	// are reachable by chainable functions.
 	embed.ChainableNodeArray = function(arr){
 		//var ret = Array.apply(null, arr);
-		var ret = [];
 		// "arr" is a NodeList object and WebKit is not able to use that as parameters to push(), ff can though.
 		// So let's explicitly convert the NodeList into an array.
-		ret.push.apply(ret, Array.prototype.slice.call(arr, 0));
+		var ret = Array.prototype.slice.call(arr); // or [].slice.call(arr) for less bytes
 		makeChainable(ret);
 		return ret;
 	};
