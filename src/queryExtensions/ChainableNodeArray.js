@@ -27,10 +27,10 @@
 			function(func){
 				this[func] = function(){
 					var argsAsArray = slice.call(arguments); // Convert arguments into an array, so we can use cancat() on it.
-					argsAsArray.unshift(null); // creating space needed later for `node` argument
+					argsAsArray.unshift(null); // Creating space needed later for `node` argument.
 					for (var i=0, l=this.length; i<l; i++){
-						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned.
-						// we're adding it as first argument
+						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned,
+						// we're adding it as first argument.
 						argsAsArray[0] = this[i];
 						embed[func].apply(embed, argsAsArray);
 					}
@@ -46,14 +46,14 @@
 			["forEach", "map", "some", "every", "filter"],
 			function(func){
 				this[func] = function(){
-					var argsAsArray = slice.call(arguments); // Convert arguments into an array
-					argsAsArray.unshift(this); // unshifting `this`, so it is used as first argument
+					var argsAsArray = slice.call(arguments); // Convert arguments into an array.
+					argsAsArray.unshift(this); // Unshifting `this`, so it is used as first argument.
 					var ret = embed[func].apply(embed, argsAsArray);
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
 
-					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined
-					// if return value is an array, return a new chainable, else return the return value
+					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined.
+					// If return value is an array, return a new chainable, else return the return value.
 					if(ret && "length" in ret){ //TODO: add dependency to embed.is (embed.isArray)?
 						return new embed.ChainableNodeArray(ret);
 					}
@@ -63,13 +63,13 @@
 			obj
 		);
 		
-		// enable sub selects (e.g. for filtering)
+		// Enable sub selects (e.g. for filtering).
 		obj.query = function(query){
 			var ret = [];
 			embed.forEach(
 				this,
 				function(parentNode){
-					// make a query with the current node as its scope, push all selected nodes to the result array
+					// Make a query with the current node as its scope, push all selected nodes to the result array.
 					push.apply(ret, slice.call(embed.query(query, parentNode)));
 				}
 			);
