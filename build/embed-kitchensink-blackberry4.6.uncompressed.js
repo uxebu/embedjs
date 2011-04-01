@@ -5240,10 +5240,9 @@ dojo.query = dojo._query = acme.query;
 	// are reachable by chainable functions.
 	embed.ChainableNodeArray = function(arr){
 		//var ret = Array.apply(null, arr);
-		var ret = [];
 		// "arr" is a NodeList object and WebKit is not able to use that as parameters to push(), ff can though.
 		// So let's explicitly convert the NodeList into an array.
-		ret.push.apply(ret, Array.prototype.slice.call(arr, 0));
+		var ret = Array.prototype.slice.call(arr); // or [].slice.call(arr) for less bytes
 		makeChainable(ret);
 		return ret;
 	};
@@ -5278,7 +5277,8 @@ dojo.query = dojo._query = acme.query;
 					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
-					return new embed.ChainableNodeArray(ret);
+					// If ret is undefined, return undefined.
+					return ret && new embed.ChainableNodeArray(ret);
 				}
 			})(func);
 		}
