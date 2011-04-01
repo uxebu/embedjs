@@ -74,6 +74,7 @@
 			}
 		</style>
 		<script type="text/javascript" src="runner-embed.js"></script>
+		<script type="text/javascript" src="DocTest.js"></script>
 	</head>
 	<body>
 	    <script type="text/javascript">
