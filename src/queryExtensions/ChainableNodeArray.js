@@ -18,31 +18,29 @@
 	};
 	
 	function makeChainable(obj){
-		var chainedFunctions = ["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"];
-		for (var i=0, l=chainedFunctions.length, func; i<l; i++){
-			func = chainedFunctions[i];
-			// Create the functions on the object. I am sure this could be more efficiently done, i.e.
-			// on the prototype. Feel free to optimize it!
-			obj[func] = (function(func){
-				return function(){
-					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
+		// add chained functions
+		embed.forEach(
+			["attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"],
+			function(func){
+				this[func] = function(){
+					var argsAsArray = [].splice.call(arguments); // Convert arguments into an array, so we can use cancat() on it.
 					for (var i=0, l=this.length; i<l; i++){
 						// Concatenate this[i]+arguments into one array to be able to pass them as ONE array.
 						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned.
 						embed[func].apply(embed, [this[i]].concat(argsAsArray));
 					}
-					return this; // Return the last return value.
+					return this; // Return the chainable object
 				}
-			})(func);
-		}
-		
+			},
+			obj
+		);
+
 		// The array functions shall also always be enabled! Even the natively implemented once we have to convert their
 		// results back to a ChainableNodeArray.
-		var arrayFunctions = ["forEach", "map", "some", "every", "filter"];
-		for (var i=0, l=arrayFunctions.length, func; i<l; i++){
-			func = arrayFunctions[i];
-			obj[func] = (function(func){
-				return function(){
+		embed.forEach(
+			["forEach", "map", "some", "every", "filter"],
+			function(func){
+				this[func] = function(){
 					var argsAsArray = [].splice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
 					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
 					// The result we get returned above is a native array, let's convert
@@ -50,8 +48,9 @@
 					// If ret is undefined, return undefined.
 					return ret && new embed.ChainableNodeArray(ret);
 				}
-			})(func);
-		}
+			},
+			obj
+		);
 	}
 })();
 
