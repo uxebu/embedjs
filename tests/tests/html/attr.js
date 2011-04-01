@@ -184,8 +184,8 @@ tests.register("html-attr",
 				}
 			});
 			doh.is(0.5, dojo.style(node, "opacity"));
-			doh.is(30, dojo.style(node, "width"));
-			doh.is(1, dojo.style(node, "borderWidth"));
+			doh.is("30px", dojo.style(node, "width"));
+			doh.is("1px", dojo.style(node, "borderWidth"));
 			dojo.attr(node, {
 				innerHTML: "howdy!"
 			});
