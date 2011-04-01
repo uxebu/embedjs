@@ -133,13 +133,7 @@ dojo.style = function(	/*DomNode|String*/ node,
 	//
 	//	returns: CSS2Properties||String
 
-	var n = dojo.byId(node),
-		l = arguments.length,
-		_floatStyle = "cssFloat",
-		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
-	;
-	
-	style = _floatAliases[style] || style;
+	var n = dojo.byId(node), l = arguments.length;
 	
 	// simple setter
 	if(l == 3){
