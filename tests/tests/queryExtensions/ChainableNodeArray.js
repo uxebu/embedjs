@@ -102,6 +102,38 @@ tests.register("queryExtension-ChainableNodeArray",
 		},
 		
 		//
+		// Test the array functions in conjunction with chaining.
+		//
+		function someReturnsTrue(){
+			doh.assertTrue(embed.query(".lowerclass").some(function(n){ return n.id=="t" }));
+		},
+		
+		function someReturnsFalse(){
+			doh.assertFalse(embed.query(".lowerclass").some(function(n){ return n.id=="xyz" }));
+		},
+		
+		function everyReturnsTrue(){
+			doh.assertTrue(embed.query(".lowerclass").every(function(n){ return n.tagName.toLowerCase()=="div" }));
+		},
+		
+		function everyReturnsFalse(){
+			doh.assertFalse(embed.query(".lowerclass").every(function(n){ return n.id=="xyz" }));
+		},
+		
+		function forEachReturnsUndefined(){
+			doh.assertEqual("undefined", typeof embed.query(".lowerclass").forEach(function(){}));
+		},
+		
+		//
+		// Test sub select, which is multiple query() methods chained.
+		//
+		function multipleQuery(){
+			// This shows how to further subselect a result set.
+			var n = embed.query(".lowerclass").style("color", "grey").query(".foo");
+			doh.is(embed.query(".lowerclass .foo"), n);
+		},
+		
+		//
 		// Use (native) array functions in the chaining
 		//
 		function callArrayMap(){
