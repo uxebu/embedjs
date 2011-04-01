@@ -3,11 +3,55 @@
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
 
+doh.registerDocTests("../src/html/style.js");
 tests.register("html-style",
 	[
 		function _start(t){
 			doh.showBox('class+style.html');
+			
+			// Init the stuff with what we expect, acutally this belongs in the HTML itself,
+			// but how do i build the .js for it? :)
+			dojo.style('sq100nopos', {opacity: 1, color: "red", position: "static", backgroundColor: "black"});
 		},
+
+		function basicStyle(){
+			doh.is(1, dojo.style('sq100nopos', 'opacity'));
+			doh.is(0.1, dojo.style('sq100nopos', 'opacity', 0.1));
+			doh.is(0.8, dojo.style('sq100nopos', 'opacity', 0.8));
+		},
+		function setColorByName(){
+			dojo.style('sq100nopos', 'color', "red");
+			doh.is("red", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByRgb(){
+			dojo.style('sq100nopos', 'color', "rgb(255, 0, 255)");
+			doh.is("rgb(255, 0, 255)", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByHex(){
+			dojo.style('sq100nopos', 'color', "#FFFFFF");
+			doh.is("#FFFFFF", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorEmpty(){
+			dojo.style('sq100nopos', 'color', "");
+			doh.is("", dojo.style('sq100nopos', 'color'));
+		},
+		
+		function styleObject(){
+			dojo.style('sq100nopos', { 'opacity': 0.1 });
+			// Chrome 9 will return 0.10000000149011612 here, which is close enough.
+			// Let's just multiply and remove fractions.
+			doh.is(1000, parseInt(dojo.style('sq100nopos', 'opacity')*10000)); 
+			dojo.style('sq100nopos', { 'opacity': 0.8 });
+			doh.is(8000, parseInt(dojo.style('sq100nopos', 'opacity')*10000)); // Same as above
+		},
+		function defaultPosition(){
+			doh.is('static', dojo.style('sq100nopos', 'position'));
+		},
+		function getBgcolor(t){
+			var bgc = dojo.style('sq100nopos', 'backgroundColor');
+			doh.t((bgc == "rgb(0, 0, 0)")||(bgc == "black")||(bgc == "#000000"));
+		},
+
 		
 		/* No position/coords etc in API
 		"doh.is(100, dojo.marginBox('sq100').w);",
@@ -169,41 +213,6 @@ tests.register("html-style",
 			}
 		},
 		*/
-		function basicStyle(){
-			doh.is(1, dojo.style('sq100nopos', 'opacity'));
-			doh.is(0.1, dojo.style('sq100nopos', 'opacity', 0.1));
-			doh.is(0.8, dojo.style('sq100nopos', 'opacity', 0.8));
-		},
-		function setColorByName(){
-			dojo.style('sq100nopos', 'color', "red");
-			doh.is("red", dojo.style('sq100nopos', 'color'));
-		},
-		function setColorByRgb(){
-			dojo.style('sq100nopos', 'color', "rgb(255, 0, 255)");
-			doh.is("rgb(255, 0, 255)", dojo.style('sq100nopos', 'color'));
-		},
-		function setColorByHex(){
-			dojo.style('sq100nopos', 'color', "#FFFFFF");
-			doh.is("#FFFFFF", dojo.style('sq100nopos', 'color'));
-		},
-		function setColorEmpty(){
-			dojo.style('sq100nopos', 'color', "");
-			doh.is("", dojo.style('sq100nopos', 'color'));
-		},
-		
-		function styleObject(){
-			dojo.style('sq100nopos', { 'opacity': 0.1 });
-			doh.is(0.1, dojo.style('sq100nopos', 'opacity').toPrecision(5)); // Chrome 9 will return 0.10000000149011612 here, which is close enough.
-			dojo.style('sq100nopos', { 'opacity': 0.8 });
-			doh.is(0.8, dojo.style('sq100nopos', 'opacity').toPrecision(5)); // Same as above
-		},
-		function defaultPosition(){
-			doh.is('static', dojo.style('sq100nopos', 'position'));
-		},
-		function getBgcolor(t){
-			var bgc = dojo.style('sq100nopos', 'backgroundColor');
-			doh.t((bgc == "rgb(0, 0, 0)")||(bgc == "black")||(bgc == "#000000"));
-		},
 		/* No isDescendant in API
 		function isDescendant(t){
 			doh.t(dojo.isDescendant("sq100", dojo.body()));
@@ -404,8 +413,8 @@ tests.register("html-style",
 				}
 			});
 			doh.is(0.5, dojo.style(node, "opacity"));
-			doh.is(30, dojo.style(node, "width"));
-			doh.is(1, dojo.style(node, "borderWidth"));
+			doh.is("30px", dojo.style(node, "width"));
+			doh.is("1px", dojo.style(node, "borderWidth"));
 			dojo.attr(node, {
 				innerHTML: "howdy!"
 			});
