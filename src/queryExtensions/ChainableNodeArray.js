@@ -45,8 +45,9 @@
 			["forEach", "map", "some", "every", "filter"],
 			function(func){
 				this[func] = function(){
-					var argsAsArray = slice.call(arguments,0); // Convert arguments into an array, so we can use cancat() on it.
-					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
+					var argsAsArray = slice.call(arguments); // Convert arguments into an array
+					argsAsArray.unshift(this); // unshifting `this`, so it is used as first argument
+					var ret = embed[func].apply(embed, argsAsArray);
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
 					// If ret is undefined, return undefined.
