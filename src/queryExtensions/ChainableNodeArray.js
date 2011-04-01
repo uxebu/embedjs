@@ -50,8 +50,13 @@
 					var ret = embed[func].apply(embed, argsAsArray);
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
-					// If ret is undefined, return undefined.
-					return ret && new embed.ChainableNodeArray(ret);
+
+					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined
+					// if return value is an array, return a new chainable, else return the return value
+					if(ret && "length" in ret){ //TODO: add dependency to embed.is (embed.isArray)?
+						return new embed.ChainableNodeArray(ret);
+					}
+					return ret;
 				}
 			},
 			obj
