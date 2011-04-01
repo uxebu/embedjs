@@ -161,7 +161,8 @@ dojo.style = function(	/*DomNode|String*/ node,
 		}
 	}
 	// >>> // Return computedStyle if only node is given, just a shortcut.
-	// >>> embed.style(embed.query("div")[0]) instanceof ComputedCSSStyleDeclaration
+	// >>> res = embed.style(embed.query("div")[0])
+	// >>> typeof res == "object" && "cssText" in res
 	// true
 	return dojo.getComputedStyle(n);
 };
