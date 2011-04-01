@@ -26,10 +26,12 @@
 			function(func){
 				this[func] = function(){
 					var argsAsArray = slice.call(arguments); // Convert arguments into an array, so we can use cancat() on it.
+					argsAsArray.unshift(null); // creating space needed later for `node` argument
 					for (var i=0, l=this.length; i<l; i++){
-						// Concatenate this[i]+arguments into one array to be able to pass them as ONE array.
 						// "this[i]" is the current node, since this is the array we are in, the array with all the nodes query() returned.
-						embed[func].apply(embed, [this[i]].concat(argsAsArray));
+						// we're adding it as first argument
+						argsAsArray[0] = this[i];
+						embed[func].apply(embed, argsAsArray);
 					}
 					return this; // Return the chainable object
 				}
