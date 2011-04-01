@@ -1,6 +1,6 @@
 ;(function(){
 	var slice = [].slice;
-  var push = [].push;
+	var push = [].push;
   
 	// Remember the old query function, so we can still call it.
 	var _oldQuery = embed.query;
@@ -65,16 +65,16 @@
 		
 		// enable sub selects (e.g. for filtering)
 		obj.query = function(query){
-		  var ret = [];
-		  embed.forEach(
-		    this,
-		    function(parentNode){
-		      // make a query with the current node as its scope, push all selected nodes to the result array
-  		    push.apply(ret, slice.call(embed.query(query, parentNode)));
-		    }
-		  );
-		  makeChainable(ret);
-		  return ret;
+			var ret = [];
+			embed.forEach(
+				this,
+				function(parentNode){
+					// make a query with the current node as its scope, push all selected nodes to the result array
+					push.apply(ret, slice.call(embed.query(query, parentNode)));
+				}
+			);
+			makeChainable(ret);
+			return ret;
 		};
 	}
 })();
