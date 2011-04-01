@@ -48,7 +48,8 @@
 					var ret = embed[func].apply(embed, [this].concat(argsAsArray));
 					// The result we get returned above is a native array, let's convert
 					// it into a chainable one again so the chaining can go on.
-					return new embed.ChainableNodeArray(ret);
+					// If ret is undefined, return undefined.
+					return ret && new embed.ChainableNodeArray(ret);
 				}
 			})(func);
 		}
