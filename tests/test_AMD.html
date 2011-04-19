@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AMD test</title>
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown'
+				}
+			};
+		</script>
+		<script src="../src/require.js"></script>
+		<script>
+		    require(['embed', 'feature!array'], function(embed) {
+			    console.log('embedjs loaded.');
+			    console.log(embed);
+		    });
+		</script>				
+	</head>
+	<body></body>
+</html>

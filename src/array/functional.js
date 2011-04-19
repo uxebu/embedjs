@@ -1,12 +1,12 @@
 //
 //	Provide ["indexOf", "lastIndexOf", "forEach", "map", "some", "every", "filter"] 
 //
-
-(function(){
+define(['embed', 'feature!lang-mixin'], function(embed){
+	
 	var _getParts = function(arr, obj, cb){
 		return [
 			(typeof arr == "string") ? arr.split("") : arr,
-			obj || dojo.global,
+			obj || embed.global,
 			// FIXME: cache the anonymous functions we create here?
 			(typeof cb == "string") ? new Function("item", "index", "array", cb) : cb
 		];
@@ -23,7 +23,7 @@
 		return every; // Boolean
 	};
 
-	dojo.mixin(dojo, {
+	embed.mixin(embed, {
 		indexOf: function(	/*Array*/		array,
 							/*Object*/		value,
 							/*Integer?*/	fromIndex,
@@ -62,7 +62,7 @@
 			//		1.6's lastIndexOf skips the holes in the sparse array.
 			//		For details on this method, see:
 			// 			https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/lastIndexOf
-			return dojo.indexOf(array, value, fromIndex, true); // Number
+			return embed.indexOf(array, value, fromIndex, true); // Number
 		},
 
 		forEach: function(/*Array|String*/arr, /*Function|String*/callback, /*Object?*/thisObject){
@@ -247,4 +247,6 @@
 			return outArr; // Array
 		}
 	});
-})();
+	
+	return embed;
+});

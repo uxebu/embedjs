@@ -1,4 +1,6 @@
-;(function(d){
+define(['embed'], function(d){
+	
+	var dojo = d;
 	
 	// TODO: extraNems will be [] in non-IE browsers; remove the whole extraName thing in non-IE implemenatations?
 	var empty = {}, extraNames;
@@ -185,4 +187,4 @@
 		return target;
 	}
 
-}(dojo));
+});
