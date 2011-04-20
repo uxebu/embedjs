@@ -10,7 +10,7 @@ define(['embed'], function(embed){
 				return typeof thisObj == "undefined" ? 
 					Array.prototype[name].call(arr, callback) : 
 					Array.prototype[name].call(arr, callback, thisObj);
-			}
+			};
 		}
 	);
 	["forEach", "map", "some", "every", "filter"].forEach(
@@ -20,7 +20,7 @@ define(['embed'], function(embed){
 					callback = new Function("item", "index", "array", callback);
 				}
 				return Array.prototype[name].call(arr, callback, thisObj);
-			}
+			};
 		}
 	);
 	

@@ -4,7 +4,6 @@ define({
 	"array":[
 		{
 			isAvailable: function(){
-			return false;
 				return !![].forEach;
 			},
 			file: "array/native"

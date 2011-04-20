@@ -1292,7 +1292,7 @@ var require, define;
                         url = moduleName + (ext ? ext : "");
                     } else {
                         //A module that needs to be converted to a path.
-                    	console.warn('nameToUrl called for', moduleName);
+                    	//console.warn('nameToUrl called for', moduleName);
                         paths = config.paths;
                         pkgs = config.pkgs;
 
@@ -1323,7 +1323,7 @@ var require, define;
                         url = syms.join("/") + (ext || ".js");
                         //console.log(' - url', url);
                         url = (url.charAt(0) === '/' || url.match(/^\w+:/) ? "" : config.baseUrl) + url;
-                        console.log(' - url', url);
+                        //console.log(' - url', url);
                     }
                 }
 
@@ -1433,7 +1433,7 @@ var require, define;
      * @param {Object} url the URL to the module.
      */
     req.load = function _l(context, moduleName, url) {
-    	console.log('load called for', moduleName, 'url:', url /*, 'by', _l.caller */);
+    	//console.log('load called for', moduleName, 'url:', url /*, 'by', _l.caller */);
         var contextName = context.contextName,
             urlFetched = context.urlFetched,
             loaded = context.loaded;

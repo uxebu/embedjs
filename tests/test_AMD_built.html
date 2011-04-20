@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>AMD test</title>
-		<script>
-			var require = {
-				baseUrl: '../src/',
-				paths: {
-					'implementations': '../platforms/unknown'
-				}
-			};
-		</script>
+		<title>AMD test, built file</title>
 		<script src="../src/require.js"></script>
+		<script src="../src/built.js"></script>
 		<script>
 		    require(['embed', 'feature!array'], function(embed) {
 			    console.log('embedjs loaded.');
@@ -20,6 +13,6 @@
 		</script>				
 	</head>
 	<body>
-		<p>This tests dynamic loading of features.</p>
+		<p>This tests dynamic feature implementation in a built file.</p>
 	</body>
 </html>
