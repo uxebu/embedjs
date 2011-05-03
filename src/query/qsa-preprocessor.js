@@ -200,45 +200,18 @@ dojo.query = function(query, scope){
 
 	// check if scope is a document node
 	if(scope.nodeType == 9){
-		// if the query starts with a child combinator, try scope.querySelector()
-		// with the first segment _without_ leading child operator and check
-		// if it is scope.documentElement.
-		if(/^\s*>/.test(query)){
-			// split the query up into the selector that the documentElement must match
-			// and the rest of the query.
-			var queryParts = query.replace(/^\s*>/, "").match(/([^\s>+~]+)(.*)/);
-			if (!queryParts) {
-				return [];
-			}
-
-			var docElmQuery = queryParts[1];
-			query = queryParts[2];
-
-			// Check if the documentElement matches the first segment of the selector
-			if(scope.querySelector(docElmQuery) !== scope.documentElement){
-				return [];
-			}
-
-			// If documentElement matches the first segment of the selector,
-			// and the rest of the query is empty return documentElement.
-			if(!query){
-				return [scope.documentElement];
-			}
-
-			// execute the rest of the selector against scope.documentElement
-			scope = scope.documentElement;
-		}
+		// if the query starts with a child combinator, we'll simply replace
+		// the combinator with ":root".
+		query = query.replace(/^\s*>\s*/, ":root");
 
 		// if the query starts with a ajdacent combinator or a general sibling combinator,
 		// return an empty array
-		else if(/^\s*[+~]/.test(query)){
+		if(/^\s*[+~]/.test(query)){
 			return [];
 		}
 	}
 
-	// check if the root is an element node.
-	// We can't use an "else" branch here, because the scope might have changed
-	if(scope.nodeType == 1){
+	else { // root is element node
 		// we need to prefix the query with an id to make QSA work like
 		// expected. For details check http://ejohn.org/blog/thoughts-on-queryselectorall/
 		var originalId = scope.id;
