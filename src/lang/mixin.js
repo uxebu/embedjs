@@ -186,5 +186,7 @@ define(['embed'], function(d){
 		}
 		return target;
 	}
+	
+	return embed;
 
 });

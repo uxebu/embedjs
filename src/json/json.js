@@ -1,10 +1,16 @@
-// NOTE: dojo's JSON impl differs from native!
-//	(e.g. revier function)
+define(['embed'], function(embed){
 
-dojo.toJson = function(/* Mixed */ data){
-	return JSON.stringify(data);
-};
+	// NOTE: dojo's JSON impl differs from native!
+	//	(e.g. revier function)
+	
+	embed.toJson = function(/* Mixed */ data){
+		return JSON.stringify(data);
+	};
+	
+	embed.fromJson = function(/* String */ json){
+		return JSON.parse(json);
+	}
+	
+	return embed;
 
-dojo.fromJson = function(/* String */ json){
-	return JSON.parse(json);
-}
+});
