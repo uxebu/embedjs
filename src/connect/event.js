@@ -75,4 +75,4 @@ define(['embed', 'feature!lang-hitch'], function(embed){
 	};
 
 	
-})();
+});

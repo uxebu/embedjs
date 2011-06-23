@@ -1,4 +1,4 @@
-define(['embed', 'html-style', 'html-id', 'lang-is', 'connect-connect', 'connect-event'], function(embed){
+define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'feature!connect-connect', 'feature!connect-event'], function(embed){
 
 	// =============================
 	// Element attribute Functions
