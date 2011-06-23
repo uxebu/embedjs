@@ -28,5 +28,7 @@ define(['embed'], function(embed){
 		}
 		return callback(promiseOrValue);
 	};
+	
+	return embed;
 
 });

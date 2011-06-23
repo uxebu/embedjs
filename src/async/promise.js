@@ -280,4 +280,6 @@ define(['embed', 'feature!lang-hitch'], function(embed){
 		freeze(promise);
 	};
 	
+	return embed;
+	
 });
