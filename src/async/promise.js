@@ -1,10 +1,9 @@
-;(function(d){
-
-(function(){
-	dojo.__mutator = function(){};		
+define(['embed', 'feature!lang-hitch'], function(embed){
+	
+	embed.__mutator = function(){};		
 	var freeze = Object.freeze || function(){};
 	// A deferred provides an API for creating and resolving a promise.
-	dojo.Promise = function(/*Function?*/canceller){
+	embed.Promise = function(/*Function?*/canceller){
 		// summary:
 		//		Deferreds provide a generic means for encapsulating an asynchronous
 		// 		operation and notifying users of the completion and result of the operation. 
@@ -162,7 +161,7 @@
 			while(!mutated && nextListener){
 				var listener = nextListener;
 				nextListener = nextListener.next;
-				if(mutated = (listener.progress == dojo.__mutator)){ // assignment and check
+				if(mutated = (listener.progress == embed.__mutator)){ // assignment and check
 					finished = false;
 				}
 				var func = (isError ? listener.error : listener.resolved);
@@ -170,7 +169,7 @@
 					try {
 						var newResult = func(result);
 						if (newResult && typeof newResult.then === "function") {
-							newResult.then(dojo.hitch(listener.deferred, "resolve"), dojo.hitch(listener.deferred, "reject"));
+							newResult.then(embed.hitch(listener.deferred, "resolve"), embed.hitch(listener.deferred, "reject"));
 							continue;
 						}
 						var unchanged = mutated && newResult === undefined;
@@ -207,7 +206,7 @@
 			complete(error);
 			this.results = [null, error];
 			if(!error || error.log !== false){
-				(dojo.config.deferredOnError || function(x){ console.error(x); })(error);
+				(embed.config.deferredOnError || function(x){ console.error(x); })(error);
 			}
 		};
 		// call progress to provide updates on the progress on the completion of the promise
@@ -245,7 +244,7 @@
 			//		|		then(printResult, onError);
   			//		|	>44 
 			// 		
-			var returnDeferred = progressCallback == dojo.__mutator ? this : new dojo.Promise(promise.cancel);
+			var returnDeferred = progressCallback == embed.__mutator ? this : new embed.Promise(promise.cancel);
 			var listener = {
 				resolved: resolvedCallback, 
 				error: errorCallback, 
@@ -280,6 +279,5 @@
 		}
 		freeze(promise);
 	};
-})();
-
-})(dojo);
+	
+});
