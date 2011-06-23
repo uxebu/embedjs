@@ -165,5 +165,7 @@ define(['embed', 'feature!html-id'], function(embed){
 		// true
 		return embed.getComputedStyle(n);
 	};
+	
+	return embed;
 
 });

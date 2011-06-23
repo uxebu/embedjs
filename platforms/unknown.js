@@ -30,7 +30,7 @@ define({
 	
 	"destroy-destroy": "destroy/destroy",
 	
-	"geolocation": "geolocation/w3c.js",
+	"geolocation": "geolocation/w3c",
 	
 	"html-attr": "html/attr",
 	

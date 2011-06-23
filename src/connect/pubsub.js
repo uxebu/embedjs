@@ -77,5 +77,7 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		var pf = function(){ embed.publish(topic, arguments); }
 		return event ? embed.connect(obj, event, pf) : embed.connect(obj, pf); //Handle
 	};
+	
+	return embed;
 
 });

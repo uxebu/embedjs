@@ -155,7 +155,7 @@ define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'fe
 		if(args == 2 && typeof name != "string"){ // inline'd type check
 			// the object form of setter: the 2nd argument is a dictionary
 			for(var x in name){
-				d.attr(node, x, name[x]);
+				embed.attr(node, x, name[x]);
 			}
 			return node; // DomNode
 		}
@@ -235,4 +235,7 @@ define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'fe
 		//		the name of the attribute to remove
 		embed.byId(node).removeAttribute(_fixAttrName(name));
 	};
+	
+	return embed;
+
 });

@@ -216,5 +216,7 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 	embed._disconnect = function(obj, event, handle, listener){
 		listener.remove(obj, event, handle);
 	}
+	
+	return embed;
 
 });

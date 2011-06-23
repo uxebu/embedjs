@@ -38,5 +38,7 @@ define(['embed', 'feature!html-id'], function(embed){
 			/* squelch */
 		}
 	};
+	
+	return embed;
 
 });
