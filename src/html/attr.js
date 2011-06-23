@@ -1,9 +1,10 @@
-(function(d){
+define(['embed', 'html-style', 'html-id', 'lang-is', 'connect-connect', 'connect-event'], function(embed){
+
 	// =============================
 	// Element attribute Functions
 	// =============================
 
-	// dojo.attr() should conform to http://www.w3.org/TR/DOM-Level-2-Core/
+	// embed.attr() should conform to http://www.w3.org/TR/DOM-Level-2-Core/
 
 	var _propNames = {
 			// properties renamed to avoid clashes with reserved words
@@ -46,7 +47,7 @@
 	// but it is value is "false"; "tabIndex" of <div> returns 0 by default on IE, yet other browsers
 	// can return -1.
 
-	d.hasAttr = function(/*DomNode|String*/node, /*String*/name){
+	embed.hasAttr = function(/*DomNode|String*/node, /*String*/name){
 		//	summary:
 		//		Returns true if the requested attribute is specified on the
 		//		given element, and false otherwise.
@@ -58,7 +59,7 @@
 		//		true if the requested attribute is specified on the
 		//		given element, and false otherwise
 		var lc = name.toLowerCase();
-		return _forcePropNames[_propNames[lc] || name] || _hasAttr(d.byId(node), _attrNames[lc] || name);	// Boolean
+		return _forcePropNames[_propNames[lc] || name] || _hasAttr(embed.byId(node), _attrNames[lc] || name);	// Boolean
 	};
 
 	var _evtHdlrMap = {}, _ctr = 0,
@@ -68,7 +69,7 @@
 			// frameset: 1, head: 1, html: 1, style: 1,
 			table: 1, tbody: 1, tfoot: 1, thead: 1, tr: 1, title: 1};
 
-	d.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
+	embed.attr = function(/*DomNode|String*/node, /*String|Object*/name, /*String?*/value){
 		//	summary:
 		//		Gets or sets an attribute on an HTML element.
 		//	description:
@@ -82,10 +83,10 @@
 		//		When passing functions as values, note that they will not be
 		//		directly assigned to slots on the node, but rather the default
 		//		behavior will be removed and the new behavior will be added
-		//		using `dojo.connect()`, meaning that event handler properties
+		//		using `embed.connect()`, meaning that event handler properties
 		//		will be normalized and that some caveats with regards to
 		//		non-standard behaviors for onsubmit apply. Namely that you
-		//		should cancel form submission using `dojo.stopEvent()` on the
+		//		should cancel form submission using `embed.stopEvent()` on the
 		//		passed event object instead of returning a boolean value from
 		//		the handler itself.
 		//	node:
@@ -103,18 +104,18 @@
 		//
 		//	example:
 		//	|	// get the current value of the "foo" attribute on a node
-		//	|	dojo.attr(dojo.byId("nodeId"), "foo");
+		//	|	embed.attr(embed.byId("nodeId"), "foo");
 		//	|	// or we can just pass the id:
-		//	|	dojo.attr("nodeId", "foo");
+		//	|	embed.attr("nodeId", "foo");
 		//
 		//	example:
 		//	|	// use attr() to set the tab index
-		//	|	dojo.attr("nodeId", "tabIndex", 3);
+		//	|	embed.attr("nodeId", "tabIndex", 3);
 		//	|
 		//
 		//	example:
 		//	Set multiple values at once, including event handlers:
-		//	|	dojo.attr("formId", {
+		//	|	embed.attr("formId", {
 		//	|		"foo": "bar",
 		//	|		"tabIndex": -1,
 		//	|		"method": "POST",
@@ -123,18 +124,18 @@
 		//	|			// of returning true or false will have no effect here
 		//	|			// since our handler is connect()ed to the built-in
 		//	|			// onsubmit behavior and so we need to use
-		//	|			// dojo.stopEvent() to ensure that the submission
+		//	|			// embed.stopEvent() to ensure that the submission
 		//	|			// doesn't proceed.
-		//	|			dojo.stopEvent(e);
+		//	|			embed.stopEvent(e);
 		//	|
 		//	|			// submit the form with Ajax
-		//	|			dojo.xhrPost({ form: "formId" });
+		//	|			embed.xhrPost({ form: "formId" });
 		//	|		}
 		//	|	});
 		//
 		//	example:
 		//	Style is s special case: Only set with an object hash of styles
-		//	|	dojo.attr("someNode",{
+		//	|	embed.attr("someNode",{
 		//	|		id:"bar",
 		//	|		style:{
 		//	|			width:"200px", height:"100px", color:"#000"
@@ -144,12 +145,12 @@
 		//	example:
 		//	Again, only set style as an object hash of styles:
 		//	|	var obj = { color:"#fff", backgroundColor:"#000" };
-		//	|	dojo.attr("someNode", "style", obj);
+		//	|	embed.attr("someNode", "style", obj);
 		//	|
-		//	|	// though shorter to use `dojo.style()` in this case:
-		//	|	dojo.style("someNode", obj);
+		//	|	// though shorter to use `embed.style()` in this case:
+		//	|	embed.style("someNode", obj);
 
-		node = d.byId(node);
+		node = embed.byId(node);
 		var args = arguments.length, prop;
 		if(args == 2 && typeof name != "string"){ // inline'd type check
 			// the object form of setter: the 2nd argument is a dictionary
@@ -167,34 +168,34 @@
 			do{
 				if(propName == "style" && typeof value != "string"){ // inline'd type check
 					// special case: setting a style
-					d.style(node, value);
+					embed.style(node, value);
 					break;
 				}
 				if(propName == "innerHTML"){
 					node[propName] = value;
 					break;
 				}
-				if(d.isFunction(value)){
+				if(embed.isFunction(value)){
 					// special case: assigning an event handler
 					// clobber if we can
-					var attrId = d.attr(node, _attrId);
+					var attrId = embed.attr(node, _attrId);
 					if(!attrId){
 						attrId = _ctr++;
-						d.attr(node, _attrId, attrId);
+						embed.attr(node, _attrId, attrId);
 					}
 					if(!_evtHdlrMap[attrId]){
 						_evtHdlrMap[attrId] = {};
 					}
 					var h = _evtHdlrMap[attrId][propName];
 					if(h){
-						d.disconnect(h);
+						embed.disconnect(h);
 					}else{
 						try{
 							delete node[propName];
 						}catch(e){}
 					}
 					// ensure that event objects are normalized, etc.
-					_evtHdlrMap[attrId][propName] = d.connect(node, propName, value);
+					_evtHdlrMap[attrId][propName] = embed.connect(node, propName, value);
 					break;
 				}
 				if(forceProp || typeof value == "boolean"){
@@ -216,7 +217,7 @@
 			// node's property
 			return value;	// Anything
 		}
-		if(propName != "href" && (typeof value == "boolean" || d.isFunction(value))){
+		if(propName != "href" && (typeof value == "boolean" || embed.isFunction(value))){
 			// node's property
 			return value;	// Anything
 		}
@@ -225,13 +226,13 @@
 		return _hasAttr(node, attrName) ? node.getAttribute(attrName) : null; // Anything
 	};
 
-	d.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
+	embed.removeAttr = function(/*DomNode|String*/ node, /*String*/ name){
 		//	summary:
 		//		Removes an attribute from an HTML element.
 		//	node:
 		//		id or reference to the element to remove the attribute from
 		//	name:
 		//		the name of the attribute to remove
-		d.byId(node).removeAttribute(_fixAttrName(name));
+		embed.byId(node).removeAttribute(_fixAttrName(name));
 	};
-})(dojo);
+});
