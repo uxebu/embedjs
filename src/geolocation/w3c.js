@@ -1,1 +1,3 @@
-embed.geolocation = navigator.geolocation;
+define(['embed'], function(embed){
+	embed.geolocation = navigator.geolocation;
+});
