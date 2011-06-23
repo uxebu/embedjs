@@ -1,6 +1,6 @@
 define(['embed'], function(embed){
 
-	dojo.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback, /*Function?*/progressHandler){
+	embed.when = function(promiseOrValue, /*Function?*/callback, /*Function?*/errback, /*Function?*/progressHandler){
 		// summary:
 		//		This provides normalization between normal synchronous values and 
 		//		asynchronous promises, so you can interact with them in a common way
