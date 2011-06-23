@@ -1,9 +1,9 @@
-;(function(d){
+define(['embed', 'feature!html-id'], function(embed){
 
 	var _destroyContainer = null,
 		_destroyDoc;
 
-	d.destroy = function(/*String|DomNode*/node){
+	embed.destroy = function(/*String|DomNode*/node){
 		//	summary:
 		//		Removes a node from its parent, clobbering it and all of its
 		//		children.
@@ -17,13 +17,13 @@
 		//
 		//	example:
 		//	Destroy a node byId:
-		//	|	dojo.destroy("someId");
+		//	|	embed.destroy("someId");
 		//
 		//	example:
 		//	Destroy all nodes in a list by reference:
-		//	|	dojo.query(".someNode").forEach(dojo.destroy);
+		//	|	embed.query(".someNode").forEach(embed.destroy);
 
-		node = dojo.byId(node);
+		node = embed.byId(node);
 		try{
 			var doc = node.ownerDocument;
 			// cannot use _destroyContainer.ownerDocument since this can throw an exception on IE
@@ -38,4 +38,5 @@
 			/* squelch */
 		}
 	};
-})(dojo);
+
+});
