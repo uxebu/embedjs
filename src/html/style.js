@@ -156,8 +156,9 @@ dojo.style = function(	/*DomNode|String*/ node,
 			return n.style[style];
 		} else {
 			for(var x in style){
-				dojo.style(node, x, style[x]);
+				n.style[x] = style[x];
 			}
+			return;
 		}
 	}
 	// >>> // Return computedStyle if only node is given, just a shortcut.

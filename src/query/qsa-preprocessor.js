@@ -200,45 +200,18 @@ dojo.query = function(query, scope){
 
 	// check if scope is a document node
 	if(scope.nodeType == 9){
-		// if the query starts with a child combinator, try scope.querySelector()
-		// with the first segment _without_ leading child operator and check
-		// if it is scope.documentElement.
-		if(/^\s*>/.test(query)){
-			// split the query up into the selector that the documentElement must match
-			// and the rest of the query.
-			var queryParts = query.replace(/^\s*>/, "").match(/([^\s>+~]+)(.*)/);
-			if (!queryParts) {
-				return [];
-			}
-
-			var docElmQuery = queryParts[1];
-			query = queryParts[2];
-
-			// Check if the documentElement matches the first segment of the selector
-			if(scope.querySelector(docElmQuery) !== scope.documentElement){
-				return [];
-			}
-
-			// If documentElement matches the first segment of the selector,
-			// and the rest of the query is empty return documentElement.
-			if(!query){
-				return [scope.documentElement];
-			}
-
-			// execute the rest of the selector against scope.documentElement
-			scope = scope.documentElement;
-		}
+		// if the query starts with a child combinator, we'll simply replace
+		// the combinator with ":root".
+		query = query.replace(/^\s*>\s*/, ":root");
 
 		// if the query starts with a ajdacent combinator or a general sibling combinator,
 		// return an empty array
-		else if(/^\s*[+~]/.test(query)){
+		if(/^\s*[+~]/.test(query)){
 			return [];
 		}
 	}
 
-	// check if the root is an element node.
-	// We can't use an "else" branch here, because the scope might have changed
-	if(scope.nodeType == 1){
+	else { // root is element node
 		// we need to prefix the query with an id to make QSA work like
 		// expected. For details check http://ejohn.org/blog/thoughts-on-queryselectorall/
 		var originalId = scope.id;
@@ -248,7 +221,41 @@ dojo.query = function(query, scope){
 			var syntheticIdSet = true;
 		}
 
-		query = "#" + rootId + " " + query;
+		var prefix = "#" + rootId + " ";
+
+		// we need to split the query at commas to root every part of it, but
+		// not inside of quotes.
+		var bits = query.split(/(?=[,'"])/);
+		var parts = [], currentPart = bits[0];
+		var openDoubleQuote, openSingleQuote, current, last = currentPart;
+		var reTrailingBackslashes = /\\+$/;
+		for(var i = 1, len = bits.length; i < len; i++){
+			var current = bits[i], firstChar = current.charAt(0);
+			if(firstChar === ',' && !openSingleQuote && !openDoubleQuote){
+				// a new part starting here
+				parts.push(currentPart);
+				// start new part, throw away the leading comma
+				currentPart = current.slice(1);
+			}else{
+				// check for prepended backslashes
+				var match = reTrailingBackslashes.exec(last);
+				if(!match || match[0].length % 2 === 0){
+					// even number of backslashes: quote is not escaped, opens or closes a quote
+					if(!openSingleQuote && firstChar === '"'){
+						// opens/closes double quote if not inside of single quote
+						openDoubleQuote = !openDoubleQuote;
+					}else if(!openDoubleQuote && firstChar === "'"){
+						// opens/closes single quote if not inside of double quote
+						openSingleQuote = !openSingleQuote;
+					}
+				}
+				currentPart += current;
+			}
+			last = current;
+		}
+		parts.push(currentPart); // add the last part
+
+		query = prefix + parts.join(","+prefix);
 
 		// we need to start the query one element up the chain to make sibling
 		// and adjacent combinators work.
