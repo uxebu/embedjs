@@ -28,8 +28,6 @@ define({
     
     "async-deferred": "async/deferred",
 	
-	"destroy-destroy": "destroy/destroy",
-	
 	"geolocation": "geolocation/w3c",
 	
 	"html-attr": "html/attr",
@@ -45,6 +43,8 @@ define({
     "html-ready": "html/ready",
     
     "html-id": "html/id",
+	
+	"html-destroy": "html/destroy",
     
     "json": "json/json",
     
