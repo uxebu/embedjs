@@ -128,6 +128,8 @@ define({
 	
 	"query:xpath": "query/xpath",
 	
+	// Feature group 'queryExtensions'
+	
 	"queryExtensions-ChainableNodeArray": "queryExtensions/ChainableNodeArray",
 	
 	// Feature group 'oo'

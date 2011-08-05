@@ -81,7 +81,10 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		},
 		json: function(xhr){
 			// summary: A contentHandler which returns a JavaScript object created from the response data
-			return embed.fromJson(xhr.responseText || null);
+			//	NOTE: we set the stripComments flag to true, because of
+			//	compat to code that comes from working w/ dojo, where
+			//	JSON was allowed to have comments in it.
+			return embed.fromJson(xhr.responseText || null, true);
 		}
 	};
 
@@ -679,5 +682,7 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		//		Sends an HTTP DELETE request to the server.
 		return embed.xhr("DELETE", args); //embed.Deferred
 	}
+	
+	return embed;
 	
 });

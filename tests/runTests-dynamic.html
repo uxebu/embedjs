@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>EmbedJS Test Runner - android</title>
+		<title>EmbedJS Test Runner - dynamic AMD</title>
 		<style type="text/css">
 			body,html{
 				background-color:white;
@@ -117,14 +117,14 @@
 		 		'feature!oo-delegate',
 		 		'feature!oo-extend',
 		 		'feature!query',
-		 		//'feature!transport-jsonp',
-		 		'feature!transport-xhr', //*
-		 		//'feature!transport-script'
+		 		'feature!transport-jsonp',
+		 		'feature!transport-xhr',
+		 		'feature!transport-script',
 		 		'feature!uri'
 		 		
 		 	], function(embed) {
 			 	console.log('EMBED LOADED');
-			 	window.dojo = embed;
+			 	window.dojo = window.embed = embed;
 		    });
 		</script>
 	</head>
@@ -207,17 +207,17 @@
 		<script type="text/javascript" src="tests/oo/delegate.js"></script>
 		<script type="text/javascript" src="tests/oo/extend.js"></script>
 		
-		<!-- query 
+		<!-- query -->
 		<script type="text/javascript" src="tests/query/query_html.js"></script>
 		<script type="text/javascript" src="tests/query/query.js"></script>
 		<script type="text/javascript" src="tests/queryExtensions/ChainableNodeArray.js"></script>
-		-->
-		<!-- uri 
+
+		<!-- uri -->
 		<script type="text/javascript" src="tests/uri/uri.js"></script>
-		-->
+
 		<!-- transport -->
-<!--		<script type="text/javascript" src="tests/transport/xhr.js"></script>-->
-<!--		<script type="text/javascript" src="tests/transport/jsonp.js"></script>-->
+		<script type="text/javascript" src="tests/transport/xhr.js"></script>
+		<script type="text/javascript" src="tests/transport/jsonp.js"></script>
 
 	</body>
 </html>
