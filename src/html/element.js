@@ -1,8 +1,8 @@
-;(function(d){
+define(['embed'], function(embed){
 
-	var byId = d.byId;
+	var byId = embed.byId;
 	
-	// support stuff for dojo._toDom
+	// support stuff for embed._toDom
 	var tagWrap = {
 			option: ["select"],
 			tbody: ["table"],
@@ -19,7 +19,7 @@
 		},
 		reTag = /<\s*([\w\:]+)/,
 		masterNode = {}, masterNum = 0,
-		masterName = "__" + d._scopeName + "ToDomId";
+		masterName = "__" + embed._scopeName + "ToDomId";
 
 	// generate start/end tag strings to use
 	// for the injection for each special tag wrap case.
@@ -31,11 +31,11 @@
 		// but we don't care at this point
 	}
 
-	d._toDom = function(frag, doc){
+	embed._toDom = embed.toDom = function(frag, doc){
 		//	summary:
 		// 		converts HTML string into DOM nodes.
 
-		doc = doc || d.doc;
+		doc = doc || embed.doc;
 		var masterId = doc[masterName];
 		if(!masterId){
 			doc[masterName] = masterId = ++masterNum + "";
@@ -71,13 +71,13 @@
 			df.appendChild(fc);
 		}
 		return df; // DOMNode
-	}
+	};
 
-	d._docScroll = function(){
+	embed._docScroll = function(){
 		var n = d.global;
 		return "pageXOffset" in n? { x:n.pageXOffset, y:n.pageYOffset } :
-			(n=d.doc.documentElement, n.clientHeight? { x:n.scrollLeft, y:n.scrollTop } :
-			(n=d.body(), { x:n.scrollLeft||0, y:n.scrollTop||0 }));
+			(n=embed.doc.documentElement, n.clientHeight? { x:n.scrollLeft, y:n.scrollTop } :
+			(n=embed.body(), { x:n.scrollLeft||0, y:n.scrollTop||0 }));
 	};
 
 	var _insertBefore = function(/*DomNode*/node, /*DomNode*/ref){
@@ -100,7 +100,7 @@
 		}
 	};
 
-	d.place = function(node, refNode, position){
+	embed.place = function(node, refNode, position){
 		//	summary:
 		//		Attempt to insert node into the DOM, choosing from various positioning options.
 		//		Returns the first argument resolved to a DOM node.
@@ -127,27 +127,27 @@
 		//	returns: DomNode
 		//		Returned values is the first argument resolved to a DOM node.
 		//
-		//		.place() is also a method of `dojo.NodeList`, allowing `dojo.query` node lookups.
+		//		.place() is also a method of `embed.NodeList`, allowing `embed.query` node lookups.
 		//
 		// example:
 		//		Place a node by string id as the last child of another node by string id:
-		//	|	dojo.place("someNode", "anotherNode");
+		//	|	embed.place("someNode", "anotherNode");
 		//
 		// example:
 		//		Place a node by string id before another node by string id
-		//	|	dojo.place("someNode", "anotherNode", "before");
+		//	|	embed.place("someNode", "anotherNode", "before");
 		//
 		// example:
 		//		Create a Node, and place it in the body element (last child):
-		//	|	dojo.place("<div></div>", dojo.body());
+		//	|	embed.place("<div></div>", embed.body());
 		//
 		// example:
 		//		Put a new LI as the first child of a list by id:
-		//	|	dojo.place("<li></li>", "someUl", "first");
+		//	|	embed.place("<li></li>", "someUl", "first");
 
 		refNode = byId(refNode);
 		if(typeof node == "string"){ // inline'd type check
-			node = node.charAt(0) == "<" ? d._toDom(node, refNode.ownerDocument) : byId(node);
+			node = node.charAt(0) == "<" ? embed.toDom(node, refNode.ownerDocument) : byId(node);
 		}
 		if(typeof position == "number"){ // inline'd type check
 			var cn = refNode.childNodes;
@@ -168,7 +168,7 @@
 					refNode.parentNode.replaceChild(node, refNode);
 					break;
 				case "only":
-					d.empty(refNode);
+					embed.empty(refNode);
 					refNode.appendChild(node);
 					break;
 				case "first":
@@ -184,7 +184,7 @@
 		return node; // DomNode
 	};
 	
-	d.create = function(tag, attrs, refNode, pos){
+	embed.create = function(tag, attrs, refNode, pos){
 		//	summary:
 		//		Create an element, allowing for optional attribute decoration
 		//		and placement.
@@ -194,10 +194,10 @@
 		//		a fragment, and allowing for a convenient optional attribute setting step,
 		//		as well as an optional DOM placement reference.
 		//|
-		//		Attributes are set by passing the optional object through `dojo.attr`.
-		//		See `dojo.attr` for noted caveats and nuances, and API if applicable.
+		//		Attributes are set by passing the optional object through `embed.attr`.
+		//		See `embed.attr` for noted caveats and nuances, and API if applicable.
 		//|
-		//		Placement is done via `dojo.place`, assuming the new node to be the action 
+		//		Placement is done via `embed.place`, assuming the new node to be the action 
 		//		node, passing along the optional reference node and position.
 		//
 		// tag: String|DomNode
@@ -207,16 +207,16 @@
 		// attrs: Object
 		//		An object-hash of attributes to set on the newly created node.
 		//		Can be null, if you don't want to set any attributes/styles.
-		//		See: `dojo.attr` for a description of available attributes.
+		//		See: `embed.attr` for a description of available attributes.
 		//		TODO: Clarify what attrs are allowed.
 		//
 		// refNode: String?|DomNode?
-		//		Optional reference node. Used by `dojo.place` to place the newly created
+		//		Optional reference node. Used by `embed.place` to place the newly created
 		//		node somewhere in the dom relative to refNode. Can be a DomNode reference
 		//		or String ID of a node.
 		//
 		// pos: String?
-		//		Optional positional reference. Defaults to "last" by way of `dojo.place`,
+		//		Optional positional reference. Defaults to "last" by way of `embed.place`,
 		//		though can be set to "first","after","before","last", "replace" or "only"
 		//		to further control the placement of the new node relative to the refNode.
 		//		'refNode' is required if a 'pos' is specified.
@@ -225,37 +225,37 @@
 		//
 		// example:
 		//	Create a DIV:
-		//	|	var n = dojo.create("div");
+		//	|	var n = embed.create("div");
 		//
 		// example:
 		//	Create a DIV with content:
-		//	|	var n = dojo.create("div", { innerHTML:"<p>hi</p>" });
+		//	|	var n = embed.create("div", { innerHTML:"<p>hi</p>" });
 		//
 		// example:
 		//	Place a new DIV in the BODY, with no attributes set
-		//	|	var n = dojo.create("div", null, dojo.body());
+		//	|	var n = embed.create("div", null, embed.body());
 		//
 		// example:
 		//	Create an UL, and populate it with LI's. Place the list as the first-child of a 
 		//	node with id="someId":
-		//	|	var ul = dojo.create("ul", null, "someId", "first");
+		//	|	var ul = embed.create("ul", null, "someId", "first");
 		//	|	var items = ["one", "two", "three", "four"];
-		//	|	dojo.forEach(items, function(data){
-		//	|		dojo.create("li", { innerHTML: data }, ul);
+		//	|	embed.forEach(items, function(data){
+		//	|		embed.create("li", { innerHTML: data }, ul);
 		//	|	});
 		//
 		// example:
 		//	Create an anchor, with an href. Place in BODY:
-		//	|	dojo.create("a", { href:"foo.html", title:"Goto FOO!" }, dojo.body());
+		//	|	embed.create("a", { href:"foo.html", title:"Goto FOO!" }, embed.body());
 		//
 		// example:
-		//	Create a `dojo.NodeList()` from a new element (for syntatic sugar):
-		//	|	dojo.query(dojo.create('div'))
+		//	Create a `embed.NodeList()` from a new element (for syntatic sugar):
+		//	|	embed.query(embed.create('div'))
 		//	|		.addClass("newDiv")
 		//	|		.onclick(function(e){ console.log('clicked', e.target) })
 		//	|		.place("#someNode"); // redundant, but cleaner.
 
-		var doc = d.doc;
+		var doc = embed.doc;
 		if(refNode){
 			refNode = byId(refNode);
 			doc = refNode.ownerDocument;
@@ -275,12 +275,14 @@
 				}
 			}
 		}
-		if(refNode){ d.place(tag, refNode, pos); }
+		if(refNode){ embed.place(tag, refNode, pos); }
 		return tag; // DomNode
 	};
 	
-	d.empty = function(node){
+	embed.empty = function(node){
 		byId(node).innerHTML = "";
 	};
+	
+	return embed;
 
-})(dojo);
+});
