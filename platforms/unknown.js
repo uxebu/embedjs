@@ -4,7 +4,7 @@ define({
 	"array":[
 		{
 			isAvailable: function(){
-				return !![].forEach;
+				return {}.toString.call([].forEach) == '[object Function]';
 			},
 			implementation: "array/native"
 		},
@@ -46,9 +46,22 @@ define({
 	
 	"html-destroy": "html/destroy",
     
-    "json": "json/json",
+    "json": [
+         {
+        	 isAvailable: function(){
+	        	return typeof JSON != 'undefined' && typeof JSON.parse == 'function'; 
+	         },
+        	 implementation: "json/native"
+         },
+         {
+        	 isAvailable: function(){
+	        	return true; 
+	         },
+        	 implementation: "json/dojo-json"
+         }
+     ],
     
-	"lang-toarray": "lang/to-array",
+	"lang-toarray": "lang/toarray",
 	
 	"lang-clone": "lang/clone",
 	

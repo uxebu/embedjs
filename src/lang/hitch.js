@@ -1,5 +1,5 @@
 define(['embed', 'feature!lang-is', 'feature!lang-toarray'], function(embed){
-	
+
 	embed._hitchArgs = function(scope, method /*,...*/){
 		var pre = embed.toArray(arguments, 2);
 		var named = embed.isString(method);
@@ -11,8 +11,8 @@ define(['embed', 'feature!lang-is', 'feature!lang-toarray'], function(embed){
 			// invoke with collected args
 			return f && f.apply(scope || this, pre.concat(args)); // mixed
 	 	} // Function
-	}
-	
+	};
+
 	embed.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
 		//	summary:
 		//		Returns a function that will only ever execute in the a given scope.
@@ -48,5 +48,7 @@ define(['embed', 'feature!lang-is', 'feature!lang-toarray'], function(embed){
 			return function(){ return scope[method].apply(scope, arguments || []); }; // Function
 		}
 		return !scope ? method : function(){ return method.apply(scope, arguments || []); }; // Function
-	}
+	};
+
+	return embed;
 });

@@ -1,13 +1,17 @@
 define(['embed'], function(embed){
 	
-	var empty = {};
+	// TODO: extraNems will be [] in non-IE browsers; remove the whole extraName thing in non-IE implemenatations?
+	var empty = {}, extraNames;
+	for(var i in {toString: 1}){ extraNames = []; break; }
+	embed._extraNames = extraNames = extraNames || ["hasOwnProperty", "valueOf", "isPrototypeOf",
+		"propertyIsEnumerable", "toLocaleString", "toString"];
 
 	embed._mixin = function(/*Object*/ target, /*Object*/ source){
 		// summary:
 		//		Adds all properties and methods of source to target. This addition
 		//		is "prototype extension safe", so that instances of objects
 		//		will not pass along prototype defaults.
-		var name, s, i = 0;
+		var name, s, i = 0, l = extraNames.length;
 		for(name in source){
 			// the "tobj" condition avoid copying properties in "source"
 			// inherited from Object.prototype.  For example, if target has a custom
@@ -18,6 +22,18 @@ define(['embed'], function(embed){
 				target[name] = s;
 			}
 		}
+		//>>excludeStart("webkitMobile", kwArgs.webkitMobile);
+		// IE doesn't recognize some custom functions in for..in
+		if(l && source){
+			for(; i < l; ++i){
+				name = extraNames[i];
+				s = source[name];
+				if(s !== empty[name] && s !== target[name]){
+					target[name] = s;
+				}
+			}
+		}
+		//>>excludeEnd("webkitMobile");
 		return target; // Object
 	}
 
@@ -144,6 +160,19 @@ define(['embed'], function(embed){
 		
 		// add props adding metadata for incoming functions skipping a constructor
 		for(name in source){
+			t = source[name];
+			if((t !== op[name] || !(name in op)) && name != cname){
+				if(opts.call(t) == "[object Function]"){
+					// non-trivial function method => attach its name
+					t.nom = name;
+				}
+				target[name] = t;
+			}
+		}
+		// process unenumerable methods on IE
+		//TODO: move unneeded iteration to ie branch?
+		for(; i < l; ++i){
+			name = embed._extraNames[i];
 			t = source[name];
 			if((t !== op[name] || !(name in op)) && name != cname){
 				if(opts.call(t) == "[object Function]"){

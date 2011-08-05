@@ -204,7 +204,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 				}else if(propName == 'class'){
 					tag.className = value;
 				}else{
-					tag[prop] = value;
+					tag[propName] = value;
 				}
 			}
 		}

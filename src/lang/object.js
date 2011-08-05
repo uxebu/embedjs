@@ -1,6 +1,5 @@
 define(['embed'], function(embed){
-	
-	
+
 	embed._getProp = function(/*Array*/parts, /*Boolean*/create, /*Object?*/context){
 		var obj=context || embed.global;
 		for(var i=0, p; obj && (p=parts[i]); i++){
@@ -11,7 +10,7 @@ define(['embed'], function(embed){
 		}
 		return obj; // mixed
 	};
-	
+
 	embed.setObject = function(/*String*/name, /*Object*/value, /*Object?*/context){
 		// summary:
 		//		Set a property from a dot-separated string, such as "A.B.C"
@@ -41,7 +40,7 @@ define(['embed'], function(embed){
 		var parts=name.split("."), p=parts.pop(), obj=embed._getProp(parts, true, context);
 		return obj && p ? (obj[p]=value) : undefined; // Object
 	};
-	
+
 	embed.getObject = function(/*String*/name, /*Boolean?*/create, /*Object?*/context){
 		// summary:
 		//		Get a property from a dot-separated string, such as "A.B.C"
@@ -60,5 +59,5 @@ define(['embed'], function(embed){
 	};
 
 	return embed;
-	
+
 });

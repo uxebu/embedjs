@@ -91,8 +91,8 @@ define(['embed'], function(embed){
 		}
 	};
 
-	document.addEventListener("DOMContentLoaded", embed._loadInit, false);
-	window.addEventListener("load", embed._loadInit, false);
+	embed.doc.addEventListener("DOMContentLoaded", embed._loadInit, false);
+	embed.global.addEventListener("load", embed._loadInit, false);
 
 	return embed;
 
