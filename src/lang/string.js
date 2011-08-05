@@ -1,4 +1,4 @@
-define(['embed', 'feature!lang-object'], function(embed){
+define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 	/*=====
 	embed.trim = function(str){
 		//	summary:
