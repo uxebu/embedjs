@@ -20,7 +20,7 @@ define(['implementations'], function(implementations){
 				// a conflict when we try to 'register' another
 				// module for the same feature).
 				for(var i=0, m=featureInfo.length; i<m; i++){
-					fileName = featureInfo[i].file;
+					fileName = featureInfo[i].implementation;
 			        req([fileName], function (value) {});
 				}
 				
@@ -33,7 +33,7 @@ define(['implementations'], function(implementations){
 				// test for the one to use.
 				for(var i=0, m=featureInfo.length; i<m; i++){
 					if(featureInfo[i].isAvailable()){
-						fileName = featureInfo[i].file;
+						fileName = featureInfo[i].implementation;
 						break;
 					}
 				}

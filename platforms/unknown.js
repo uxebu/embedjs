@@ -6,13 +6,13 @@ define({
 			isAvailable: function(){
 				return !![].forEach;
 			},
-			file: "array/native"
+			implementation: "array/native"
 		},
 		{
 			isAvailable: function(){
 				return true;
 			},
-			file: "array/functional"
+			implementation: "array/functional"
 		}
 	],
 	
