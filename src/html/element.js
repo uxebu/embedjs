@@ -1,4 +1,4 @@
-define(['embed', 'feature!html-style', 'feature!html-todom'], function(embed){
+define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'], function(embed){
 
 	var byId = embed.byId;
 
