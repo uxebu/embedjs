@@ -68,9 +68,9 @@ define({
 	
 	"query": "query/qsa-preprocessor",
 	
-	"query-qsa":"query/qsa",
+	"query:qsa":"query/qsa",
 	
-	"query-simple": "query/simple",
+	"query:simple": "query/simple",
 	
 	"queryExtensions-ChainableNodeArray": "queryExtensions/ChainableNodeArray",
 	
