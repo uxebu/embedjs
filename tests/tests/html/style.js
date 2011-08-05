@@ -3,7 +3,7 @@
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
 
-doh.registerDocTests("../src/html/style.js");
+addDocTest("../src/html/style.js");
 tests.register("html-style",
 	[
 		function _start(t){

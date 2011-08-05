@@ -75,6 +75,12 @@
 		</style>
 		<script type="text/javascript" src="runner-embed.js"></script>
 		<script type="text/javascript" src="DocTest.js"></script>
+		<script type="text/javascript">
+			docTestQueue = [];
+			addDocTest = function(docTest){
+				docTestQueue.push(docTest);
+			};
+		</script>
 		
 		<script>
 			var require = {
@@ -125,10 +131,16 @@
 		 	], function(embed) {
 			 	console.log('EMBED LOADED');
 			 	window.dojo = window.embed = embed;
+
+			 	// Register doc tests here:
+			 	for(var i = 0, m = docTestQueue.length; i<m; i++){
+			 		doh.registerDocTests(docTestQueue[i]);
+				}
 		    });
 		</script>
 	</head>
 	<body>
+		
 	    <script type="text/javascript">
 			//window.onerror = function(e){
 			//	var err = [];

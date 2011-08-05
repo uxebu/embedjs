@@ -161,7 +161,7 @@ define(['embed', 'feature!html-id'], function(embed){
 			}
 		}
 		// >>> // Return computedStyle if only node is given, just a shortcut.
-		// >>> embed.style(embed.query("div")[0]) instanceof ComputedCSSStyleDeclaration
+		// >>> embed.style(embed.query("div")[0]) instanceof CSSStyleDeclaration
 		// true
 		return embed.getComputedStyle(n);
 	};
