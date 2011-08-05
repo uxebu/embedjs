@@ -36,6 +36,8 @@ define({
 	
 	"html-element": "html/element",
 	
+	"html-todom": "html/todom",
+	
 	"html-class": "html/class",
 	
 	"html-style": "html/style",
