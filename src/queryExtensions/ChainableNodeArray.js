@@ -1,4 +1,16 @@
-;(function(){
+define(['embed', 'feature!query', 'feature!array'], function(embed){
+	
+	// This feature will make embed.query return a chainable NodeList.
+	// This NodeList is decorated with the basic array methods:
+	//		"forEach", "map", "some", "every", "filter"
+	//
+	// It will also contain the following methods:
+	//		"attr", "addClass", "connect", "removeAttr", "removeClass", "style", "toggleClass", "place"
+	//
+	// Note that we don't explicitely require the features that enable 
+	// them; if you want to use one of these, you need to require them
+	// manually.
+	
 	var slice = [].slice;
 	var push = [].push;
   
@@ -54,7 +66,7 @@
 
 					// `some` and `every` return a boolean, `map` and `filter` return an array, `forEach` returns undefined.
 					// If return value is an array, return a new chainable, else return the return value.
-					if(ret && "length" in Object(ret)){ //TODO: add dependency to embed.is (embed.isArray)?
+					if(ret && "length" in Object(ret)){ //TODO: add dependency to lang-is and use embed.isArray()?
 						return new embed.ChainableNodeArray(ret);
 					}
 					return ret;
@@ -76,5 +88,8 @@
 			makeChainable(ret);
 			return ret;
 		};
-	}
-})();
+	};
+
+	return embed;
+
+});
