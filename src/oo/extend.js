@@ -11,4 +11,6 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 		return constructor; // Object
 	}
 
+	return embed;
+
 });
