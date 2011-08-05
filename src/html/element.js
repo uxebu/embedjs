@@ -1,4 +1,4 @@
-define(['embed'], function(embed){
+define(['embed', 'feature!style'], function(embed){
 
 	var byId = embed.byId;
 	
@@ -264,14 +264,18 @@ define(['embed'], function(embed){
 			tag = doc.createElement(tag);
 		}
 		if(attrs){
-			//d.attr(tag, attrs);
-			for(var prop in attrs){
-				switch(prop){
-					case 'class':
-						tag.className = attrs[prop];
-						break;
-					default:
-						tag[prop] = attrs[prop];
+			//embed.attr(tag, attrs);
+			for(var propName in attrs){
+				var value = attrs[propName];
+			
+				if(propName == 'style' && typeof value != 'string'){ // inline'd type check
+					// special case: setting a style
+					embed.style(tag, value);
+					break;
+				}else if(propName == 'class'){
+					tag.className = value;
+				}else{
+					tag[prop] = value;
 				}
 			}
 		}
