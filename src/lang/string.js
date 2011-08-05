@@ -17,11 +17,11 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 		return "";	// String
 	}
 	=====*/
-	
+
 	embed.trim = String.prototype.trim ?
 		function(str){ return str.trim(); } :
 		function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
-	
+
 	/*=====
 	embed.replace = function(tmpl, map, pattern){
 		//	summary:
@@ -90,7 +90,7 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 		return "";	// String
 	}
 	=====*/
-	
+
 	var _pattern = /\{([^\}]+)\}/g;
 	embed.replace = function(tmpl, map, pattern){
 		return tmpl.replace(pattern || _pattern, embed.isFunction(map) ?
@@ -98,5 +98,5 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 	};
 
 	return embed;
-	
+
 });
