@@ -29,7 +29,7 @@ define(['embed'], function(embed){
 		// but we don't care at this point
 	}
 
-	embed._toDom = embed.toDom = function(frag, doc){
+	embed._toDom = embed.toDom = function(frag, doc){ // TODO: remove embed._toDom here and put it into some compat feature.
 		//	summary:
 		// 		converts HTML string into DOM nodes.
 
