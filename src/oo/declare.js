@@ -1,4 +1,4 @@
-// this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
+// Parts of this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 
 dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
 	//	summary: 

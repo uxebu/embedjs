@@ -1,5 +1,5 @@
 define(['embed'], function(embed){
-	
+
 	var empty = {};
 
 	embed._mixin = function(/*Object*/ target, /*Object*/ source){
@@ -19,7 +19,7 @@ define(['embed'], function(embed){
 			}
 		}
 		return target; // Object
-	}
+	};
 
 	embed.mixin = function(/*Object*/obj, /*Object...*/props){
 		// summary:
@@ -79,9 +79,8 @@ define(['embed'], function(embed){
 			embed._mixin(obj, arguments[i]);
 		}
 		return obj; // Object
-	}
-	
-	// implementation of safe mixin function
+	};
+
 	embed.safeMixin = function(target, source){
 		//	summary:
 		//		Mix in properties skipping a constructor and decorating functions
@@ -154,8 +153,8 @@ define(['embed'], function(embed){
 			}
 		}
 		return target;
-	}
-	
+	};
+
 	return embed;
 
 });
