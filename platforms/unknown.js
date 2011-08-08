@@ -76,6 +76,10 @@ define({
         	 implementation: "json/dojo-json"
          }
      ],
+     
+     "json:native": "json/native",
+     
+     "json:dojo": "json/dojo-json",
     
     // Feature group 'lang'
     
