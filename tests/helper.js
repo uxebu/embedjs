@@ -29,11 +29,11 @@ var helper = {
 	},
 	
 	buildHTML: function(featureTree){
-		var html = '<table><thead><tr><td>Feature</td><td>Test</td><td>Implementation</td><td></td></tr></thead><tbody>';
+		var html = '<table id="featureTable"><thead><tr><td>Feature</td><td>Test</td><td>Implementation</td><td></td></tr></thead><tbody>';
 		for(var feature in featureTree){
 			var impls = featureTree[feature];
 			for(var i = 0, m = impls.length; i < m; i++){
-				html += '<tr><td>' + ( i == 0 ? feature : '') + '</td><td>' + ( i == 0 ? ( '<input type="checkbox" id="' + feature + '" />' ) : '' ) + '</td><td>' + impls[i].name + '</td><td><input class="' + feature + '" type="radio" id="' + impls[i].req + '" name="' + feature + '" ' + (i == 0 ? 'checked' : '') + ' /></td></tr>';
+				html += '<tr class="'+(i==0?'featureStart':'')+'"><td>' + ( i == 0 ? feature : '') + '</td><td>' + ( i == 0 ? ( '<input type="checkbox" id="' + feature + '" />' ) : '' ) + '</td><td>' + impls[i].name + '</td><td><input class="' + feature + '" type="radio" id="' + impls[i].req + '" name="' + feature + '"' + /* ( impls.length == 1 ? ' disabled ' : '' ) + */ (i == 0 ? ' checked ' : '') + ' /></td></tr>';
 			}
 		}
 		html += '</tbody></table>';

@@ -1,6 +1,7 @@
 body,html{
 	background-color:white;
 	color:black;
+	font-family: sans-serif;
 }
 a {
 	display: block;
@@ -9,6 +10,20 @@ a {
 
 /* Feature Table */
 
+#featureTable {
+	border-collapse: collapse;
+	padding-bottom: 10px;
+	font-size: 14px;
+}
+#featureTable thead td {
+	font-weight: bold;
+}
+#featureTable td {
+	padding: 1px 5px;
+}
+.featureStart td {
+	border-top: solid 1px #ddd;
+}
 
 /* Report */
 
