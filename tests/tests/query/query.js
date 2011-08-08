@@ -1,7 +1,9 @@
+require(['text!../tests/tests/query/query.html'], function(html){
+
 tests.register("query", 
 	[
 	 	function _start(t){
-			doh.showBox('html_query-test');
+	 		document.body.innerHTML = html;
 		},
 		
 		
@@ -266,3 +268,5 @@ tests.register("query",
 		*/
 	]
 );
+
+});
