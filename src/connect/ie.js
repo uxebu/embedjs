@@ -1,3 +1,6 @@
+// FIXME: This is a mess. *If* we really want this one day, we 
+// should redo it all over. Right now, I won't touch it.
+
 require.def("dojo/connect", ["dojo"], function(){
 // this file courtesy of the TurboAjax Group, licensed under a Dojo CLA
 

@@ -1,7 +1,9 @@
+require(['text!../tests/tests/query/query.html'], function(html){
+
 tests.register("queryExtension-ChainableNodeArray", 
 	[
 	 	function _start(t){
-			doh.showBox('html_query-test');
+	 		document.body.innerHTML = html;
 		},
 		
 		function backwardsCompatible(){
@@ -165,3 +167,5 @@ tests.register("queryExtension-ChainableNodeArray",
 		}
 	]
 );
+
+});

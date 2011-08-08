@@ -53,7 +53,7 @@ var DocTest = function(){
 	this.getTests = function(/*String*/moduleName){
 		// summary: Extract the tests from the given module or string.
 		var file = moduleName;
-		var xhr = dojo.xhrGet({url:file, handleAs:"text"});
+		//var xhr = dojo.xhrGet({url:file, handleAs:"text"});
 		// Make loading synchronously, mainly so we can use it in doh.
 		var data = dojo._getText(file);
 		return this._getTestsFromString(data, true);

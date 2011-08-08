@@ -2,11 +2,13 @@
 
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
+require(['text!../tests/tests/html/class+style.html'], function(html){
+	
 
 tests.register("html-attr",
 	[
 		function _start(t){
-			doh.showBox('class+style.html');
+			document.body.innerHTML = html;
 		},
 		
 		function getTypeInput(t){
@@ -268,3 +270,5 @@ tests.register("html-attr",
 
 	]
 );
+
+});

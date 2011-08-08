@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AMD test, built file</title>
+		<script src="../src/require.js"></script>
+		<script src="../src/built.js"></script>
+		<script>
+		    require(['embed', 'feature!array'], function(embed) {
+			    console.log('embedjs loaded.');
+			    console.log(embed);
+			    console.log(embed.forEach.toString());
+		    });
+		</script>				
+	</head>
+	<body>
+		<p>This tests dynamic feature implementation in a built file.</p>
+	</body>
+</html>

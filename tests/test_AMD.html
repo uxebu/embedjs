@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AMD test</title>
+		<link rel="stylesheet" type="text/css" href="tests.css" />
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+		<script type="text/javascript" src="runner-embed.js"></script>
+		<script type="text/javascript" src="DocTest.js"></script>
+		<script type="text/javascript" src="helper.js"></script>
+		<script type="text/javascript">
+		    require(['implementations'], function(implementations) {
+				helper.renderTable(implementations);
+		    });
+		</script>				
+	</head>
+	<body>
+		<div id="featureTable"></div>
+		<button onclick="helper.prepareTests()">Test selected features</button>
+		<button onclick="helper.prepareTests(true)">Test all features</button>
+	</body>
+</html>

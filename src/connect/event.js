@@ -1,6 +1,6 @@
-;(function(){
+define(['embed', 'feature!lang-hitch'], function(embed){
 
-var del = (dojo._event_listener = {
+	var del = (embed._event_listener = {
 		add: function(/*DOMNode*/ node, /*String*/ name, /*Function*/ fp){
 			if(!node){return;} 
 			name = del._normalizeEventName(name);
@@ -31,7 +31,7 @@ var del = (dojo._event_listener = {
 
 	// DOM events
 	
-	dojo.fixEvent = function(/*Event*/ evt, /*DOMNode*/ sender){
+	embed.fixEvent = function(/*Event*/ evt, /*DOMNode*/ sender){
 		// summary:
 		//		normalizes properties on the event object including event
 		//		bubbling methods, keystroke normalization, and x/y positions
@@ -42,7 +42,7 @@ var del = (dojo._event_listener = {
 		return del._fixEvent(evt, sender);
 	};
 
-	dojo.stopEvent = function(/*Event*/ evt){
+	embed.stopEvent = function(/*Event*/ evt){
 		// summary:
 		//		prevents propagation and clobbers the default action of the
 		//		passed event
@@ -54,14 +54,14 @@ var del = (dojo._event_listener = {
 	};
 	
 	// Unify connect and event listeners
-	dojo._connect = function(obj, event, context, method, dontFix){
+	embed._connect = function(obj, event, context, method, dontFix){
 		// FIXME: need a more strict test
 		var isNode = obj && (obj.nodeType||obj.attachEvent||obj.addEventListener);
 		// choose one of three listener options: raw (connect.js), DOM event on a Node, custom event on a Node
 		// we need the third option to provide leak prevention on broken browsers (IE)
-		var lid = isNode ? 1 : 0, l = [dojo._listener, del][lid];
+		var lid = isNode ? 1 : 0, l = [embed._listener, del][lid];
 		// create a listener
-		var h = l.add(obj, event, dojo.hitch(context, method));
+		var h = l.add(obj, event, embed.hitch(context, method));
 		// formerly, the disconnect package contained "l" directly, but if client code
 		// leaks the disconnect package (by connecting it to a node), referencing "l" 
 		// compounds the problem.
@@ -70,9 +70,10 @@ var del = (dojo._event_listener = {
 		return [ obj, event, h, lid ];
 	};
 
-	dojo._disconnect = function(obj, event, handle, listener){
-		([dojo._listener, del][listener]).remove(obj, event, handle);
+	embed._disconnect = function(obj, event, handle, listener){
+		([embed._listener, del][listener]).remove(obj, event, handle);
 	};
-
 	
-})();
+	return embed;
+	
+});
