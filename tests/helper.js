@@ -47,13 +47,13 @@ var helper = {
 		document.getElementById('featureTable').innerHTML = html;
 	},
 	
-	prepareTests: function(){
+	prepareTests: function(runAll){
 		var features = [];
 		var tests = [];
 		var inputs = document.getElementsByTagName('input');
 		for(var i = 0, m = inputs.length; i < m; i++){
 			var input = inputs[i];
-			if(input.type == 'checkbox' && input.checked){
+			if(input.type == 'checkbox' && ( input.checked || runAll )){
 				var f = input.id;
 				var radios = document.getElementsByClassName(f);
 				for (var n = 0, r = radios.length; n < r; n++){
