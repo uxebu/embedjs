@@ -1,5 +1,5 @@
 // This test group tests the base html methods:
-//   create, place, destroy and toDom
+//   create, place and destroy
 
 require(['text!../tests/tests/html/element.html'], function(html){
 
