@@ -6,11 +6,9 @@ tests.register("html-id",
 	[
 	 	function _start(){
 			document.body.innerHTML = html;
-	 	}
+	 	},
 	 	
 		function byId(t){
-			
-			doh.showBox('html_id-test');
 			
 			doh.f(dojo.byId(null));
 			doh.f(dojo.byId(undefined));
