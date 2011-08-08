@@ -238,8 +238,42 @@ define(['embed', 'feature!html-id'], function(embed){
 				rootId = scope.id =  "d---embed-query-synthetic-id-" + new Date().getTime(); // is this "secure" enough?
 				var syntheticIdSet = true;
 			}
-	
-			query = "#" + rootId + " " + query;
+
+			var prefix = "#" + rootId + " ";
+
+			// we need to split the query at commas to root every part of it, but
+			// not inside of quotes.
+			var bits = query.split(/(?=[,'"])/);
+			var parts = [], currentPart = bits[0];
+			var openDoubleQuote, openSingleQuote, current, last = currentPart;
+			var reTrailingBackslashes = /\\+$/;
+			for(var i = 1, len = bits.length; i < len; i++){
+				var current = bits[i], firstChar = current.charAt(0);
+				if(firstChar === ',' && !openSingleQuote && !openDoubleQuote){
+					// a new part starting here
+					parts.push(currentPart);
+					// start new part, throw away the leading comma
+					currentPart = current.slice(1);
+				}else{
+					// check for prepended backslashes
+					var match = reTrailingBackslashes.exec(last);
+					if(!match || match[0].length % 2 === 0){
+						// even number of backslashes: quote is not escaped, opens or closes a quote
+						if(!openSingleQuote && firstChar === '"'){
+							// opens/closes double quote if not inside of single quote
+							openDoubleQuote = !openDoubleQuote;
+						}else if(!openDoubleQuote && firstChar === "'"){
+							// opens/closes single quote if not inside of double quote
+							openSingleQuote = !openSingleQuote;
+						}
+					}
+					currentPart += current;
+				}
+				last = current;
+			}
+			parts.push(currentPart); // add the last part
+
+			query = prefix + parts.join(","+prefix);
 	
 			// we need to start the query one element up the chain to make sibling
 			// and adjacent combinators work.

@@ -1,18 +1,37 @@
 define(['embed'], function(embed){
 	
-	["indexOf", "lastIndexOf"].forEach(
-		function(name, idx){
-			embed[name] = function(arr, callback, thisObj){
-				// This is due to a bug found in in Chrome 9, FF 3.6 and 4:
-				// Having undefined as the second parameter to lastIndexOf
-				// will result in lastIndeOf interpreting this as 0.
-				// TODO: Do we want to have this in an own feature?
-				return typeof thisObj == "undefined" ? 
-					Array.prototype[name].call(arr, callback) : 
-					Array.prototype[name].call(arr, callback, thisObj);
-			};
+	dojo.indexOf = function(arr, value, fromIndex){
+		// summary:
+		//		locates the first index of the provided value in the
+		//		passed array. If the value is not found, -1 is returned.
+		// description:
+		//		This method corresponds to the JavaScript 1.6 Array.indexOf method, with one difference: when
+		//		run over sparse arrays, the Dojo function invokes the callback for every index whereas JavaScript
+		//		1.6's indexOf skips the holes in the sparse array.
+		//		For details on this method, see:
+		//			https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/indexOf
+		// example:
+		// 		>>> // Positive usage example for indexOf()
+		// 		>>> dojo.indexOf([2,4,6], 4) // Find number 4 in the given array.
+		// 		1
+		// 		>>> // Failing usage example for indexOf()
+		// 		>>> dojo.indexOf([2,4,6], 3) // Find number 3 in the given array, will not be found.
+		// 		-1
+		return arr.indexOf(value, fromIndex);
+	};
+
+	dojo.lastIndexOf = function(arr, value, fromIndex){
+		// In chrome and ff there seems to be passed 0 if thisObj is undefined.
+		// >>> // Test for specific chrome+ff bug, third parameter
+		// >>> dojo.lastIndexOf([1,2,3,4,5,6], 3)
+		// 2
+		if (arguments.length < 3) {
+			return arr.lastIndexOf(value);
+		} else {
+			return arr.lastIndexOf(value, fromIndex);
 		}
-	);
+	};
+
 	["forEach", "map", "some", "every", "filter"].forEach(
 		function(name, idx){
 			embed[name] = function(arr, callback, thisObj){
