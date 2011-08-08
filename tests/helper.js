@@ -77,13 +77,28 @@ var helper = {
 				console.log('Tests loaded.');
 				var preTestNode = document.getElementById('preTest');
 				preTestNode.parentNode.removeChild(preTestNode);
+				
+				// Register doc tests here:
+			 	for(var i = 0, m = docTestQueue.length; i<m; i++){
+			 		// DocTests require dojo, so have to leave them out for now.
+			 		//doh.registerDocTests(docTestQueue[i]);
+				}
+			 	
+			 	// kick off.
 				require(['../tests/modules']);
 			});
 		});
 	}
 };
 
-// Some global helpers:
+// Doc Test helpers: 
+
+docTestQueue = [];
+addDocTest = function(docTest){
+	docTestQueue.push(docTest);
+};
+
+// Some global UI helpers:
 
 function toggleClass(nodeId, classString){
 	var node = document.getElementById(nodeId),

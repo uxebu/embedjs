@@ -4,10 +4,13 @@
 	//	as we heavily modified dojo's style method.
 
 addDocTest("../src/html/style.js");
+
+require(['text!../tests/tests/html/class+style.html'], function(html){
+
 tests.register("html-style",
 	[
 		function _start(t){
-			doh.showBox('class+style.html');
+			document.body.innerHTML = html;
 			
 			// Init the stuff with what we expect, acutally this belongs in the HTML itself,
 			// but how do i build the .js for it? :)
@@ -505,3 +508,5 @@ tests.register("html-style",
 		*/
 	]
 );
+
+});

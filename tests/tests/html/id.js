@@ -1,8 +1,13 @@
 // This test group tests byId.
 // Do we really need this? We don't offer any alternative to document.getElementById.
+require(['text!../tests/tests/html/id.html'], function(html){
 
 tests.register("html-id", 
 	[
+	 	function _start(){
+			document.body.innerHTML = html;
+	 	}
+	 	
 		function byId(t){
 			
 			doh.showBox('html_id-test');
@@ -41,3 +46,5 @@ tests.register("html-id",
 		}
 	]
 );
+
+});

@@ -1,1 +1,0 @@
-doh.fileLoaded('element.html',{"html":"<h1>testing Core DOM utils<\/h1>\n\n<div id=\"holder1\"><\/div>\n<ul id=\"holder2\">\n\t<li class=\"first\">first<\/li>\n\t<li class=\"last\">last<\/li>\n<\/ul>\n\n<div id=\"holder3\"><\/div>\n\n<p id=\"someId\"><\/p>\n\n<div>\n\t<div>\n\t\t<a id=\"ancFoo\" href=\"null.html\">link<\/a>\n\t<\/div>\n<\/div>"});
