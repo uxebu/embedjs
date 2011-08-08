@@ -75,8 +75,7 @@ var helper = {
 			
 			require(tests, function(){
 				console.log('Tests loaded.');
-				var preTestNode = document.getElementById('preTest');
-				preTestNode.parentNode.removeChild(preTestNode);
+				document.body.innerHTML = '';
 				
 				// Register doc tests here:
 			 	for(var i = 0, m = docTestQueue.length; i<m; i++){

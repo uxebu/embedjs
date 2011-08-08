@@ -2,77 +2,7 @@
 <html>
 	<head>
 		<title>AMD test</title>
-		<style type="text/css">
-			body,html{
-				background-color:white;
-				color:black;
-			}
-			a {
-				display: block;
-				color: #000000;
-			}
-			#resultsNode h1 {
-				font-size: 14px;
-				margin: 0;
-				padding: 0;
-			}
-			#resultsNode h1 a {
-				padding: 5px 0px;
-				text-decoration: none;
-				background-color: #FF3F3F;
-				white-space: nowrap; /* Just for IE7 (wp7) :( */
-			}
-			#resultsNode h1 span {
-				font-weight: normal;
-				font-size: 12px;
-			}
-			#resultsNode .groupResults {
-				border: solid 1px #808080;
-				margin-bottom: 10px;
-				background: #80FF9F;
-			}
-			#resultsNode .inner {
-				padding: 5px 10px;
-			}
-			#resultsNode .groupResults .passed {
-				color: #077F00;
-			}
-			#resultsNode .groupResults .failed a {
-				color: #FF3F3F;
-			}
-			
-			/* toggle details */
-			.inner {
-				display: none;
-			}
-			.showDetails .inner,
-			.summary .inner {
-				display: block;
-			}
-			.showDetails h1,
-			.summary h1 {
-				border-bottom: solid 1px #808080;
-			}
-			
-			
-			/* messages */
-			#resultsNode .messages {
-				margin: 5px 3px;
-				border-left: dotted 2px #808080;
-				padding-left: 10px;
-				font-size: 10px;
-				color: #404040;
-				display: none;
-			}
-			#resultsNode .showMessages {
-				display: block;
-			}
-			
-			#testBoxContainer {
-				height: 0;
-				overflow: hidden;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="tests.css" />
 		<script>
 			var require = {
 				baseUrl: '../src/',
@@ -92,15 +22,8 @@
 		</script>				
 	</head>
 	<body>
-		<div id="preTest">
-			<div id="featureTable"></div>
-			<button onclick="helper.prepareTests()">Run selected tests</button>
-			<button onclick="helper.prepareTests(true)">Run all tests</button>
-		</div>
-
-	    <pre id="statusInfo"></pre><br />
-	    <pre id="resultsNode"></pre>
-	    <div id="testBoxContainer"></div>
-		
+		<div id="featureTable"></div>
+		<button onclick="helper.prepareTests()">Run selected tests</button>
+		<button onclick="helper.prepareTests(true)">Run all tests</button>
 	</body>
 </html>
