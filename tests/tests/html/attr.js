@@ -133,8 +133,8 @@ tests.register("html-attr",
 				doh.is("text", dojo.attr(input, "type"), "type");
 			
 			doh.is(0, ctr, "onfocus ctr == 0");
-			doh.t(dojo.hasClass(input, "thinger"), "hasClass of thinger");
-			doh.t(dojo.hasClass(input, "blah"), "hasClass of blah");
+			doh.t(input.className.indexOf("thinger") != -1, "hasClass of thinger");
+			doh.t(input.className.indexOf("blah") != -1, "hasClass of blah");
 			var def = new doh.Deferred();
 			input.focus();
 			setTimeout(function(){
@@ -147,6 +147,60 @@ tests.register("html-attr",
 				}, 10);
 			}, 10);
 			return def;
+		},
+		
+		function testLabelForAttr(t){
+			// create label with no for attribute make sure requesting
+			// it as for and html for returns null
+			var label = document.createElement("label");
+			
+				// IE always assumes that "for" is present
+				doh.f(dojo.attr(label, "for"));
+				doh.f(dojo.attr(label, "htmlFor"));
+			
+			// add a for attribute and test that can get by requesting for
+			dojo.attr(label, "for", "testId");
+			doh.is("testId", dojo.attr(label, "for"));
+			// add as htmlFor and make sure it is returned when requested as htmlFor
+			var label2 = document.createElement("label");
+			dojo.attr(label2, "htmlFor", "testId2");
+			doh.is("testId2", dojo.attr(label2, "htmlFor"));
+			// check than when requested as for or htmlFor attribute is found
+			doh.t(dojo.hasAttr(label, "for"));
+			doh.t(dojo.hasAttr(label2, "htmlfor"));
+			// test from markup
+			var labelNoFor = dojo.byId("label-no-for");
+			// make sure testing if has attribute using for or htmlFor 
+			// both return null when no value set
+			
+				// IE always assumes that "for" is present
+				doh.f(dojo.hasAttr(labelNoFor, "for"));
+				doh.f(dojo.hasAttr(labelNoFor, "htmlFor"));
+			
+			var labelWithFor = dojo.byId("label-with-for");
+			// when markup includes for make certain testing if has attribute
+			// using for or htmlFor returns true
+			doh.t(dojo.hasAttr(labelWithFor, "for"));
+			doh.t(dojo.hasAttr(labelWithFor, "htmlFor"));
+			// when markup include for attrib make sure can retrieve using for or htmlFor
+			doh.is("input-with-label", dojo.attr(labelWithFor, "for"));
+			doh.is("input-with-label", dojo.attr(labelWithFor, "htmlFor"));
+		},
+		function attrInputTextValue(t){
+			doh.is("123", dojo.byId("input-text-value").value);
+			doh.is("123", dojo.attr("input-text-value", "value"));
+			dojo.attr("input-text-value", "value", "abc");
+			doh.is("abc", dojo.byId("input-text-value").value);
+			doh.is("abc", dojo.attr("input-text-value", "value"));
+			dojo.byId("input-text-value").value = "xyz";
+			doh.is("xyz", dojo.byId("input-text-value").value);
+			doh.is("xyz", dojo.attr("input-text-value", "value"));
+			dojo.byId("input-text-value").value = "123"; // fixes initialization problem when the test is reloaded
+		},
+		function testInputDisabled(t){
+			doh.f(dojo.attr("input-no-disabled", "disabled"));
+			doh.t(dojo.attr("input-with-disabled", "disabled"));
+			doh.t(dojo.attr("input-with-disabled-true", "disabled"));
 		},
 		function attr_reconnect(t){
 			var input = document.createElement("input");
@@ -199,75 +253,12 @@ tests.register("html-attr",
 			doh.is("<span>howdy!</span>", node.innerHTML.toLowerCase());
 			doh.is("<span>howdy!</span>", dojo.attr(node, "innerHTML").toLowerCase());
 		},
-		function testLabelForAttr(t){
-			// create label with no for attribute make sure requesting
-			// it as for and html for returns null
-			var label = document.createElement("label");
-			
-				// IE always assumes that "for" is present
-				doh.f(dojo.attr(label, "for"));
-				doh.f(dojo.attr(label, "htmlFor"));
-			
-			// add a for attribute and test that can get by requesting for
-			dojo.attr(label, "for", "testId");
-			doh.is("testId", dojo.attr(label, "for"));
-			// add as htmlFor and make sure it is returned when requested as htmlFor
-			var label2 = document.createElement("label");
-			dojo.attr(label2, "htmlFor", "testId2");
-			doh.is("testId2", dojo.attr(label2, "htmlFor"));
-			// check than when requested as for or htmlFor attribute is found
-			doh.t(dojo.hasAttr(label, "for"));
-			doh.t(dojo.hasAttr(label2, "htmlfor"));
-			// test from markup
-			var labelNoFor = dojo.byId("label-no-for");
-			// make sure testing if has attribute using for or htmlFor 
-			// both return null when no value set
-			
-				// IE always assumes that "for" is present
-				doh.f(dojo.hasAttr(labelNoFor, "for"));
-				doh.f(dojo.hasAttr(labelNoFor, "htmlFor"));
-			
-			var labelWithFor = dojo.byId("label-with-for");
-			// when markup includes for make certain testing if has attribute
-			// using for or htmlFor returns true
-			doh.t(dojo.hasAttr(labelWithFor, "for"));
-			doh.t(dojo.hasAttr(labelWithFor, "htmlFor"));
-			// when markup include for attrib make sure can retrieve using for or htmlFor
-			doh.is("input-with-label", dojo.attr(labelWithFor, "for"));
-			doh.is("input-with-label", dojo.attr(labelWithFor, "htmlFor"));
-		},
-		function attrInnerHtmlDiv(t){
-			var n = dojo.create("div", {
-					innerHTML: "1<em>2</em>3"
-				}, dojo.body());
-			doh.is("1<em>2</em>3", n.innerHTML.toLowerCase());
-			dojo.destroy(n);
-		},
 		function attrInnerHtmlTable(t){
-			var n = dojo.create("table", {
-					innerHTML: "<thead><tr><th>1st!</th></tr></thead><tbody></tbody>"
-				}, dojo.body());
+			var n = document.createElement('table');
+			embed.attr(n, { innerHTML: "<thead><tr><th>1st!</th></tr></thead><tbody></tbody>"});
 			doh.is("<thead><tr><th>1st!</th></tr></thead><tbody></tbody>",
-				n.innerHTML.toLowerCase().replace(/\s+/g, ""));
-			dojo.destroy(n);
-		},
-		function attrInputTextValue(t){
-			doh.is("123", dojo.byId("input-text-value").value);
-			doh.is("123", dojo.attr("input-text-value", "value"));
-			dojo.attr("input-text-value", "value", "abc");
-			doh.is("abc", dojo.byId("input-text-value").value);
-			doh.is("abc", dojo.attr("input-text-value", "value"));
-			dojo.byId("input-text-value").value = "xyz";
-			doh.is("xyz", dojo.byId("input-text-value").value);
-			doh.is("xyz", dojo.attr("input-text-value", "value"));
-			dojo.byId("input-text-value").value = "123"; // fixes initialization problem when the test is reloaded
-		},
-		function testInputDisabled(t){
-			doh.f(dojo.attr("input-no-disabled", "disabled"));
-			doh.t(dojo.attr("input-with-disabled", "disabled"));
-			doh.t(dojo.attr("input-with-disabled-true", "disabled"));
+					n.innerHTML.toLowerCase().replace(/\s+/g, ""));
 		}
-
 	]
 );
 
