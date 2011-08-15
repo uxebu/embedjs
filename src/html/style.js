@@ -136,7 +136,7 @@ define(['embed', 'feature!html-id'], function(embed){
 		var l = arguments.length;
 		
 		// >>> // Three parameters are handled as a setter.
-		// >>> var n = embed.query("div")[0];
+		// >>> var n = document.getElementsByTagName('div')[0];
 		// >>> embed.style(n, "color", "lime");
 		// >>> embed.style(n, "color");
 		// "lime"
@@ -147,7 +147,7 @@ define(['embed', 'feature!html-id'], function(embed){
 		// And we iterate over the second parameter, the property is the style.
 		//
 		// >>> // Setter using an object, tests also getter using a string as a 2nd parameter.
-		// >>> var n = embed.query("div")[0];
+		// >>> var n = document.getElementsByTagName('div')[0];
 		// >>> embed.style(n, {color:"red", backgroundColor:"white"});
 		// >>> embed.style(n, "color");
 		// "red"
@@ -163,7 +163,7 @@ define(['embed', 'feature!html-id'], function(embed){
 		}
 
 		// >>> // Return computedStyle if only node is given, just a shortcut.
-		// >>> embed.style(embed.query("div")[0]) instanceof CSSStyleDeclaration
+		// >>> embed.style(document.getElementsByTagName('div')[0]) instanceof CSSStyleDeclaration
 		// true
 		return embed.getComputedStyle(n);
 	};

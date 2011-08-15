@@ -76,45 +76,38 @@ var helper = {
 			require(tests, function(){
 				console.log('Tests loaded.');
 				document.body.innerHTML = '';
-				
-				// Register doc tests here:
-			 	for(var i = 0, m = docTestQueue.length; i<m; i++){
-			 		// DocTests require dojo, so have to leave them out for now.
-			 		//doh.registerDocTests(docTestQueue[i]);
-				}
 			 	
 			 	// kick off.
 				require(['../tests/modules']);
 			});
 		});
+	},
+	
+	// Some global UI helpers:
+
+	toggleClass: function(nodeId, classString){
+		var node = document.getElementById(nodeId),
+			className = node.className,
+			hasClass = (" " + className + " ").indexOf(" " + classString + " ") >= 0;
+
+		if(hasClass){
+			node.className = node.className.replace(classString,"");
+		}else{
+			node.className += ( " " + classString );
+		}
+	},
+
+	toggleInner: function(group){
+		toggleClass(group, 'showDetails');
+	},
+
+	showMessages: function(id){
+		toggleClass(id, 'showMessages');
+	},
+	
+	exportGlobals: function(global){
+		global.toggleClass = this.toggleClass;
+		global.toggleInner = this.toggleInner;
+		global.showMessages = this.showMessages;
 	}
 };
-
-// Doc Test helpers: 
-
-docTestQueue = [];
-addDocTest = function(docTest){
-	docTestQueue.push(docTest);
-};
-
-// Some global UI helpers:
-
-function toggleClass(nodeId, classString){
-	var node = document.getElementById(nodeId),
-		className = node.className,
-		hasClass = (" " + className + " ").indexOf(" " + classString + " ") >= 0;
-
-	if(hasClass){
-		node.className = node.className.replace(classString,"");
-	}else{
-		node.className += ( " " + classString );
-	}
-}
-
-function toggleInner(group){
-	toggleClass(group, 'showDetails');
-}
-
-function showMessages(id){
-	toggleClass(id, 'showMessages');
-}

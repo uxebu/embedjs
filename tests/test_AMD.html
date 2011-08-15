@@ -12,14 +12,18 @@
 			};
 		</script>
 		<script type="text/javascript" src="../src/require.js"></script>
-		<script type="text/javascript" src="runner-embed.js"></script>
-		<script type="text/javascript" src="DocTest.js"></script>
-		<script type="text/javascript" src="helper.js"></script>
 		<script type="text/javascript">
-		    require(['implementations'], function(implementations) {
+			require([
+					'../tests/DocTest', 
+					'../tests/runner-embed', 
+					'../tests/helper', 
+					'implementations'
+				], function(DocTest, runner_, helper_, implementations){
+				window.DocTest = DocTest;
+				helper.exportGlobals(window);
 				helper.renderTable(implementations);
-		    });
-		</script>				
+			});
+		</script>
 	</head>
 	<body>
 		<div id="featureTable"></div>

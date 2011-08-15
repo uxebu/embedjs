@@ -1,3 +1,6 @@
+define(['feature!transport-xhr', 'feature!lang-string', 'feature!lang-hitch', 'feature!json'], function(embed){
+	
+
 var DocTest = function(){
 	//	summary:
 	//		This class executes doctests.
@@ -55,7 +58,7 @@ var DocTest = function(){
 		var file = moduleName;
 		//var xhr = dojo.xhrGet({url:file, handleAs:"text"});
 		// Make loading synchronously, mainly so we can use it in doh.
-		var data = dojo._getText(file);
+		var data = embed._getText(file);
 		return this._getTestsFromString(data, true);
 	};
 	
@@ -69,7 +72,7 @@ var DocTest = function(){
 	this._getTestsFromString = function(/*String*/data, /*Boolean*/insideComments){
 		// summary: Parse the given string for tests.
 		// insideComments: Boolean, if false "data" contains only the pure tests, comments already stripped.
-		var trim = dojo.hitch(dojo, "trim");
+		var trim = embed.hitch(embed, "trim");
 		var lines = data.split("\n");
 		var len = lines.length;
 		var tests = [];
@@ -246,7 +249,7 @@ var DocTest = function(){
 		var cmds = commands.join("\n");
 		ret.actualResult = eval(cmds);
 		if( (String(ret.actualResult)==expected) ||
-			(dojo.toJson(ret.actualResult)==expected) || 
+			(embed.toJson(ret.actualResult)==expected) || 
 			(
 				(expected.charAt(0)=='"')&&
 				(expected.charAt(expected.length-1)=='"')&&
@@ -261,3 +264,8 @@ var DocTest = function(){
 		return ret;
 	}
 };
+
+return DocTest;
+
+
+});
