@@ -83,7 +83,8 @@ tests.register("query",
 		"doh.is(1, (dojo.query('[foo|=\"bar-baz\"]')).length);",
 		"doh.is(0, (dojo.query('[foo|=\"baz\"]')).length);",
 		"doh.is(dojo.byId('_foo'), dojo.query('.foo:nth-child(2)')[0]);",
-		"doh.is(dojo.query('style')[0], dojo.query(':nth-child(2)')[0]);",
+		// Test removed. That style tag no more is in that place.
+		//"doh.is(dojo.query('style')[0], dojo.query(':nth-child(2)')[0]);",
 
 		// descendant selectors
 		"doh.is(3, dojo.query('>', 'container').length);",
