@@ -1,167 +1,167 @@
 define({
-	"embed": "embed",
+	'embed': 'embed',
 	
 	// Feature 'array'
 	
-	"array":[
+	'array':[
 		{
 			isAvailable: function(){
 				return {}.toString.call([].forEach) == '[object Function]';
 			},
-			implementation: "array/native"
+			implementation: 'array/native'
 		},
 		{
 			isAvailable: function(){
 				return true;
 			},
-			implementation: "array/functional"
+			implementation: 'array/functional'
 		}
 	],
 	
-	"array:native": "array/native",
+	'array:native': 'array/native',
 	
-	"array:functional": "array/functional",
+	'array:functional': 'array/functional',
 	
 	// Feature group 'connect'
 	
-	"connect-connect": "connect/connect",
+	'connect-connect': 'connect/connect',
 	
-	"connect-event": "connect/event",
+	'connect-event': 'connect/event',
 	
-	"connect-pubsub": "connect/pubsub",
+	'connect-pubsub': 'connect/pubsub',
 	
 	// Feature group 'async'
 	
-	"async-promise": "async/promise",
+	'async-promise': 'async/promise',
 	
-    "async-when": "async/when",
-    
-    "async-deferred": "async/deferred",
-    
-    // Feature 'geolocation' || TODO: Shoudn't this be sth like deviceAPIs?
+	'async-when': 'async/when',
 	
-	// "geolocation": "geolocation/w3c", // Removed feature. We don't offer anything here but a memory pointer.
+	'async-deferred': 'async/deferred',
+	
+	// Feature 'geolocation' || TODO: Shoudn't this be sth like deviceAPIs?
+	
+	// 'geolocation': 'geolocation/w3c', // Removed feature. We don't offer anything here but a memory pointer.
 	
 	// Feature group 'html'
 	
-	"html-attr": "html/attr",
+	'html-attr': 'html/attr',
 	
-	"html-element": "html/element",
+	'html-element': 'html/element',
 	
-	"html-todom": "html/todom",
+	'html-todom': 'html/todom',
 	
-	"html-class": [
+	'html-class': [
 		{
 			isAvailable: function(){
 				return 'classList' in document.body;
 			},
-			implementation: "html/class-classlist"
+			implementation: 'html/class-classlist'
 		},
 		{
 			isAvailable: function(){
 				return true;
 			},
-			implementation: "html/class"
+			implementation: 'html/class'
 		}
 	],
 	
-	"html-class:classlist": "html/class-classlist",
+	'html-class:classlist': 'html/class-classlist',
 	
-	"html-class:string": "html/class",
+	'html-class:string': 'html/class',
 	
-	"html-style": "html/style",
+	'html-style': 'html/style',
 	
-    "html-ready": "html/ready",
-    
-    "html-id": "html/id",
+	'html-ready': 'html/ready',
 	
-	"html-destroy": "html/destroy",
+	'html-id': 'html/id',
+	
+	'html-destroy': 'html/destroy',
 	
 	// Feature 'json' || TODO: put this in some group?
-    
-    "json": [
-         {
-        	 isAvailable: function(){
-	        	return typeof JSON != 'undefined' && typeof JSON.parse == 'function'; 
-	         },
-        	 implementation: "json/native"
-         },
-         {
-        	 isAvailable: function(){
-	        	return true; 
-	         },
-        	 implementation: "json/dojo-json"
-         }
-     ],
-     
-     "json:native": "json/native",
-     
-     "json:dojo": "json/dojo-json",
-    
-    // Feature group 'lang'
-    
-	"lang-toarray": "lang/toarray",
 	
-	"lang-clone": "lang/clone",
+	'json': [
+		 {
+			 isAvailable: function(){
+		    	return typeof JSON != 'undefined' && typeof JSON.parse == 'function'; 
+		     },
+			 implementation: 'json/native'
+		 },
+		 {
+			 isAvailable: function(){
+		    	return true; 
+		     },
+			 implementation: 'json/dojo-json'
+		 }
+	],
+	 
+	'json:native': 'json/native',
+	 
+	'json:dojo': 'json/dojo-json',
 	
-	"lang-hitch": "lang/hitch",
+	// Feature group 'lang'
 	
-	"lang-is": "lang/is",
+	'lang-toarray': 'lang/toarray',
 	
-	"lang-string": "lang/string",
+	'lang-clone': 'lang/clone',
 	
-    "lang-mixin": "lang/mixin",
-    
-    "lang-object": "lang/object",
-    
-    // Feature group 'transport'
-    
-	"transport-xhr": "transport/xhr",
+	'lang-hitch': 'lang/hitch',
 	
-	"transport-script": "transport/script",
+	'lang-is': 'lang/is',
 	
-	"transport-jsonp": "transport/jsonp",
+	'lang-string': 'lang/string',
+	
+	'lang-mixin': 'lang/mixin',
+	
+	'lang-object': 'lang/object',
+	
+	// Feature group 'transport'
+	
+	'transport-xhr': 'transport/xhr',
+	
+	'transport-script': 'transport/script',
+	
+	'transport-jsonp': 'transport/jsonp',
 	
 	// Feature 'query'
 	
-	"query": [
+	'query': [
 		{
 			isAvailable: function(){
 				return typeof document.querySelectorAll != 'undefined';
 			},
-			implementation: "query/qsa-preprocessor"
+			implementation: 'query/qsa-preprocessor'
 		},
 		{
 			isAvailable: function(){
 				return true;
 			},
-			implementation: "query/acme"			
+			implementation: 'query/acme'			
 		}
 	],
-
-	"query:qsapp": "query/qsa-preprocessor",
 	
-	"query:qsa":"query/qsa",
+	'query:qsapp': 'query/qsa-preprocessor',
 	
-	"query:simple": "query/simple",
+	'query:qsa':'query/qsa',
 	
-	"query:acme": "query/acme",
+	'query:simple': 'query/simple',
 	
-	"query:xpath": "query/xpath",
+	'query:acme': 'query/acme',
+	
+	'query:xpath': 'query/xpath',
 	
 	// Feature group 'queryExtensions'
 	
-	"queryExtensions-ChainableNodeArray": "queryExtensions/ChainableNodeArray",
+	'queryExtensions-ChainableNodeArray': 'queryExtensions/ChainableNodeArray',
 	
 	// Feature group 'oo'
 	
-	"oo-declare": "oo/declare",
+	'oo-declare': 'oo/declare',
 	
-	"oo-delegate": "oo/delegate",
+	'oo-delegate': 'oo/delegate',
 	
-	"oo-extend": "oo/extend",
+	'oo-extend': 'oo/extend',
 	
 	// Feature group 'uri'
 	
-	"uri": "uri/objectToQuery"
+	'uri': 'uri/objectToQuery'
 });
