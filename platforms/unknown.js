@@ -40,7 +40,7 @@ define({
     
     // Feature 'geolocation' || TODO: Shoudn't this be sth like deviceAPIs?
 	
-	"geolocation": "geolocation/w3c",
+	// "geolocation": "geolocation/w3c", // Removed feature. We don't offer anything here but a memory pointer.
 	
 	// Feature group 'html'
 	
