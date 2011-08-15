@@ -50,7 +50,24 @@ define({
 	
 	"html-todom": "html/todom",
 	
-	"html-class": "html/class",
+	"html-class": [
+		{
+			isAvailable: function(){
+				return 'classList' in document.body;
+			},
+			implementation: "html/class-classlist"
+		},
+		{
+			isAvailable: function(){
+				return true;
+			},
+			implementation: "html/class"
+		}
+	],
+	
+	"html-class:classlist": "html/class-classlist",
+	
+	"html-class:string": "html/class",
 	
 	"html-style": "html/style",
 	
