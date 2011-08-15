@@ -235,30 +235,6 @@ tests.register("html-style",
 
 		},
 		*/
-		function attrSpecials(){
-			var node = document.createElement("div");
-			dojo.body().appendChild(node);
-			dojo.attr(node, {
-				style: {
-					opacity: 0.5,
-					width: "30px",
-					border: "1px solid black"
-				}
-			});
-			doh.is(0.5, dojo.style(node, "opacity"));
-			doh.is("30px", dojo.style(node, "width"));
-			doh.is("1px", dojo.style(node, "borderWidth"));
-			dojo.attr(node, {
-				innerHTML: "howdy!"
-			});
-			doh.is("howdy!", node.innerHTML);
-			doh.is("howdy!", dojo.attr(node, "innerHTML"));
-			dojo.attr(node, "innerHTML", "<span>howdy!</span>");
-			doh.is(1, node.firstChild.nodeType);
-			doh.is("span", node.firstChild.nodeName.toLowerCase());
-			doh.is("<span>howdy!</span>", node.innerHTML.toLowerCase());
-			doh.is("<span>howdy!</span>", dojo.attr(node, "innerHTML").toLowerCase());
-		},
 		/*
 		function testLabelForAttr(t){
 			// create label with no for attribute make sure requesting
