@@ -7,8 +7,8 @@
 // path/to/requirejs/buildj.sh name=../profiles/testbuild out=built.js baseUrl=. paths.implementations=../platforms/unknown
 
 define([
-	"embed", 
-	"feature!array"
+	"feature!array",
+	"feature!lang-object"
 ],
 function(embed){
 	// This is the place to attach
