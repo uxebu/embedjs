@@ -1,0 +1,14 @@
+0.1
+===
+
+* Initial Release
+
+0.2
+===
+
+* Moved to AMD format
+* Fixed a bug in embed.xhr preventing the use of overrideMimeType
+* Promoted embed._toArray to embed.toArray
+* Promoted embed._toDom to embed.toDom
+* Removed pretty print option from embed.toJson
+* Added stripComments param to embed.fromJson
