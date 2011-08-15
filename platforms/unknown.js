@@ -112,7 +112,26 @@ define({
 	
 	'lang-mixin': 'lang/mixin',
 	
-	'lang-object': 'lang/object',
+	'lang-object': [
+		{
+			isAvailable: function(){
+				// FIXME: How to test for a Bleckberry 4.6? Anyone?
+				// FIXME: Use a test for that non-existing object prop instead.
+				return /blackberry4\.6/i.test(window.navigator.userAgent);
+			},
+			implementation: 'lang/object-bb46fix'
+		},
+			{
+				isAvailable: function(){
+				return true;
+			},
+			implementation: 'lang/object'
+		}
+	],
+	
+	'lang-object:default': 'lang/object',
+	
+	'lang-object:bb46fix': 'lang/object-bb46fix',
 	
 	// Feature group 'transport'
 	
