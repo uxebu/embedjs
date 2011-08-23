@@ -4,3 +4,6 @@
 [submodule "docs/user"]
 	path = docs/user
 	url = git@github.com:uxebu/embedjs.wiki.git
+[submodule "libs/requirejs"]
+	path = libs/requirejs
+	url = git://github.com/jrburke/requirejs.git
