@@ -12,3 +12,8 @@
 * Promoted embed._toDom to embed.toDom
 * Removed pretty print option from embed.toJson
 * Added stripComments param to embed.fromJson
+* Re-enabled style as a possible key object to embed.create
+* Re-introduced a bunch of new tests.
+* Created a new test runner that allows to test a single feature
+  and a specific implementation of it.
+* embed.style returns node.style properties instead of computed style
