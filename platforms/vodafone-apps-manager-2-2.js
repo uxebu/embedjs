@@ -1,4 +1,5 @@
 // Implementation map for Vodafone Apps Manager 2.2
+
 define({
 	'embed': 'embed',
 	

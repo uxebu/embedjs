@@ -1,4 +1,5 @@
 // Implementation map for iOS 4+ (maybe iOS 5 will have Node.classList?)
+
 define({
 	'embed': 'embed',
 	

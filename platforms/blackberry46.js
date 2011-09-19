@@ -1,4 +1,5 @@
 // Implementation map for Blackberry 4.6
+
 define({
 	'embed': 'embed',
 	

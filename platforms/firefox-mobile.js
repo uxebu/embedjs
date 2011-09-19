@@ -1,4 +1,5 @@
 // Implementation map for Firefox mobile 5+
+
 define({
 	'embed': 'embed',
 	

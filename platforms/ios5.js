@@ -1,11 +1,11 @@
-// Implementation map for Windows Phone 7
+// Implementation map for iOS 5
 
 define({
 	'embed': 'embed',
 	
 	// Feature 'array'
 	
-	'array': 'array/functional',
+	'array': 'array/native',
 	
 	// Feature group 'connect'
 	
@@ -35,7 +35,7 @@ define({
 	
 	'html-todom': 'html/todom',
 	
-	'html-class': 'html/class',
+	'html-class': 'html/class-classlist',
 	
 	'html-style': 'html/style',
 	
@@ -47,7 +47,7 @@ define({
 	
 	// Feature 'json' || TODO: put this in some group?
 	
-	'json':  'json/dojo',
+	'json':  'json/native',
 	
 	// Feature group 'lang'
 	
@@ -75,7 +75,7 @@ define({
 	
 	// Feature 'query'
 	
-	'query': 'query/acme',
+	'query': 'query/qsa-preprocessor',
 	
 	// Feature group 'queryExtensions'
 	

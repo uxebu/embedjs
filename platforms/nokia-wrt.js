@@ -1,4 +1,5 @@
 // Implementation map for Nokia's WRT
+
 define({
 	'embed': 'embed',
 	
