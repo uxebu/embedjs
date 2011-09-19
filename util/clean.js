@@ -4,7 +4,7 @@ load(_jsToolsPath + "fileUtil.js");
 var filepath = arguments[1];
 var filename = arguments[2];
 var contents = fileUtil.readFile(filename);
-var cleaned = ';embed={};(function(a){';
+var cleaned = ';(function(){var a={};';
 
 var statements = contents.split('define(');
 
@@ -56,7 +56,7 @@ statements.forEach(function(_s, index){
 	cleaned += body;
 })
 
-cleaned += '})(embed);';
+cleaned += '})();';
 
 var output = filepath + '/' + filename;
 
