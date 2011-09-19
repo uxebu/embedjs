@@ -11,4 +11,6 @@ function(embed){
 	// embed to the global namespace,
 	// if we want to.
 	embed.global.embed = embed;
+	
+	return embed;
 });

@@ -6,7 +6,7 @@
 // e.g. 
 // path/to/requirejs/buildj.sh name=../profiles/testbuild out=built.js baseUrl=. paths.implementations=../platforms/unknown
 
-define([
+define("build", [
 	"feature!array",
 	"feature!lang-object"
 ],
@@ -15,4 +15,6 @@ function(embed){
 	// embed to the global namespace,
 	// if we want to.
 	embed.global.embed = embed;
+	
+	return embed;
 });
