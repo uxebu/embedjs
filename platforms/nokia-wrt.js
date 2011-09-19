@@ -47,7 +47,7 @@ define({
 	
 	// Feature 'json' || TODO: put this in some group?
 	
-	'json':  'json/dojo',
+	'json':  'json/dojo-json',
 	
 	// Feature group 'lang'
 	
