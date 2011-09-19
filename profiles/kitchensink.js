@@ -1,7 +1,4 @@
 
-// This profile contains methods for
-
-
 define([
     	
     	// Feature 'array'
@@ -88,7 +85,7 @@ define([
     	
     	// Feature group 'uri'
     	
-    	'feature!uri',
+    	'feature!uri'
 ],
 function(embed){
 	// This is the place to attach

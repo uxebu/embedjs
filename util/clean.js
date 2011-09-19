@@ -16,7 +16,7 @@ statements.forEach(function(_s){
 });
 
 // last one is the build profile
-statements.pop();
+// statements.pop();
 
 // filter out feature plugin and impl map
 statements = statements.filter(function(_s){

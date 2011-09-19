@@ -6,7 +6,7 @@
 // e.g. 
 // path/to/requirejs/buildj.sh name=../profiles/testbuild out=built.js baseUrl=. paths.implementations=../platforms/unknown
 
-define("build", [
+define([
 	"feature!array",
 	"feature!lang-object"
 ],
