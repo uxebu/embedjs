@@ -3,11 +3,11 @@
 #-------------------#
 
 ifndef profile
-profile=testbuild
+profile=kitchensink
 endif
 
 ifndef platform
-platform=android
+platform=unknown
 endif
 
 ifndef optimize
