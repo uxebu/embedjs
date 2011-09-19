@@ -83,6 +83,38 @@ var helper = {
 		});
 	},
 	
+	runBuilt: function(runAll){
+		var features = [];
+		var tests = [];
+		var inputs = document.getElementsByTagName('input');
+		for(var i = 0, m = inputs.length; i < m; i++){
+			var input = inputs[i];
+			if(input.type == 'checkbox' && ( input.checked || runAll )){
+				var f = input.id;
+				var radios = document.getElementsByClassName(f);
+				for (var n = 0, r = radios.length; n < r; n++){
+					if(radios[n].checked){
+						features.push('feature!' + radios[n].id);
+						var parts = f.split('-');
+						tests.push('../tests/tests/' + parts[0] + '/' + (parts[1] || parts[0]));
+					}
+				}
+			}
+		}
+		
+		console.log('Features to test:', features);
+		embed.global.dojo = embed;
+		
+			
+		require(tests, function(){
+			console.log('Tests loaded.');
+			document.body.innerHTML = '';
+		 	
+		 	// kick off.
+			require(['../tests/modules']);
+		});
+	},
+	
 	// Some global UI helpers:
 
 	toggleClass: function(nodeId, classString){

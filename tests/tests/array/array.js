@@ -1,4 +1,4 @@
-tests.registerDocTests("../src/array/native.js"); 
+//tests.registerDocTests("../src/array/native.js"); 
 tests.register("array", 
 	[
 		//

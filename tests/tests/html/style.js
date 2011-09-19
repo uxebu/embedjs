@@ -13,7 +13,7 @@ tests.register("html-style",
 			// Init the stuff with what we expect, acutally this belongs in the HTML itself,
 			// but how do i build the .js for it? :)
 			dojo.style('sq100nopos', {opacity: 1, color: "red", position: "static", backgroundColor: "black"});
-			tests.registerDocTests("../src/html/style.js"); 
+			//tests.registerDocTests("../src/html/style.js"); 
 		},
 
 		function basicStyle(){
