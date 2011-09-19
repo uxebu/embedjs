@@ -1,6 +1,30 @@
 
 define([
     	
+    	// Feature group 'lang'
+    	
+    	'feature!lang-is',
+    	
+    	'feature!lang-mixin',
+    	
+    	'feature!lang-object',
+    	
+    	'feature!lang-hitch',
+    	
+    	'feature!lang-clone',
+    	
+    	'feature!lang-toarray',
+    	
+    	'feature!lang-string',
+    	
+    	// Feature group 'oo'
+    	
+    	'feature!oo-declare',
+    	
+    	'feature!oo-delegate',
+    	
+    	'feature!oo-extend',
+    	
     	// Feature 'array'
     	
     	'feature!array',
@@ -43,22 +67,6 @@ define([
     	
     	'feature!json',
     	
-    	// Feature group 'lang'
-    	
-    	'feature!lang-toarray',
-    	
-    	'feature!lang-clone',
-    	
-    	'feature!lang-hitch',
-    	
-    	'feature!lang-is',
-    	
-    	'feature!lang-string',
-    	
-    	'feature!lang-mixin',
-    	
-    	'feature!lang-object',
-    	
     	// Feature group 'transport'
     	
     	'feature!transport-xhr',
@@ -74,14 +82,6 @@ define([
     	// Feature group 'queryExtensions'
     	
     	'feature!queryExtensions-ChainableNodeArray',
-    	
-    	// Feature group 'oo'
-    	
-    	'feature!oo-declare',
-    	
-    	'feature!oo-delegate',
-    	
-    	'feature!oo-extend',
     	
     	// Feature group 'uri'
     	
