@@ -53,7 +53,7 @@ statements.forEach(function(_s, index){
 		body = body.substring(start, body.length);
 	}
 	
-	cleaned += body;
+	cleaned += '(function(){' + body + '})();';
 })
 
 cleaned += '})();';
