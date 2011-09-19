@@ -13,6 +13,8 @@
 * Removed pretty print option from embed.toJson
 * Added stripComments param to embed.fromJson
 * Re-enabled style as a possible key object to embed.create
+* Added feature group queryExtensions. For a start, contains
+  ChainableNodeArray which lets you use chaining with embed.query
 * Re-introduced a bunch of new tests.
 * Created a new test runner that allows to test a single feature
   and a specific implementation of it.
