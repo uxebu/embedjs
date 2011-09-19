@@ -1,7 +1,5 @@
 define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'], function(embed){
 
-	var byId = embed.byId;
-
 	embed._docScroll = function(){
 		var n = d.global;
 		return "pageXOffset" in n? { x:n.pageXOffset, y:n.pageYOffset } :
@@ -74,6 +72,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//		Put a new LI as the first child of a list by id:
 		//	|	embed.place("<li></li>", "someUl", "first");
 
+		var byId = embed.byId;
 		refNode = byId(refNode);
 		if(typeof node == "string"){ // inline'd type check
 			node = node.charAt(0) == "<" ? embed.toDom(node, refNode.ownerDocument) : byId(node);
@@ -184,6 +183,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//	|		.onclick(function(e){ console.log('clicked', e.target) })
 		//	|		.place("#someNode"); // redundant, but cleaner.
 
+		var byId = embed.byId;
 		var doc = embed.doc;
 		if(refNode){
 			refNode = byId(refNode);
@@ -213,7 +213,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 	};
 	
 	embed.empty = function(node){
-		byId(node).innerHTML = "";
+		embed.byId(node).innerHTML = "";
 	};
 	
 	return embed;
