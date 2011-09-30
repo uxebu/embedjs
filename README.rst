@@ -36,18 +36,20 @@ never executed!
 Goals
 -----
 
-Goal 1 - of this project is to provide an optimized version for each phone, that covers the features of each phone 
-platform as optimal as possible. E.g. if a platform offers CSS transitions with native hardware acceleration the 
-dojo.fx library will make use of it, to provide the fastest speed and best user experience possible.
+Goal 1: Provide an optimized version for each device so that we can make use of the features 
+of each platform as optimal as possible.
 
-Goal 2 - stay compatible to the dojo APIs. For those who are used to dojo methods we don't want to 
+Goal 2: Stay compatible to the dojo APIs. For those who are used to dojo we don't want to 
 make it hard for you to learn a new set of APIs – just stick to those you know. And make it easy for those new to 
 dojo to learn the API by referencing the existing docs and not reinventing the wheel.
 
-Most of the work in EmbedJS - especially about how to strip out of dojo what is really needed, how to make it 
-most efficient and what platform to provide with what features - comes from the investigations of the people 
-inside uxebu. We are planning to actively push this project and we'll strive to provide the best quality, as 
-used to from dojo. In the hope that all the efforts one day may flow back into the Dojo Toolkit.
+Goal 3: Show a way of how (we think) cross-device development should work today. Or, to be precise, how cross-target
+development should work, as the feature based implementation approach used in EmbedJS is a very generic way to
+manage, develop, test and build for different targets, be it a free vs. premium version of your app or a lightweight
+vs. full-blown version of your website.
+
+Goal 4: Ultimatively, we hope that all the efforts one day may flow back into the Dojo Toolkit.
+
 
 Building EmbedJS
 ----------------
