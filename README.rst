@@ -55,11 +55,11 @@ Building EmbedJS
 You can download ready-made builds, just check out the build folder. But if you want to build your custom build, you can very well do that!
 
 EmbedJS is using the AMD module pattern and it's working fine with James Burke's awesome RequireJS_ to load,
-and with r.js to build. For instructions on how to build with `r.js`_, please see the very detailed `RequireJS documentation`_.
+and `r.js`_ to build. For instructions on how to build with r.js, please see the very detailed `RequireJS documentation`_.
 
 
 .. _Dojo Toolkit: http://dojotoolkit.org/
 .. _Dojo Foundation: http://dojofoundation.org/
 .. _RequireJS: https://github.com/jrburke/requirejs/
-.._r.js: https://github.com/jrburke/r.js
+.. _r.js: https://github.com/jrburke/r.js
 .. _RequireJS documentation: http://requirejs.org/
