@@ -1,15 +1,17 @@
 define(['implementations'], function(implementations){
 
 	return {
-		
+
 	    load: function (name, req, load, config) {
-		
-			console.log('Feature plugin called:', name);
-		
-			var fileName,
+
+			var i, m, toLoad,
 				featureInfo = implementations[name],
-				hasMultipleImpls = Object.prototype.toString.call(featureInfo) == '[object Array]';
-			
+				opts = {}.toString,
+				isArray = function(it){ return opts.call(it) == '[object Array]'; },
+				hasMultipleImpls = isArray(featureInfo),
+				_noop = function(){},
+				_load = function (value) { load(value); };
+
 			if(config.isBuild && hasMultipleImpls){
 				// In build context, we want all possible
 				// implementations included, but we don't
@@ -19,35 +21,28 @@ define(['implementations'], function(implementations){
 				// of already defined modules, thus leading to
 				// a conflict when we try to 'register' another
 				// module for the same feature).
-				for(var i=0, m=featureInfo.length; i<m; i++){
-					fileName = featureInfo[i].implementation;
-			        req([fileName], function (value) {});
+				for(i=0, m=featureInfo.length; i<m; i++){
+					req([featureInfo[i].implementation], _noop);
 				}
-				
+
 				// We're done here now.
 				return;
 			}
-			
+
 			if(hasMultipleImpls){
 				// We have different implementations available,
 				// test for the one to use.
-				for(var i=0, m=featureInfo.length; i<m; i++){
+				for(i=0, m=featureInfo.length; i<m; i++){
 					if(featureInfo[i].isAvailable()){
-						fileName = featureInfo[i].implementation;
+						toLoad = featureInfo[i].implementation;
 						break;
 					}
 				}
 			}else{
-				fileName = featureInfo;
+				toLoad = featureInfo;
 			}
-			
-			console.log('Loading:', config.baseUrl + fileName);
-			
-	        req([fileName], function (value) {
-	            load(value);
-	        });
+
+			req([toLoad], _load);
 	    }
-	    
 	};
-	
 });
