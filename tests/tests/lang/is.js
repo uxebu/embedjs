@@ -3,10 +3,8 @@ tests.register("lang-is",
 		function isFunction(t){
 			t.assertTrue(dojo.isFunction(new Function()));
 			t.assertTrue(dojo.isFunction(isFunction));
-			if(dojo.isBrowser){ // test the Safari workaround for NodeList
-				t.assertFalse(dojo.isFunction(dojo.doc.getElementsByName("html")));
-				t.assertFalse(dojo.isFunction(dojo.doc.createElement("object")));
-			}
+			t.assertFalse(dojo.isFunction(dojo.doc.getElementsByName("html")));
+			t.assertFalse(dojo.isFunction(dojo.doc.createElement("object")));
 		},
 
 		function isObject(t){

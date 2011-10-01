@@ -1,12 +1,13 @@
-;(function(_d){
-	var cfg = _d.config;
+define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang-mixin', 'feature!async-deferred'], function(embed){
+
+	var cfg = embed.config;
 
 
-	_d._xhrObj = function(){
+	embed._xhrObj = function(){
 		return new XMLHttpRequest();
 	}
 
-	_d._isDocumentOk = function(http){
+	embed._isDocumentOk = function(http){
 		var stat = http.status || 0,
 			lp = location.protocol;
 		return (stat >= 200 && stat < 300) || 	// Boolean
@@ -15,7 +16,7 @@
 			(!stat && (lp == "file:" || lp == "chrome:" || lp == "app:") ); // Internet Explorer mangled the status code OR we're Titanium requesting a local file
 	}
 
-	_d._getText = function(/*URI*/ uri, /*Boolean*/ fail_ok){
+	embed._getText = function(/*URI*/ uri, /*Boolean*/ fail_ok){
 		// summary: Read the contents of the specified uri and return those contents.
 		// uri:
 		//		A relative or absolute uri. If absolute, it still must be in
@@ -27,12 +28,12 @@
 		//		failure and failure is okay (an exception otherwise)
 
 		// NOTE: must be declared before scope switches ie. this._xhrObj()
-		var http = _d._xhrObj();
+		var http = embed._xhrObj();
 
 		http.open('GET', uri, false);
 		try{
 			http.send(null);
-			if(!_d._isDocumentOk(http)){
+			if(!embed._isDocumentOk(http)){
 				var err = Error("Unable to load "+uri+" status:"+ http.status);
 				err.status = http.status;
 				err.responseText = http.responseText;
@@ -47,10 +48,10 @@
 	};
 
 
-	dojo._blockAsync = false;
+	embed._blockAsync = false;
 
-	// MOW: remove dojo._contentHandlers alias in 2.0
-	var handlers = _d._contentHandlers = dojo.contentHandlers = {
+	// MOW: remove embed._contentHandlers alias in 2.0
+	var handlers = embed._contentHandlers = embed.contentHandlers = {
 		// summary:
 		//		A map of availble XHR transport handle types. Name matches the
 		//		`handleAs` attribute passed to XHR calls.
@@ -64,11 +65,11 @@
 		//
 		// example:
 		//		Creating a custom content-handler:
-		//	|	dojo.contentHandlers.makeCaps = function(xhr){
+		//	|	embed.contentHandlers.makeCaps = function(xhr){
 		//	|		return xhr.responseText.toUpperCase();
 		//	|	}
 		//	|	// and later:
-		//	|	dojo.xhrGet({
+		//	|	embed.xhrGet({
 		//	|		url:"foo.txt",
 		//	|		handleAs:"makeCaps",
 		//	|		load: function(data){ /* data is a toUpper version of foo.txt */ }
@@ -80,12 +81,15 @@
 		},
 		json: function(xhr){
 			// summary: A contentHandler which returns a JavaScript object created from the response data
-			return _d.fromJson(xhr.responseText || null);
+			//	NOTE: we set the stripComments flag to true, because of
+			//	compat to code that comes from working w/ dojo, where
+			//	JSON was allowed to have comments in it.
+			return embed.fromJson(xhr.responseText || null, true);
 		}
 	};
 
 	/*=====
-	dojo.__IoArgs = function(){
+	embed.__IoArgs = function(){
 		//	url: String
 		//		URL to server endpoint.
 		//	content: Object?
@@ -97,7 +101,7 @@
 		//		passes, the then error callbacks are called.
 		//	preventCache: Boolean?
 		//		Default is false. If true, then a
-		//		"dojo.preventCache" parameter is sent in the request
+		//		"embed.preventCache" parameter is sent in the request
 		//		with a value that changes with each request
 		//		(timestamp). Useful only with GET-type requests.
 		//	handleAs: String?
@@ -107,12 +111,12 @@
 		// 		Sets the raw body for an HTTP request. If this is used, then the content
 		// 		property is ignored. This is mostly useful for HTTP methods that have
 		// 		a body to their requests, like PUT or POST. This property can be used instead
-		// 		of postData and putData for dojo.rawXhrPost and dojo.rawXhrPut respectively.
+		// 		of postData and putData for embed.rawXhrPost and embed.rawXhrPut respectively.
 		//	ioPublish: Boolean?
 		//		Set this explicitly to false to prevent publishing of topics related to
 		// 		IO operations. Otherwise, if djConfig.ioPublish is set to true, topics
-		// 		will be published via dojo.publish for different phases of an IO operation.
-		// 		See dojo.__IoPublish for a list of topics that are published.
+		// 		will be published via embed.publish for different phases of an IO operation.
+		// 		See embed.__IoPublish for a list of topics that are published.
 		//	load: Function?
 		//		This function will be
 		//		called on a successful HTTP response code.
@@ -134,13 +138,13 @@
 		this.handleAs = handleAs;
 		this.ioPublish = ioPublish;
 		this.load = function(response, ioArgs){
-			// ioArgs: dojo.__IoCallbackArgs
+			// ioArgs: embed.__IoCallbackArgs
 			//		Provides additional information about the request.
 			// response: Object
 			//		The response in the format as defined with handleAs.
 		}
 		this.error = function(response, ioArgs){
-			// ioArgs: dojo.__IoCallbackArgs
+			// ioArgs: embed.__IoCallbackArgs
 			//		Provides additional information about the request.
 			// response: Object
 			//		The response in the format as defined with handleAs.
@@ -151,14 +155,14 @@
 			//		was called because of success (load) or failure (error).
 			// response: Object
 			//		The response in the format as defined with handleAs.
-			// ioArgs: dojo.__IoCallbackArgs
+			// ioArgs: embed.__IoCallbackArgs
 			//		Provides additional information about the request.
 		}
 	}
 	=====*/
 
 	/*=====
-	dojo.__IoCallbackArgs = function(args, xhr, url, query, handleAs, id, canDelete, json){
+	embed.__IoCallbackArgs = function(args, xhr, url, query, handleAs, id, canDelete, json){
 		//	args: Object
 		//		the original object argument to the IO call.
 		//	xhr: XMLHttpRequest
@@ -177,16 +181,16 @@
 		//		The final indicator on how the response will be
 		//		handled.
 		//	id: String
-		//		For dojo.io.script calls only, the internal
+		//		For embed.io.script calls only, the internal
 		//		script ID used for the request.
 		//	canDelete: Boolean
-		//		For dojo.io.script calls only, indicates
+		//		For embed.io.script calls only, indicates
 		//		whether the script tag that represents the
 		//		request can be deleted after callbacks have
 		//		been called. Used internally to know when
 		//		cleanup can happen on JSONP-type requests.
 		//	json: Object
-		//		For dojo.io.script calls only: holds the JSON
+		//		For embed.io.script calls only: holds the JSON
 		//		response for JSONP-type requests. Used
 		//		internally to hold on to the JSON responses.
 		//		You should not need to access it directly --
@@ -205,46 +209,46 @@
 
 
 	/*=====
-	dojo.__IoPublish = function(){
+	embed.__IoPublish = function(){
 		// 	summary:
 		// 		This is a list of IO topics that can be published
 		// 		if djConfig.ioPublish is set to true. IO topics can be
 		// 		published for any Input/Output, network operation. So,
-		// 		dojo.xhr, dojo.io.script and dojo.io.iframe can all
+		// 		embed.xhr, embed.io.script and embed.io.iframe can all
 		// 		trigger these topics to be published.
 		//	start: String
-		//		"/dojo/io/start" is sent when there are no outstanding IO
+		//		"/embed/io/start" is sent when there are no outstanding IO
 		// 		requests, and a new IO request is started. No arguments
 		// 		are passed with this topic.
 		//	send: String
-		//		"/dojo/io/send" is sent whenever a new IO request is started.
-		// 		It passes the dojo.Deferred for the request with the topic.
+		//		"/embed/io/send" is sent whenever a new IO request is started.
+		// 		It passes the embed.Deferred for the request with the topic.
 		//	load: String
-		//		"/dojo/io/load" is sent whenever an IO request has loaded
-		// 		successfully. It passes the response and the dojo.Deferred
+		//		"/embed/io/load" is sent whenever an IO request has loaded
+		// 		successfully. It passes the response and the embed.Deferred
 		// 		for the request with the topic.
 		//	error: String
-		//		"/dojo/io/error" is sent whenever an IO request has errored.
-		// 		It passes the error and the dojo.Deferred
+		//		"/embed/io/error" is sent whenever an IO request has errored.
+		// 		It passes the error and the embed.Deferred
 		// 		for the request with the topic.
 		//	done: String
-		//		"/dojo/io/done" is sent whenever an IO request has completed,
+		//		"/embed/io/done" is sent whenever an IO request has completed,
 		// 		either by loading or by erroring. It passes the error and
-		// 		the dojo.Deferred for the request with the topic.
+		// 		the embed.Deferred for the request with the topic.
 		//	stop: String
-		//		"/dojo/io/stop" is sent when all outstanding IO requests have
+		//		"/embed/io/stop" is sent when all outstanding IO requests have
 		// 		finished. No arguments are passed with this topic.
-		this.start = "/dojo/io/start";
-		this.send = "/dojo/io/send";
-		this.load = "/dojo/io/load";
-		this.error = "/dojo/io/error";
-		this.done = "/dojo/io/done";
-		this.stop = "/dojo/io/stop";
+		this.start = "/embed/io/start";
+		this.send = "/embed/io/send";
+		this.load = "/embed/io/load";
+		this.error = "/embed/io/error";
+		this.done = "/embed/io/done";
+		this.stop = "/embed/io/stop";
 	}
 	=====*/
 
 
-	dojo._ioSetArgs = function(/*dojo.__IoArgs*/args,
+	embed._ioSetArgs = function(/*embed.__IoArgs*/args,
 			/*Function*/canceller,
 			/*Function*/okHandler,
 			/*Function*/errHandler){
@@ -277,13 +281,13 @@
 			miArgs.push(args.content);
 		}
 		if(args.preventCache){
-			miArgs.push({"dojo.preventCache": new Date().valueOf()});
+			miArgs.push({"embed.preventCache": new Date().valueOf()});
 		}
-		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
+		ioArgs.query = embed.objectToQuery(embed.mixin.apply(null, miArgs));
 
 		// .. and the real work of getting the deferred in order, etc.
 		ioArgs.handleAs = args.handleAs || "text";
-		var d = new _d.Deferred(canceller);
+		var d = new embed.Deferred(canceller);
 		d.addCallbacks(okHandler, function(error){
 			return errHandler(error, d);
 		});
@@ -293,41 +297,41 @@
 		//The callbacks will get the deferred result value as the
 		//first argument and the ioArgs object as the second argument.
 		var ld = args.load;
-		if(ld && _d.isFunction(ld)){
+		if(ld && embed.isFunction(ld)){
 			d.addCallback(function(value){
 				return ld.call(args, value, ioArgs);
 			});
 		}
 		var err = args.error;
-		if(err && _d.isFunction(err)){
+		if(err && embed.isFunction(err)){
 			d.addErrback(function(value){
 				return err.call(args, value, ioArgs);
 			});
 		}
 		var handle = args.handle;
-		if(handle && _d.isFunction(handle)){
+		if(handle && embed.isFunction(handle)){
 			d.addBoth(function(value){
 				return handle.call(args, value, ioArgs);
 			});
 		}
 
-		//Plug in topic publishing, if dojo.publish is loaded.
+		//Plug in topic publishing, if embed.publish is loaded.
 		// TODO: What is this? Do we want it?
-// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+// deactivated all "cfg.ioPublish" to reduce dependency to embed.publish, which is not default integrated
 // should be moved into a separate
 		//if(cfg.ioPublish && _d.publish && ioArgs.args.ioPublish !== false){
 		//	d.addCallbacks(
 		//		function(res){
-		//			_d.publish("/dojo/io/load", [d, res]);
+		//			_d.publish("/embed/io/load", [d, res]);
 		//			return res;
 		//		},
 		//		function(res){
-		//			_d.publish("/dojo/io/error", [d, res]);
+		//			_d.publish("/embed/io/error", [d, res]);
 		//			return res;
 		//		}
 		//	);
 		//	d.addBoth(function(res){
-		//		_d.publish("/dojo/io/done", [d, res]);
+		//		_d.publish("/embed/io/done", [d, res]);
 		//		return res;
 		//	});
 		//}
@@ -340,7 +344,7 @@
 	}
 
 	var _deferredCancel = function(/*Deferred*/dfd){
-		// summary: canceller function for dojo._ioSetArgs call.
+		// summary: canceller function for embed._ioSetArgs call.
 
 		dfd.canceled = true;
 		var xhr = dfd.ioArgs.xhr;
@@ -356,13 +360,13 @@
 		return err;
 	}
 	var _deferredOk = function(/*Deferred*/dfd){
-		// summary: okHandler function for dojo._ioSetArgs call.
+		// summary: okHandler function for embed._ioSetArgs call.
 
 		var ret = handlers[dfd.ioArgs.handleAs](dfd.ioArgs.xhr);
 		return ret === undefined ? null : ret;
 	}
 	var _deferError = function(/*Error*/error, /*Deferred*/dfd){
-		// summary: errHandler function for dojo._ioSetArgs call.
+		// summary: errHandler function for embed._ioSetArgs call.
 
 		if(!dfd.ioArgs.args.failOk){
 			console.error(error);
@@ -385,9 +389,9 @@
 	var _checkPubCount = function(dfd){
 		if(_pubCount <= 0){
 			_pubCount = 0;
-// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+// deactivated all "cfg.ioPublish" to reduce dependency to embed.publish, which is not default integrated
 			//if(cfg.ioPublish && _d.publish && (!dfd || dfd && dfd.ioArgs.args.ioPublish !== false)){
-			//	_d.publish("/dojo/io/stop");
+			//	_d.publish("/embed/io/stop");
 			//}
 		}
 	};
@@ -401,7 +405,7 @@
 		// make sure sync calls stay thread safe, if this callback is called
 		// during a sync call and this results in another sync call before the
 		// first sync call ends the browser hangs
-		if(!_d._blockAsync){
+		if(!embed._blockAsync){
 			// we need manual loop because we often modify _inFlight (and therefore 'i') while iterating
 			// note: the second clause is an assigment on purpose, lint may complain
 			for(var i = 0, tif; i < _inFlight.length && (tif = _inFlight[i]); i++){
@@ -419,7 +423,7 @@
 						if(dfd.startTime + (dfd.ioArgs.args.timeout || 0) < now){
 							_inFlight.splice(i--, 1);
 							var err = new Error("timeout exceeded");
-							err.dojoType = "timeout";
+							err.embedType = "timeout";
 							dfd.errback(err);
 							//Cancel the request so the io module can do appropriate cleanup.
 							dfd.cancel();
@@ -427,7 +431,7 @@
 						}
 					}
 				};
-				if(dojo.config.debugAtAllCosts){
+				if(embed.config.debugAtAllCosts){
 					func.call(this);
 				}else{
 					try{
@@ -448,11 +452,11 @@
 		}
 	}
 
-	dojo._ioCancelAll = function(){
+	embed._ioCancelAll = function(){
 		//summary: Cancels all pending IO requests, regardless of IO type
 		//(xhr, script, iframe).
 		try{
-			_d.forEach(_inFlight, function(i){
+			embed.forEach(_inFlight, function(i){
 				try{
 					i.dfd.cancel();
 				}catch(e){/*squelch*/}
@@ -460,25 +464,25 @@
 		}catch(e){/*squelch*/}
 	}
 
-	_d._ioNotifyStart = function(/*Deferred*/dfd){
+	embed._ioNotifyStart = function(/*Deferred*/dfd){
 		// summary:
-		// 		If dojo.publish is available, publish topics
+		// 		If embed.publish is available, publish topics
 		// 		about the start of a request queue and/or the
 		// 		the beginning of request.
 		// description:
 		// 		Used by IO transports. An IO transport should
 		// 		call this method before making the network connection.
-// deactivated all "cfg.ioPublish" to reduce dependency to dojo.publish, which is not default integrated
+// deactivated all "cfg.ioPublish" to reduce dependency to embed.publish, which is not default integrated
 		//if(cfg.ioPublish && _d.publish && dfd.ioArgs.args.ioPublish !== false){
 		//	if(!_pubCount){
-		//		_d.publish("/dojo/io/start");
+		//		_d.publish("/embed/io/start");
 		//	}
 		//	_pubCount += 1;
-		//	_d.publish("/dojo/io/send", [dfd]);
+		//	_d.publish("/embed/io/send", [dfd]);
 		//}
 	}
 
-	_d._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
+	embed._ioWatch = function(dfd, validCheck, ioCheck, resHandle){
 		// summary:
 		//		Watches the io request represented by dfd to see if it completes.
 		// dfd: Deferred
@@ -521,7 +525,7 @@
 	}
 	var _resHandle = function(/*Deferred*/dfd){
 		var xhr = dfd.ioArgs.xhr;
-		if(_d._isDocumentOk(xhr)){
+		if(embed._isDocumentOk(xhr)){
 			dfd.callback(dfd);
 		}else{
 			var err = new Error("Unable to load " + dfd.ioArgs.url + " status:" + xhr.status);
@@ -531,7 +535,7 @@
 		}
 	}
 
-	dojo._ioAddQueryToUrl = function(/*dojo.__IoCallbackArgs*/ioArgs){
+	embed._ioAddQueryToUrl = function(/*embed.__IoCallbackArgs*/ioArgs){
 		//summary: Adds query params discovered by the io deferred construction to the URL.
 		//Only use this for operations which are fundamentally GET-type operations.
 		if(ioArgs.query.length){
@@ -541,14 +545,14 @@
 	}
 
 	/*=====
-	dojo.declare("dojo.__XhrArgs", dojo.__IoArgs, {
+	embed.declare("embed.__XhrArgs", embed.__IoArgs, {
 		constructor: function(){
 			//	summary:
-			//		In addition to the properties listed for the dojo._IoArgs type,
-			//		the following properties are allowed for dojo.xhr* methods.
+			//		In addition to the properties listed for the embed._IoArgs type,
+			//		the following properties are allowed for embed.xhr* methods.
 			//	handleAs: String?
 			//		Acceptable values are: text (default), json, json-comment-optional,
-			//		json-comment-filtered, javascript, xml. See `dojo.contentHandlers`
+			//		json-comment-filtered, javascript, xml. See `embed.contentHandlers`
 			//	sync: Boolean?
 			//		false is default. Indicates whether the request should
 			//		be a synchronous (blocking) request.
@@ -571,26 +575,26 @@
 	});
 	=====*/
 
-	dojo.xhr = function(/*String*/ method, /*dojo.__XhrArgs*/ args, /*Boolean?*/ hasBody){
+	embed.xhr = function(/*String*/ method, /*embed.__XhrArgs*/ args, /*Boolean?*/ hasBody){
 		//	summary:
 		//		Sends an HTTP request with the given method.
 		//	description:
 		//		Sends an HTTP request with the given method.
-		//		See also dojo.xhrGet(), xhrPost(), xhrPut() and dojo.xhrDelete() for shortcuts
+		//		See also embed.xhrGet(), xhrPost(), xhrPut() and embed.xhrDelete() for shortcuts
 		//		for those HTTP methods. There are also methods for "raw" PUT and POST methods
-		//		via dojo.rawXhrPut() and dojo.rawXhrPost() respectively.
+		//		via embed.rawXhrPut() and embed.rawXhrPost() respectively.
 		//	method:
 		//		HTTP method to be used, such as GET, POST, PUT, DELETE.  Should be uppercase.
 		//	hasBody:
 		//		If the request has an HTTP body, then pass true for hasBody.
 
 		//Make the Deferred object for this xhr request.
-		var dfd = _d._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
+		var dfd = embed._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
 		var ioArgs = dfd.ioArgs;
 
 		//Pass the args to _xhrObj, to allow alternate XHR calls based specific calls, like
 		//the one used for iframe proxies.
-		var xhr = ioArgs.xhr = _d._xhrObj(ioArgs.args);
+		var xhr = ioArgs.xhr = embed._xhrObj(ioArgs.args);
 		//If XHR factory fails, cancel the deferred.
 		if(!xhr){
 			dfd.cancel();
@@ -607,7 +611,7 @@
 		}else if((arguments.length > 2 && !hasBody) || "POST|PUT".indexOf(method.toUpperCase()) == -1){
 			//Check for hasBody being passed. If no hasBody,
 			//then only append query string if not a POST or PUT request.
-			_d._ioAddQueryToUrl(ioArgs);
+			embed._ioAddQueryToUrl(ioArgs);
 		}
 
 		// IE 6 is a steaming pile. It won't let you call apply() on the native function (xhr.open).
@@ -630,11 +634,11 @@
 			xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 		}
 		// FIXME: set other headers here!
-		if(args.overrideMinmeType && xhr.overrideMimeType){
+		if(args.overrideMimeType && xhr.overrideMimeType){
 			xhr.overrideMimeType(args.overrideMimeType);
 		}
-		_d._ioNotifyStart(dfd);
-		if(dojo.config.debugAtAllCosts){
+		embed._ioNotifyStart(dfd);
+		if(embed.config.debugAtAllCosts){
 			xhr.send(ioArgs.query);
 		}else{
 			try{
@@ -644,39 +648,41 @@
 				dfd.cancel();
 			}
 		}
-		_d._ioWatch(dfd, _validCheck, _ioCheck, _resHandle);
+		embed._ioWatch(dfd, _validCheck, _ioCheck, _resHandle);
 		xhr = null;
-		return dfd; // dojo.Deferred
+		return dfd; // embed.Deferred
 	}
 
-	dojo.xhrGet = function(/*dojo.__XhrArgs*/ args){
+	embed.xhrGet = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP GET request to the server.
-		return _d.xhr("GET", args); // dojo.Deferred
+		return embed.xhr("GET", args); // embed.Deferred
 	}
 
-	dojo.rawXhrPost = dojo.xhrPost = function(/*dojo.__XhrArgs*/ args){
+	embed.rawXhrPost = embed.xhrPost = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP POST request to the server. In addtion to the properties
-		//		listed for the dojo.__XhrArgs type, the following property is allowed:
+		//		listed for the embed.__XhrArgs type, the following property is allowed:
 		//	postData:
 		//		String. Send raw data in the body of the POST request.
-		return _d.xhr("POST", args, true); // dojo.Deferred
+		return embed.xhr("POST", args, true); // embed.Deferred
 	}
 
-	dojo.rawXhrPut = dojo.xhrPut = function(/*dojo.__XhrArgs*/ args){
+	embed.rawXhrPut = embed.xhrPut = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP PUT request to the server. In addtion to the properties
-		//		listed for the dojo.__XhrArgs type, the following property is allowed:
+		//		listed for the embed.__XhrArgs type, the following property is allowed:
 		//	putData:
 		//		String. Send raw data in the body of the PUT request.
-		return _d.xhr("PUT", args, true); // dojo.Deferred
+		return embed.xhr("PUT", args, true); // embed.Deferred
 	}
 
-	dojo.xhrDelete = function(/*dojo.__XhrArgs*/ args){
+	embed.xhrDelete = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP DELETE request to the server.
-		return _d.xhr("DELETE", args); //dojo.Deferred
+		return embed.xhr("DELETE", args); //embed.Deferred
 	}
-
-}(dojo));
+	
+	return embed;
+	
+});

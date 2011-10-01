@@ -1,3 +1,7 @@
+// TODO: We probably do want to have sth like this, gotta still
+//	figure out what. Maybe some chached results from has.js. Will
+//	have to map that to our internal detection, though.
+
 //
 //	This file takes care of loading the appropriate *.js file for the
 //	platform we are on, currently. End users will only need to

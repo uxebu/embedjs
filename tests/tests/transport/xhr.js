@@ -64,27 +64,27 @@ var topics = [
 var topicCount = {
 };
 
-dojo.forEach(topics, function(topic){
-	try{
-		topicCount[topic] = 0;
-		dojo.subscribe(topic, function(){
-			topicCount[topic] += 1;
-			//console.log("##"+ topic + ": " + topicCount[topic]);
-		});
-	}catch(e){
-		
-	}
-});
-
-dojo.config.ioPublish = true;
 	
 tests.register("transport-xhr",
 	[
-		/*
+		
 		function _start(t){
-			doh.showBox('html_xhr-test');
+			//doh.showBox('html_xhr-test');
+
+			dojo.config.ioPublish = true;
+			dojo.forEach(topics, function(topic){
+				try{
+					topicCount[topic] = 0;
+					dojo.subscribe(topic, function(){
+						topicCount[topic] += 1;
+						//console.log("##"+ topic + ": " + topicCount[topic]);
+					});
+				}catch(e){
+					
+				}
+			});
 		},
-		*/
+		
 		/* No fieldToObject in API
 		function inputNodeValueFromId(t){
 			t.is(f1NoValueObj, dojo.fieldToObject('f1_no_value'));

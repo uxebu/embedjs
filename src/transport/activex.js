@@ -1,9 +1,8 @@
-require.modify("dojo/xhr", "dojo/xhr/activex", ["dojo"], function(){
+define(['embed', 'feature!transport-xhr'], function(embed){
 
-(function(d){
-d._XMLHTTP_PROGIDS = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'];
+	embed._XMLHTTP_PROGIDS = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'];
 
-	d._xhrObj = function(){
+	embed._xhrObj = function(){
 		// summary:
 		//		does the work of portably generating a new XMLHTTPRequest object.
 		var http, last_e;
@@ -28,6 +27,6 @@ d._XMLHTTP_PROGIDS = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0
 		return http; // XMLHTTPRequest instance
 	}
 
-}(dojo));
+	return embed;
 
 });

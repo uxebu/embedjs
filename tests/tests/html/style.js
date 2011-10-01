@@ -3,11 +3,65 @@
 	// TODO: dojo.style could use some more testing,
 	//	as we heavily modified dojo's style method.
 
+require(['text!../tests/tests/html/class+style.html'], function(html){
+
 tests.register("html-style",
 	[
 		function _start(t){
-			doh.showBox('class+style.html');
+			document.body.innerHTML = html;
+			
+			// Init the stuff with what we expect, acutally this belongs in the HTML itself,
+			// but how do i build the .js for it? :)
+			dojo.style('sq100nopos', {opacity: 1, color: "red", position: "static", backgroundColor: "black"});
+			//tests.registerDocTests("../src/html/style.js"); 
 		},
+
+		function basicStyle(){
+			doh.is(1, dojo.style('sq100nopos', 'opacity'));
+			doh.is(0.1, dojo.style('sq100nopos', 'opacity', 0.1));
+			doh.is(0.8, dojo.style('sq100nopos', 'opacity', 0.8));
+		},
+		/**
+		 * TODO: Do we really want to test color?
+		 * 	Need to find out:
+		 * 		a) what the spec says to this
+		 * 		b) if browser vendors really comply to it
+		 * 		c) what happens on more complex stuff like rgba or hsla...
+		 */
+		function setColorByName(){
+			dojo.style('sq100nopos', 'color', "red");
+			doh.is("red", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByRgb(){
+			dojo.style('sq100nopos', 'color', "rgb(255, 0, 255)");
+			doh.is("rgb(255, 0, 255)", dojo.style('sq100nopos', 'color'));
+		},
+		function setColorByHex(){
+			dojo.style('sq100nopos', 'color', "#FFFFFF");
+			//doh.is("#FFFFFF", dojo.style('sq100nopos', 'color'));
+			doh.is("rgb(255, 255, 255)", dojo.style('sq100nopos', 'color')); // Seems like this is expected...
+		},
+		function setColorEmpty(){
+			dojo.style('sq100nopos', 'color', "");
+			doh.is("", dojo.style('sq100nopos', 'color'));
+		},
+		
+		function styleObject(){
+			dojo.style('sq100nopos', { 'opacity': 0.1 });
+			// Chrome 9 will return 0.10000000149011612 here, which is close enough.
+			// Let's just multiply and remove fractions.
+			doh.is(1000, parseInt(dojo.style('sq100nopos', 'opacity')*10000)); 
+			dojo.style('sq100nopos', { 'opacity': 0.8 });
+			doh.is(8000, parseInt(dojo.style('sq100nopos', 'opacity')*10000)); // Same as above
+		},
+		function defaultPosition(){
+			doh.is('static', dojo.style('sq100nopos', 'position'));
+		},
+		function getBgcolor(t){
+			var bgc = dojo.style('sq100nopos', 'backgroundColor');
+			doh.t((bgc == "rgb(0, 0, 0)")||(bgc == "black")||(bgc == "#000000"));
+		},
+
 		
 		/* No position/coords etc in API
 		"doh.is(100, dojo.marginBox('sq100').w);",
@@ -169,24 +223,6 @@ tests.register("html-style",
 			}
 		},
 		*/
-		function basicStyle(){
-			doh.is(1, dojo.style('sq100nopos', 'opacity'));
-			doh.is(0.1, dojo.style('sq100nopos', 'opacity', 0.1));
-			doh.is(0.8, dojo.style('sq100nopos', 'opacity', 0.8));
-		},
-		function styleObject(){
-			dojo.style('sq100nopos', { 'opacity': 0.1 });
-			doh.is(0.1, dojo.style('sq100nopos', 'opacity'));
-			dojo.style('sq100nopos', { 'opacity': 0.8 });
-			doh.is(0.8, dojo.style('sq100nopos', 'opacity'));
-		},
-		function defaultPosition(){
-			doh.is('static', dojo.style('sq100nopos', 'position'));
-		},
-		function getBgcolor(t){
-			var bgc = dojo.style('sq100nopos', 'backgroundColor');
-			doh.t((bgc == "rgb(0, 0, 0)")||(bgc == "black")||(bgc == "#000000"));
-		},
 		/* No isDescendant in API
 		function isDescendant(t){
 			doh.t(dojo.isDescendant("sq100", dojo.body()));
@@ -207,199 +243,7 @@ tests.register("html-style",
 
 		},
 		*/
-		/* No attr / hasAttr in API
-		function getTypeInput(t){
-			doh.f(dojo.hasAttr(dojo.byId("input-no-type"), "type"));
-			doh.is(null, dojo.attr(dojo.byId("input-no-type"), "type"));
-			doh.t(dojo.hasAttr(dojo.byId("input-with-type"), "type"));
-			doh.is("checkbox", dojo.attr(dojo.byId("input-with-type"), "type"));
-		},
-		function getWithString(t){
-			doh.f(dojo.hasAttr("input-no-type", "type"));
-			doh.is(null, dojo.attr("input-no-type", "type"));
-			doh.t(dojo.hasAttr("input-with-type", "type"));
-			doh.is("checkbox", dojo.attr("input-with-type", "type"));
-		},
-		function attrId(t){
-			doh.t(dojo.hasAttr("div-no-tabindex", "id"));
-			doh.is("div-no-tabindex", dojo.attr("div-no-tabindex", "id"));
-			var div = document.createElement("div");
-			doh.f(dojo.hasAttr(div, "id"));
-			doh.is(null, dojo.attr(div, "id"));
-			dojo.attr(div, "id", "attrId1");
-			doh.t(dojo.hasAttr(div, "id"));
-			doh.is("attrId1", dojo.attr(div, "id"));
-			dojo.removeAttr(div, "id");
-			doh.f(dojo.hasAttr(div, "id"));
-			doh.is(null, dojo.attr(div, "id"));
-		},
-		function getTabindexDiv(t){
-			doh.f(dojo.hasAttr("div-no-tabindex", "tabIndex"));
-			doh.t(dojo.attr("div-no-tabindex", "tabIndex") <= 0);
-			doh.t(dojo.hasAttr("div-tabindex-minus-1", "tabIndex"));
-			if(!dojo.isOpera){
-				// Opera (at least <= 9) does not support tabIndex="-1"
-				doh.is(-1, dojo.attr("div-tabindex-minus-1", "tabIndex"));
-			}
-			doh.t(dojo.hasAttr("div-tabindex-0", "tabIndex"));
-			doh.is(0, dojo.attr("div-tabindex-0", "tabIndex"));
-			doh.is(1, dojo.attr("div-tabindex-1", "tabIndex"));
-		},
-		function getTabindexInput(t){
-			if(!dojo.isIE || dojo.isIE >= 8){
-				// IE6/7 always reports tabIndex as defined
-				doh.f(dojo.hasAttr("input-no-tabindex", "tabIndex"));
-				doh.f(dojo.attr("input-no-tabindex", "tabIndex"));
-			}
-			doh.t(dojo.hasAttr("input-tabindex-minus-1", "tabIndex"));
-			if(!dojo.isOpera){
-				// Opera (at least <= 9) does not support tabIndex="-1"
-				doh.is(-1, dojo.attr("input-tabindex-minus-1", "tabIndex"));
-			}
-			doh.t(dojo.hasAttr("input-tabindex-0", "tabIndex"));
-			doh.is(0, dojo.attr("input-tabindex-0", "tabIndex"));
-			doh.is(1, dojo.attr("input-tabindex-1", "tabIndex"));
-		},
-		function setTabindexDiv(t){
-			var div = document.createElement("div");
-			doh.is(null, dojo.attr(div, "tabIndex"));
-			dojo.attr(div, "tabIndex", -1);
-			if(!dojo.isOpera){
-				// Opera (at least <= 9) does not support tabIndex="-1"
-				doh.is(-1, dojo.attr(div, "tabIndex"));
-			}
-			dojo.attr(div, "tabIndex", 0);
-			doh.is(0, dojo.attr(div, "tabIndex"));
-			dojo.attr(div, "tabIndex", 1);
-			doh.is(1, dojo.attr(div, "tabIndex"));
-		},
-		function setTabindexInput(t){
-			var input = document.createElement("input");
-			doh.t(dojo.attr(input, "tabIndex") <= 0);
-			dojo.attr(input, "tabIndex", -1);
-			if(!dojo.isOpera){
-				// Opera (at least <= 9) does not support tabIndex="-1"
-				doh.is(-1, dojo.attr(input, "tabIndex"));
-			}
-			dojo.attr(input, "tabIndex", 0);
-			doh.is(0, dojo.attr(input, "tabIndex"));
-			dojo.attr(input, "tabIndex", 1);
-			doh.is(1, dojo.attr(input, "tabIndex"));
-		},
-		function removeTabindexFromDiv(t){
-			var div = document.createElement("div");
-			dojo.attr(div, "tabIndex", 1);
-			doh.is(1, dojo.attr(div, "tabIndex"));
-			dojo.removeAttr(div, "tabIndex");
-			doh.is(null, dojo.attr(div, "tabIndex"));
-		},
-		function removeDisabledFromInput(t){
-			var input = document.createElement("input");
-			dojo.attr(input, "disabled", true);
-			doh.t(dojo.attr(input, "disabled"));
-			dojo.removeAttr(input, "disabled");
-			doh.f(dojo.attr(input, "disabled"));
-		},
-		function removeTabindexFromInput(t){
-			var input = document.createElement("input");
-			dojo.attr(input, "tabIndex", 1);
-			doh.is(1, dojo.attr(input, "tabIndex"));
-			dojo.removeAttr(input, "tabIndex");
-			doh.is(null, dojo.attr(input, "tabIndex"));
-		},
-		function setReadonlyInput(t){
-			var input = document.createElement("input");
-			doh.f(dojo.attr(input, "readonly"));
-			dojo.attr(input, "readonly", true);
-			doh.is(true, dojo.attr(input, "readonly"));
-			dojo.attr(input, "readonly", false);
-			doh.is(false, dojo.attr(input, "readonly"));
-		},
-		function attr_map(t){
-			var input = document.createElement("input");
-			var ctr= 0;
-			dojo.attr(input, {
-				"class": "thinger blah",
-				"tabIndex": 1,
-				"type": "text",
-				"onfocus": function(e){
-					ctr++;
-				}
-			});
-			dojo.body().appendChild(input);
-			doh.is(1, dojo.attr(input, "tabIndex"), "tabIndex");
-			if(!dojo.isIE || dojo.isIE > 7){
-				// IE6/7 treats type="text" as missing, even if it was
-				// explicitly specified
-				doh.is("text", dojo.attr(input, "type"), "type");
-			}
-			doh.is(0, ctr, "onfocus ctr == 0");
-			doh.t(dojo.hasClass(input, "thinger"), "hasClass of thinger");
-			doh.t(dojo.hasClass(input, "blah"), "hasClass of blah");
-			var def = new doh.Deferred();
-			input.focus();
-			setTimeout(function(){
-				doh.is(1, ctr, "onfocus ctr == 1");
-				input.blur();
-				input.focus();
-				setTimeout(function(){
-					doh.is(2, ctr, "onfocus ctr == 2");
-					def.callback(true);
-				}, 10);
-			}, 10);
-			return def;
-		},
-		function attr_reconnect(t){
-			var input = document.createElement("input");
-			var ctr = 0;
-			dojo.attr(input, "type", "text");
-			dojo.attr(input, "onfocus", function(e){ ctr++; });
-			dojo.attr(input, "onfocus", function(e){ ctr++; });
-			dojo.attr(input, "onfocus", function(e){ ctr++; });
-			dojo.body().appendChild(input);
-			if(!dojo.isIE || dojo.isIE > 7){
-				// IE6/7 treats type="text" as missing, even if it was
-				// explicitly specified
-				doh.is("text", dojo.attr(input, "type"));
-			}
-			doh.is(0, ctr);
-			var def = new doh.Deferred();
-			input.focus();
-			setTimeout(function(){
-				doh.is(1, ctr);
-				input.blur();
-				input.focus();
-				setTimeout(function(){
-					doh.is(2, ctr);
-					def.callback(true);
-				}, 10);
-			}, 10);
-			return def;
-		},
-		function attrSpecials(){
-			var node = document.createElement("div");
-			dojo.body().appendChild(node);
-			dojo.attr(node, {
-				style: {
-					opacity: 0.5,
-					width: "30px",
-					border: "1px solid black"
-				}
-			});
-			doh.is(0.5, dojo.style(node, "opacity"));
-			doh.is(30, dojo.style(node, "width"));
-			doh.is(1, dojo.style(node, "borderWidth"));
-			dojo.attr(node, {
-				innerHTML: "howdy!"
-			});
-			doh.is("howdy!", node.innerHTML);
-			doh.is("howdy!", dojo.attr(node, "innerHTML"));
-			dojo.attr(node, "innerHTML", "<span>howdy!</span>");
-			doh.is(1, node.firstChild.nodeType);
-			doh.is("span", node.firstChild.nodeName.toLowerCase());
-			doh.is("<span>howdy!</span>", node.innerHTML.toLowerCase());
-			doh.is("<span>howdy!</span>", dojo.attr(node, "innerHTML").toLowerCase());
-		},
+		/*
 		function testLabelForAttr(t){
 			// create label with no for attribute make sure requesting
 			// it as for and html for returns null
@@ -478,3 +322,5 @@ tests.register("html-style",
 		*/
 	]
 );
+
+});

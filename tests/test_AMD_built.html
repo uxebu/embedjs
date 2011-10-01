@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Testrunner for built files</title>
+		<link rel="stylesheet" type="text/css" href="tests.css" />
+		<script src="../build/embed-kitchensink-android.js"></script>	
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown',
+					'text': '../tests/text'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+		<script type="text/javascript">
+			require([
+					//'../tests/DocTest', 
+					'../tests/runner-embed', 
+					'../tests/helper', 
+					'implementations'
+				], function(/*DocTest, */runner_, helper_, implementations){
+				//window.DocTest = DocTest;
+				helper.exportGlobals(window);
+				helper.renderTable(implementations);
+
+				// DocTests currently screw up testing of specific impls, as it
+				// requires certain features, which then are chached by require.js
+				// which prevents pulling in other impls.
+				// So, it is disabled for now.
+				tests.registerDocTest = function(){};
+			});
+		</script>
+	</head>
+	<body>
+		<div id="featureTable"></div>
+		<button onclick="helper.runBuilt()">Test selected features</button>
+		<button onclick="helper.runBuilt(true)">Test all features</button>
+	</body>
+</html>

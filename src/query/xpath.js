@@ -1,5 +1,5 @@
+define(['embed', 'feature!html-id'], function(embed){
 
-(function(d) {
 	/** css2xpath - generic CSS to XPath selector transformer
 	 * @author 	 Andrea Giammarchi
 	 * @license 	Mit Style License
@@ -87,8 +87,16 @@
 	})();
 
 
-	d._query = d.query = function (selector, scope) {
-		scope = scope || document;
+	embed.query = function (selector, scope) {
+		// scope normalization
+		if(typeof scope == "string"){
+			scope = embed.byId(scope);
+			if(!scope){
+				return [];
+			}
+		}
+
+		scope = scope || embed.doc;
 
 		var xpath = "." + css2xpath(selector),
 			resultSet = document.evaluate(xpath, scope, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null),
@@ -99,7 +107,8 @@
 		}
 
 		return nodes;
-	}
+	};
 
-
-})(dojo);
+	return embed;
+	
+});

@@ -1,72 +1,40 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>EmbedJS Test Runner</title>
-		<style type="text/css">
-			body,html{
-				background-color:white;
-				color:black;
-			}
-		</style>
+		<title>EmbedJS Testrunner</title>
+		<link rel="stylesheet" type="text/css" href="tests.css" />
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown',
+					'text': '../tests/text'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+		<script type="text/javascript">
+			require([
+					//'../tests/DocTest', 
+					'../tests/runner-embed', 
+					'../tests/helper', 
+					'implementations'
+				], function(/*DocTest, */runner_, helper_, implementations){
+				//window.DocTest = DocTest;
+				helper.exportGlobals(window);
+				helper.renderTable(implementations);
+
+				// DocTests currently screw up testing of specific impls, as it
+				// requires certain features, which then are chached by require.js
+				// which prevents pulling in other impls.
+				// So, it is disabled for now.
+				tests.registerDocTest = function(){};
+			});
+		</script>
 	</head>
 	<body>
-	    <script type="text/javascript">
-	    	function runTests(platform){
-				if (window["widget"]){
-					window.location.href = "runTests-widget" + platform + ".html";
-				} else {
-					window.location = "runTests-" + platform + ".html";
-				}
-		    }
-	    </script>
-	    
-		<table border="1">
-			<tr>
-				<th>Platform</th>
-				<th>Execute</th>
-			</tr>
-			
-			<tr>
-				<td>android</td>
-				<td><button onclick="runTests('android');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>blackberry</td>
-				<td><button onclick="runTests('blackberry');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>blackberry4.6</td>
-				<td><button onclick="runTests('blackberry4.6');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>firefox3</td>
-				<td><button onclick="runTests('firefox3');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>ios</td>
-				<td><button onclick="runTests('ios');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>nokia-wrt</td>
-				<td><button onclick="runTests('nokia-wrt');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>vodafone-apps-manager2.2</td>
-				<td><button onclick="runTests('vodafone-apps-manager2.2');">run tests</button></td>
-			</tr>
-			
-			<tr>
-				<td>windows-phone-7-ie7</td>
-				<td><button onclick="runTests('windows-phone-7-ie7');">run tests</button></td>
-			</tr>
-			
-		</table>
+		<div id="featureTable"></div>
+		<button onclick="helper.prepareTests()">Test selected features</button>
+		<button onclick="helper.prepareTests(true)">Test all features</button>
 	</body>
 </html>
-

@@ -1,9 +1,9 @@
-;(function(d){
+define(['embed', 'feature!html-id'], function(embed){
 
 	// =============================
 	// Style Functions
 	// =============================
-
+	
 	// getComputedStyle drives most of the style code.
 	// Wherever possible, reuse the returned object.
 	//
@@ -12,13 +12,13 @@
 	// If this parameter is omitted, the functions will call getComputedStyle themselves.
 	// This way, calling code can access computedStyle once, and then pass the reference to
 	// multiple API functions.
-
+	
 	// Although we normally eschew argument validation at this
 	// level, here we test argument 'node' for (duck)type,
 	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
 	// it is frequently sent to this function even
 	// though it is not Element.
-	d._getComputedStyle = function(node){
+	embed.getComputedStyle = function(node){
 		//	summary:
 		//		Returns a "computed style" object.
 		//
@@ -33,18 +33,18 @@
 		//		Note also that this method is expensive.  Wherever possible,
 		//		reuse the returned object.
 		//
-		//		Use the dojo.style() method for more consistent (pixelized)
+		//		Use the embed.style() method for more consistent (pixelized)
 		//		return values.
 		//
 		//	node: DOMNode
 		//		A reference to a DOM node. Does NOT support taking an
 		//		ID string for speed reasons.
 		//	example:
-		//	|	dojo.getComputedStyle(dojo.byId('foo')).borderWidth;
+		//	|	embed.getComputedStyle(embed.byId('foo')).borderWidth;
 		//
 		//	example:
 		//	Reusing the returned object, avoiding multiple lookups:
-		//	|	var cs = dojo.getComputedStyle(dojo.byId("someNode"));
+		//	|	var cs = embed.getComputedStyle(embed.byId("someNode"));
 		//	|	var w = cs.width, h = cs.height;
 		//	returns: CSS2Properties
 		
@@ -64,16 +64,8 @@
 		return node.nodeType == 1 ?
 			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
 	};
-
-
-
-	var _floatStyle = "cssFloat",
-		_floatAliases = { "cssFloat": _floatStyle, "styleFloat": _floatStyle, "float": _floatStyle }
-	;
-
-	// public API
-
-	d._style = function(	/*DomNode|String*/ node,
+	
+	embed.style = function(	/*DomNode|String*/ node,
 							/*String?|Object?*/ style,
 							/*String?*/ value){
 		//	summary:
@@ -86,8 +78,8 @@
 		//		Also when getting values, use specific style names,
 		//		like "borderBottomWidth" instead of "border" since compound values like
 		//		"border" are not necessarily reflected as expected.
-		//		If you want to get node dimensions, use dojo.marginBox() or
-		//		dojo.contentBox().
+		//		If you want to get node dimensions, use embed.marginBox() or
+		//		embed.contentBox().
 		//	node:
 		//		id or reference to node to get/set style for
 		//	style:
@@ -102,20 +94,20 @@
 		//	example:
 		//		Passing only an ID or node returns the computed style object of
 		//		the node:
-		//	|	dojo.style("thinger");
+		//	|	embed.style("thinger");
 		//	example:
 		//		Passing a node and a style property returns the current
 		//		normalized, computed value for that property:
-		//	|	dojo.style("thinger", "opacity"); // 1 by default
+		//	|	embed.style("thinger", "opacity"); // 1 by default
 		//
 		//	example:
 		//		Passing a node, a style property, and a value changes the
 		//		current display of the node and returns the new computed value
-		//	|	dojo.style("thinger", "opacity", 0.5); // == 0.5
+		//	|	embed.style("thinger", "opacity", 0.5); // == 0.5
 		//
 		//	example:
 		//		Passing a node, an object-style style property sets each of the values in turn and returns the computed style object of the node:
-		//	|	dojo.style("thinger", {
+		//	|	embed.style("thinger", {
 		//	|		"opacity": 0.5,
 		//	|		"border": "3px solid black",
 		//	|		"height": "300px"
@@ -124,40 +116,58 @@
 		// 	example:
 		//		When the CSS style property is hyphenated, the JavaScript property is camelCased.
 		//		font-size becomes fontSize, and so on.
-		//	|	dojo.style("thinger",{
+		//	|	embed.style("thinger",{
 		//	|		fontSize:"14pt",
 		//	|		letterSpacing:"1.2em"
 		//	|	});
 		//
 		//	example:
-		//		dojo.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
-		//		dojo.style() on every element of the list. See: dojo.query and dojo.NodeList
-		//	|	dojo.query(".someClassName").style("visibility","hidden");
+		//		embed.NodeList implements .style() using the same syntax, omitting the "node" parameter, calling
+		//		embed.style() on every element of the list. See: embed.query and embed.NodeList
+		//	|	embed.query(".someClassName").style("visibility","hidden");
 		//	|	// or
-		//	|	dojo.query("#baz > div").style({
+		//	|	embed.query("#baz > div").style({
 		//	|		opacity:0.75,
 		//	|		fontSize:"13pt"
 		//	|	});
 		//
-		//	returns: Number
-		//	returns: CSS2Properties||String||Number
-
-		var n = dojo.byId(node), l = arguments.length;
-		style = _floatAliases[style] || style;
-		if(l == 3){
+		//	returns: CSS2Properties||String
+		var n = embed.byId(node);
+		var l = arguments.length;
+		
+		// >>> // Three parameters are handled as a setter.
+		// >>> var n = document.getElementsByTagName('div')[0];
+		// >>> embed.style(n, "color", "lime");
+		// >>> embed.style(n, "color");
+		// "lime"
+		if (l == 3) {
 			return n.style[style] = value; /*Number*/
 		}
-		var s = d._getComputedStyle(n);
-		if(l == 2 && typeof style != "string"){ // inline'd type check
-			for(var x in style){
-				d._style(node, x, style[x]);
+		// Two parameters and the second is an object, we handle this as a setter.
+		// And we iterate over the second parameter, the property is the style.
+		//
+		// >>> // Setter using an object, tests also getter using a string as a 2nd parameter.
+		// >>> var n = document.getElementsByTagName('div')[0];
+		// >>> embed.style(n, {color:"red", backgroundColor:"white"});
+		// >>> embed.style(n, "color");
+		// "red"
+		if (l == 2) {
+			if (typeof style == "string"){ // inline'd type check
+				return n.style[style];
+			} else {
+				for(var x in style){
+					n.style[x] = style[x];
+				}
+				return;
 			}
-			return s;
 		}
-		return (l == 1) ? s : parseFloat(s[style] || n.style[style]) || s[style]; /* CSS2Properties||String||Number */
-	}
-	
-})(dojo);
 
-dojo.getComputedStyle = dojo._getComputedStyle;
-dojo.style = dojo._style;
+		// >>> // Return computedStyle if only node is given, just a shortcut.
+		// >>> embed.style(document.getElementsByTagName('div')[0]) instanceof CSSStyleDeclaration
+		// true
+		return embed.getComputedStyle(n);
+	};
+
+	return embed;
+
+});

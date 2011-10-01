@@ -1,9 +1,11 @@
 // This test group tests class methods.
+require(['text!../tests/tests/html/class+style.html'], function(html){
+
 
 tests.register("html-class", 
 	[
 		function _start(t){
-			doh.showBox('class+style.html');
+			document.body.innerHTML = html;
 		},
 		
 		function testClassFunctions(t){
@@ -71,3 +73,5 @@ tests.register("html-class",
 		}
 	]
 );
+
+});
