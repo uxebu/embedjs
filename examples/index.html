@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Example</title>
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>	
+		<script type="text/javascript">
+			require(['../examples/myapp'], function(myApp){
+				myApp.kickoff();
+			});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
