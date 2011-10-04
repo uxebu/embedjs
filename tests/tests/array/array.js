@@ -139,11 +139,12 @@ tests.register("array",
 		// FIXME: test forEach w/ a NodeList()?
 		function testEvery(t){
 			var foo = [128, "bbb", 512];
+			var isArray = function(it){return it && (it instanceof Array || typeof it == "array");};
 
 			t.assertTrue(
 				dojo.every(foo, function(elt, idx, array){
 					t.assertEqual(Array, array.constructor);
-					t.assertTrue(dojo.isArray(array));
+					t.assertTrue(isArray(array));
 					t.assertTrue(typeof idx == "number");
 					if(idx == 1){ t.assertEqual("bbb" , elt); }
 					return true;
@@ -202,6 +203,7 @@ tests.register("array",
 
 		function testSome(t){
 			var foo = [128, "bbb", 512];
+			var isArray = function(it){return it && (it instanceof Array || typeof it == "array");};
 			t.assertTrue(
 				dojo.some(foo, function(elt, idx, array){
 					t.assertEqual(3, array.length);
@@ -225,7 +227,7 @@ tests.register("array",
 			t.assertTrue(
 				dojo.some(foo, function(elt, idx, array){
 					t.assertEqual(Array, array.constructor);
-					t.assertTrue(dojo.isArray(array));
+					t.assertTrue(isArray(array));
 					t.assertTrue(typeof idx == "number");
 					if(idx == 1){ t.assertEqual("bbb" , elt); }
 					return true;
