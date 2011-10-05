@@ -17,10 +17,8 @@ var byClass = function(className, tagName, parentNode){
 }
 
 var removeList = function(nl){
-	console.log('List:', nl);
 	for(var i=0, m=nl.length; i<m; i++){
 		var _el = nl[i];
-		console.log(' - El:', _el);
 		_el.parentNode && _el.parentNode.removeChild(_el);
 	}
 }
