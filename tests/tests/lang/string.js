@@ -26,24 +26,24 @@ tests.register("lang-string",
 
 			function sum(a){
 				var t = 0;
-				dojo.forEach(a, function(x){ t += x; });
+				for(var i=0, m=a.length; i<m; i++){ t += a[i]; }
 				return t;
 			}
+			var replacer = function(_, key){
+				this.payments = [11, 16, 12];
+				switch(key){
+					case "count": return this.payments.length;
+					case "min":   return Math.min.apply(Math, this.payments);
+					case "max":   return Math.max.apply(Math, this.payments);
+					case "sum":   return sum(this.payments);
+					case "avg":   return sum(this.payments) / this.payments.length;
+				}
+				return "";
+			};
 			var s3 = dojo.replace(
 				"{count} payments averaging {avg} USD per payment.",
-				dojo.hitch(
-					{ payments: [11, 16, 12] },
-					function(_, key){
-						switch(key){
-							case "count": return this.payments.length;
-							case "min":   return Math.min.apply(Math, this.payments);
-							case "max":   return Math.max.apply(Math, this.payments);
-							case "sum":   return sum(this.payments);
-							case "avg":   return sum(this.payments) / this.payments.length;
-						}
-						return "";
-					}
-				));
+				replacer
+				);
 			t.is("3 payments averaging 13 USD per payment.", s3);
 
 			var s4 = dojo.replace("Hello, ${0} ${2}!", ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
