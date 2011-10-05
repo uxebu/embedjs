@@ -1,5 +1,4 @@
-// This test group tests the base html methods:
-//   create, place and destroy
+// This test group tests create and place
 
 require(['text!../tests/tests/html/element.html'], function(html){
 	
