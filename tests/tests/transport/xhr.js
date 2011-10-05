@@ -72,7 +72,8 @@ tests.register("transport-xhr",
 			//doh.showBox('html_xhr-test');
 
 			dojo.config.ioPublish = true;
-			dojo.forEach(topics, function(topic){
+			for(var i=0, m=topics.length; i<m; i++){
+				var topic = topics[i];
 				try{
 					topicCount[topic] = 0;
 					dojo.subscribe(topic, function(){
@@ -82,7 +83,7 @@ tests.register("transport-xhr",
 				}catch(e){
 					
 				}
-			});
+			};
 		},
 		
 		/* No fieldToObject in API
