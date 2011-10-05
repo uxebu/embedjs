@@ -26,14 +26,6 @@ tests.register("html-id",
 			doh.t(dojo.byId("ranch"));
 			doh.t(dojo.byId("cattle3"));
 			doh.is("span", dojo.byId("fish").nodeName.toLowerCase());
-			
-			var startNode = dojo.byId("start");
-			var clonedNode = dojo.clone(startNode); // FIXME: This also tests dojo.clone();
-			clonedNode.id= "clonedStart";
-			clonedNode.innerHTML= "This is a cloned div";
-			dojo.body().appendChild(clonedNode);
-
-			doh.is("This is a cloned div", dojo.byId("clonedStart").innerHTML);
 		},
 		
 		function byIdNull(t){
