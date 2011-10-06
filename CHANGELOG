@@ -19,3 +19,8 @@
 * Created a new test runner that allows to test a single feature
   and a specific implementation of it.
 * embed.style returns node.style properties instead of computed style
+
+0.2.1
+=====
+
+* Fixed a bug where requiring just connect-event wouldn't pull in required dependencies.

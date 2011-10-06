@@ -1,4 +1,4 @@
-define(['embed', 'feature!lang-hitch'], function(embed){
+define(['embed', 'feature!connect-connect'], function(embed){
 
 	var del = (embed._event_listener = {
 		add: function(/*DOMNode*/ node, /*String*/ name, /*Function*/ fp){
