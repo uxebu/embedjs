@@ -45,10 +45,7 @@ tests.register("html-destroy",
 			var n = dojo.body().getElementsByTagName('*');
 			var el;
 			while(el = n[0]){
-				console.log(el);
 				dojo.destroy(el);
-				console.log(el);
-				console.log('--');
 			}
 
 			// check for deepest embeeded id

@@ -1,16 +1,17 @@
 require(['text!../tests/tests/connect/event.html'], function(html){
-
-	document.body.innerHTML = html;
 	
 	function simulateClick(domNode) {
 		var evt = document.createEvent("MouseEvents");
 		evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		console.log('dispatching event:', evt, domNode);
 		return domNode.dispatchEvent(evt);
 	}
 	
 	tests.register("connect-event",
 		[
+		 	function _start(t){
+		 		document.body.innerHTML = html;
+		 	},
+		 	
 		 	function simpleConnect(t){
 				var d = new doh.Deferred();
 		 		var node = document.getElementById('inner');
