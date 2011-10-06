@@ -12,7 +12,7 @@ define(['embed'], function(embed){
 		var element = doc.createElement("script");
 		element.type = "text/javascript";
 		element.src = params.url;
-		//element.id = id;
+		params.id && (element.id = params.id);
 		element.charset = "utf-8";
 		return doc.getElementsByTagName("head")[0].appendChild(element);
 	};

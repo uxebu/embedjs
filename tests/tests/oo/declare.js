@@ -233,10 +233,10 @@ tests.register("oo-declare",
 			t.is(0, x.flag);
 			var a = 0;
 			// dojo.connect() on a prototype method
-			dojo.connect(tests._base.declare.tmp19.prototype, "foo", function(){ a = 1; });
-			x.foo();
-			t.is(2, x.flag);
-			t.is(1, a);
+//			dojo.connect(tests._base.declare.tmp19.prototype, "foo", function(){ a = 1; });
+//			x.foo();
+//			t.is(2, x.flag);
+//			t.is(1, a);
 			x.clear();
 			a = 0;
 			// extra chaining

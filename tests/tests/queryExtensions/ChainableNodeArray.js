@@ -1,4 +1,9 @@
-require(['text!../tests/tests/query/query.html'], function(html){
+require(['text!../tests/tests/query/query.html', 
+    'feature!array', 
+    'feature!html-style', 
+    'feature!html-attr',
+    'feature!html-class'
+    ], function(html, embed){
 
 tests.register("queryExtension-ChainableNodeArray", 
 	[
