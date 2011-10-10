@@ -23,7 +23,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		
 		display: function(){
 			embed.forEach(this.data, function(item){
-				if(item.isPrivate){
+				if(item.isPrivate || item.type != 'function'){
 					return;
 				}
 				
@@ -93,7 +93,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		renderTOC: function(){
 			var ul = embed.create('ul', {}, embed.byId('toc'));
 			embed.forEach(this.data, function(item){
-				if(item.isPrivate){
+				if(item.isPrivate || item.type != 'function'){
 					return;
 				}
 				embed.create('li', {
