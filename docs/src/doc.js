@@ -14,7 +14,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		},
 			
 		init: function(){
-			this.domNode = embed.body();
+			this.domNode = embed.byId('listing');
 			this.data = parser.run(embed);
 			
 			this.display();
@@ -40,14 +40,14 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 									desc += '<pre>';
 									isCode = true;
 								}
-								desc += _line+ '\n';
+								desc += this.escapeString(_line)+ '\n';
 							}else{
 								if(isCode){
 									desc += '</pre>';
-									desc += _line + '\n';
+									desc += this.escapeString(_line) + '\n';
 									isCode = false;
 								}else{
-									desc += _line + '\n';
+									desc += this.escapeString(_line) + '\n';
 								}
 							}
 						}, this);
@@ -79,6 +79,14 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 					innerHTML: embed.replace(this.itemTemplates['tpl-' + item.type] || this.itemTemplates['tpl-default'], item)
 				}, this.domNode);
 			}, this);
+		},
+		
+		escapeString: function(str){
+			var b = document.createElement("b"),
+				a = b.appendChild(document.createTextNode(0));
+			
+			a.nodeValue = str;
+			return b.innerHTML;
 		}
 		
 	};
