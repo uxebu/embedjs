@@ -56,9 +56,7 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		}
 	}
 	
-	embed.connectPublisher = function(	/*String*/ topic, 
-									/*Object|null*/ obj, 
-									/*String*/ event){
+	embed.connectPublisher = function(	/*String*/ topic, /*Object|null*/ obj, /*String*/ event){
 		//	summary:
 		//	 	Ensure that every time obj.event() is called, a message is published
 		//	 	on the topic. Returns a handle which can be passed to
