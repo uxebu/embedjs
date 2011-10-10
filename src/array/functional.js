@@ -24,10 +24,7 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 	};
 
 	embed.mixin(embed, {
-		indexOf: function(	/*Array*/		array,
-							/*Object*/		value,
-							/*Integer?*/	fromIndex,
-							/*Boolean?*/	findLast){
+		indexOf: function(/*Array*/	array, /*Object*/ value, /*Integer?*/ fromIndex, /*Boolean?*/ findLast){
 			// summary:
 			//		locates the first index of the provided value in the
 			//		passed array. If the value is not found, -1 is returned.
