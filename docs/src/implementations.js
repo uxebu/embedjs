@@ -4,6 +4,7 @@ define(['../../platforms/unknown'], function(impls){
 	
 	impls['array'] = 'array/functional';
 	impls['html-class'] = 'html/class';
+	impls['json'] = 'json/dojo-json';
 	
 	return impls;
 });

@@ -1,15 +1,19 @@
 define(['embed', 'feature!lang-is', 'feature!array'], function(embed){
 
-	embed.fromJson = function(/*String*/ json){
+	embed.fromJson = function(/*String*/ json, /* Boolean? */ stripComments){
 		// summary:
-		// 		Parses a [JSON](http://json.org) string to return a JavaScript object.
+		// 		Parses a JSON string to return a JavaScript object.
 		// description:
-		// 		Throws for invalid JSON strings, but it does not use a strict JSON parser. It
-		// 		delegates to eval().  The content passed to this method must therefore come
+		// 		Uses native JSON if possible, if not, it delegates to eval().
+		//		The content passed to this method must therefore come
 		//		from a trusted source.
 		// json: 
 		//		a string literal of a JSON item, for instance:
 		//			`'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'`
+		// stripComments:
+		//		If set to true, fromJson() will strip out comments before passing
+		//		the string to native JSON, as comments will make JSON.parse() throw
+		//		(it's not valid JSON if it contains comments).
 	
 		return eval("(" + json + ")"); // Object
 	};
@@ -26,9 +30,10 @@ define(['embed', 'feature!lang-is', 'feature!array'], function(embed){
 
 	embed.toJson = function(/*Object*/ it){
 		//	summary:
-		//		Returns a [JSON](http://json.org) serialization of an object.
+		//		Returns a JSON serialization of an object.
 		//	description:
-		//		Returns a [JSON](http://json.org) serialization of an object.
+		//		Returns a serialization of an object, uses JSON.stringify() if
+		//		possible.
 		//		Note that this doesn't check for infinite recursion, so don't do that!
 		//	it:
 		//		an object to be serialized. Objects may define their own
