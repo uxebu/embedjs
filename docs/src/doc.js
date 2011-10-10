@@ -7,16 +7,17 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		domNode: null,
 		
 		itemTemplates: {
-			'tpl-function': '<h1><a name="{name}">{name}</a></h1><h2>{type}</h2><div>{detailsTable}</div>',
+			'tpl-function': '<h1><a name="{name}">{name_ext}</a></h1><h2>{type}</h2><div>{detailsTable}</div>',
 			'tpl-default': '<h1><a name="{name}">{name}</a></h1><h2>{type}</h2>',
 			'tpl-doc-item': '<tr><td>{name}</td><td>{desc}</td></tr>',
-			'tpl-doc-param': '<tr><td>{name}</td><td>{type}</td><td>{optional}</td><td>{desc}</td></tr>'
+			'tpl-doc-param': '<tr><td>{name}</td><td>{type}</td><td>{optional}</td><td>{desc}</td></tr>',
+			'toplink': '<div><a href="./#top">back to top</a></div>'
 		},
 			
 		init: function(){
 			this.domNode = embed.byId('listing');
 			this.data = parser.run(embed);
-			
+			this.renderTOC();
 			this.display();
 		},
 		
@@ -27,7 +28,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 				}
 				
 				if(item.type == 'function'){
-					item.name += '(' + embed.map(item.params, function(_item){ return _item.name; }).join(', ') + ')';
+					item.name_ext = item.name + '(' + embed.map(item.params, function(_item){ return _item.name; }).join(', ') + ')';
 					
 					var paramDescs = {};
 					var detailsTable = '<table>';
@@ -76,7 +77,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 				
 				embed.create('div', {
 					className: 'item',
-					innerHTML: embed.replace(this.itemTemplates['tpl-' + item.type] || this.itemTemplates['tpl-default'], item)
+					innerHTML: embed.replace(this.itemTemplates['tpl-' + item.type] || this.itemTemplates['tpl-default'], item) + this.itemTemplates.toplink
 				}, this.domNode);
 			}, this);
 		},
@@ -87,6 +88,19 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			
 			a.nodeValue = str;
 			return b.innerHTML;
+		},
+		
+		renderTOC: function(){
+			var ul = embed.create('ul', {}, embed.byId('toc'));
+			embed.forEach(this.data, function(item){
+				if(item.isPrivate){
+					return;
+				}
+				embed.create('li', {
+					className: item.type,
+					innerHTML: '<a href="./#'+ item.name +'">' + item.name + '</a>'
+				}, ul);
+			}, this);
 		}
 		
 	};
