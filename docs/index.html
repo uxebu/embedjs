@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Docs</title>
+		<style type="text/css">
+			body {
+				font-family: Droid Sans, sans-serif;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			td {
+				border: solid 1px #808080;
+				background: #F0F0F0;
+				padding: 5px;
+			}
+			thead td {
+				font-weight: bold;
+				background: #E0E0E0;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown',
+					'text': '../tests/text'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+		<script type="text/javascript" src="src/doc.js"></script>
+	</body>
+</html>
