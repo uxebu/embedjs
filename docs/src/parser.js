@@ -83,6 +83,7 @@ define(['embed'], function(embed){
 						param = embed.trim(hintParts[1]);
 						hint = hintParts[0].substring(2, hintParts[0].length);
 						if(hint.indexOf('?') != -1){
+							hint = embed.trim(hint);
 							hint = hint.substring(0, hint.length - 1);
 							optional = true;
 						}else{
