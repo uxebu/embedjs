@@ -29,6 +29,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			this.data = parser.run(embed);
 			this.renderTOC();
 			this.display();
+			prettyPrint();
 		},
 		
 		isItemShown: function(item){
@@ -51,8 +52,9 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 						var isCode = false;
 						embed.forEach(item.doc[section], function(_line){
 							if(_line.substring(0,1) == '|'){
+								_line = _line.substring(1, _line.length);
 								if(!isCode){
-									desc += '<pre>';
+									desc += '<pre class="prettyprint">';
 									isCode = true;
 								}
 								desc += this.escapeString(_line)+ '\n';
