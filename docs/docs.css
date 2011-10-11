@@ -1,0 +1,23 @@
+body {
+	font-family: Droid Sans, sans-serif;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+td {
+	border: solid 1px #808080;
+	background: #F0F0F0;
+	padding: 5px;
+}
+thead td {
+	font-weight: bold;
+	background: #E0E0E0;
+}
+#toc {
+	position: absolute;
+	width: 200px;
+}
+#listing {
+	margin-left: 200px;
+}
