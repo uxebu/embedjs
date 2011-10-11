@@ -7,11 +7,11 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		domNode: null,
 		
 		itemTemplates: {
-			'tpl-function': '<h1><a name="{name}">{name_ext}</a></h1><h2>{type}</h2><div>{detailsTable}</div>',
-			'tpl-default': '<h1><a name="{name}">{name}</a></h1><h2>{type}</h2>',
-			'tpl-doc-item': '<tr><td>{name}</td><td>{desc}</td></tr>',
+			'tpl-function': '<h2><a name="{name}">{name_ext}</a><span>{type}</span></h2><div>{detailsTable}</div>',
+			'tpl-default': '<h2><a name="{name}">{name}</a><span>{type}</span></h2>',
+			'tpl-doc-item': '<tr class="{name}"><td>{name_trans}</td><td>{desc}</td></tr>',
 			'tpl-doc-param': '<tr><td>{name}</td><td>{type}</td><td>{optional}</td><td>{desc}</td></tr>',
-			'toplink': '<div><a href="./#top">back to top</a></div>'
+			'toplink': '<div class="toplink"><a href="./#top">back to top</a></div>'
 		},
 		
 		keywordHash: {
@@ -31,9 +31,13 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			this.display();
 		},
 		
+		isItemShown: function(item){
+			return !item.isPrivate && item.type == 'function';
+		},
+		
 		display: function(){
 			embed.forEach(this.data, function(item){
-				if(item.isPrivate || item.type != 'function'){
+				if(!this.isItemShown(item)){
 					return;
 				}
 				
@@ -66,7 +70,11 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 						
 						
 						if(embed.indexOf(parser.keywords, section) != -1){
-							detailsTable += embed.replace(this.itemTemplates['tpl-doc-item'], { name: this.keywordHash[section] || section, desc: item.doc[section] });
+							detailsTable += embed.replace(this.itemTemplates['tpl-doc-item'], { 
+								name: section.toLowerCase(), 
+								name_trans: this.keywordHash[section] || section,
+								desc: item.doc[section] 
+							});
 						}else{
 							paramDescs[section] = item.doc[section];
 						}
@@ -103,7 +111,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 		renderTOC: function(){
 			var ul = embed.create('ul', {}, embed.byId('toc'));
 			embed.forEach(this.data, function(item){
-				if(item.isPrivate || item.type != 'function'){
+				if(!this.isItemShown(item)){
 					return;
 				}
 				embed.create('li', {
