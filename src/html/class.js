@@ -53,7 +53,7 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		return s;
 	};
 
-	embed.addClass = function(node, classStr){
+	embed.addClass = function(/*DomNode|String*/node, /*String*/classStr){
 		//	summary:
 		//		Adds the specified classes to the end of the class list on the
 		//		passed node. Will not re-apply duplicate classes.
