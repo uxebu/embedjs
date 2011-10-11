@@ -112,7 +112,7 @@ define(['embed'], function(embed){
 				if(_parts.length == 2 && embed.indexOf(keywords, _parts[0]) != -1){
 					// section start
 					section = _parts[0];
-					doc[section] = [];
+					!doc[section] && (doc[section] = []);
 				}else{
 					// section continues
 					section && doc[section].push(line);
