@@ -4,7 +4,7 @@ define(['embed'], function(embed){
 		
 		data: [],
 		
-		keywords: ['summary', 'description', 'example', 'returns', 'FIXME', 'TODO'],
+		keywords: ['summary', 'description', 'example', 'returns', 'FIXME', 'TODO', 'feature', 'equals', 'dojodiff'],
 		
 		run: function(toParse){
 			this.crawl(toParse);
