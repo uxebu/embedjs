@@ -8,6 +8,8 @@ define(['embed'], function(embed){
 		//		Attaches the script element to the DOM. Use this method if you
 		//		just want to attach a script to the DOM and do not care when or
 		//		if it loads.
+		//	dojodiff:
+		//		In the Dojo Toolkit, this method is available as dojo.io.script.attach()
 		var doc = embed.doc;
 		var element = doc.createElement("script");
 		element.type = "text/javascript";

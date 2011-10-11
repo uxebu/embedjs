@@ -40,6 +40,9 @@ define(['embed', 'feature!transport-script', 'feature!uri'], function(embed){
 	embed.jsonp = function(/* embed.jsonp.__ioArgs */ args){
 		//	summary:
 		//		sends a get request using a dynamically created script tag.
+		//	dojodiff:
+		//		In the Dojo Toolkit, a similar method can be found at
+		//		dojo.io.script.get()
 		if(!args.url){
 			throw new Error("embed.jsonp: No URL specified.");
 		}
