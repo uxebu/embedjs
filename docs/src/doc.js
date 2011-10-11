@@ -21,7 +21,8 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			'returns': 'Returns',
 			'feature': 'Implemented In',
 			'equals': 'Equals',
-			'dojodiff': 'Different to Dojo'
+			'dojodiff': 'Differences to Dojo impl',
+			'issues': 'Known Issues'
 		},
 			
 		init: function(){
