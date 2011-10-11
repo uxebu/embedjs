@@ -13,6 +13,16 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			'tpl-doc-param': '<tr><td>{name}</td><td>{type}</td><td>{optional}</td><td>{desc}</td></tr>',
 			'toplink': '<div><a href="./#top">back to top</a></div>'
 		},
+		
+		keywordHash: {
+			'summary': 'Summary',
+			'description': 'Description',
+			'example': 'Examples',
+			'returns': 'Returns',
+			'feature': 'Implemented In',
+			'equals': 'Equals',
+			'dojodiff': 'Different to Dojo'
+		},
 			
 		init: function(){
 			this.domNode = embed.byId('listing');
@@ -56,7 +66,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 						
 						
 						if(embed.indexOf(parser.keywords, section) != -1){
-							detailsTable += embed.replace(this.itemTemplates['tpl-doc-item'], { name: section, desc: item.doc[section] });
+							detailsTable += embed.replace(this.itemTemplates['tpl-doc-item'], { name: this.keywordHash[section] || section, desc: item.doc[section] });
 						}else{
 							paramDescs[section] = item.doc[section];
 						}
