@@ -9,7 +9,7 @@ h1 {
 	text-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
 	color: #07B0FF;
 	margin: 0;
-	padding: 20px 0 20px 50px;
+	padding: 20px 0 20px 0;
 }
 h2 {
 	border-bottom: solid 1px #4D4D4D;
@@ -31,6 +31,9 @@ a[href] {
 a[href]:hover {
 	text-decoration: underline;
 }
+#intro {
+	padding-bottom: 20px;
+}
 .toplink {
 	padding: 10px 0 50px 0;
 }
@@ -51,6 +54,9 @@ thead td {
 }
 table table {
 	box-shadow: none;
+}
+pre {
+	cursor: text;
 }
 ul {
 	list-style: none;

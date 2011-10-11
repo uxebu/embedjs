@@ -20,7 +20,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			'example': 'Examples',
 			'returns': 'Returns',
 			'feature': 'Implemented In',
-			'equals': 'Equals',
+			'equals': 'Alias',
 			'dojodiff': 'Differences to Dojo impl',
 			'issues': 'Known Issues'
 		},
