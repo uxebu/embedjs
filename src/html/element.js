@@ -112,7 +112,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		return node; // DomNode
 	};
 	
-	embed.create = function(tag, attrs, refNode, pos){
+	embed.create = function(/* String|DomNode */ tag, /* Object? */ attrs, /* String|DomNode? */refNode, /* String? */pos){
 		//	summary:
 		//		Create an element, allowing for optional attribute decoration
 		//		and placement.
@@ -121,10 +121,10 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//		A DOM Element creation function. A shorthand method for creating a node or
 		//		a fragment, and allowing for a convenient optional attribute setting step,
 		//		as well as an optional DOM placement reference.
-		//|
+		//
 		//		Attributes are set by passing the optional object through `embed.attr`.
 		//		See `embed.attr` for noted caveats and nuances, and API if applicable.
-		//|
+		//
 		//		Placement is done via `embed.place`, assuming the new node to be the action 
 		//		node, passing along the optional reference node and position.
 		//
@@ -136,7 +136,6 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//		An object-hash of attributes to set on the newly created node.
 		//		Can be null, if you don't want to set any attributes/styles.
 		//		See: `embed.attr` for a description of available attributes.
-		//		TODO: Clarify what attrs are allowed.
 		//
 		// refNode: String?|DomNode?
 		//		Optional reference node. Used by `embed.place` to place the newly created
@@ -149,7 +148,8 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//		to further control the placement of the new node relative to the refNode.
 		//		'refNode' is required if a 'pos' is specified.
 		//
-		// returns: DomNode
+		// returns:
+		//		DomNode
 		//
 		// example:
 		//	Create a DIV:
@@ -177,7 +177,7 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//	|	embed.create("a", { href:"foo.html", title:"Goto FOO!" }, embed.body());
 		//
 		// example:
-		//	Create a `embed.NodeList()` from a new element (for syntatic sugar):
+		//	Use embed.query() for syntatic sugar:
 		//	|	embed.query(embed.create('div'))
 		//	|		.addClass("newDiv")
 		//	|		.onclick(function(e){ console.log('clicked', e.target) })
@@ -212,7 +212,9 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		return tag; // DomNode
 	};
 	
-	embed.empty = function(node){
+	embed.empty = function(/* DomNode */node){
+		// summary:
+		//		Empties (clears) a DomNode.
 		embed.byId(node).innerHTML = "";
 	};
 	

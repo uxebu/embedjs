@@ -144,6 +144,9 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 		//		If obj is a DOM node, set dontFix to true to prevent delegation 
 		//		of this connection to the DOM event manager.
 		//
+		// equals:
+		//		embed.on() is an alias for embed.connect()
+		//
 		// example:
 		//		When obj.onchange(), do ui.update():
 		//	|	embed.connect(obj, "onchange", ui, "update");

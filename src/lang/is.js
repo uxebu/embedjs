@@ -14,15 +14,9 @@ define(['embed'], function(embed){
 		return it && (it instanceof Array || typeof it == "array"); // Boolean
 	};
 
-	/*=====
-	embed.isFunction = function(it){
-		// summary: Return true if it is a Function
-		// it: anything
-		return; // Boolean
-	}
-	=====*/
-
 	embed.isFunction = function(/*anything*/ it){
+		// summary:
+		//		Returns true if it is a Function.
 		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
 		//Firefox thinks object HTML element is a function, so test for nodeType.
 		//Safari (incl webkit mobile on iOS) thinks of NodeLists as funtions, so we need to check this.
@@ -67,10 +61,14 @@ define(['embed'], function(embed){
 	};
 
 	embed.isNumeric = function(n){
+		// summary:
+		//		Returns true if it is numeric.
 		return n==parseFloat(n);
 	};
 
 	embed.isNumber = function(n){
+		// summary:
+		//		Returns true if it is a Number.
 		return typeof n == "number" || n instanceof Number;
 	};
 

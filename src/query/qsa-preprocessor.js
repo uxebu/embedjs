@@ -1,6 +1,6 @@
 define(['embed', 'feature!html-id'], function(embed){
 
-	embed.query = function(query, scope){
+	embed.query = function(/* String */query, /* DomNode|String? */scope){
 		//	summary:
 		//		Returns nodes which match the given CSS3 selector, searching the
 		//		entire document by default but optionally taking a node to scope
@@ -78,7 +78,7 @@ define(['embed', 'feature!html-id'], function(embed){
 		//	query:
 		//		The CSS3 expression to match against. For details on the syntax of
 		//		CSS3 selectors, see <http://www.w3.org/TR/css3-selectors/#selectors>
-		//	root:
+		//	scope:
 		//		A DOMNode (or node id) to scope the search from. Optional.
 		//	returns: DOMCollection || Array
 		//		The matching nodes. DOMCollection is enumerable, so you can use
@@ -113,38 +113,11 @@ define(['embed', 'feature!html-id'], function(embed){
 		//		`#tabular_data`, using the `>` (direct child) selector to avoid
 		//		affecting any nested tables:
 		//	|	embed.query("#tabular_data > tbody > tr:nth-child(odd)").addClass("odd");
-		//	example:
-		//		remove all elements with the class "error" from the document
-		//		and store them in a list:
-		//	|	var errors = embed.query(".error").orphan();
-		//	example:
-		//		add an onclick handler to every submit button in the document
-		//		which causes the form to be sent via Ajax instead:
-		//	|	embed.query("input[type='submit']").onclick(function(e){
-		//	|		embed.stopEvent(e); // prevent sending the form
-		//	|		var btn = e.target;
-		//	|		embed.xhrPost({
-		//	|			form: btn.form,
-		//	|			load: function(data){
-		//	|				// replace the form with the response
-		//	|				var div = embed.doc.createElement("div");
-		//	|				embed.place(div, btn.form, "after");
-		//	|				div.innerHTML = data;
-		//	|				embed.style(btn.form, "display", "none");
-		//	|			}
-		//	|		});
-		//	|	});
 		//	issues:
 		//		On webkit, the following queries will not work as expected:
 		//		(Note that these are bugs webkit's querySelector engine.)
 		//	|	embed.query('[foo|="bar"]') // will also return elements with foo="bar"
 		//	|	embed.query('option:checked') // will return an empty list
-		//	dojo-incompatibilities:
-		//		dojo.query will not return a dojo.NodeList Instance! On webkit it will
-		//		return a DOMCollection or an empty Array.
-		//	TODO: 
-		//		Update the inline doc when we know if dojo.query "does" support
-		//		chaining. Make all query impls return instances of Array.
 		
 		
 		// scope normalization

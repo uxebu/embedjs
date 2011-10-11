@@ -46,7 +46,8 @@ define(['embed', 'feature!html-id'], function(embed){
 		//	Reusing the returned object, avoiding multiple lookups:
 		//	|	var cs = embed.getComputedStyle(embed.byId("someNode"));
 		//	|	var w = cs.width, h = cs.height;
-		//	returns: CSS2Properties
+		//	returns: 
+		//		CSS property or computed style object.
 		
 		/* We once had the following impl. Why?
 			var s;
@@ -65,21 +66,11 @@ define(['embed', 'feature!html-id'], function(embed){
 			node.ownerDocument.defaultView.getComputedStyle(node, null) : {};
 	};
 	
-	embed.style = function(	/*DomNode|String*/ node,
-							/*String?|Object?*/ style,
-							/*String?*/ value){
+	embed.style = function(	/*DomNode|String*/ node, /*String?|Object?*/ style, /*String?*/ value){
 		//	summary:
 		//		Accesses styles on a node. If 2 arguments are
 		//		passed, acts as a getter. If 3 arguments are passed, acts
 		//		as a setter.
-		//	description:
-		//		Getting the style value uses the computed style for the node, so the value
-		//		will be a calculated value, not just the immediate node.style value.
-		//		Also when getting values, use specific style names,
-		//		like "borderBottomWidth" instead of "border" since compound values like
-		//		"border" are not necessarily reflected as expected.
-		//		If you want to get node dimensions, use embed.marginBox() or
-		//		embed.contentBox().
 		//	node:
 		//		id or reference to node to get/set style for
 		//	style:
@@ -97,12 +88,12 @@ define(['embed', 'feature!html-id'], function(embed){
 		//	|	embed.style("thinger");
 		//	example:
 		//		Passing a node and a style property returns the current
-		//		normalized, computed value for that property:
-		//	|	embed.style("thinger", "opacity"); // 1 by default
+		//		node.style value for that property:
+		//	|	embed.style("thinger", "opacity"); // "" by default
 		//
 		//	example:
 		//		Passing a node, a style property, and a value changes the
-		//		current display of the node and returns the new computed value
+		//		current display of the node and returns the new style value
 		//	|	embed.style("thinger", "opacity", 0.5); // == 0.5
 		//
 		//	example:
@@ -131,7 +122,13 @@ define(['embed', 'feature!html-id'], function(embed){
 		//	|		fontSize:"13pt"
 		//	|	});
 		//
-		//	returns: CSS2Properties||String
+		//	returns: String
+		//
+		// dojodiff:
+		//		In opposition to dojo.style(), embed.style() only uses getComputedStyle
+		//		if only one argument is given (it then acts as a shorthand to 
+		//		embed.getComputedStyle()). If it acts as a getter, it will return the
+		//		node.style value.
 		var n = embed.byId(node);
 		var l = arguments.length;
 		

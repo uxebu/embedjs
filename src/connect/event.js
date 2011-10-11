@@ -47,7 +47,7 @@ define(['embed', 'feature!connect-connect'], function(embed){
 		//		prevents propagation and clobbers the default action of the
 		//		passed event
 		// evt: Event
-		//		The event object. If omitted, window.event is used on IE.
+		//		The event object.
 		evt.preventDefault();
 		evt.stopPropagation();
 		// NOTE: below, this method is overridden for IE
