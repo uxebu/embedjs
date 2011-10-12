@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Function Reference</title>
+		<link rel="stylesheet" type="text/css" href="docs.css">
+		
+		<script type="text/javascript" src="src/google-code-prettify/prettify.js"></script>
+		<link rel="stylesheet" type="text/css" href="src/google-code-prettify/prettify.css">
+	</head>
+	<body>
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../docs/src/implementations'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+		<script type="text/javascript" src="src/doc.js"></script>
+		<div id="toc">
+			<h3>TOC</h3>
+		</div>
+		<div id="listing">
+			<h1>EmbedJS Function Reference</h1>
+			<div id="intro">
+				<strong>Welcome to the EmbedJS Function Reference!</strong>
+				<p>
+					Below are listed all functions that are available in EmbedJS. However, there are some
+					properties on the embed object that aren't functions, so here's a brief description of these:
+				</p>
+				<p>
+					<code>embed.global</code> holds a reference to the global scope in which EmbedJS was loaded.
+					In browser context, this will be window.
+				</p>
+				<p>
+					<code>embed.doc</code> holds a reference to the document in which EmbedJS was loaded. In a non-browser
+					environment this will be null.
+				</p>
+				<p>
+					<code>embed.version</code> contains the version string of the loaded EmbedJS version.
+				</p>
+				<p>
+					All other EmbedJS goodness lies within the functions listed below. For questions, comments and bugs concerning this reference,
+					feel free to send a tweet to <a href="http://twitter.com/#!/embedjs" target="_blank">@embedjs</a> or report the bug to the <a href="https://github.com/uxebu/embedjs/issues" target="_blank">EmbedJS bugtracker on github</a>.
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

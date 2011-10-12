@@ -20,6 +20,10 @@ define(['embed'], function(embed){
 		//		the specified function is called.  (Note that widgets' CSS and HTML
 		//		code is guaranteed to be downloaded before said widgets are
 		//		instantiated.)
+		//
+		// equals:
+		//		embed.ready() is an alias for embed.addOnLoad()
+		//
 		// example:
 		//	|	embed.addOnLoad(functionPointer);
 		//	|	embed.addOnLoad(object, "functionName");
@@ -55,8 +59,7 @@ define(['embed'], function(embed){
 		//		complete. You should use embed.addOnLoad() instead of doing a 
 		//		direct embed.connect() to this method in order to handle
 		//		initialization tasks that require the environment to be
-		//		initialized. In a browser host,	declarative widgets will 
-		//		be constructed when this function finishes runing.
+		//		initialized.
 		embed._loadNotifying = true;
 		embed._postLoad = true;
 		var mll = embed._loaders;

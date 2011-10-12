@@ -1,0 +1,73 @@
+body {
+	font-family: Droid Sans, sans-serif;
+	background: white url(http://uxebu.github.com/static/img/noise_bg.png) center;
+	cursor: default;
+	margin: 0;
+	padding: 20px;
+}
+h1 {
+	text-shadow: rgba(0, 0, 0, 0.2) 0 0 5px;
+	color: #07B0FF;
+	margin: 0;
+	padding: 20px 0 20px 0;
+}
+h2 {
+	border-bottom: solid 1px #4D4D4D;
+	font-family: monospace;
+}
+h2 span {
+	display: none;
+}
+h3 {
+
+}
+a {
+	color: black;
+	text-decoration: none;
+}
+a[href] {
+	color: #07B0FF;
+}
+a[href]:hover {
+	text-decoration: underline;
+}
+#intro {
+	padding-bottom: 20px;
+}
+.toplink {
+	padding: 10px 0 50px 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	background: #FAFAFA;
+}
+td {
+	border: solid 1px #808080;
+	padding: 5px;
+}
+thead td {
+	font-weight: bold;
+	background: #E0E0E0;
+}
+table table {
+	box-shadow: none;
+}
+pre {
+	cursor: text;
+}
+ul {
+	list-style: none;
+	padding: 0;
+}
+#toc {
+	position: absolute;
+	width: 250px;
+	padding: 0 0 0 20px;
+}
+#listing {
+	margin-left: 250px;
+	padding: 0 20px 0 0;
+}

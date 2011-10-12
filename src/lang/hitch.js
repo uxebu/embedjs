@@ -13,7 +13,7 @@ define(['embed', 'feature!lang-is', 'feature!lang-toarray'], function(embed){
 	 	} // Function
 	};
 
-	embed.hitch = function(/*Object*/scope, /*Function|String*/method /*,...*/){
+	embed.hitch = function(/*Object*/scope, /*Function|String*/method){
 		//	summary:
 		//		Returns a function that will only ever execute in the a given scope.
 		//		This allows for easy use of object member functions

@@ -1,29 +1,41 @@
 define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
-	/*=====
-	embed.trim = function(str){
-		//	summary:
-		//		Trims whitespace from both sides of the string
-		//	str: String
-		//		String to be trimmed
-		//	returns: String
-		//		Returns the trimmed string
-		//	description:
-		//		This version of trim() was selected for inclusion into the base due
-		//		to its compact size and relatively good performance
-		//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
-		//		Uses String.prototype.trim instead, if available.
-		//		The fastest but longest version of this function is located at
-		//		embed.string.trim()
-		return "";	// String
-	}
-	=====*/
 
 	embed.trim = String.prototype.trim ?
-		function(str){ return str.trim(); } :
-		function(str){ return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); };
+		function(str){
+			//	summary:
+			//		Trims whitespace from both sides of the string
+			//	str: String
+			//		String to be trimmed
+			//	returns: String
+			//		Returns the trimmed string
+			//	description:
+			//		This version of trim() was selected for inclusion into the base due
+			//		to its compact size and relatively good performance
+			//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
+			//		Uses String.prototype.trim instead, if available.
+			// FIXME:
+			//		Move impls into seperate files!
+			return str.trim(); 
+		} :
+		function(str){
+			//	summary:
+			//		Trims whitespace from both sides of the string
+			//	str: String
+			//		String to be trimmed
+			//	returns: String
+			//		Returns the trimmed string
+			//	description:
+			//		This version of trim() was selected for inclusion into the base due
+			//		to its compact size and relatively good performance
+			//		(see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
+			//		Uses String.prototype.trim instead, if available.
+			// FIXME:
+			//		Move impls into seperate files! 
+			return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); 
+		};
 
-	/*=====
-	embed.replace = function(tmpl, map, pattern){
+	var _pattern = /\{([^\}]+)\}/g;
+	embed.replace = function(/* String */tmpl, /* Object|Function */map, /* RegEx? */pattern){
 		//	summary:
 		//		Performs parameterized substitutions on a string. Throws an
 		//		exception if any parameter is unmatched. 
@@ -87,12 +99,6 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 		//	|	embed.replace("Hello, ${0} ${2}!",
 		//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
 		//	|	// returns: Hello, Robert Cringely!
-		return "";	// String
-	}
-	=====*/
-
-	var _pattern = /\{([^\}]+)\}/g;
-	embed.replace = function(tmpl, map, pattern){
 		return tmpl.replace(pattern || _pattern, embed.isFunction(map) ?
 			map : function(_, k){ return embed.getObject(k, false, map); });
 	};

@@ -29,9 +29,19 @@ define(['embed'], function(embed){
 		// but we don't care at this point
 	}
 
-	embed._toDom = embed.toDom = function(frag, doc){ // TODO: remove embed._toDom here and put it into some compat feature.
+	embed.toDom = function(/* String */frag, /* DocumentNode? */doc){
 		//	summary:
 		// 		converts HTML string into DOM nodes.
+		//	frag:
+		//		the HTML fragment
+		//	doc:
+		//		optional document to use when creating DOM nodes, defaults to 
+		//		embed.doc if not specified
+		//	example:
+		//		Create a table row:
+		//		|	var tr = embed.toDom("<tr><td>First!</td></tr>");
+		// dojodiff:
+		//		In the Dojo Toolkit, this method is available as dojo._toDom()
 
 		doc = doc || embed.doc;
 		var masterId = doc[masterName];

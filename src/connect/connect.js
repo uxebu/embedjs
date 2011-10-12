@@ -78,11 +78,7 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 	// and dontFix argument here to help the autodocs. Actual DOM aware code is in
 	// event.js.
 	
-	embed.connect = embed.on = function(/*Object|null*/ obj, 
-							/*String*/ event, 
-							/*Object|null*/ context, 
-							/*String|Function*/ method,
-							/*Boolean?*/ dontFix){
+	embed.connect = embed.on = function(/*Object|null*/ obj, /*String*/ event, /*Object|null*/ context, /*String|Function*/ method, /*Boolean?*/ dontFix){
 		// summary:
 		//		`embed.connect` is the core event handling and delegation method in
 		//		embed. It allows one function to "listen in" on the execution of
@@ -147,6 +143,9 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 		// dontFix:
 		//		If obj is a DOM node, set dontFix to true to prevent delegation 
 		//		of this connection to the DOM event manager.
+		//
+		// equals:
+		//		embed.on() is an alias for embed.connect()
 		//
 		// example:
 		//		When obj.onchange(), do ui.update():

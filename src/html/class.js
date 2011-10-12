@@ -31,7 +31,7 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//	| embed.toggleClass("someNode", "hovered", true);
 		//
 		// example:
-		//	Available in `embed.NodeList` for multiple toggles
+		//	Available embed.query() for multiple toggles
 		//	| embed.query(".toggleMe").toggleClass("toggleMe");
 	
 		if(condition === undefined){
@@ -53,7 +53,7 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		return s;
 	};
 
-	embed.addClass = function(node, classStr){
+	embed.addClass = function(/*DomNode|String*/node, /*String*/classStr){
 		//	summary:
 		//		Adds the specified classes to the end of the class list on the
 		//		passed node. Will not re-apply duplicate classes.
@@ -78,7 +78,7 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//	| 	embed.addClass("someNode", ["firstClass", "secondClass"]);
 		//
 		// example:
-		//	Available in `embed.NodeList` for multiple additions
+		//	Available via embed.query() for multiple additions
 		//	| embed.query("ul > li").addClass("firstLevel");
 	
 		node = embed.byId(node);
@@ -123,7 +123,7 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		// 	| embed.removeClass("someNode");
 		//
 		// example:
-		//	Available in `embed.NodeList` for multiple removal
+		//	Available embed.query() for multiple removal
 		//	| embed.query(".foo").removeClass("foo");
 	
 		node = embed.byId(node);
