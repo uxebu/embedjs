@@ -18,11 +18,13 @@
 					//'../tests/DocTest', 
 					'../tests/runner-embed', 
 					'../tests/helper', 
-					'implementations'
-				], function(/*DocTest, */runner_, helper_, implementations){
+					'implementations',
+					'../tests/detect'
+				], function(/*DocTest, */runner_, helper_, implementations, detectedMap){
 				//window.DocTest = DocTest;
 				helper.exportGlobals(window);
 				helper.renderTable(implementations);
+				helper.detectedMap = detectedMap;
 
 				// DocTests currently screw up testing of specific impls, as it
 				// requires certain features, which then are chached by require.js
@@ -36,5 +38,6 @@
 		<div id="featureTable"></div>
 		<button onclick="helper.prepareTests()">Test selected features</button>
 		<button onclick="helper.prepareTests(true)">Test all features</button>
+		<button onclick="helper.showMap()">Show autodetection results</button>
 	</body>
 </html>

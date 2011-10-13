@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>EmbedJS Testrunner</title>
+		<link rel="stylesheet" type="text/css" href="tests.css" />
+		<script>
+			var require = {
+				baseUrl: '../src/',
+				paths: {
+					'implementations': '../platforms/unknown'
+				}
+			};
+		</script>
+		<script type="text/javascript" src="../src/require.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			require(['../profiles/kitchensink', '../tests/detect'], function(embed, detectedMap){
+				var table = embed.create('table', {
+					id: 'featureTable'
+				}, embed.body());
+				embed.create('thead', {
+					innerHTML: '<tr><td>Feature</td><td>has multiple impls</td><td>chosen impl</td><td>test that was successful</td></tr>'
+				}, table);
+				var body = embed.create('tbody', {}, table)
+				var rowTpl = '<td>{name}</td><td>{hasMultipleImpls}</td><td>{implementedBy}.js</td><td><pre>{test}</pre></td>';
+				for(var name in detectedMap){
+					var info = detectedMap[name];
+					if(name.indexOf(':') == -1){
+						embed.create('tr', {
+							innerHTML: embed.replace(rowTpl, embed.mixin(info, { name: name, hasMultipleImpls: !!info.testSource, test: info.testSource || ''})),
+							className: 'featureStart'
+						}, body);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -24,6 +24,13 @@ a {
 .featureStart td {
 	border-top: solid 1px #ddd;
 }
+#featureTable pre {
+	max-width: 300px;
+	overflow: auto;
+	font-size: 80%;
+	background: #F0F0F0;
+	padding: 2px;
+}
 
 /* Report */
 

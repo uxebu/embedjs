@@ -1,4 +1,6 @@
 var helper = {
+		
+	detectedMap: null,
 
 	buildFeatureTree: function(implementations){
 		var currentFeatureName;
@@ -141,5 +143,9 @@ var helper = {
 		global.toggleClass = this.toggleClass;
 		global.toggleInner = this.toggleInner;
 		global.showMessages = this.showMessages;
+	},
+	
+	showMap: function(){
+		location.href = 'detect.html';
 	}
 };
