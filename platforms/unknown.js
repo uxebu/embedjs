@@ -182,5 +182,11 @@ define({
 	
 	// Feature group 'uri'
 	
-	'uri': 'uri/objectToQuery'
+	'uri': 'uri/objectToQuery',
+	
+	// Compat and other 'no-code' features
+	
+	'compat-dojo': 'compat/dojo',
+	
+	'global': 'global/global'
 });
