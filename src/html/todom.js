@@ -42,6 +42,8 @@ define(['embed'], function(embed){
 		//		|	var tr = embed.toDom("<tr><td>First!</td></tr>");
 		// dojodiff:
 		//		In the Dojo Toolkit, this method is available as dojo._toDom()
+		// feature:
+		//		html-style
 
 		doc = doc || embed.doc;
 		var masterId = doc[masterName];

@@ -27,7 +27,9 @@ define(['embed'], function(embed){
 		// example:
 		//	|	embed.addOnLoad(functionPointer);
 		//	|	embed.addOnLoad(object, "functionName");
-		//	|	embed.addOnLoad(object, function(){ /* ... */});
+		//	|	embed.addOnLoad(object, function(){ /* ... */});	
+		// feature:
+		//		html-ready
 
 		embed._onto(embed._loaders, obj, functionName);
 
@@ -60,6 +62,8 @@ define(['embed'], function(embed){
 		//		direct embed.connect() to this method in order to handle
 		//		initialization tasks that require the environment to be
 		//		initialized.
+		// feature:
+		//		html-ready
 		embed._loadNotifying = true;
 		embed._postLoad = true;
 		var mll = embed._loaders;

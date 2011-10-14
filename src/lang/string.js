@@ -15,6 +15,8 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 			//		Uses String.prototype.trim instead, if available.
 			// FIXME:
 			//		Move impls into seperate files!
+			// feature:
+			//		lang-string
 			return str.trim(); 
 		} :
 		function(str){
@@ -31,6 +33,8 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 			//		Uses String.prototype.trim instead, if available.
 			// FIXME:
 			//		Move impls into seperate files! 
+			// feature:
+			//		lang-string
 			return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); 
 		};
 
@@ -99,6 +103,8 @@ define(['embed', 'feature!lang-object', 'feature!lang-is'], function(embed){
 		//	|	embed.replace("Hello, ${0} ${2}!",
 		//	|	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
 		//	|	// returns: Hello, Robert Cringely!
+		// feature:
+		//		lang-string
 		return tmpl.replace(pattern || _pattern, embed.isFunction(map) ?
 			map : function(_, k){ return embed.getObject(k, false, map); });
 	};

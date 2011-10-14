@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="src/google-code-prettify/prettify.js"></script>
 		<link rel="stylesheet" type="text/css" href="src/google-code-prettify/prettify.css">
 	</head>
-	<body>
+<body>
 		<div id="toc">
 			<h3>TOC</h3>
 		<ul><li class="function"><a href="./#addClass">addClass</a></li><li class="function"><a href="./#addOnLoad">addOnLoad</a></li><li class="function"><a href="./#attachScript">attachScript</a></li><li class="function"><a href="./#attr">attr</a></li><li class="function"><a href="./#body">body</a></li><li class="function"><a href="./#byId">byId</a></li><li class="function"><a href="./#clone">clone</a></li><li class="function"><a href="./#connect">connect</a></li><li class="function"><a href="./#connectPublisher">connectPublisher</a></li><li class="function"><a href="./#create">create</a></li><li class="function"><a href="./#declare">declare</a></li><li class="function"><a href="./#delegate">delegate</a></li><li class="function"><a href="./#destroy">destroy</a></li><li class="function"><a href="./#disconnect">disconnect</a></li><li class="function"><a href="./#empty">empty</a></li><li class="function"><a href="./#every">every</a></li><li class="function"><a href="./#extend">extend</a></li><li class="function"><a href="./#filter">filter</a></li><li class="function"><a href="./#fixEvent">fixEvent</a></li><li class="function"><a href="./#forEach">forEach</a></li><li class="function"><a href="./#fromJson">fromJson</a></li><li class="function"><a href="./#getComputedStyle">getComputedStyle</a></li><li class="function"><a href="./#getObject">getObject</a></li><li class="function"><a href="./#hasAttr">hasAttr</a></li><li class="function"><a href="./#hasClass">hasClass</a></li><li class="function"><a href="./#hitch">hitch</a></li><li class="function"><a href="./#indexOf">indexOf</a></li><li class="function"><a href="./#isAlien">isAlien</a></li><li class="function"><a href="./#isArray">isArray</a></li><li class="function"><a href="./#isArrayLike">isArrayLike</a></li><li class="function"><a href="./#isFunction">isFunction</a></li><li class="function"><a href="./#isNumber">isNumber</a></li><li class="function"><a href="./#isNumeric">isNumeric</a></li><li class="function"><a href="./#isObject">isObject</a></li><li class="function"><a href="./#isString">isString</a></li><li class="function"><a href="./#jsonp">jsonp</a></li><li class="function"><a href="./#lastIndexOf">lastIndexOf</a></li><li class="function"><a href="./#loaded">loaded</a></li><li class="function"><a href="./#map">map</a></li><li class="function"><a href="./#mixin">mixin</a></li><li class="function"><a href="./#objectToQuery">objectToQuery</a></li><li class="function"><a href="./#on">on</a></li><li class="function"><a href="./#place">place</a></li><li class="function"><a href="./#publish">publish</a></li><li class="function"><a href="./#query">query</a></li><li class="function"><a href="./#rawXhrPost">rawXhrPost</a></li><li class="function"><a href="./#rawXhrPut">rawXhrPut</a></li><li class="function"><a href="./#ready">ready</a></li><li class="function"><a href="./#removeAttr">removeAttr</a></li><li class="function"><a href="./#removeClass">removeClass</a></li><li class="function"><a href="./#replace">replace</a></li><li class="function"><a href="./#safeMixin">safeMixin</a></li><li class="function"><a href="./#setObject">setObject</a></li><li class="function"><a href="./#some">some</a></li><li class="function"><a href="./#stopEvent">stopEvent</a></li><li class="function"><a href="./#style">style</a></li><li class="function"><a href="./#subscribe">subscribe</a></li><li class="function"><a href="./#toArray">toArray</a></li><li class="function"><a href="./#toDom">toDom</a></li><li class="function"><a href="./#toggleClass">toggleClass</a></li><li class="function"><a href="./#toJson">toJson</a></li><li class="function"><a href="./#trim">trim</a></li><li class="function"><a href="./#unsubscribe">unsubscribe</a></li><li class="function"><a href="./#when">when</a></li><li class="function"><a href="./#xhr">xhr</a></li><li class="function"><a href="./#xhrDelete">xhrDelete</a></li><li class="function"><a href="./#xhrGet">xhrGet</a></li><li class="function"><a href="./#xhrPost">xhrPost</a></li><li class="function"><a href="./#xhrPut">xhrPut</a></li></ul></div>
@@ -49,7 +49,8 @@ Add two classes at once (using array):
 </pre>
 Available via embed.query() for multiple additions
 <pre class="prettyprint"> embed.query("ul &gt; li").addClass("firstLevel");
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to add a class string too
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-class
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to add a class string too
 
 </td></tr><tr><td>classStr</td><td>String</td><td>false</td><td>A String class name to add, or several space-separated class names,
 or an array of class names.
@@ -66,13 +67,15 @@ instantiated.)
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	embed.addOnLoad(functionPointer);
 	embed.addOnLoad(object, "functionName");
 	embed.addOnLoad(object, function(){ /* ... */});
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>true</td><td></td></tr><tr><td>functionName</td><td>String|Function</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="attachScript">attachScript(params)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>creates a new &lt;script&gt; tag pointing to the specified URL and
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-ready
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>true</td><td></td></tr><tr><td>functionName</td><td>String|Function</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="attachScript">attachScript(params)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>creates a new &lt;script&gt; tag pointing to the specified URL and
 adds it to the document.
 </td></tr><tr class="description"><td>Description</td><td>Attaches the script element to the DOM. Use this method if you
 just want to attach a script to the DOM and do not care when or
 if it loads.
 </td></tr><tr class="dojodiff"><td>Differences to Dojo impl</td><td>In the Dojo Toolkit, this method is available as dojo.io.script.attach()
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>params</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="attr">attr(node, name, value)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Gets or sets an attribute on an HTML element.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-script
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>params</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="attr">attr(node, name, value)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Gets or sets an attribute on an HTML element.
 </td></tr><tr class="description"><td>Description</td><td>Handles normalized getting and setting of attributes on DOM
 Nodes. If 2 arguments are passed, and a the second argumnt is a
 string, acts as a getter.
@@ -137,7 +140,8 @@ Again, only set style as an object hash of styles:
 
 	// though shorter to use `embed.style()` in this case:
 	embed.style("someNode", obj);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to get or set the attribute on
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-attr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to get or set the attribute on
 </td></tr><tr><td>name</td><td>String|Object</td><td>false</td><td>the name of the attribute to get or set.
 </td></tr><tr><td>value</td><td>String</td><td>true</td><td>The value to set for the attribute
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="body">body()</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns a reference to the body element.
@@ -145,7 +149,8 @@ Again, only set style as an object hash of styles:
 EmbedJS is loaded into. If called in a non-browser
 environment, it returns undefined.
 </td></tr><tr class="returns"><td>Returns</td><td>body element if available, or undefined if not.
-</td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="byId">byId(id, doc)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns DOM node with matching `id` attribute or `null`
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "embed
+"</td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="byId">byId(id, doc)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns DOM node with matching `id` attribute or `null`
 if not found, similar to "$" function in another library.
 If `id` is a DomNode, this function is a no-op.
 
@@ -160,7 +165,8 @@ Allow string or DomNode references to be passed to a custom function:
 	nodeOrId = embed.byId(nodeOrId);
 	// ... more stuff
  }
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>id</td><td></td><td>false</td><td>A string to match an HTML id attribute or a reference to a DOM Node
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-id
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>id</td><td></td><td>false</td><td>A string to match an HTML id attribute or a reference to a DOM Node
 
 </td></tr><tr><td>doc</td><td></td><td>false</td><td>Document to work in. Defaults to the current value of
 embed.doc.  Can be used to retrieve
@@ -168,7 +174,8 @@ node references from other documents.
 
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="clone">clone(o)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Clones objects (including DOM nodes) and all children.
 Warning: do not clone cyclic structures.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>o</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="connect">connect(obj, event, context, method, dontFix)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>`embed.connect` is the core event handling and delegation method in
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-clone
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>o</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="connect">connect(obj, event, context, method, dontFix)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>`embed.connect` is the core event handling and delegation method in
 embed. It allows one function to "listen in" on the execution of
 any other, triggering the second whenever the first is called. Many
 listeners may be attached to a function, and source functions may
@@ -228,7 +235,8 @@ When globalEvent executes, globalHandler is invoked
 with the same scope (this):
 <pre class="prettyprint">	embed.connect(null, "globalEvent", null, globalHandler);
 	embed.connect("globalEvent", globalHandler); // same
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object|null</td><td>false</td><td>The source object for the event function.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-connect
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object|null</td><td>false</td><td>The source object for the event function.
 Defaults to `embed.global` if null.
 If obj is a DOM node, the connection is delegated
 to the DOM event manager (unless dontFix is true).
@@ -258,7 +266,8 @@ on the topic. Returns a handle which can be passed to
 embed.disconnect() to disable subsequent automatic publication on
 the topic.
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	embed.connectPublisher("/ajax/start", embed, "xhrGet");
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td>The name of the topic to publish.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-pubsub
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td>The name of the topic to publish.
 </td></tr><tr><td>obj</td><td>Object|null</td><td>false</td><td>The source object for the event function. Defaults to embed.global
 if null.
 </td></tr><tr><td>event</td><td>String</td><td>false</td><td>The name of the event function in obj.
@@ -303,7 +312,8 @@ Use embed.query() for syntatic sugar:
 		.addClass("newDiv")
 		.onclick(function(e){ console.log('clicked', e.target) })
 		.place("#someNode"); // redundant, but cleaner.
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>tag</td><td> String|DomNode </td><td>false</td><td>A string of the element to create (eg: "div", "a", "p", "li", "script", "br"),
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-element
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>tag</td><td> String|DomNode </td><td>false</td><td>A string of the element to create (eg: "div", "a", "p", "li", "script", "br"),
 or an existing DOM node to process.
 
 </td></tr><tr><td>attrs</td><td>Object</td><td>true</td><td>An object-hash of attributes to set on the newly created node.
@@ -364,7 +374,8 @@ Declare a class inherting from two mixins, handling multiple constructor args
 works fine, but it may not be as precise as the full-blown declare
 found in current dojo releases. This is a trade-off for a smaller
 and better performance.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>className</td><td>String</td><td>false</td><td>The name of the constructor (loosely, a "class")
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "oo-declare
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>className</td><td>String</td><td>false</td><td>The name of the constructor (loosely, a "class")
 stored in the "declaredClass" property in the created prototype
 </td></tr><tr><td>superclass</td><td>Function|Function[]</td><td>false</td><td>May be null, a Function, or an Array of Functions. If an array,
 the first element is used as the prototypical ancestor and
@@ -374,7 +385,8 @@ created prototype.
 Add an instance-initialization function by making it a property
 named "constructor".
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="delegate">delegate(obj, props)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>boodman/crockford delegation w/ cornford optimization
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td></td><td>false</td><td></td></tr><tr><td>props</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="destroy">destroy(node)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Removes a node from its parent, clobbering it and all of its
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "oo-delegate
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td></td><td>false</td><td></td></tr><tr><td>props</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="destroy">destroy(node)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Removes a node from its parent, clobbering it and all of its
 children.
 
 </td></tr><tr class="description"><td>Description</td><td>Removes a node from its parent, clobbering it and all of its
@@ -385,13 +397,16 @@ children. Function only works with DomNodes, and returns nothing.
 </pre>
 Destroy all nodes in a list by reference:
 <pre class="prettyprint">	embed.query(".someNode").forEach(embed.destroy);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>String|DomNode</td><td>false</td><td>A String ID or DomNode reference of the element to be destroyed
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-destroy
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>String|DomNode</td><td>false</td><td>A String ID or DomNode reference of the element to be destroyed
 
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="disconnect">disconnect(handle)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Remove a link created by embed.connect.
 </td></tr><tr class="description"><td>Description</td><td>Removes the connection between event and the method referenced by handle.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>handle</td><td>Handle</td><td>false</td><td>the return value of the embed.connect call that created the connection.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-connect
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>handle</td><td>Handle</td><td>false</td><td>the return value of the embed.connect call that created the connection.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="empty">empty(node)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Empties (clears) a DomNode.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td> DomNode </td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="every">every(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Determines whether or not every item in arr satisfies the
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-element
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td> DomNode </td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="every">every(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Determines whether or not every item in arr satisfies the
 condition implemented by callback.
 </td></tr><tr class="description"><td>Description</td><td>This function corresponds to the JavaScript 1.6 Array.every() method.
 For more details, see:
@@ -400,21 +415,24 @@ https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/eve
 	embed.every([1, 2, 3, 4], function(item){ return item&gt;1; });
 	// returns true
 	embed.every([1, 2, 3, 4], function(item){ return item&gt;0; });
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate on. If a string, operates on individual characters.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate on. If a string, operates on individual characters.
 </td></tr><tr><td>callback</td><td>Function|String</td><td>false</td><td>a function is invoked with three arguments: item, index,
 and array and returns true if the condition is met.
 </td></tr><tr><td>thisObject</td><td>Object</td><td>true</td><td>may be used to scope the call to callback
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="extend">extend(constructor, props)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Adds all properties and methods of props to constructor's
 prototype, making them available to all instances created with
 constructor.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>constructor</td><td>Object</td><td>false</td><td>function Object() { [native code] }</td></tr><tr><td>props</td><td>Object...</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="filter">filter(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns a new Array with those items from arr that match the
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "oo-extend
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>constructor</td><td>Object</td><td>false</td><td>function Object() { [native code] }</td></tr><tr><td>props</td><td>Object...</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="filter">filter(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns a new Array with those items from arr that match the
 condition implemented by callback.
 </td></tr><tr class="description"><td>Description</td><td>This function corresponds to the JavaScript 1.6 Array.filter() method.
 For more details, see:
 https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/filter
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	// returns [2, 3, 4]
 	embed.filter([1, 2, 3, 4], function(item){ return item&gt;1; });
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array</td><td>false</td><td>the array to iterate over.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array</td><td>false</td><td>the array to iterate over.
 </td></tr><tr><td>callback</td><td>Function|String</td><td>false</td><td>a function that is invoked with three arguments (item,
 index, array). The return of this function is expected to
 be a boolean which determines whether the passed-in item
@@ -422,7 +440,8 @@ will be included in the returned array.
 </td></tr><tr><td>thisObject</td><td>Object</td><td>true</td><td>may be used to scope the call to callback
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="fixEvent">fixEvent(evt, sender)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>normalizes properties on the event object including event
 bubbling methods, keystroke normalization, and x/y positions
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>evt</td><td>Event</td><td>false</td><td>native event object
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-event
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>evt</td><td>Event</td><td>false</td><td>native event object
 </td></tr><tr><td>sender</td><td>DOMNode</td><td>false</td><td>node to treat as "currentTarget"
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="forEach">forEach(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>for every item in arr, callback is invoked. Return values are ignored.
 If you want to break out of the loop, consider using embed.every() or embed.some().
@@ -465,14 +484,16 @@ https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/for
 		[ "thinger", "blah", "howdy", 10 ],
 		embed.hitch(obj, "callback")
 	);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate over. If a string, operates on individual characters.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate over. If a string, operates on individual characters.
 </td></tr><tr><td>callback</td><td>Function|String</td><td>false</td><td>a function is invoked with three arguments: item, index, and array
 </td></tr><tr><td>thisObject</td><td>Object</td><td>true</td><td>may be used to scope the call to callback
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="fromJson">fromJson(json, stripComments)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Parses a JSON string to return a JavaScript object.
 </td></tr><tr class="description"><td>Description</td><td>Uses native JSON if possible, if not, it delegates to eval().
 The content passed to this method must therefore come
 from a trusted source.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>json</td><td>String</td><td>false</td><td>a string literal of a JSON item, for instance:
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "json
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>json</td><td>String</td><td>false</td><td>a string literal of a JSON item, for instance:
 `'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'`
 </td></tr><tr><td>stripComments</td><td>Boolean</td><td>true</td><td>If set to true, fromJson() will strip out comments before passing
 the string to native JSON, as comments will make JSON.parse() throw
@@ -498,12 +519,14 @@ Reusing the returned object, avoiding multiple lookups:
 <pre class="prettyprint">	var cs = embed.getComputedStyle(embed.byId("someNode"));
 	var w = cs.width, h = cs.height;
 </pre></td></tr><tr class="returns"><td>Returns</td><td>CSS property or computed style object.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td></td><td>false</td><td>A reference to a DOM node. Does NOT support taking an
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-style
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td></td><td>false</td><td>A reference to a DOM node. Does NOT support taking an
 ID string for speed reasons.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="getObject">getObject(name, create, context)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Get a property from a dot-separated string, such as "A.B.C"
 </td></tr><tr class="description"><td>Description</td><td>Useful for longer api chains where you have to test each object in
 the chain, or when you have an object reference in string format.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>name</td><td>String</td><td>false</td><td>Path to an property, in the form "A.B.C".
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-object
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>name</td><td>String</td><td>false</td><td>Path to an property, in the form "A.B.C".
 </td></tr><tr><td>create</td><td>Boolean</td><td>true</td><td>Optional. Defaults to `false`. If `true`, Objects will be
 created at any point along the 'path' that is undefined.
 </td></tr><tr><td>context</td><td>Object</td><td>true</td><td>Optional. Object to use as root of path. Defaults to
@@ -512,13 +535,15 @@ created at any point along the 'path' that is undefined.
 given element, and false otherwise.
 </td></tr><tr class="returns"><td>Returns</td><td>true if the requested attribute is specified on the
 given element, and false otherwise
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to check
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-attr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to check
 </td></tr><tr><td>name</td><td>String</td><td>false</td><td>the name of the attribute
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="hasClass">hasClass(node, classStr)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns whether or not the specified classes are a portion of the
 class list currently applied to the node.
 
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint"> if(embed.hasClass("someNode","aSillyClassName")){ ... }
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to check the class for.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-class
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to check the class for.
 
 </td></tr><tr><td>classStr</td><td>String</td><td>false</td><td>A string class name to look for.
 
@@ -534,7 +559,8 @@ for the hitched function.
 </pre>runs foo.bar() in the scope of foo
 <pre class="prettyprint">	embed.hitch(foo, myFunction);
 </pre>returns a function that runs myFunction in the scope of foo
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>scope</td><td>Object</td><td>false</td><td>The scope to use when method executes. If method is a string,
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-hitch
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>scope</td><td>Object</td><td>false</td><td>The scope to use when method executes. If method is a string,
 scope is also the object containing method.
 </td></tr><tr><td>method</td><td>Function|String</td><td>false</td><td>A function to be hitched to scope, or the name of the method in
 scope to be hitched.
@@ -543,43 +569,56 @@ passed array. If the value is not found, -1 is returned.
 </td></tr><tr class="description"><td>Description</td><td>This method corresponds to the JavaScript 1.6 Array.indexOf method.
 For details on this method, see:
 https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/indexOf
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>array</td><td>Array</td><td>false</td><td></td></tr><tr><td>value</td><td>Object</td><td>false</td><td></td></tr><tr><td>fromIndex</td><td>Integer</td><td>true</td><td></td></tr><tr><td>findLast</td><td>Boolean</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isAlien">isAlien(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a built-in function or some other kind of
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>array</td><td>Array</td><td>false</td><td></td></tr><tr><td>value</td><td>Object</td><td>false</td><td></td></tr><tr><td>fromIndex</td><td>Integer</td><td>true</td><td></td></tr><tr><td>findLast</td><td>Boolean</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isAlien">isAlien(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a built-in function or some other kind of
 oddball that *should* report as a function but doesn't
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isArray">isArray(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Return true if it is an Array
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isArrayLike">isArrayLike(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>similar to embed.isArray() but more permissive
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isArray">isArray(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Return true if it is an Array
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isArrayLike">isArrayLike(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>similar to embed.isArray() but more permissive
 </td></tr><tr class="description"><td>Description</td><td>Doesn't strongly test for "arrayness".  Instead, settles for "isn't
 a string or number and has a length property". Arguments objects
 and DOM collections will return true when passed to
 embed.isArrayLike(), but will return false when passed to
 embed.isArray().
 </td></tr><tr class="returns"><td>Returns</td><td>If it walks like a duck and quacks like a duck, return `true`
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isFunction">isFunction(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a Function.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isNumber">isNumber(n)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a Number.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>n</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isNumeric">isNumeric(n)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is numeric.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>n</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isObject">isObject(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a JavaScript object (or an Array, a Function
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isFunction">isFunction(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a Function.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isNumber">isNumber(n)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a Number.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>n</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isNumeric">isNumeric(n)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is numeric.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>n</td><td></td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isObject">isObject(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns true if it is a JavaScript object (or an Array, a Function
 or null)
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isString">isString(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Return true if it is a String
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="jsonp">jsonp(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>sends a get request using a dynamically created script tag.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="isString">isString(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Return true if it is a String
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-is
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>anything</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="jsonp">jsonp(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>sends a get request using a dynamically created script tag.
 </td></tr><tr class="dojodiff"><td>Differences to Dojo impl</td><td>In the Dojo Toolkit, a similar method can be found at
 dojo.io.script.get()
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td> embed.jsonp.__ioArgs </td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="lastIndexOf">lastIndexOf(array, value, fromIndex)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>locates the last index of the provided value in the passed
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-jsonp
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td> embed.jsonp.__ioArgs </td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="lastIndexOf">lastIndexOf(array, value, fromIndex)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>locates the last index of the provided value in the passed
 array. If the value is not found, -1 is returned.
 </td></tr><tr class="description"><td>Description</td><td>This method corresponds to the JavaScript 1.6 Array.lastIndexOf method.
 For details on this method, see:
 https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/lastIndexOf
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>array</td><td>Array</td><td>false</td><td></td></tr><tr><td>value</td><td>Object</td><td>false</td><td></td></tr><tr><td>fromIndex</td><td>Integer</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="loaded">loaded()</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>signal fired when initial environment and package loading is
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>array</td><td>Array</td><td>false</td><td></td></tr><tr><td>value</td><td>Object</td><td>false</td><td></td></tr><tr><td>fromIndex</td><td>Integer</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="loaded">loaded()</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>signal fired when initial environment and package loading is
 complete. You should use embed.addOnLoad() instead of doing a
 direct embed.connect() to this method in order to handle
 initialization tasks that require the environment to be
 initialized.
-</td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="map">map(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>applies callback to each element of arr and returns
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-ready
+"</td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="map">map(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>applies callback to each element of arr and returns
 an Array with the results
 </td></tr><tr class="description"><td>Description</td><td>This function corresponds to the JavaScript 1.6 Array.map() method.
 For more details, see:
 https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/map
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	// returns [2, 3, 4, 5]
 	embed.map([1, 2, 3, 4], function(item){ return item+1 });
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate on. If a string, operates on
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate on. If a string, operates on
 individual characters.
 </td></tr><tr><td>callback</td><td>Function|String</td><td>false</td><td>a function is invoked with three arguments, (item, index,
 array),  and returns a value
@@ -625,7 +664,8 @@ often simplest to call `embed.mixin` on the `this` object:
 	console.log(flattened.name);
 	// will print "true"
 	console.log(flattened.braces);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>false</td><td>The object to mix properties into. Also the return value.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-mixin
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>false</td><td>The object to mix properties into. Also the return value.
 </td></tr><tr><td>props</td><td>Object...</td><td>false</td><td>One or more objects whose values are successively copied into
 obj. If more than one of these objects contain the same value,
 the one specified last in the function call will "win".
@@ -647,7 +687,8 @@ yields the following query string:
 </pre>
 </td></tr><tr class="todo"><td>TODO</td><td>This originates in embed._base.xhr. Do we want to keep
 it here or move it over?
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>map</td><td>Object</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="on">on(obj, event, context, method, dontFix)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>`embed.connect` is the core event handling and delegation method in
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "uri
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>map</td><td>Object</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="on">on(obj, event, context, method, dontFix)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>`embed.connect` is the core event handling and delegation method in
 embed. It allows one function to "listen in" on the execution of
 any other, triggering the second whenever the first is called. Many
 listeners may be attached to a function, and source functions may
@@ -707,7 +748,8 @@ When globalEvent executes, globalHandler is invoked
 with the same scope (this):
 <pre class="prettyprint">	embed.connect(null, "globalEvent", null, globalHandler);
 	embed.connect("globalEvent", globalHandler); // same
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object|null</td><td>false</td><td>The source object for the event function.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-connect
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object|null</td><td>false</td><td>The source object for the event function.
 Defaults to `embed.global` if null.
 If obj is a DOM node, the connection is delegated
 to the DOM event manager (unless dontFix is true).
@@ -750,7 +792,8 @@ Create a Node, and place it in the body element (last child):
 </pre>
 Put a new LI as the first child of a list by id:
 <pre class="prettyprint">	embed.place("&lt;li&gt;&lt;/li&gt;", "someUl", "first");
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td></td><td>false</td><td>id or node reference, or HTML fragment starting with "&lt;" to place relative to refNode
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-element
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td></td><td>false</td><td>id or node reference, or HTML fragment starting with "&lt;" to place relative to refNode
 
 </td></tr><tr><td>refNode</td><td></td><td>false</td><td>id or node reference to use as basis for placement
 
@@ -769,7 +812,8 @@ Accepted string values are:
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="publish">publish(topic, args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Invoke all listener method subscribed to topic.
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
 	embed.publish("alerts", [ "read this", "hello world" ]);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td>The name of the topic to publish.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-pubsub
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td>The name of the topic to publish.
 </td></tr><tr><td>args</td><td>Array</td><td>false</td><td>An array of arguments. The arguments will be applied
 to each topic subscriber (as first class parameters, via apply).
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="query">query(query, scope)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns nodes which match the given CSS3 selector, searching the
@@ -876,18 +920,21 @@ affecting any nested tables:
 (Note that these are bugs webkit's querySelector engine.)
 <pre class="prettyprint">	embed.query('[foo|="bar"]') // will also return elements with foo="bar"
 	embed.query('option:checked') // will return an empty list
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>query</td><td> String </td><td>false</td><td>The CSS3 expression to match against. For details on the syntax of
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "query
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>query</td><td> String </td><td>false</td><td>The CSS3 expression to match against. For details on the syntax of
 CSS3 selectors, see &lt;http://www.w3.org/TR/css3-selectors/#selectors&gt;
 </td></tr><tr><td>scope</td><td>DomNode|String</td><td>true</td><td>A DOMNode (or node id) to scope the search from. Optional.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="rawXhrPost">rawXhrPost(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP POST request to the server. In addtion to the properties
 listed for the embed.__XhrArgs type, the following property is allowed:
 postData:
 String. Send raw data in the body of the POST request.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="rawXhrPut">rawXhrPut(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP PUT request to the server. In addtion to the properties
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="rawXhrPut">rawXhrPut(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP PUT request to the server. In addtion to the properties
 listed for the embed.__XhrArgs type, the following property is allowed:
 putData:
 String. Send raw data in the body of the PUT request.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="ready">ready(obj, functionName)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Registers a function to be triggered after the DOM has finished
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="ready">ready(obj, functionName)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Registers a function to be triggered after the DOM has finished
 loading and widgets declared in markup have been instantiated.
 Images and CSS files may or may not have finished downloading when
 the specified function is called.  (Note that widgets' CSS and HTML
@@ -899,8 +946,10 @@ instantiated.)
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	embed.addOnLoad(functionPointer);
 	embed.addOnLoad(object, "functionName");
 	embed.addOnLoad(object, function(){ /* ... */});
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>true</td><td></td></tr><tr><td>functionName</td><td>String|Function</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="removeAttr">removeAttr(node, name)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Removes an attribute from an HTML element.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to remove the attribute from
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-ready
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td>Object</td><td>true</td><td></td></tr><tr><td>functionName</td><td>String|Function</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="removeAttr">removeAttr(node, name)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Removes an attribute from an HTML element.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-attr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to the element to remove the attribute from
 </td></tr><tr><td>name</td><td>String</td><td>false</td><td>the name of the attribute to remove
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="removeClass">removeClass(node, classStr)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Removes the specified classes from node. No `embed.hasClass`
 check is required.
@@ -919,7 +968,8 @@ Remove all classes from some node:
 </pre>
 Available embed.query() for multiple removal
 <pre class="prettyprint"> embed.query(".foo").removeClass("foo");
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to remove the class from.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-class
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>String ID or DomNode reference to remove the class from.
 
 </td></tr><tr><td>classStr</td><td>String|Array</td><td>true</td><td>An optional String class name to remove, or several space-separated
 class names, or an array of class names. If omitted, all class names
@@ -969,7 +1019,8 @@ exception if any parameter is unmatched.
 	embed.replace("Hello, ${0} ${2}!",
 	  ["Robert", "X", "Cringely"], /\$\{([^\}]+)\}/g);
 	// returns: Hello, Robert Cringely!
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>tmpl</td><td> String </td><td>false</td><td>String to be used as a template.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-string
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>tmpl</td><td> String </td><td>false</td><td>String to be used as a template.
 </td></tr><tr><td>map</td><td> Object|Function </td><td>false</td><td>If an object, it is used as a dictionary to look up substitutions.
 If a function, it is called for every substitution with following
 parameters: a whole match, a name, an offset, and the whole template
@@ -1028,7 +1079,8 @@ produced with embed.declare().
 	// A.m1
 	// B.m1
 	// X.m1
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>target</td><td></td><td>false</td><td>Target object to accept new properties.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-mixin
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>target</td><td></td><td>false</td><td>Target object to accept new properties.
 </td></tr><tr><td>source</td><td></td><td>false</td><td>Source object for new properties.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="setObject">setObject(name, value, context)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Set a property from a dot-separated string, such as "A.B.C"
 </td></tr><tr class="description"><td>Description</td><td>Useful for longer api chains where you have to test each object in
@@ -1046,7 +1098,8 @@ intermediate objects already exist:
 	obj.parent.child.prop = "some value";
 </pre>wheras with `embed.setObject`, we can shorten that to:
 <pre class="prettyprint">	embed.setObject("parent.child.prop", "some value", obj);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>name</td><td>String</td><td>false</td><td>Path to a property, in the form "A.B.C".
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-object
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>name</td><td>String</td><td>false</td><td>Path to a property, in the form "A.B.C".
 </td></tr><tr><td>value</td><td>Object</td><td>false</td><td></td></tr><tr><td>context</td><td>Object</td><td>true</td><td>Optional. Object to use as root of path. Defaults to
 `embed.global`.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="some">some(arr, callback, thisObject)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Determines whether or not any item in arr satisfies the
@@ -1058,13 +1111,15 @@ https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/som
 	embed.some([1, 2, 3, 4], function(item){ return item&gt;1; });
 	// is false
 	embed.some([1, 2, 3, 4], function(item){ return item&lt;1; });
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate over. If a string, operates on individual characters.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "array
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>arr</td><td>Array|String</td><td>false</td><td>the array to iterate over. If a string, operates on individual characters.
 </td></tr><tr><td>callback</td><td>Function|String</td><td>false</td><td>a function is invoked with three arguments: item, index,
 and array and returns true if the condition is met.
 </td></tr><tr><td>thisObject</td><td>Object</td><td>true</td><td>may be used to scope the call to callback
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="stopEvent">stopEvent(evt)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>prevents propagation and clobbers the default action of the
 passed event
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>evt</td><td>Event</td><td>false</td><td>The event object.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-event
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>evt</td><td>Event</td><td>false</td><td>The event object.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="style">style(node, style, value)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Accesses styles on a node. If 2 arguments are
 passed, acts as a getter. If 3 arguments are passed, acts
 as a setter.
@@ -1107,7 +1162,8 @@ embed.style() on every element of the list. See: embed.query and embed.NodeList
 if only one argument is given (it then acts as a shorthand to
 embed.getComputedStyle()). If it acts as a getter, it will return the
 node.style value.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to node to get/set style for
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-style
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td>id or reference to node to get/set style for
 </td></tr><tr><td>style</td><td>String?|Object</td><td>true</td><td>the style property to set in DOM-accessor format
 ("borderWidth", not "border-width") or an object with key/value
 pairs suitable for setting each property.
@@ -1120,14 +1176,16 @@ named topic is published (see: embed.publish).
 Returns a handle which is needed to unsubscribe this listener.
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); });
 	embed.publish("alerts", [ "read this", "hello world" ]);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td></td></tr><tr><td>context</td><td>Object|null</td><td>false</td><td>Scope in which method will be invoked, or null for default scope.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-pubsub
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>topic</td><td>String</td><td>false</td><td></td></tr><tr><td>context</td><td>Object|null</td><td>false</td><td>Scope in which method will be invoked, or null for default scope.
 </td></tr><tr><td>method</td><td>String|Function</td><td>false</td><td>The name of a function in context, or a function reference. This is the function that
 is invoked when topic is published.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="toArray">toArray(obj, offset, startWith)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Converts an array-like object (i.e. arguments, DOMCollection) to an array.
 Returns a new Array with the elements of obj.
 </td></tr><tr class="returns"><td>Returns</td><td>Array
 </td></tr><tr class="dojodiff"><td>Differences to Dojo impl</td><td>In the Dojo Toolkit, this method is available as dojo._toArray().
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td> anything </td><td>false</td><td>the object to "arrayify". We expect the object to have, at a minimum, a
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-toarray
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>obj</td><td> anything </td><td>false</td><td>the object to "arrayify". We expect the object to have, at a minimum, a
 length property which corresponds to integer-indexed properties.
 </td></tr><tr><td>offset</td><td>Number</td><td>true</td><td>The location in obj to start iterating from. Defaults to 0. Optional.
 </td></tr><tr><td>startWith</td><td></td><td>false</td><td>Optional. An array to pack with the properties of obj. If provided, properties
@@ -1136,7 +1194,8 @@ in obj are appended at the end of startWith and startWith is the returned array.
 </td></tr><tr class="example"><td>Examples</td><td>Create a table row:
 <pre class="prettyprint">	var tr = embed.toDom("&lt;tr&gt;&lt;td&gt;First!&lt;/td&gt;&lt;/tr&gt;");
 </pre></td></tr><tr class="dojodiff"><td>Differences to Dojo impl</td><td>In the Dojo Toolkit, this method is available as dojo._toDom()
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>frag</td><td> String </td><td>false</td><td>the HTML fragment
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-style
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>frag</td><td> String </td><td>false</td><td>the HTML fragment
 </td></tr><tr><td>doc</td><td>DocumentNode</td><td>true</td><td>optional document to use when creating DOM nodes, defaults to
 embed.doc if not specified
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="toggleClass">toggleClass(node, classStr, condition)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Adds a class to node if not present, or removes if present.
@@ -1148,7 +1207,8 @@ Forcefully add a class
 </pre>
 Available embed.query() for multiple toggles
 <pre class="prettyprint"> embed.query(".toggleMe").toggleClass("toggleMe");
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td></td></tr><tr><td>classStr</td><td>String</td><td>false</td><td></td></tr><tr><td>condition</td><td>Boolean</td><td>true</td><td>If passed, true means to add the class, false means to remove.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "html-class
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>node</td><td>DomNode|String</td><td>false</td><td></td></tr><tr><td>classStr</td><td>String</td><td>false</td><td></td></tr><tr><td>condition</td><td>Boolean</td><td>true</td><td>If passed, true means to add the class, false means to remove.
 
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="toJson">toJson(it)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Returns a JSON serialization of an object.
 </td></tr><tr class="description"><td>Description</td><td>Returns a serialization of an object, uses JSON.stringify() if
@@ -1164,7 +1224,8 @@ Note that this doesn't check for infinite recursion, so don't do that!
 		__json__: function(){
 		},
 	});
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>Object</td><td>false</td><td>an object to be serialized. Objects may define their own
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "json
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>it</td><td>Object</td><td>false</td><td>an object to be serialized. Objects may define their own
 serialization via a special "__json__" or "json" function
 property. If a specialized serializer has been defined, it will
 be used as a fallback.
@@ -1175,12 +1236,14 @@ to its compact size and relatively good performance
 (see [Steven Levithan's blog](http://blog.stevenlevithan.com/archives/faster-trim-javascript)
 Uses String.prototype.trim instead, if available.
 </td></tr><tr class="fixme"><td>FIXME</td><td>Move impls into seperate files!
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>str</td><td></td><td>false</td><td>String to be trimmed
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "lang-string
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>str</td><td></td><td>false</td><td>String to be trimmed
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="unsubscribe">unsubscribe(handle)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Remove a topic listener.
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	var alerter = embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
 	...
 	embed.unsubscribe(alerter);
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>handle</td><td>Handle</td><td>false</td><td>The handle returned from a call to subscribe.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "connect-pubsub
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>handle</td><td>Handle</td><td>false</td><td>The handle returned from a call to subscribe.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="when">when(promiseOrValue, callback, errback, progressHandler)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>This provides normalization between normal synchronous values and
 asynchronous promises, so you can interact with them in a common way
 </td></tr><tr class="example"><td>Examples</td><td><pre class="prettyprint">	function printFirstAndList(items){
@@ -1200,24 +1263,33 @@ asynchronous promises, so you can interact with them in a common way
 </pre>And now all three of his functions can be used sync or async.
 <pre class="prettyprint">	printFirstAndLast([1,2,3,4]) will work just as well as
 	printFirstAndLast(dojo.xhrGet(...));
-</pre></td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>promiseOrValue</td><td></td><td>false</td><td></td></tr><tr><td>callback</td><td>Function</td><td>true</td><td></td></tr><tr><td>errback</td><td>Function</td><td>true</td><td></td></tr><tr><td>progressHandler</td><td>Function</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhr">xhr(method, args, hasBody)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP request with the given method.
+</pre></td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "async-when
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>promiseOrValue</td><td></td><td>false</td><td></td></tr><tr><td>callback</td><td>Function</td><td>true</td><td></td></tr><tr><td>errback</td><td>Function</td><td>true</td><td></td></tr><tr><td>progressHandler</td><td>Function</td><td>true</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhr">xhr(method, args, hasBody)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP request with the given method.
 </td></tr><tr class="description"><td>Description</td><td>Sends an HTTP request with the given method.
 See also embed.xhrGet(), xhrPost(), xhrPut() and embed.xhrDelete() for shortcuts
 for those HTTP methods. There are also methods for "raw" PUT and POST methods
 via embed.rawXhrPut() and embed.rawXhrPost() respectively.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>method</td><td>String</td><td>false</td><td>HTTP method to be used, such as GET, POST, PUT, DELETE.  Should be uppercase.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>method</td><td>String</td><td>false</td><td>HTTP method to be used, such as GET, POST, PUT, DELETE.  Should be uppercase.
 </td></tr><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr><tr><td>hasBody</td><td>Boolean</td><td>true</td><td>If the request has an HTTP body, then pass true for hasBody.
 </td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrDelete">xhrDelete(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP DELETE request to the server.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrGet">xhrGet(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP GET request to the server.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrPost">xhrPost(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP POST request to the server. In addtion to the properties
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrGet">xhrGet(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP GET request to the server.
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrPost">xhrPost(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP POST request to the server. In addtion to the properties
 listed for the embed.__XhrArgs type, the following property is allowed:
 postData:
 String. Send raw data in the body of the POST request.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrPut">xhrPut(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP PUT request to the server. In addtion to the properties
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div><div class="item"><h2><a name="xhrPut">xhrPut(args)</a><span>function</span></h2><div><table><tbody><tr class="summary"><td>Summary</td><td>Sends an HTTP PUT request to the server. In addtion to the properties
 listed for the embed.__XhrArgs type, the following property is allowed:
 putData:
 String. Send raw data in the body of the PUT request.
-</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div></div>
+</td></tr><tr class="feature"><td>Feature</td><td>Defined in feature "transport-xhr
+"</td></tr><tr><td>Parameters</td><td><table><thead><tr><td>Name</td><td>Type</td><td>Optional</td><td>Description</td></tr></thead><tbody><tr><td>args</td><td>embed.__XhrArgs</td><td>false</td><td></td></tr></tbody></table></td></tr></tbody></table></div><div class="toplink"><a href="./#top">back to top</a></div></div></div>
+	
+	
+	
 	<script type="text/javascript">
 		prettyPrint();
 	</script>

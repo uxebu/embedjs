@@ -22,6 +22,8 @@ define(['embed'], function(embed){
 		//		And now all three of his functions can be used sync or async.
 		//		|	printFirstAndLast([1,2,3,4]) will work just as well as
 		//		|	printFirstAndLast(dojo.xhrGet(...));
+		// feature:
+		//		async-when
 		
 		if(promiseOrValue && typeof promiseOrValue.then === "function"){
 			return promiseOrValue.then(callback, errback, progressHandler);

@@ -21,7 +21,9 @@ define(['embed', 'feature!html-id'], function(embed){
 		//
 		//	example:
 		//	Destroy all nodes in a list by reference:
-		//	|	embed.query(".someNode").forEach(embed.destroy);
+		//	|	embed.query(".someNode").forEach(embed.destroy);	
+		// feature:
+		//		html-destroy
 
 		node = embed.byId(node);
 		try{

@@ -14,6 +14,8 @@ define(['embed', 'feature!lang-is', 'feature!array'], function(embed){
 		//		If set to true, fromJson() will strip out comments before passing
 		//		the string to native JSON, as comments will make JSON.parse() throw
 		//		(it's not valid JSON if it contains comments).
+		// feature:
+		//		json
 	
 		return eval("(" + json + ")"); // Object
 	};
@@ -52,6 +54,8 @@ define(['embed', 'feature!lang-is', 'feature!array'], function(embed){
 		//		|		__json__: function(){
 		//		|		},
 		//		|	});
+		// feature:
+		//		json
 	
 		if(it === undefined){
 			return "undefined";

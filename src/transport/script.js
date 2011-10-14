@@ -10,6 +10,8 @@ define(['embed'], function(embed){
 		//		if it loads.
 		//	dojodiff:
 		//		In the Dojo Toolkit, this method is available as dojo.io.script.attach()
+		// feature:
+		//		transport-script
 		var doc = embed.doc;
 		var element = doc.createElement("script");
 		element.type = "text/javascript";

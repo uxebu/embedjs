@@ -5,18 +5,24 @@ define(['embed'], function(embed){
 	embed.isString = function(/*anything*/ it){
 		//	summary:
 		//		Return true if it is a String
+		// feature:
+		//		lang-is
 		return (typeof it == "string" || it instanceof String); // Boolean
 	};
 
 	embed.isArray = function(/*anything*/ it){
 		//	summary:
 		//		Return true if it is an Array
+		// feature:
+		//		lang-is
 		return it && (it instanceof Array || typeof it == "array"); // Boolean
 	};
 
 	embed.isFunction = function(/*anything*/ it){
 		// summary:
 		//		Returns true if it is a Function.
+		// feature:
+		//		lang-is
 		var t = typeof it; // must evaluate separately due to bizarre Opera bug. See #8937
 		//Firefox thinks object HTML element is a function, so test for nodeType.
 		//Safari (incl webkit mobile on iOS) thinks of NodeLists as funtions, so we need to check this.
@@ -29,6 +35,8 @@ define(['embed'], function(embed){
 		// summary:
 		//		Returns true if it is a JavaScript object (or an Array, a Function
 		//		or null)
+		// feature:
+		//		lang-is
 		return it !== undefined &&
 			(it === null || typeof it == "object" || embed.isArray(it) || embed.isFunction(it)); // Boolean
 	};
@@ -44,6 +52,8 @@ define(['embed'], function(embed){
 		//		embed.isArray().
 		//	returns:
 		//		If it walks like a duck and quacks like a duck, return `true`
+		// feature:
+		//		lang-is
 		var d = embed;
 		return it && it !== undefined && // Boolean
 			// keep out built-in constructors (Number, String, ...) which have length
@@ -57,18 +67,24 @@ define(['embed'], function(embed){
 		// summary:
 		//		Returns true if it is a built-in function or some other kind of
 		//		oddball that *should* report as a function but doesn't
+		// feature:
+		//		lang-is
 		return it && !embed.isFunction(it) && /\{\s*\[native code\]\s*\}/.test(String(it)); // Boolean
 	};
 
 	embed.isNumeric = function(n){
 		// summary:
 		//		Returns true if it is numeric.
+		// feature:
+		//		lang-is
 		return n==parseFloat(n);
 	};
 
 	embed.isNumber = function(n){
 		// summary:
 		//		Returns true if it is a Number.
+		// feature:
+		//		lang-is
 		return typeof n == "number" || n instanceof Number;
 	};
 

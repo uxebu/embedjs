@@ -7,6 +7,8 @@ define(['embed'], function(embed){
 		//		Adds all properties and methods of source to target. This addition
 		//		is "prototype extension safe", so that instances of objects
 		//		will not pass along prototype defaults.
+		// feature:
+		//		lang-mixin
 		var name, s, i = 0;
 		for(name in source){
 			// the "tobj" condition avoid copying properties in "source"
@@ -74,6 +76,8 @@ define(['embed'], function(embed){
 		//	|	console.log(flattened.name);
 		//	|	// will print "true"
 		//	|	console.log(flattened.braces);
+		// feature:
+		//		lang-mixin
 		if(!obj){ obj = {}; }
 		for(var i=1, l=arguments.length; i<l; i++){
 			embed._mixin(obj, arguments[i]);
@@ -138,6 +142,8 @@ define(['embed'], function(embed){
 		//	|	// A.m1
 		//	|	// B.m1
 		//	|	// X.m1
+		// feature:
+		//		lang-mixin
 		var name, t, i = 0, l = embed._extraNames.length;
 		var op = Object.prototype, opts = op.toString, cname = "constructor";
 		

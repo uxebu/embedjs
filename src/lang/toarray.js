@@ -16,6 +16,8 @@ define(['embed'], function(embed){
 		//		Array
 		// dojodiff:
 		//		In the Dojo Toolkit, this method is available as dojo._toArray().
+		// feature:
+		//		lang-toarray
 		return (startWith||[]).concat(Array.prototype.slice.call(obj, offset||0));
 	};
 	

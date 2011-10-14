@@ -32,6 +32,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			//		This method corresponds to the JavaScript 1.6 Array.indexOf method.
 			//		For details on this method, see:
 			//			https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/indexOf
+			// feature:
+			//		array
 
 			var step = 1, end = array.length || 0, i = 0;
 			if(findLast){
@@ -55,6 +57,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			//		This method corresponds to the JavaScript 1.6 Array.lastIndexOf method.
 			//		For details on this method, see:
 			// 			https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Objects/Array/lastIndexOf
+			// feature:
+			//		array
 			return embed.indexOf(array, value, fromIndex, true); // Number
 		},
 
@@ -111,6 +115,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			//	|		[ "thinger", "blah", "howdy", 10 ],
 			//	|		embed.hitch(obj, "callback")
 			//	|	);
+			// feature:
+			//		array
 
 			// match the behavior of the built-in forEach WRT empty arrs
 			if(!arr || !arr.length){ return; }
@@ -144,6 +150,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			// example:
 			//	|	// returns true
 			//	|	embed.every([1, 2, 3, 4], function(item){ return item>0; });
+			// feature:
+			//		array
 			return everyOrSome(true, arr, callback, thisObject); // Boolean
 		},
 
@@ -168,6 +176,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			// example:
 			//	|	// is false
 			//	|	embed.some([1, 2, 3, 4], function(item){ return item<1; });
+			// feature:
+			//		array
 			return everyOrSome(false, arr, callback, thisObject); // Boolean
 		},
 
@@ -190,6 +200,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			// example:
 			//	|	// returns [2, 3, 4, 5]
 			//	|	embed.map([1, 2, 3, 4], function(item){ return item+1 });
+			// feature:
+			//		array
 
 			var _p = _getParts(arr, thisObject, callback); arr = _p[0];
 			var outArr = (arguments[3] ? (new arguments[3]()) : []);
@@ -219,6 +231,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 			// example:
 			//	|	// returns [2, 3, 4]
 			//	|	embed.filter([1, 2, 3, 4], function(item){ return item>1; });
+			// feature:
+			//		array
 
 			var _p = _getParts(arr, thisObject, callback); arr = _p[0];
 			var outArr = [];
