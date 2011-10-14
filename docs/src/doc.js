@@ -10,6 +10,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			'tpl-function': '<h2><a name="{name}">{name_ext}</a><span>{type}</span></h2><div>{detailsTable}</div>',
 			'tpl-default': '<h2><a name="{name}">{name}</a><span>{type}</span></h2>',
 			'tpl-doc-item': '<tr class="{name}"><td>{name_trans}</td><td>{desc}</td></tr>',
+			'tpl-doc-feature': '<tr class="{name}"><td>{name_trans}</td><td>Defined in feature "{desc}"</td></tr>',
 			'tpl-doc-param': '<tr><td>{name}</td><td>{type}</td><td>{optional}</td><td>{desc}</td></tr>',
 			'toplink': '<div class="toplink"><a href="./#top">back to top</a></div>'
 		},
@@ -19,7 +20,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 			'description': 'Description',
 			'example': 'Examples',
 			'returns': 'Returns',
-			'feature': 'Implemented In',
+			'feature': 'Feature',
 			'equals': 'Alias',
 			'dojodiff': 'Differences to Dojo impl',
 			'issues': 'Known Issues'
@@ -73,7 +74,7 @@ require(['embed', '../docs/src/parser', '../profiles/kitchensink'], function(emb
 						
 						
 						if(embed.indexOf(parser.keywords, section) != -1){
-							detailsTable += embed.replace(this.itemTemplates['tpl-doc-item'], { 
+							detailsTable += embed.replace(this.itemTemplates['tpl-doc-' + section.toLowerCase()] || this.itemTemplates['tpl-doc-item'], { 
 								name: section.toLowerCase(), 
 								name_trans: this.keywordHash[section] || section,
 								desc: item.doc[section] 

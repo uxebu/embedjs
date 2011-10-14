@@ -118,6 +118,8 @@ define(['embed', 'feature!html-id'], function(embed){
 		//		(Note that these are bugs webkit's querySelector engine.)
 		//	|	embed.query('[foo|="bar"]') // will also return elements with foo="bar"
 		//	|	embed.query('option:checked') // will return an empty list
+		// feature:
+		//		query
 		
 		
 		// scope normalization

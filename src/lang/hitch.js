@@ -35,6 +35,8 @@ define(['embed', 'feature!lang-is', 'feature!lang-toarray'], function(embed){
 		//	example:
 		//	|	embed.hitch(foo, myFunction);
 		//		returns a function that runs myFunction in the scope of foo
+		// feature:
+		//		lang-hitch
 		if(arguments.length > 2){
 			return embed._hitchArgs.apply(embed, arguments); // Function
 		}

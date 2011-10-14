@@ -145,6 +145,8 @@ define(['embed', 'feature!lang-hitch'], function(embed){
 		//
 		//		Note that the caller doesn't have to change his code at all to
 		//		handle the asynchronous case.
+		// feature:
+		//		async-promise
 		var result, finished, isError, head, nextListener;
 		var promise = this.promise = {};
 		

@@ -24,6 +24,12 @@ define(['embed', 'feature!query', 'feature!array'], function(embed){
 	// Extend the Array prototype for the ChainableNodeArray to provide all methods that
 	// are reachable by chainable functions.
 	embed.ChainableNodeArray = function(arr){
+		// summary:
+		//		Turns a NodeList instance as returned by embed.query() into
+		//		a chainable array of nodes, so that embed.query() can be used
+		//		for chaining: embed.query().addClass().connect() and so on.
+		// feature:
+		//		queryExtensions-ChainableNodeArray
 		//var ret = Array.apply(null, arr);
 		// "arr" is a NodeList object and WebKit is not able to use that as parameters to push(), ff can though.
 		// So let's explicitly convert the NodeList into an array.

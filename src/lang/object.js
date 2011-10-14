@@ -37,6 +37,8 @@ define(['embed'], function(embed){
 		//	|	obj.parent.child.prop = "some value";
 		//		wheras with `embed.setObject`, we can shorten that to:
 		//	|	embed.setObject("parent.child.prop", "some value", obj);
+		// feature:
+		//		lang-object
 		var parts=name.split("."), p=parts.pop(), obj=embed._getProp(parts, true, context);
 		return obj && p ? (obj[p]=value) : undefined; // Object
 	};
@@ -55,6 +57,8 @@ define(['embed'], function(embed){
 		//	context:
 		//		Optional. Object to use as root of path. Defaults to
 		//		'embed.global'. Null may be passed.
+		// feature:
+		//		lang-object
 		return embed._getProp(name.split("."), create, context); // Object
 	};
 

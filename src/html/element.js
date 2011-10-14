@@ -70,7 +70,9 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//
 		// example:
 		//		Put a new LI as the first child of a list by id:
-		//	|	embed.place("<li></li>", "someUl", "first");
+		//	|	embed.place("<li></li>", "someUl", "first");	
+		// feature:
+		//		html-element
 
 		var byId = embed.byId;
 		refNode = byId(refNode);
@@ -181,7 +183,9 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 		//	|	embed.query(embed.create('div'))
 		//	|		.addClass("newDiv")
 		//	|		.onclick(function(e){ console.log('clicked', e.target) })
-		//	|		.place("#someNode"); // redundant, but cleaner.
+		//	|		.place("#someNode"); // redundant, but cleaner.	
+		// feature:
+		//		html-element
 
 		var byId = embed.byId;
 		var doc = embed.doc;
@@ -214,7 +218,9 @@ define(['embed', 'feature!html-id', 'feature!html-style', 'feature!html-todom'],
 	
 	embed.empty = function(/* DomNode */node){
 		// summary:
-		//		Empties (clears) a DomNode.
+		//		Empties (clears) a DomNode.	
+		// feature:
+		//		html-element
 		embed.byId(node).innerHTML = "";
 	};
 	

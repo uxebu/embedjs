@@ -39,6 +39,8 @@ define(['embed', 'feature!connect-connect'], function(embed){
 		//		native event object
 		// sender: DOMNode
 		//		node to treat as "currentTarget"
+		// feature:
+		//		connect-event
 		return del._fixEvent(evt, sender);
 	};
 
@@ -48,6 +50,8 @@ define(['embed', 'feature!connect-connect'], function(embed){
 		//		passed event
 		// evt: Event
 		//		The event object.
+		// feature:
+		//		connect-event
 		evt.preventDefault();
 		evt.stopPropagation();
 		// NOTE: below, this method is overridden for IE

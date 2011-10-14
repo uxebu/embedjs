@@ -27,7 +27,9 @@ define(['embed'], function(embed){
 		//	| var foo = function(nodeOrId){
 		//	|	nodeOrId = embed.byId(nodeOrId);
 		//	|	// ... more stuff
-		//	| }
+		//	| }	
+		// feature:
+		//		html-id
 		return (typeof id == "string") ? (doc || document).getElementById(id) : id; // DomNode
 	};
 	

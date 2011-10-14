@@ -43,6 +43,8 @@ define(['embed', 'feature!transport-script', 'feature!uri'], function(embed){
 		//	dojodiff:
 		//		In the Dojo Toolkit, a similar method can be found at
 		//		dojo.io.script.get()
+		// feature:
+		//		transport-jsonp
 		if(!args.url){
 			throw new Error("embed.jsonp: No URL specified.");
 		}

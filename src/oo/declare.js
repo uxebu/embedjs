@@ -65,6 +65,8 @@ define(['embed', 'feature!lang-mixin', 'feature!lang-is', 'feature!lang-object',
 		//		works fine, but it may not be as precise as the full-blown declare
 		//		found in current dojo releases. This is a trade-off for a smaller
 		//		and better performance.
+		// feature:
+		//		oo-declare
 	
 		// process superclass argument
 		var dd = arguments.callee, mixins;

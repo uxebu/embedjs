@@ -4,6 +4,8 @@ define(['embed', 'feature!lang-is'], function(embed){
 		// summary:
 		//		Clones objects (including DOM nodes) and all children.
 		//		Warning: do not clone cyclic structures.
+		// feature:
+		//		lang-clone
 		
 		if(!o || typeof o != "object" || embed.isFunction(o)){
 			// null, undefined, any non-object, or function

@@ -15,7 +15,9 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		//		is invoked when topic is published.
 		//	example:
 		//	|	embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); });
-		//	|	embed.publish("alerts", [ "read this", "hello world" ]);																	
+		//	|	embed.publish("alerts", [ "read this", "hello world" ]);	
+		// feature:
+		//		connect-pubsub														
 		
 		// support for 2 argument invocation (omitting context) depends on hitch
 		return [topic, embed._listener.add(embed._topics, topic, embed.hitch(context, method))]; /*Handle*/
@@ -29,7 +31,9 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		//	example:
 		//	|	var alerter = embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
 		//	|	...
-		//	|	embed.unsubscribe(alerter);
+		//	|	embed.unsubscribe(alerter);	
+		// feature:
+		//		connect-pubsub
 		if(handle){
 			embed._listener.remove(embed._topics, handle[0], handle[1]);
 		}
@@ -45,7 +49,9 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		//	 	to each topic subscriber (as first class parameters, via apply).
 		//	example:
 		//	|	embed.subscribe("alerts", null, function(caption, message){ alert(caption + "\n" + message); };
-		//	|	embed.publish("alerts", [ "read this", "hello world" ]);	
+		//	|	embed.publish("alerts", [ "read this", "hello world" ]);		
+		// feature:
+		//		connect-pubsub
 		
 		// Note that args is an array, which is more efficient vs variable length
 		// argument list.  Ideally, var args would be implemented via Array
@@ -71,7 +77,9 @@ define(['embed', 'feature!connect-connect', 'feature!lang-hitch'], function(embe
 		//	 	The name of the event function in obj. 
 		//	 	I.e. identifies a property obj[event].
 		//	example:
-		//	|	embed.connectPublisher("/ajax/start", embed, "xhrGet");
+		//	|	embed.connectPublisher("/ajax/start", embed, "xhrGet");	
+		// feature:
+		//		connect-pubsub
 		var pf = function(){ embed.publish(topic, arguments); }
 		return event ? embed.connect(obj, event, pf) : embed.connect(obj, pf); //Handle
 	};

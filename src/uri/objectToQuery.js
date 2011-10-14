@@ -22,6 +22,8 @@ define(['embed', 'feature!lang-is'], function(embed){
 		//	TODO:
 		//		This originates in embed._base.xhr. Do we want to keep 
 		//		it here or move it over?
+		// feature:
+		//		uri
 		var enc = encodeURIComponent;
 		var pairs = [];
 		var backstop = {};

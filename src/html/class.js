@@ -12,7 +12,9 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//		A string class name to look for.
 		//
 		//	example:
-		//	| if(embed.hasClass("someNode","aSillyClassName")){ ... }
+		//	| if(embed.hasClass("someNode","aSillyClassName")){ ... }	
+		// feature:
+		//		html-class
 		return ((" "+ embed.byId(node).className +" ").indexOf(" " + classStr + " ") >= 0);  // Boolean
 	};
 	
@@ -32,7 +34,9 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//
 		// example:
 		//	Available embed.query() for multiple toggles
-		//	| embed.query(".toggleMe").toggleClass("toggleMe");
+		//	| embed.query(".toggleMe").toggleClass("toggleMe");	
+		// feature:
+		//		html-class
 	
 		if(condition === undefined){
 			condition = !embed.hasClass(node, classStr);
@@ -79,7 +83,9 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//
 		// example:
 		//	Available via embed.query() for multiple additions
-		//	| embed.query("ul > li").addClass("firstLevel");
+		//	| embed.query("ul > li").addClass("firstLevel");	
+		// feature:
+		//		html-class
 	
 		node = embed.byId(node);
 		classStr = str2array(classStr);
@@ -124,7 +130,9 @@ define(['embed', 'feature!html-id', 'feature!lang-string'], function(embed){
 		//
 		// example:
 		//	Available embed.query() for multiple removal
-		//	| embed.query(".foo").removeClass("foo");
+		//	| embed.query(".foo").removeClass("foo");	
+		// feature:
+		//		html-class
 	
 		node = embed.byId(node);
 		var cls;

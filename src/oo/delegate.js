@@ -5,6 +5,8 @@ define(['embed', 'feature!lang-mixin'], function(embed){
 		return function(obj, props){
 			// summary:
 			//		boodman/crockford delegation w/ cornford optimization
+			// feature:
+			//		oo-delegate
 			TMP.prototype = obj;
 			var tmp = new TMP();
 			TMP.prototype = null;

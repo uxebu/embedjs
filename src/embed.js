@@ -13,6 +13,8 @@ define(function(){
 		//		environment, it returns undefined.
 		// returns:
 		//		body element if available, or undefined if not.
+		// feature:
+		//		embed
 		var ebd = embed;
 		return ebd.doc && ebd.doc.body;
 	};

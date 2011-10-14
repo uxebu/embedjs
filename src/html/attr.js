@@ -57,7 +57,9 @@ define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'fe
 		//		the name of the attribute
 		//	returns:
 		//		true if the requested attribute is specified on the
-		//		given element, and false otherwise
+		//		given element, and false otherwise	
+		// feature:
+		//		html-attr
 		var lc = name.toLowerCase();
 		return _forcePropNames[_propNames[lc] || name] || _hasAttr(embed.byId(node), _attrNames[lc] || name);	// Boolean
 	};
@@ -148,7 +150,9 @@ define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'fe
 		//	|	embed.attr("someNode", "style", obj);
 		//	|
 		//	|	// though shorter to use `embed.style()` in this case:
-		//	|	embed.style("someNode", obj);
+		//	|	embed.style("someNode", obj);	
+		// feature:
+		//		html-attr
 
 		node = embed.byId(node);
 		var args = arguments.length, prop;
@@ -232,7 +236,9 @@ define(['embed', 'feature!html-style', 'feature!html-id', 'feature!lang-is', 'fe
 		//	node:
 		//		id or reference to the element to remove the attribute from
 		//	name:
-		//		the name of the attribute to remove
+		//		the name of the attribute to remove	
+		// feature:
+		//		html-attr
 		embed.byId(node).removeAttribute(_fixAttrName(name));
 	};
 	

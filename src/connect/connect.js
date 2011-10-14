@@ -178,6 +178,8 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 		//		with the same scope (this):
 		//	|	embed.connect(null, "globalEvent", null, globalHandler);
 		//	|	embed.connect("globalEvent", globalHandler); // same
+		// feature:
+		//		connect-connect
 	
 		// normalize arguments
 		var a=arguments, args=[], i=0;
@@ -205,6 +207,8 @@ define(['embed', 'feature!lang-hitch', 'feature!lang-is'], function(embed){
 		//		Removes the connection between event and the method referenced by handle.
 		// handle:
 		//		the return value of the embed.connect call that created the connection.
+		// feature:
+		//		connect-connect
 		if(handle && handle[0] !== undefined){
 			embed._disconnect.apply(this, handle);
 			// let's not keep this reference

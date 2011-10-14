@@ -48,6 +48,8 @@ define(['embed', 'feature!html-id'], function(embed){
 		//	|	var w = cs.width, h = cs.height;
 		//	returns: 
 		//		CSS property or computed style object.
+		// feature:
+		//		html-style
 		
 		/* We once had the following impl. Why?
 			var s;
@@ -129,6 +131,8 @@ define(['embed', 'feature!html-id'], function(embed){
 		//		if only one argument is given (it then acts as a shorthand to 
 		//		embed.getComputedStyle()). If it acts as a getter, it will return the
 		//		node.style value.
+		// feature:
+		//		html-style
 		var n = embed.byId(node);
 		var l = arguments.length;
 		

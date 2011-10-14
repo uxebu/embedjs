@@ -26,6 +26,8 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		//		instead of throwing.
 		// returns: The response text. null is returned when there is a
 		//		failure and failure is okay (an exception otherwise)
+		// feature:
+		//		transport-xhr
 
 		// NOTE: must be declared before scope switches ie. this._xhrObj()
 		var http = embed._xhrObj();
@@ -587,6 +589,8 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		//		HTTP method to be used, such as GET, POST, PUT, DELETE.  Should be uppercase.
 		//	hasBody:
 		//		If the request has an HTTP body, then pass true for hasBody.
+		// feature:
+		//		transport-xhr
 
 		//Make the Deferred object for this xhr request.
 		var dfd = embed._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
@@ -656,6 +660,8 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 	embed.xhrGet = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP GET request to the server.
+		// feature:
+		//		transport-xhr
 		return embed.xhr("GET", args); // embed.Deferred
 	}
 
@@ -665,6 +671,8 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		//		listed for the embed.__XhrArgs type, the following property is allowed:
 		//	postData:
 		//		String. Send raw data in the body of the POST request.
+		// feature:
+		//		transport-xhr
 		return embed.xhr("POST", args, true); // embed.Deferred
 	}
 
@@ -674,12 +682,16 @@ define(['embed', 'feature!json', 'feature!uri', 'feature!lang-is', 'feature!lang
 		//		listed for the embed.__XhrArgs type, the following property is allowed:
 		//	putData:
 		//		String. Send raw data in the body of the PUT request.
+		// feature:
+		//		transport-xhr
 		return embed.xhr("PUT", args, true); // embed.Deferred
 	}
 
 	embed.xhrDelete = function(/*embed.__XhrArgs*/ args){
 		//	summary:
 		//		Sends an HTTP DELETE request to the server.
+		// feature:
+		//		transport-xhr
 		return embed.xhr("DELETE", args); //embed.Deferred
 	}
 	
