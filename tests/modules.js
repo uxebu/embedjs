@@ -105,6 +105,8 @@ doh._testFinished = function(group, fixture, success){
 
 doh._report = function(){
 	
+	window.testsComplete = true;
+	
 	group = "Tests finished. Summary:";
 	doh._groupStarted(group);
 	doh._groupResultNodes[group].outer.className += ' summary';
