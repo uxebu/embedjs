@@ -186,7 +186,7 @@ define({
 	
 	// Compat and other 'no-code' features
 	
-	'compat-dojo': 'compat/dojo',
+	//'compat-dojo': 'compat/dojo',
 	
-	'global': 'global/global'
+	//'global': 'global/global'
 });
